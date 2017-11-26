@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.apache.camel:camel-core:2.20.0.fuse-000120-redhat-1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.22" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.xml.bind:jaxb-core:2.2.11" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.xml.bind:jaxb-impl:2.2.11" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.camel:camel-test:2.20.0.fuse-000120-redhat-1" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:4.12" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
+    <orderEntry type="module" module-name="test-resources" />
+    <orderEntry type="library" name="Maven: io.atlasmap:camel-atlasmap:1.31.mattho" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-api:1.31-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-model:1.31-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.8.5" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.8.5" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.5" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-core:1.31.mattho" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-java-module:1.31-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-java-model:1.31-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: javax.xml.bind:jaxb-api:2.2.12" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-java-inspect:1.31-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-json-module:1.31-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-json-model:1.31-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-json-core:1.31-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-core:tests:1.31-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-xml-module:1.31-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-xml-model:1.31-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: io.atlasmap:atlas-xml-core:1.31-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.xsom:xsom:20140925.0.0.redhat-1" level="project" />
+    <orderEntry type="library" name="Maven: relaxngDatatype:relaxngDatatype:20020414" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.9.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.9.1" level="project" />
+  </component>
+</module>

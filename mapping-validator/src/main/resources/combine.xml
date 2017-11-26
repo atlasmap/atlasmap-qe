@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AtlasMapping xmlns="http://atlasmap.io/v2" xmlns:ns2="http://atlasmap.io/java/v2" xmlns:ns3="http://atlasmap.io/xml/v2" xmlns:ns4="http://atlasmap.io/json/v2" name="UI.306679">
+    <DataSource id="io.syndesis.qe.test.MappingTestClass" uri="atlas:java?className=io.syndesis.qe.test.MappingTestClass" dataSourceType="Source"/>
+    <DataSource id="io.syndesis.qe.test.MappingTestClass" uri="atlas:java?className=io.syndesis.qe.test.MappingTestClass" dataSourceType="Target"/>
+    <Mappings>
+        <Mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Mapping" strategy="Space" mappingType="Combine">
+            <InputField xsi:type="ns2:JavaField" name="intNumber" docId="io.syndesis.qe.test.MappingTestClass" index="0" path="/intNumber" fieldType="Integer"/>
+            <InputField xsi:type="ns2:JavaField" name="longNumber" docId="io.syndesis.qe.test.MappingTestClass" index="1" path="/longNumber" fieldType="Long"/>
+            <InputField xsi:type="ns2:JavaField" name="doubleNumber" docId="io.syndesis.qe.test.MappingTestClass" index="2" path="/doubleNumber" fieldType="Double"/>
+            <OutputField xsi:type="ns2:JavaField" name="combineString" docId="io.syndesis.qe.test.MappingTestClass" path="/combineString" fieldType="String"/>
+        </Mapping>
+    </Mappings>
+    <LookupTables/>
+    <Properties/>
+</AtlasMapping>

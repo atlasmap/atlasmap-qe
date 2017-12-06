@@ -15,13 +15,14 @@
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
-		<atlasmap.version>1.31-SNAPSHOT</atlasmap.version>
+
 		<junit.version>4.12</junit.version>
 		<spring-boot.version>1.5.8.RELEASE</spring-boot.version>
 		<selenide.version>4.8</selenide.version>
 		<selenium.version>3.7.1</selenium.version>
-		<node.version></node.version>
-		<atlasmapUi.working.directory>/Users/mmelko/RH_WORK/Work/Test/syndesis/atlasmap/ui</atlasmapUi.working.directory>
+		<node.version>v8.9.1</node.version>
+		<atlasmap.ui.directory>/Users/mmelko/RH_WORK/Work/Test/syndesis/atlasmap/ui</atlasmap.ui.directory>
+		<cucumber.version>2.1.0</cucumber.version>
 	</properties>
 
 	<dependencyManagement>
@@ -75,7 +76,7 @@
 
 		<dependency>
 			<groupId>io.syndesis.qe</groupId>
-			<artifactId>atlas-mapping-validator</artifactId>
+			<artifactId>mapping-validator</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
@@ -103,6 +104,25 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-spring</artifactId>
+			<version>${cucumber.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.codeborne</groupId>
@@ -149,40 +169,110 @@
 					</jvmArguments>
 				</configuration>
 			</plugin>
-			<!--node dependencies and configuration -->
-			<plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-				<!-- Use the latest released version:
-				https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
-				<version>1.6</version>
-				<executions>
-					<execution>
-						<id>install node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-						<phase>generate-resources</phase>
-					</execution>
-					<execution>
-						<id>npm-install</id>
-						<goals>
-							<goal>yarn</goal>
-						</goals>
-						<phase>generate-resources</phase>
-						<configuration>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<nodeVersion>v8.9.1</nodeVersion>
-					<workingDirectory>${atlasmapUi.working.directory}</workingDirectory>
-				</configuration>
-			</plugin>
+			 <!--copy custom host app file-->
+
 
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>atlasmap-build</id>
+			<activation>
+				<property><name>skipBuild</name>
+					<value>false</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>3.0.2</version>
+						<executions>
+							<execution>
+								<id>copy-file</id>
+								<!-- here the phase you need -->
+								<phase>process-sources</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${atlasmap.ui.directory}/src/app/lib/atlasmap-data-mapper/components/</outputDirectory>
+									<resources>
+										<resource>
+											<directory>src/main/resources/</directory>
+											<includes>
+												data.mapper.example.host.component.ts
+											</includes>
+											<filtering>true</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+
+							<execution>
+								<id>copy-resources</id>
+								<!-- here the phase you need -->
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>target/dist</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${atlasmap.ui.directory}/dist</directory>
+											<filtering>true</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+
+					</plugin>
+					<plugin>
+						<groupId>com.github.eirslett</groupId>
+						<artifactId>frontend-maven-plugin</artifactId>
+						<!-- Use the latest released version:
+                        https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>install node and npm</id>
+								<goals>
+									<goal>install-node-and-npm</goal>
+								</goals>
+								<phase>process-sources</phase>
+							</execution>
+							<execution>
+								<id>npm-install</id>
+								<goals>
+									<goal>yarn</goal>
+								</goals>
+								<phase>generate-resources</phase>
+								<configuration>
+									<arguments>install</arguments>
+								</configuration>
+							</execution>
+							<execution>
+								<id>build</id>
+								<goals>
+									<goal>yarn</goal>
+								</goals>
+								<phase>generate-resources</phase>
+								<configuration>
+									<arguments>build</arguments>
+								</configuration>
+							</execution>
+						</executions>
+						<configuration>
+							<nodeVersion>${node.version}</nodeVersion>
+							<workingDirectory>${atlasmap.ui.directory}</workingDirectory>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 
 </project>

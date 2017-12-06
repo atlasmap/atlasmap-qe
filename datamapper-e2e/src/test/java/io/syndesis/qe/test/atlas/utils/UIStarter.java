@@ -10,7 +10,7 @@ public class UIStarter extends ExternalResource {
 
     @Override
     protected void after() {
-        p.destroy();
+   //     p.destroy();
         super.after();
 
     }
@@ -18,7 +18,7 @@ public class UIStarter extends ExternalResource {
     @Override
     protected void before() throws Throwable {
         super.before();
-        p = Runtime.getRuntime().exec("npm --prefix " + Constants.UI_PATH + " start");
+      //  p = Runtime.getRuntime().exec("npm --prefix " + Constants.UI_PATH + " start");
     }
 
     public void initUI() {

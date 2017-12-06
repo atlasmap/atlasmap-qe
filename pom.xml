@@ -10,11 +10,12 @@
 	<version>1.0-SNAPSHOT</version>
 	<modules>
 		<module>test-resources</module>
-		<module>atlas-mapping-validator</module>
+		<module>mapping-validator</module>
 		<module>datamapper-e2e</module>
 	</modules>
 	<properties>
 		<maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
+		<atlasmap.version>1.32-SNAPSHOT</atlasmap.version>
 	</properties>
 
 	<dependencyManagement>
@@ -22,7 +23,7 @@
 			<dependency>
 				<groupId>io.atlasmap</groupId>
 				<artifactId>atlas</artifactId>
-				<version>1.32-SNAPSHOT</version>
+				<version>${atlasmap.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>

@@ -9,9 +9,21 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>atlas-mapping-validator</artifactId>
+	<artifactId>mapping-validator</artifactId>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-	<dependencies>
+    <dependencies>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
@@ -29,7 +41,7 @@
 		<dependency>
 			<groupId>io.atlasmap</groupId>
 			<artifactId>camel-atlasmap</artifactId>
-			<version>1.31.mattho</version>
+			<version>1.32-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>

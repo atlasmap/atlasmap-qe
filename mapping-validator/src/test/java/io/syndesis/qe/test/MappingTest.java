@@ -2,6 +2,7 @@ package io.syndesis.qe.test;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 
 ;
@@ -16,16 +17,27 @@ public class MappingTest {
 
     @Test
     public void testMapping() throws Exception {
-        MappingValidator mv = new MappingValidator("combine.xml");
-        MappingTestClass source = new MappingTestClass();
-        source.setMappingString("source string");
-        source.setIntNumber(new Integer(1));
-        source.setDoubleNumber(2);
-        source.setFloatNumber(3);
+        MappingValidator mv = new MappingValidator();
+        mv.setMappingLocation("javaToJavaMapping.xml");
+        SourceMappingTestClass source = new SourceMappingTestClass();
+      //  source.setSourceString("source string");
+       // source.setSourceInteger(new Integer(1));
+     //   source.setSourceDouble(2);
+       // source.setSourceFloat(3);
 
-        MappingTestClass body = mv.processMapping(source);
-        LOG.info(body.getCombineString());
-        LOG.info(body.getTempString());
+        TargetMappingTestClass body = mv.processMapping(source);
+        LOG.info(body.getTargetCombineString());
+        LOG.info(body.getTargetAnotherString());
+        LOG.info(source);
+        LOG.info(body);
+    }
+
+ //   @Test
+    public void testMappingValidator() throws Exception {
+        MappingValidator mv = new MappingValidator();
+        mv.setMappingLocation("javaToJavaMapping.xml");
+        mv.map("sourceAnotherString","targetCombineString");
+        Assert.assertTrue(mv.verifyMapping());
     }
 }
 

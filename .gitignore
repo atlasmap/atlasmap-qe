@@ -1,3 +1,7 @@
-*build/*
-*/target/*
-*/node
+**/build/
+**/target/
+**/node
+**/*.DS_Store
+**/*.iml
+**/*.cache
+**/.idea

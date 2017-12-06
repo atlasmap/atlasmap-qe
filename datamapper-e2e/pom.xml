@@ -12,17 +12,8 @@
 
 	<groupId>io.syndesis.qe</groupId>
 	<artifactId>datamapper-e2e</artifactId>
-	<version>1.0-SNAPSHOT</version>
-
 	<properties>
-
-		<junit.version>4.12</junit.version>
-		<spring-boot.version>1.5.8.RELEASE</spring-boot.version>
-		<selenide.version>4.8</selenide.version>
-		<selenium.version>3.7.1</selenium.version>
-		<node.version>v8.9.1</node.version>
 		<atlasmap.ui.directory>/Users/mmelko/RH_WORK/Work/Test/syndesis/atlasmap/ui</atlasmap.ui.directory>
-		<cucumber.version>2.1.0</cucumber.version>
 	</properties>
 
 	<dependencyManagement>
@@ -37,11 +28,6 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
-		<!--<dependency>-->
-		<!--<groupId>org.springframework.boot</groupId>-->
-		<!--<artifactId>spring-boot-starter-parent</artifactId>-->
-		<!--<version>1.5.8.RELEASE</version>-->
-		<!--</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -64,14 +50,8 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>fluent-hc</artifactId>
-			<version>4.5.3</version>
+			<version>${httpcomponents.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.syndesis.qe</groupId>
-			<artifactId>test-resources</artifactId>
-			<scope>test</scope>
-			<version>1.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -81,12 +61,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.paulhammant</groupId>
-			<artifactId>ngwebdriver</artifactId>
-			<version>1.0</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>io.atlasmap</groupId>
 			<artifactId>runtime</artifactId>

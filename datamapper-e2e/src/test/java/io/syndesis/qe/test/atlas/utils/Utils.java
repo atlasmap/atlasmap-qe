@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.http.client.fluent.Request;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.google.common.io.Files;
 
@@ -14,10 +16,11 @@ import com.google.common.io.Files;
 public class Utils {
 
     private static final String JAVA_SERVICE = Constants.BACKEND_URL + "/v2/atlas/java/";
+    private static final Logger LOG = LogManager.getLogger(Utils.class);
 
     public static String requestClass(String className) throws IOException {
         final String requestURL = JAVA_SERVICE + "class?className=" + className;
-        System.out.println("[INFO] requesting " + requestURL);
+        LOG.debug("requesting " + requestURL);
         String resp = Request.Get(requestURL).execute().returnContent().toString();
         return resp;
     }
@@ -30,7 +33,7 @@ public class Utils {
         newMapping.createNewFile();
 
         if (mapping.isFile()) {
-            System.out.println("File " + mapping);
+            LOG.info("File: " + mapping);
             Files.copy(mapping, newMapping);
         }
         return newMapping.getAbsolutePath();

@@ -4,42 +4,42 @@ Feature: User should create simple mapping
     Given atlasmap contains TestClass
     And atlasmap is clean
 
-  Scenario: User creates few mappings. Created mapping file is processed and verified.
-    Given Browser is opened
-    And Set mapping from "sourceInteger" to "targetString"
-    And Set mapping to "targetCombineString" from "sourceDouble"
-    And Set mapping to "targetInteger" from "sourceDouble"
-    And Set mapping to "targetFloat" from "sourceDouble"
-    And Set mapping to "targetDouble" from "sourceDouble"
-    And Set mapping to "targetLong" from "sourceDouble"
-    Then Save mapping as "simpleMapping.xml"
-    And Verify "simpleMapping.xml"
+  Scenario: user creates few mappings. Created mapping file is processed and verified.
+    Given browser is opened
+    And set mapping from "sourceInteger" to "targetString"
+    And set mapping to "targetCombineString" from "sourceDouble"
+    And set mapping to "targetInteger" from "sourceDouble"
+    And set mapping to "targetFloat" from "sourceDouble"
+    And set mapping to "targetDouble" from "sourceDouble"
+    And set mapping to "targetLong" from "sourceDouble"
+    Then save mapping as "simpleMapping.xml"
+    And verify "simpleMapping.xml"
 
   Scenario: User creates few mappings and sets source data for verification.
-    Given Browser is opened
-    When Set source data
+    Given browser is opened
+    When set source data
       | sourceString | sourceCombineString | sourceInteger | sourceLong | sourceFloat | sourceDouble | sourceDate | sourceAnotherString |
       | String1      | String2             | 10            | 20         | 30          | 40           | 1989-05-05 | AnotherSource       |
-    And Set mapping from "sourceInteger" to "targetInteger"
-    And Set mapping from "sourceLong" to "targetLong"
-    And Set mapping from "sourceDouble" to "targetDouble"
-    And Set mapping from "sourceFloat" to "targetFloat"
-    And Set mapping from "sourceString" to "targetString"
-    And Set mapping from "sourceDate" to "targetDate"
-    Then Save mapping as "simpleMapping2.xml"
-    And Verify "simpleMapping2.xml"
+    And set mapping from "sourceInteger" to "targetInteger"
+    And set mapping from "sourceLong" to "targetLong"
+    And set mapping from "sourceDouble" to "targetDouble"
+    And set mapping from "sourceFloat" to "targetFloat"
+    And set mapping from "sourceString" to "targetString"
+    And set mapping from "sourceDate" to "targetDate"
+    Then save mapping as "simpleMapping2.xml"
+    And verify "simpleMapping2.xml"
 
 
   Scenario: User creates few mappings and sets source and target data for verification.
-    Given Browser is opened
-    When Set source data
+    Given browser is opened
+    When set source data
       | sourceString | sourceCombineString | sourceAnotherString |
       | one          | two                 | three               |
-    When Set mapping from "sourceString" to "targetAnotherString"
-    And Set mapping from "sourceCombineString" to "targetString"
-    And Set mapping from "sourceAnotherString" to "targetCombineString"
-    And Set expected data
+    When set mapping from "sourceString" to "targetAnotherString"
+    And set mapping from "sourceCombineString" to "targetString"
+    And set mapping from "sourceAnotherString" to "targetCombineString"
+    And set expected data
       | targetString | targetCombineString | targetAnotherString |
       | two          | three               | one                 |
-    Then Save mapping as "simpleMapping3.xml"
-    And Verify "simpleMapping3.xml"
+    Then save mapping as "simpleMapping3.xml"
+    And verify "simpleMapping3.xml"

@@ -167,7 +167,7 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                 }
                 break;
             }
-            case "AnotherString": {
+            case "targetAnotherString": {
                 this.setTargetAnotherString(value.toString());
             }
         }

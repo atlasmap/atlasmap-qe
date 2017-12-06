@@ -149,7 +149,7 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
                 }
                 break;
             }
-            case "AnotherString": {
+            case "sourceAnotherString": {
                 this.setSourceAnotherString(value.toString());
             }
         }

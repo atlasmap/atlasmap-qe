@@ -6,19 +6,19 @@ import cucumber.api.java.en.When;
 
 public class UISteps extends CucumberGlue {
 
-    @When("^User sets mapping from \"([^\"]*)\" to \"([^\"]*)\"$")
+    @When("^Set mapping from \"([^\"]*)\" to \"([^\"]*)\"$")
     public void userSsetsMappingFromTo(String source, String target) throws Exception {
         this.atlasmapPage.clickOn(source);
         this.atlasmapPage.clickOn(target);
         this.validator.map(source, target);
     }
 
-    @Then("^User opens browser$")
+    @Then("^Browser is opened$")
     public void userOpensBrowser() throws Exception {
         atlasmapPage.openBrowser();
     }
 
-    @And("^User sets mapping to \"([^\"]*)\" from \"([^\"]*)\"$")
+    @And("^Set mapping to \"([^\"]*)\" from \"([^\"]*)\"$")
     public void userSetsMappingToFrom(String target, String source) throws Throwable {
         this.atlasmapPage.clickOn(target);
         this.atlasmapPage.clickOn(source);

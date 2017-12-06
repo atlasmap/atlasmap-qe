@@ -25,20 +25,20 @@ public class BackendSteps extends CucumberGlue {
         Assert.assertTrue(resp.contains(atlasmapPage.TEST_CLASS));
     }
 
-    @Then("^User saves mapping as \"([^\"]*)\"$")
+    @Then("^Save mapping as \"([^\"]*)\"$")
     public void userSavesMappingAs(String arg1) throws Exception {
         Thread.sleep(1000);
         String mappingLocation = Utils.moveMappping(arg1);
         validator.setMappingLocation(arg1);
     }
 
-    @And("^User verifies \"([^\"]*)\"$")
+    @And("^Verify \"([^\"]*)\"$")
     public void userVerifies(String arg0) throws Throwable {
         Assert.assertTrue(validator.verifyMapping());
 
     }
 
-    @When("^User sets source data$")
+    @When("^Set source data$")
     public void userSetsSourceData(DataTable sourceMappingData) throws Throwable {
         //SourceMappingTestClass source = new SourceMappingTestClass();
         for (Map<String, String> source : sourceMappingData.asMaps(String.class, String.class)) {
@@ -46,6 +46,14 @@ public class BackendSteps extends CucumberGlue {
                 this.validator.setSourceValue(field, source.get(field));
             }
         }
+    }
 
+    @And("^Set expected data$")
+    public void userSetsExpectedData(DataTable targetMappingData) throws Throwable {
+        for (Map<String, String> source : targetMappingData.asMaps(String.class, String.class)) {
+            for (String field : source.keySet()) {
+                this.validator.setTargetValue(field, source.get(field));
+            }
+        }
     }
 }

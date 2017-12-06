@@ -107,7 +107,4 @@ public class MappingValidator {
     public void setSource(SourceMappingTestClass source) {
         this.source = source;
     }
-
-    public void initFromDataTable() {
-    }
 }

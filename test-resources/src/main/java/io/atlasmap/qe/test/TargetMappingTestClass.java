@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
+
 /**
  * Created by mmelko on 26/10/2017.
  **/
@@ -99,44 +100,74 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                 break;
             }
             case "targetInteger": {
-                this.setTargetInteger(NumberFormat.getInstance().parse(value.toString()).intValue());
+                if (value instanceof Character) {
+                    this.setTargetInteger(Integer.valueOf((Character) value));
+                } else {
+                    this.setTargetInteger(NumberFormat.getInstance().parse(value.toString()).intValue());
+                }
                 break;
             }
             case "targetLong": {
-                this.setTargetLong((NumberFormat.getInstance().parse(value.toString())).longValue());
+                if (value instanceof Character) {
+                    this.setTargetLong(Long.valueOf((Character) value));
+                } else {
+                    this.setTargetLong((NumberFormat.getInstance().parse(value.toString())).longValue());
+                }
                 break;
             }
             case "targetFloat": {
-                this.setTargetFloat((NumberFormat.getInstance().parse(value.toString())).floatValue());
+                if (value instanceof Character) {
+                    this.setTargetFloat(Float.valueOf((Character) value));
+                } else {
+                    this.setTargetFloat((NumberFormat.getInstance().parse(value.toString())).floatValue());
+                }
                 break;
             }
             case "targetDouble": {
-                this.setTargetDouble((NumberFormat.getInstance().parse(value.toString())).doubleValue());
+                if (value instanceof Character) {
+                    this.setTargetDouble(Double.valueOf((Character) value));
+                } else {
+                    this.setTargetDouble((NumberFormat.getInstance().parse(value.toString())).doubleValue());
+                }
                 break;
             }
             case "targetShort": {
-                this.setTargetShort((NumberFormat.getInstance().parse(value.toString())).shortValue());
+                if (value instanceof Character) {
+                    this.setTargetShort((short) ((Character) value).charValue());
+                } else {
+                    this.setTargetShort((NumberFormat.getInstance().parse(value.toString())).shortValue());
+                }
                 break;
             }
-            case "targetByte":{
-                this.setTargetByte(Byte.parseByte(value.toString()));
+            case "targetByte": {
+                try {
+                    this.setTargetByte((NumberFormat.getInstance().parse(value.toString()).byteValue()));
+                } catch (Exception e) {
+                    this.setTargetChar(value.toString().toCharArray()[0]);
+                }
+
                 break;
             }
 
             case "targetChar": {
-               // if("")
-                this.setTargetChar(value.toString().toCharArray()[0]);
+                try {
+                    this.setTargetChar(Character.valueOf((char) NumberFormat.getInstance().parse(value.toString()).intValue()));
+                } catch (Exception e) {
+                    this.setTargetChar(value.toString().toCharArray()[0]);
+                }
+
                 break;
             }
 
             case "targetBoolean": {
-                if(value instanceof Number) {
-                    final int temp = ((Number)value).intValue();
-                    if (temp == 1 || temp == 0) {
-                        this.setTargetBoolean(temp ==1);
+                if (value instanceof Number) {
+                    final int temp = ((Number) value).intValue();
+                    if (temp == 0) {
+                        this.setTargetBoolean(false);
+                    } else {
+                        this.setTargetBoolean(true);
                     }
-                }
-                else {
+                } else {
                     this.setTargetBoolean(Boolean.parseBoolean(value.toString()));
                 }
                 break;

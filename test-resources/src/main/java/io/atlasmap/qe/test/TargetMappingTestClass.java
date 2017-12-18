@@ -19,6 +19,175 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
     private double targetDouble;
     private Date targetDate;
     private String targetAnotherString;
+    private boolean targetBoolean;
+    private short targetShort;
+    private byte targetByte;
+    private char targetChar;
+
+    public TargetMappingTestClass() {
+        this.targetString = "targetString";
+        this.targetCombineString = "targetCombineString";
+        this.targetInteger = 5;
+        this.targetLong = 4L;
+        this.targetFloat = 3f;
+        this.targetDouble = 2d;
+        this.targetDate = new Date(0);
+        this.targetAnotherString = "targetAnotherString";
+        this.targetBoolean = false;
+        this.targetShort = 1;
+        this.targetByte = Byte.MIN_VALUE;
+        this.targetChar = 'x';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TargetMappingTestClass that = (TargetMappingTestClass) o;
+        return targetInteger == that.targetInteger &&
+                targetLong == that.targetLong &&
+                Float.compare(that.targetFloat, targetFloat) == 0 &&
+                Double.compare(that.targetDouble, targetDouble) == 0 &&
+                targetBoolean == that.targetBoolean &&
+                targetShort == that.targetShort &&
+                targetByte == that.targetByte &&
+                targetChar == that.targetChar &&
+                Objects.equals(targetString, that.targetString) &&
+                Objects.equals(targetCombineString, that.targetCombineString) &&
+                Objects.equals(targetDate, that.targetDate) &&
+                Objects.equals(targetAnotherString, that.targetAnotherString);
+    }
+
+    @Override
+    public String toString() {
+        return "TargetMappingTestClass{" +
+                "targetString='" + targetString + '\'' +
+                "| targetCombineString='" + targetCombineString + '\'' +
+                "| targetInteger=" + targetInteger +
+                "| targetLong=" + targetLong +
+                "| targetFloat=" + targetFloat +
+                "| targetDouble=" + targetDouble +
+                "| targetDate=" + targetDate +
+                "| targetAnotherString='" + targetAnotherString + '\'' +
+                "| targetBoolean=" + targetBoolean +
+                "| targetShort=" + targetShort +
+                "| targetByte=" + targetByte +
+                "| targetChar=" + targetChar +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(targetString, targetCombineString, targetInteger, targetLong, targetFloat, targetDouble, targetDate, targetAnotherString, targetBoolean, targetShort, targetByte, targetChar);
+    }
+
+    @Override
+    public void setAndConvertValue(String field, Object value) throws ParseException {
+
+        switch (field) {
+            case "targetCombineString": {
+                this.setTargetCombineString(value.toString());
+                break;
+            }
+            case "targetString": {
+                this.setTargetString(value.toString());
+                break;
+            }
+            case "targetInteger": {
+                this.setTargetInteger(NumberFormat.getInstance().parse(value.toString()).intValue());
+                break;
+            }
+            case "targetLong": {
+                this.setTargetLong((NumberFormat.getInstance().parse(value.toString())).longValue());
+                break;
+            }
+            case "targetFloat": {
+                this.setTargetFloat((NumberFormat.getInstance().parse(value.toString())).floatValue());
+                break;
+            }
+            case "targetDouble": {
+                this.setTargetDouble((NumberFormat.getInstance().parse(value.toString())).doubleValue());
+                break;
+            }
+            case "targetShort": {
+                this.setTargetShort((NumberFormat.getInstance().parse(value.toString())).shortValue());
+                break;
+            }
+            case "targetByte":{
+                this.setTargetByte(Byte.parseByte(value.toString()));
+                break;
+            }
+
+            case "targetChar": {
+               // if("")
+                this.setTargetChar(value.toString().toCharArray()[0]);
+                break;
+            }
+
+            case "targetBoolean": {
+                if(value instanceof Number) {
+                    final int temp = ((Number)value).intValue();
+                    if (temp == 1 || temp == 0) {
+                        this.setTargetBoolean(temp ==1);
+                    }
+                }
+                else {
+                    this.setTargetBoolean(Boolean.parseBoolean(value.toString()));
+                }
+                break;
+            }
+            case "targetDate": {
+                if (value instanceof Date) {
+                    this.setTargetDate((Date) value);
+                } else if (value instanceof Number) {
+                    this.setTargetDate(new Date(((Number) value).longValue()));
+                } else {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    this.setTargetDate(format.parse(value.toString()));
+                }
+                break;
+            }
+            case "targetAnotherString": {
+                this.setTargetAnotherString(value.toString());
+            }
+        }
+    }
+
+    @Override
+    public Object getValue(String field) {
+        switch (field) {
+            case "targetCombineString":
+                return getTargetCombineString();
+            case "targetString":
+                return getTargetString();
+            case "targetInteger":
+                return getTargetInteger();
+            case "targetLong":
+                return getTargetLong();
+            case "targetFloat":
+                return getTargetFloat();
+            case "targetDouble":
+                return getTargetDouble();
+            case "targetDate":
+                return getTargetDate();
+            case "targetShort":
+                return getTargetShort();
+            case "targetByte":
+                return getTargetByte();
+            case "targetChar":
+                return getTargetChar();
+            case "targetBoolean":
+                return isTargetBoolean();
+            case "targetAnotherString":
+                return getTargetAnotherString();
+        }
+        return null;
+    }
 
     public String getTargetString() {
         return targetString;
@@ -84,115 +253,35 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
         this.targetAnotherString = targetAnotherString;
     }
 
-    public TargetMappingTestClass() {
-        this.targetString = "targetString";
-        this.targetCombineString = "targetCombineString";
-        this.targetInteger = 5;
-        this.targetLong = 4L;
-        this.targetFloat = 3f;
-        this.targetDouble = 2d;
-        this.targetDate = new Date(0);
-        this.targetAnotherString = "targetAnotherString";
+    public boolean isTargetBoolean() {
+        return targetBoolean;
     }
 
-    @Override
-    public String toString() {
-        return "TargetMappingTestClass{" +
-                "targetString='" + targetString + '\'' +
-                ", targetCombineString='" + targetCombineString + '\'' +
-                ", targetInteger=" + targetInteger +
-                ", targetLong=" + targetLong +
-                ", targetFloat=" + targetFloat +
-                ", targetDouble=" + targetDouble +
-                ", targetDate=" + targetDate +
-                ", targetAnotherString='" + targetAnotherString + '\'' +
-                '}';
+    public void setTargetBoolean(boolean targetBoolean) {
+        this.targetBoolean = targetBoolean;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        TargetMappingTestClass that = (TargetMappingTestClass) o;
-        return targetInteger == that.targetInteger &&
-                targetLong == that.targetLong &&
-                Float.compare(that.targetFloat, targetFloat) == 0 &&
-                Double.compare(that.targetDouble, targetDouble) == 0 &&
-                Objects.equals(targetString, that.targetString) &&
-                Objects.equals(targetCombineString, that.targetCombineString) &&
-                Objects.equals(targetDate, that.targetDate) &&
-                Objects.equals(targetAnotherString, that.targetAnotherString);
+    public short getTargetShort() {
+        return targetShort;
     }
 
-    @Override
-    public void setAndConvertValue(String field, Object value) throws ParseException {
-
-        switch (field) {
-            case "targetCombineString": {
-                this.setTargetCombineString(value.toString());
-                break;
-            }
-            case "targetString": {
-                this.setTargetString(value.toString());
-                break;
-            }
-            case "targetInteger": {
-                this.setTargetInteger(NumberFormat.getInstance().parse(value.toString()).intValue());
-                break;
-            }
-            case "targetLong": {
-                this.setTargetLong((NumberFormat.getInstance().parse(value.toString())).longValue());
-                break;
-            }
-            case "targetFloat": {
-                this.setTargetFloat((NumberFormat.getInstance().parse(value.toString())).floatValue());
-                break;
-            }
-            case "targetDouble": {
-                this.setTargetDouble((NumberFormat.getInstance().parse(value.toString())).doubleValue());
-                break;
-            }
-            case "targetDate": {
-                if (value instanceof Date) {
-                    this.setTargetDate((Date) value);
-                } else if (value instanceof Number) {
-                    this.setTargetDate(new Date(((Number) value).longValue()));
-                } else {
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                    this.setTargetDate(format.parse(value.toString()));
-                }
-                break;
-            }
-            case "targetAnotherString": {
-                this.setTargetAnotherString(value.toString());
-            }
-        }
+    public void setTargetShort(short targetShort) {
+        this.targetShort = targetShort;
     }
 
-    @Override
-    public Object getValue(String field) {
-        switch (field) {
-            case "targetCombineString":
-                return getTargetCombineString();
-            case "targetString":
-                return getTargetString();
-            case "targetInteger":
-                return getTargetInteger();
-            case "targetLong":
-                return getTargetLong();
-            case "targetFloat":
-                return getTargetFloat();
-            case "targetDouble":
-                return getTargetDouble();
-            case "targetDate":
-                return getTargetDate();
-            case "targetAnotherString":
-                return getTargetAnotherString();
-        }
-        return null;
+    public byte getTargetByte() {
+        return targetByte;
+    }
+
+    public void setTargetByte(byte targetByte) {
+        this.targetByte = targetByte;
+    }
+
+    public char getTargetChar() {
+        return targetChar;
+    }
+
+    public void setTargetChar(char targetChar) {
+        this.targetChar = targetChar;
     }
 }

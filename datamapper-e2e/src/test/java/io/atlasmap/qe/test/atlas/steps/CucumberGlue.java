@@ -1,5 +1,7 @@
 package io.atlasmap.qe.test.atlas.steps;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
@@ -20,6 +22,8 @@ public abstract class CucumberGlue {
 
     protected static AtlasmapPage atlasmapPage = new AtlasmapPage();
     protected static MappingValidator validator = new MappingValidator();
+    protected static boolean internalMapping = true;
+    protected static final Logger LOG = LogManager.getLogger(CucumberGlue.class);
 
     @BeforeClass
     public void beforeMethod() {

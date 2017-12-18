@@ -10,9 +10,11 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import io.atlasmap.qe.test.TargetMappingTestClass;
 import io.atlasmap.qe.test.atlas.utils.Utils;
 
 public class BackendSteps extends CucumberGlue {
+
 
     @Given("^atlasmap is clean$")
     public void atlasmapIsClean() throws Exception {
@@ -55,5 +57,24 @@ public class BackendSteps extends CucumberGlue {
                 this.validator.setTargetValue(field, source.get(field));
             }
         }
+    }
+
+    @And("^internal mapping is skipped$")
+    public void internalMappingIsSkipped() throws Throwable {
+        this.internalMapping = false;
+    }
+
+    @And("^internal mapping is set to \"([^\"]*)\"$")
+    public void internalMappingIsSetTo(boolean arg0) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        this.internalMapping = arg0;
+    }
+
+    @And("^verify if \"([^\"]*)\" is not \"([^\"]*)\" in \"([^\"]*)\"$")
+    public void verifyIfIsNotIn(String field, String value, String path) throws Throwable { //
+        // Assert.assertTrue(validator.verifyMapping());
+        TargetMappingTestClass processed = this.validator.processMapping();
+        Assert.assertNotEquals(processed.getValue(field), value);
+
     }
 }

@@ -48,6 +48,9 @@ public class MappingValidator {
         return res;
     }
 
+    public TargetMappingTestClass processMapping() throws Exception {
+        return processMapping(this.source);
+    }
     public boolean verifyMapping(SourceMappingTestClass source, TargetMappingTestClass target) throws Exception {
         TargetMappingTestClass processedTarget = processMapping(source);
         LOG.info("source: " + source);

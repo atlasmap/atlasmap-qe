@@ -19,6 +19,10 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
     private double sourceDouble;
     private Date sourceDate;
     private String sourceAnotherString;
+    private boolean sourceBoolean;
+    private short sourceShort;
+    private byte sourceByte;
+    private char sourceChar;
 
     public SourceMappingTestClass() {
         this.sourceString = "sourceString";
@@ -27,24 +31,32 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
         this.sourceLong = 2L;
         this.sourceFloat = 3f;
         this.sourceDouble = 4d;
+        this.sourceShort = 5;
+        this.sourceByte = Byte.MAX_VALUE;
+        this.sourceChar = 'A';
         this.sourceDate = new Date(0);
         this.sourceAnotherString = "sourceAnotherString";
+        this.sourceBoolean = true;
+
     }
 
     @Override
     public String toString() {
         return "SourceMappingTestClass{" +
                 "sourceString='" + sourceString + '\'' +
-                ", sourceCombineString='" + sourceCombineString + '\'' +
-                ", sourceInteger=" + sourceInteger +
-                ", sourceLong=" + sourceLong +
-                ", sourceFloat=" + sourceFloat +
-                ", sourceDouble=" + sourceDouble +
-                ", sourceDate=" + sourceDate +
-                ", sourceAnotherString='" + sourceAnotherString + '\'' +
+                " | sourceCombineString='" + sourceCombineString + '\'' +
+                " | sourceInteger=" + sourceInteger +
+                " | sourceLong=" + sourceLong +
+                " | sourceFloat=" + sourceFloat +
+                " | sourceDouble=" + sourceDouble +
+                " | sourceDate=" + sourceDate +
+                " | sourceAnotherString='" + sourceAnotherString + '\'' +
+                " | sourceBoolean=" + sourceBoolean +
+                " | sourceShort=" + sourceShort +
+                " | sourceByte=" + sourceByte +
+                " |sourceChar=" + sourceChar +
                 '}';
     }
-
 
     public String getSourceString() {
         return sourceString;
@@ -110,10 +122,43 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
         this.sourceAnotherString = sourceAnotherString;
     }
 
+    public boolean isSourceBoolean() {
+        return sourceBoolean;
+    }
+
+    public void setSourceBoolean(boolean sourceBoolean) {
+        this.sourceBoolean = sourceBoolean;
+    }
+
+    public short getSourceShort() {
+        return sourceShort;
+    }
+
+    public void setSourceShort(short sourceShort) {
+        this.sourceShort = sourceShort;
+    }
+
+    public byte getSourceByte() {
+        return sourceByte;
+    }
+
+    public void setSourceByte(byte sourceByte) {
+        this.sourceByte = sourceByte;
+    }
+
+    public char getSourceChar() {
+        return sourceChar;
+    }
+
+    public void setSourceChar(char sourceChar) {
+        this.sourceChar = sourceChar;
+    }
+
     @Override
     public void setAndConvertValue(String field, Object value) throws ParseException {
 
         switch (field) {
+
             case "sourceCombineString": {
                 this.setSourceCombineString(value.toString());
                 break;
@@ -137,6 +182,23 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
             case "sourceDouble": {
                 this.setSourceDouble((NumberFormat.getInstance().parse(value.toString())).doubleValue());
                 break;
+            }
+            case "sourceShort": {
+                this.setSourceShort((NumberFormat.getInstance().parse(value.toString())).shortValue());
+                break;
+            }
+            case "sourceByte":{
+                this.setSourceByte(Byte.parseByte(value.toString()));
+                break;
+            }
+
+            case "sourceChar": {
+                this.setSourceChar(value.toString().toCharArray()[0]);
+                break;
+            }
+
+            case "sourceBoolean": {
+                this.setSourceBoolean(Boolean.parseBoolean(value.toString()));
             }
             case "sourceDate": {
                 if (value instanceof Date) {
@@ -170,8 +232,16 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
                 return getSourceFloat();
             case "sourceDouble":
                 return getSourceDouble();
+            case "sourceShort":
+                return getSourceShort();
+            case "sourceByte":
+                return getSourceByte();
+            case "sourceChar":
+                return getSourceChar();
             case "sourceDate":
                 return getSourceDate();
+            case "sourceBoolean":
+                return isSourceBoolean();
             case "sourceAnotherString":
                 return getSourceAnotherString();
         }

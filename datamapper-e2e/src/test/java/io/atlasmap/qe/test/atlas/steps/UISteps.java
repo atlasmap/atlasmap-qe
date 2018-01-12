@@ -58,4 +58,9 @@ public class UISteps extends CucumberGlue {
         Thread.sleep(1000);
 
     }
+
+    @And("^for \"([^\"]*)\" input set \"([^\"]*)\"$")
+    public void putValueIn(String inputSelector, String inputValue) throws Throwable {
+        this.atlasmapPage.setInputValueByClass(inputSelector,inputValue);
+    }
 }

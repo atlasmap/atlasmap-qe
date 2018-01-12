@@ -54,6 +54,10 @@ public class AtlasmapPage {
     }
 
     public void selectTransformation(String transformation){
-        $$(By.tagName("select")).filter(Condition.exactValue("Capitalize")).get(0).selectOption(transformation);
+        $$(By.tagName("select")).filter(Condition.exactValue("Append")).get(0).selectOption(transformation);
+    }
+
+    public void setInputValueByClass(String inputSelector, String inputValue) {
+        $(By.className(inputSelector)).setValue(inputValue);
     }
 }

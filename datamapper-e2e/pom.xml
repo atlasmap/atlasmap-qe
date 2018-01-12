@@ -234,7 +234,7 @@
 								</goals>
 								<phase>generate-resources</phase>
 								<configuration>
-									<arguments>build</arguments>
+									<arguments>build:app</arguments>
 								</configuration>
 							</execution>
 						</executions>

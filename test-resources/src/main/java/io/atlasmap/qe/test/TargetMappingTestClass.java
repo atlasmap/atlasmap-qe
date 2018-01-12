@@ -24,6 +24,7 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
     private short targetShort;
     private byte targetByte;
     private char targetChar;
+    private ObjectVariable targetObjectVariable;
 
     public TargetMappingTestClass() {
         this.targetString = "targetString";
@@ -60,7 +61,9 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                 Objects.equals(targetString, that.targetString) &&
                 Objects.equals(targetCombineString, that.targetCombineString) &&
                 Objects.equals(targetDate, that.targetDate) &&
-                Objects.equals(targetAnotherString, that.targetAnotherString);
+                Objects.equals(targetAnotherString, that.targetAnotherString)
+                &&
+                Objects.equals(targetObjectVariable, that.targetObjectVariable);
     }
 
     @Override
@@ -314,5 +317,13 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
 
     public void setTargetChar(char targetChar) {
         this.targetChar = targetChar;
+    }
+
+    public ObjectVariable getTargetObjectVariable() {
+        return targetObjectVariable;
+    }
+
+    public void setTargetObjectVariable(ObjectVariable targetObjectVariable) {
+        this.targetObjectVariable = targetObjectVariable;
     }
 }

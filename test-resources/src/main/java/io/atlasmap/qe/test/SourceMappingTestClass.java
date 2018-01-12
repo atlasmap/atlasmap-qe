@@ -23,6 +23,7 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
     private short sourceShort;
     private byte sourceByte;
     private char sourceChar;
+    private ObjectVariable objectVariable;
 
     public SourceMappingTestClass() {
         this.sourceString = "sourceString";
@@ -153,6 +154,15 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
     public void setSourceChar(char sourceChar) {
         this.sourceChar = sourceChar;
     }
+
+    public ObjectVariable getObjectVariable() {
+        return objectVariable;
+    }
+
+    public void setObjectVariable(ObjectVariable o) {
+        this.objectVariable = o;
+    }
+
 
     @Override
     public void setAndConvertValue(String field, Object value) throws ParseException {

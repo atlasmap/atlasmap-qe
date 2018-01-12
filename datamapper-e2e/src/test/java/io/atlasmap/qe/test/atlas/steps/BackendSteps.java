@@ -35,13 +35,13 @@ public class BackendSteps extends CucumberGlue {
     }
 
     @And("^verify \"([^\"]*)\"$")
-    public void userVerifies(String arg0) throws Throwable {
+    public void verify(String arg0) throws Throwable {
         Assert.assertTrue(validator.verifyMapping());
 
     }
 
     @When("^set source data$")
-    public void userSetsSourceData(DataTable sourceMappingData) throws Throwable {
+    public void setsSourceData(DataTable sourceMappingData) throws Throwable {
         //SourceMappingTestClass source = new SourceMappingTestClass();
         for (Map<String, String> source : sourceMappingData.asMaps(String.class, String.class)) {
             for (String field : source.keySet()) {
@@ -51,7 +51,7 @@ public class BackendSteps extends CucumberGlue {
     }
 
     @And("^set expected data$")
-    public void userSetsExpectedData(DataTable targetMappingData) throws Throwable {
+    public void setsExpectedData(DataTable targetMappingData) throws Throwable {
         for (Map<String, String> source : targetMappingData.asMaps(String.class, String.class)) {
             for (String field : source.keySet()) {
                 this.validator.setTargetValue(field, source.get(field));
@@ -75,6 +75,38 @@ public class BackendSteps extends CucumberGlue {
         // Assert.assertTrue(validator.verifyMapping());
         TargetMappingTestClass processed = this.validator.processMapping();
         Assert.assertNotEquals(processed.getValue(field), value);
+
+    }
+
+    @Then("^save and verify mapping as \"([^\"]*)\"$")
+    public void saveAndVerifyMappingAs(String arg0) throws Throwable {
+     userSavesMappingAs(arg0);
+     Assert.assertTrue(validator.verifyMapping());
+    }
+
+    @And("^set \"([^\"]*)\" value in source's \"([^\"]*)\"$")
+    public void setValueInSource(String value, String field) throws Throwable {
+        this.validator.setSourceValue(field,value);
+    }
+
+    @And("^set \"([^\"]*)\" value in target's \"([^\"]*)\"$")
+    public void setValueInTarget(String value, String field) throws Throwable {
+        this.validator.setTargetValue(field,value);
+    }
+
+    @And("^save and verify \"([^\"]*)\" with$")
+    public void verifyMultipleValues(String mapping,DataTable testValues) throws Throwable {
+        userSavesMappingAs(mapping);
+
+        String sourceField = testValues.getPickleRows().get(0).getCells().get(0).getValue();
+        String targetField = testValues.getPickleRows().get(0).getCells().get(1).getValue();
+
+        for (Map<String, String> data : testValues.asMaps(String.class, String.class)) {
+
+            this.validator.setSourceValue(sourceField, data.get(sourceField));
+            this.validator.setTargetValue(targetField,data.get(targetField));
+            Assert.assertTrue(this.validator.verifyMapping());
+        }
 
     }
 }

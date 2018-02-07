@@ -1,3 +1,4 @@
+@SmokeTests
 Feature: Simple mappings creation and test framework verification
 
   Background:
@@ -30,7 +31,7 @@ Feature: Simple mappings creation and test framework verification
     And verify "simpleMapping2.xml"
 
 
-  Scenario: Setting source and target data for mapping verification.
+  Scenario: Setting source and target data for verification.
     Given browser is opened
     When set source data
       | sourceString | sourceCombineString | sourceAnotherString |

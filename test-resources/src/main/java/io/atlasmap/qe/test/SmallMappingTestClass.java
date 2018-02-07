@@ -2,14 +2,13 @@ package io.atlasmap.qe.test;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * Created by mmelko on 27/10/2017.
  */
-public class ObjectVariable implements Serializable {
+public class SmallMappingTestClass implements Serializable {
 
     private String objectField1;
 
@@ -17,11 +16,11 @@ public class ObjectVariable implements Serializable {
 
     private Long objectLong;
 
-    private Collection<String> listOfStrings;
+    private List<String> listOfStrings;
 
-    private Collection<Integer> listOfIntegers;
+    private List<Integer> listOfIntegers;
 
-    private Collection<Double> listOfDoubles;
+    private List<Double> listOfDoubles;
 
     @Override
     public boolean equals(Object o) {
@@ -33,7 +32,7 @@ public class ObjectVariable implements Serializable {
             return false;
         }
 
-        ObjectVariable that = (ObjectVariable) o;
+        SmallMappingTestClass that = (SmallMappingTestClass) o;
         return Objects.equals(objectField1, that.objectField1) &&
                 Objects.equals(objectField2, that.objectField2) &&
                 Objects.equals(objectLong, that.objectLong) &&
@@ -48,19 +47,28 @@ public class ObjectVariable implements Serializable {
         return Objects.hash(objectField1, objectField2, objectLong, listOfStrings, listOfIntegers, listOfDoubles);
     }
 
-    public ObjectVariable() {
-        this.objectField1 = "field1";
+    public SmallMappingTestClass() {
+        initObjectVariable(1);
+    }
 
-        this.objectField2 = "field2";
-        this.objectLong = 3L;
+    public SmallMappingTestClass(int offset) {
+        initObjectVariable(offset);
+    }
+
+    public void initObjectVariable(int offset) {
+
+        this.objectField1 = offset + "_field1";
+        this.objectField2 = offset + "_field2";
+        this.objectLong = 3L * offset;
         this.listOfStrings = new ArrayList<>();
+
         listOfIntegers = new ArrayList<>();
         listOfDoubles = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            this.listOfStrings.add("" + i);
-            this.listOfIntegers.add(i);
-            this.listOfDoubles.add((double) i);
+            this.listOfStrings.add(offset + "_" + i);
+            this.listOfIntegers.add(i * offset);
+            this.listOfDoubles.add((double) i * offset);
         }
     }
 
@@ -84,7 +92,7 @@ public class ObjectVariable implements Serializable {
         this.objectLong = objectLong1;
     }
 
-    public Collection<String> getListOfStrings() {
+    public List<String> getListOfStrings() {
 
         return listOfStrings;
     }
@@ -93,7 +101,7 @@ public class ObjectVariable implements Serializable {
         this.listOfStrings = listOfStrings;
     }
 
-    public Collection<Integer> getListOfIntegers() {
+    public List<Integer> getListOfIntegers() {
         return listOfIntegers;
     }
 
@@ -101,7 +109,7 @@ public class ObjectVariable implements Serializable {
         this.listOfIntegers = listOfIntegers;
     }
 
-    public Collection<Double> getListOfDoubles() {
+    public List<Double> getListOfDoubles() {
         return listOfDoubles;
     }
 

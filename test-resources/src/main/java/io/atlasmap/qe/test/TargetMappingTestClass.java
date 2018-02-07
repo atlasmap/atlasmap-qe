@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -24,7 +25,26 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
     private short targetShort;
     private byte targetByte;
     private char targetChar;
-    private ObjectVariable targetObjectVariable;
+    private SmallMappingTestClass targetSmallMappingTestClass;
+    private DatesObject dateObjectVariable;
+
+    public ZonedDateTime getZonedDT() {
+        return zonedDT;
+    }
+
+    public void setZonedDT(ZonedDateTime zonedDT) {
+        this.zonedDT = zonedDT;
+    }
+
+    private ZonedDateTime zonedDT;
+
+    public DatesObject getDateObjectVariable() {
+        return dateObjectVariable;
+    }
+
+    public void setDateObjectVariable(DatesObject dateObjectVariable) {
+        this.dateObjectVariable = dateObjectVariable;
+    }
 
     public TargetMappingTestClass() {
         this.targetString = "targetString";
@@ -39,6 +59,11 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
         this.targetShort = 1;
         this.targetByte = Byte.MIN_VALUE;
         this.targetChar = 'x';
+        try {
+            this.dateObjectVariable = new DatesObject("01-01-1989");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -63,7 +88,7 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                 Objects.equals(targetDate, that.targetDate) &&
                 Objects.equals(targetAnotherString, that.targetAnotherString)
                 &&
-                Objects.equals(targetObjectVariable, that.targetObjectVariable);
+                Objects.equals(targetSmallMappingTestClass, that.targetSmallMappingTestClass);
     }
 
     @Override
@@ -153,10 +178,14 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
             }
 
             case "targetChar": {
-                try {
-                    this.setTargetChar(Character.valueOf((char) NumberFormat.getInstance().parse(value.toString()).intValue()));
-                } catch (Exception e) {
-                    this.setTargetChar(value.toString().toCharArray()[0]);
+                if (value instanceof Character) {
+                    setTargetChar((Character) value);
+                } else {
+                    try {
+                        this.setTargetChar(Character.valueOf((char) NumberFormat.getInstance().parse(value.toString()).intValue()));
+                    } catch (Exception e) {
+                        this.setTargetChar(value.toString().toCharArray()[0]);
+                    }
                 }
 
                 break;
@@ -170,6 +199,8 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                     } else {
                         this.setTargetBoolean(true);
                     }
+                } else if (value instanceof Character) {
+                    this.setTargetDouble(Double.valueOf((Character) value));
                 } else {
                     this.setTargetBoolean(Boolean.parseBoolean(value.toString()));
                 }
@@ -319,11 +350,11 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
         this.targetChar = targetChar;
     }
 
-    public ObjectVariable getTargetObjectVariable() {
-        return targetObjectVariable;
+    public SmallMappingTestClass getTargetSmallMappingTestClass() {
+        return targetSmallMappingTestClass;
     }
 
-    public void setTargetObjectVariable(ObjectVariable targetObjectVariable) {
-        this.targetObjectVariable = targetObjectVariable;
+    public void setTargetSmallMappingTestClass(SmallMappingTestClass targetSmallMappingTestClass) {
+        this.targetSmallMappingTestClass = targetSmallMappingTestClass;
     }
 }

@@ -23,7 +23,7 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
     private short sourceShort;
     private byte sourceByte;
     private char sourceChar;
-    private ObjectVariable objectVariable;
+    private SmallMappingTestClass smallMappingTestClass;
 
     public SourceMappingTestClass() {
         this.sourceString = "sourceString";
@@ -155,12 +155,12 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
         this.sourceChar = sourceChar;
     }
 
-    public ObjectVariable getObjectVariable() {
-        return objectVariable;
+    public SmallMappingTestClass getSmallMappingTestClass() {
+        return smallMappingTestClass;
     }
 
-    public void setObjectVariable(ObjectVariable o) {
-        this.objectVariable = o;
+    public void setSmallMappingTestClass(SmallMappingTestClass o) {
+        this.smallMappingTestClass = o;
     }
 
 
@@ -197,7 +197,7 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
                 this.setSourceShort((NumberFormat.getInstance().parse(value.toString())).shortValue());
                 break;
             }
-            case "sourceByte":{
+            case "sourceByte": {
                 this.setSourceByte(Byte.parseByte(value.toString()));
                 break;
             }
@@ -209,6 +209,7 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
 
             case "sourceBoolean": {
                 this.setSourceBoolean(Boolean.parseBoolean(value.toString()));
+                break;
             }
             case "sourceDate": {
                 if (value instanceof Date) {

@@ -54,7 +54,7 @@ public class UISteps extends CucumberGlue {
 
     @And("^select \"([^\"]*)\" transformation$")
     public void selectTransformation(String arg0) throws Throwable {
-        this.atlasmapPage.selectTransformation(arg0);
+        this.atlasmapPage.selectTransformation(arg0,"Append");
         Thread.sleep(1000);
 
     }
@@ -63,4 +63,59 @@ public class UISteps extends CucumberGlue {
     public void putValueIn(String inputSelector, String inputValue) throws Throwable {
         this.atlasmapPage.setInputValueByClass(inputSelector,inputValue);
     }
+
+    @When("^click on \"([^\"]*)\"$")
+    public void clickOn(String arg0) throws Throwable {
+       this.atlasmapPage.clickOn(arg0);
+    }
+
+    @And("^add select \"([^\"]*)\" action$")
+    public void addSelectAction(String action) throws Throwable {
+        this.atlasmapPage.selectAction(action);
+    }
+
+    @And("^for \"([^\"]*)\" id input set \"([^\"]*)\"$")
+    public void forIdInputSet(String id, String value) throws Throwable {
+        this.atlasmapPage.setInputValueById(id,value);
+    }
+
+    @And("^add \"([^\"]*)\" to combine$")
+    public void addToCombine(String field) throws Throwable {
+       addClickButton("Add Source");
+       forIdInputSet("input-source-",field);
+    }
+
+    @When("^select \"([^\"]*)\" separator$")
+    public void selectSeparator(String separator) throws Throwable {
+        this.atlasmapPage.selectSeparator(separator);
+        Thread.sleep(1000);
+    }
+
+    @And("^for \"([^\"]*)\" input with \"([^\"]*)\" set \"([^\"]*)\"$")
+    public void forInputWithSet(String id, String def, String value) throws Throwable {
+        this.atlasmapPage.setInputValueByClassAndDefaultValue(id,def,value);
+    }
+
+    @And("^add \"([^\"]*)\" to separate$")
+    public void addToSeparate(String field) throws Throwable {
+        addClickButton("Add Target");
+        forIdInputSet("input-target-",field);
+    }
+
+    @When("^select \"([^\"]*)\" number transformation$")
+    public void selectNumberTransformation(String arg0) throws Throwable {
+        atlasmapPage.selectTransformation(arg0,"AbsoluteValue");
+
+    }
+
+    @And("^open mapping details window$")
+    public void openMappingDetailsWindow() throws Throwable {
+        atlasmapPage.openMappingDetails();
+    }
+
+    @When("^delete current mapping$")
+    public void deleteCurrentMapping() throws Throwable {
+        atlasmapPage.deleteCurrent();
+    }
+
 }

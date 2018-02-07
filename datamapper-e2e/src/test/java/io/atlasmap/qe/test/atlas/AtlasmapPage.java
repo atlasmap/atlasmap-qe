@@ -7,10 +7,12 @@ import static com.codeborne.selenide.Selenide.open;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
 import com.codeborne.selenide.Condition;
 
 import io.atlasmap.qe.test.atlas.utils.Constants;
+
 
 
 public class AtlasmapPage {
@@ -50,14 +52,41 @@ public class AtlasmapPage {
     }
 
     public void clickOnButtonByText(String elementName) {
-        $$(By.tagName("button")).filter(Condition.text(elementName)).get(0).click();
+        $$(By.tagName("button")).filter(Condition.text(elementName)).get(0).shouldBe(Condition.visible).click();
     }
 
-    public void selectTransformation(String transformation){
-        $$(By.tagName("select")).filter(Condition.exactValue("Append")).get(0).selectOption(transformation);
+    public void selectTransformation(String transformation, String deafaultValue){
+        $$(By.tagName("select")).filter(Condition.exactValue(deafaultValue)).get(0).selectOption(transformation);
     }
 
     public void setInputValueByClass(String inputSelector, String inputValue) {
         $(By.className(inputSelector)).setValue(inputValue);
+    }
+
+    public void setInputValueByClassAndDefaultValue(String inputSelector, String def, String inputValue){
+        $$(By.className(inputSelector)).filter(Condition.exactValue(def)).get(0).setValue(inputValue);
+    }
+    public void setInputValueById(String inputId,String newValue) throws InterruptedException {
+        $(By.id(inputId)).setValue(newValue);
+        Thread.sleep(500);
+        $(By.id(inputId)).sendKeys(Keys.ENTER);
+    }
+
+    public void selectAction(String action) {
+        $("#select-action").selectOption(action);
+    }
+    public void selectSeparator(String action) {
+        $("#select-separator").selectOption(action);
+    }
+
+    public void openMappingDetails() {
+        $((".fa.fa-plus.link")).click();
+    }
+
+    public  void deleteCurrent() throws InterruptedException {
+        $((".fa.fa-trash.link")).click();
+        Thread.sleep(10100);
+        $(".pull-right.btn.btn-primary").shouldBe(Condition.visible).isDisplayed();
+        clickOnButtonByText("Remove");
     }
 }

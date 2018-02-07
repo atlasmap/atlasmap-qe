@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -27,16 +26,6 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
     private char targetChar;
     private SmallMappingTestClass targetSmallMappingTestClass;
     private DatesObject dateObjectVariable;
-
-    public ZonedDateTime getZonedDT() {
-        return zonedDT;
-    }
-
-    public void setZonedDT(ZonedDateTime zonedDT) {
-        this.zonedDT = zonedDT;
-    }
-
-    private ZonedDateTime zonedDT;
 
     public DatesObject getDateObjectVariable() {
         return dateObjectVariable;

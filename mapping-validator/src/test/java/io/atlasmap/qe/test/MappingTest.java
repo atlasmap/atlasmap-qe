@@ -18,21 +18,21 @@ public class MappingTest {
     @Test
     public void testMapping() throws Exception {
         MappingValidator mv = new MappingValidator();
-        mv.setMappingLocation("javaToJavaMapping.xml");
+        mv.setMappingLocation("fromInteger.xml");
         SourceMappingTestClass source = new SourceMappingTestClass();
       //  source.setSourceString("source string");
        // source.setSourceInteger(new Integer(1));
      //   source.setSourceDouble(2);
        // source.setSourceFloat(3);
 
-        TargetMappingTestClass body = mv.processMapping(source);
+         TargetMappingTestClass body = mv.processMapping(source);
         LOG.info(body.getTargetCombineString());
         LOG.info(body.getTargetAnotherString());
         LOG.info(source);
         LOG.info(body);
     }
 
- //   @Test
+ //    @Test
     public void testMappingValidator() throws Exception {
         MappingValidator mv = new MappingValidator();
         mv.setMappingLocation("javaToJavaMapping.xml");

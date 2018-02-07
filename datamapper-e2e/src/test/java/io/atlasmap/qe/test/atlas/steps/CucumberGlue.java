@@ -9,14 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.atlasmap.qe.test.MappingValidator;
-import io.atlasmap.qe.test.atlas.AtlasRuntime;
 import io.atlasmap.qe.test.atlas.AtlasmapPage;
 
 /**
  * Created by mmelko on 02/11/2017.
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = AtlasRuntime.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 
 public abstract class CucumberGlue {
 

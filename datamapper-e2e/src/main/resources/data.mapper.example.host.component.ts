@@ -56,7 +56,10 @@ export class DataMapperAppExampleHostComponent {
         // if classPath is specified, maven call to resolve pom will be skipped
         c.initCfg.classPath = null;
         c.addJavaDocument('io.atlasmap.qe.test.SourceMappingTestClass', true);
+        c.addJavaDocument('io.atlasmap.qe.test.SourceListsClass', true);
         c.addJavaDocument('io.atlasmap.qe.test.TargetMappingTestClass', false);
+        c.addJavaDocument('io.atlasmap.qe.test.StringObject', false);
+
         /*
          * The following examples demonstrate adding source/target documents to the Data Mapper's configuration.
          * Note that multiple source documents are supported, but multiple target documents are not supported.

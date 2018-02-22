@@ -41,7 +41,6 @@ jobs:
           command: |
             ./mvnw clean install -B -DskipTests | tee build_log.txt
       - run:
-      - run:
           name: Execute tests
           command: |
             ./mvnw clean test  -DskipBuild=true  -Dcucumber.options="--tags @SmokeTests" -Dselenide.headless=true -Dselenide.browser-size=1920x1080

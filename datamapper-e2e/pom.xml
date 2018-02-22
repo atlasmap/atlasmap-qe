@@ -13,7 +13,7 @@
 	<groupId>io.syndesis.qe</groupId>
 	<artifactId>datamapper-e2e</artifactId>
 	<properties>
-		<atlasmap.ui.directory>/Users/mmelko/RH_WORK/Work/Test/syndesis/atlasmap/ui</atlasmap.ui.directory>
+		<atlasmap.ui.directory>${project.basedir}/src/main/resources/atlasmap-wrapper</atlasmap.ui.directory>
 	</properties>
 
 	<dependencyManagement>
@@ -152,57 +152,55 @@
 		<profile>
 			<id>atlasmap-build</id>
 			<activation>
-				<property><name>skipBuild</name>
-					<value>false</value>
-				</property>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<build>
 				<plugins>
-					<plugin>
-						<artifactId>maven-resources-plugin</artifactId>
-						<version>3.0.2</version>
-						<executions>
-							<execution>
-								<id>copy-file</id>
-								<!-- here the phase you need -->
-								<phase>process-sources</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>${atlasmap.ui.directory}/src/app/lib/atlasmap-data-mapper/components/</outputDirectory>
-									<resources>
-										<resource>
-											<directory>src/main/resources/</directory>
-											<includes>
-												data.mapper.example.host.component.ts
-											</includes>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
+					<!--<plugin>-->
+						<!--<artifactId>maven-resources-plugin</artifactId>-->
+						<!--<version>3.0.2</version>-->
+						<!--<executions>-->
+							<!--&lt;!&ndash;<execution>&ndash;&gt;-->
+								<!--&lt;!&ndash;<id>copy-file</id>&ndash;&gt;-->
+								<!--&lt;!&ndash;&lt;!&ndash; here the phase you need &ndash;&gt;&ndash;&gt;-->
+								<!--&lt;!&ndash;<phase>process-sources</phase>&ndash;&gt;-->
+								<!--&lt;!&ndash;<goals>&ndash;&gt;-->
+									<!--&lt;!&ndash;<goal>copy-resources</goal>&ndash;&gt;-->
+								<!--&lt;!&ndash;</goals>&ndash;&gt;-->
+								<!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+									<!--&lt;!&ndash;<outputDirectory>${atlasmap.ui.directory}/src/app/lib/atlasmap-data-mapper/components/</outputDirectory>&ndash;&gt;-->
+									<!--&lt;!&ndash;<resources>&ndash;&gt;-->
+										<!--&lt;!&ndash;<resource>&ndash;&gt;-->
+											<!--&lt;!&ndash;<directory>src/main/resources/</directory>&ndash;&gt;-->
+											<!--&lt;!&ndash;<includes>&ndash;&gt;-->
+												<!--&lt;!&ndash;data.mapper.example.host.component.ts&ndash;&gt;-->
+											<!--&lt;!&ndash;</includes>&ndash;&gt;-->
+											<!--&lt;!&ndash;<filtering>true</filtering>&ndash;&gt;-->
+										<!--&lt;!&ndash;</resource>&ndash;&gt;-->
+									<!--&lt;!&ndash;</resources>&ndash;&gt;-->
+								<!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+							<!--&lt;!&ndash;</execution>&ndash;&gt;-->
 
-							<execution>
-								<id>copy-resources</id>
-								<!-- here the phase you need -->
-								<phase>generate-resources</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>target/dist</outputDirectory>
-									<resources>
-										<resource>
-											<directory>${atlasmap.ui.directory}/dist</directory>
-											<filtering>true</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
+							<!--<execution>-->
+								<!--<id>copy-resources</id>-->
+								<!--&lt;!&ndash; here the phase you need &ndash;&gt;-->
+								<!--<phase>generate-resources</phase>-->
+								<!--<goals>-->
+									<!--<goal>copy-resources</goal>-->
+								<!--</goals>-->
+								<!--<configuration>-->
+									<!--<outputDirectory>target/dist</outputDirectory>-->
+									<!--<resources>-->
+										<!--<resource>-->
+											<!--<directory>${atlasmap.ui.directory}/dist</directory>-->
+											<!--<filtering>true</filtering>-->
+										<!--</resource>-->
+									<!--</resources>-->
+								<!--</configuration>-->
+							<!--</execution>-->
+						<!--</executions>-->
 
-					</plugin>
+					<!--</plugin>-->
 					<plugin>
 						<groupId>com.github.eirslett</groupId>
 						<artifactId>frontend-maven-plugin</artifactId>
@@ -220,7 +218,7 @@
 							<execution>
 								<id>npm-install</id>
 								<goals>
-									<goal>yarn</goal>
+									<goal>npm</goal>
 								</goals>
 								<phase>generate-resources</phase>
 								<configuration>
@@ -230,11 +228,11 @@
 							<execution>
 								<id>build</id>
 								<goals>
-									<goal>yarn</goal>
+									<goal>npm</goal>
 								</goals>
 								<phase>generate-resources</phase>
 								<configuration>
-									<arguments>build:app</arguments>
+									<arguments>run-script build</arguments>
 								</configuration>
 							</execution>
 						</executions>

@@ -6,7 +6,6 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-
 public class UISteps extends CucumberGlue {
 
     @When("^set mapping from \"([^\"]*)\" to \"([^\"]*)\"$")
@@ -118,4 +117,8 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.deleteCurrent();
     }
 
+    @And("^reveal mapping details$")
+    public void revealMappingDetails() throws Throwable {
+       atlasmapPage.clickOnLinkByClass(".fa.fa-edit.link");
+    }
 }

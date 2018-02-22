@@ -24,6 +24,7 @@ public class AtlasmapPage {
     public void openBrowser() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "/Users/mmelko/Downloads/chromedriver");
         System.setProperty("selenide.browser", "Chrome");
+        System.setProperty("window-size","1920,1080");
 
         open(Constants.UI_INDEX_PATH);
         $("#SourceMappingTestClass").shouldBe(Condition.appear);
@@ -83,6 +84,9 @@ public class AtlasmapPage {
         $((".fa.fa-plus.link")).click();
     }
 
+    public void clickOnLinkByClass(String classSelector) {
+        $(classSelector).click();
+    }
     public  void deleteCurrent() throws InterruptedException {
         $((".fa.fa-trash.link")).click();
         Thread.sleep(10100);

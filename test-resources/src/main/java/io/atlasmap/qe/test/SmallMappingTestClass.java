@@ -23,6 +23,18 @@ public class SmallMappingTestClass implements Serializable {
     private List<Double> listOfDoubles;
 
     @Override
+    public String toString() {
+        return "SmallMappingTestClass{" +
+                "objectField1='" + objectField1 + '\'' +
+                ", objectField2='" + objectField2 + '\'' +
+                ", objectLong=" + objectLong +
+                ", listOfStrings=" + listOfStrings +
+                ", listOfIntegers=" + listOfIntegers +
+                ", listOfDoubles=" + listOfDoubles +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

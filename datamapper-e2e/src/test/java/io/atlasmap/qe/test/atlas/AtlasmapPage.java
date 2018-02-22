@@ -22,7 +22,6 @@ public class AtlasmapPage {
 
 
     public void openBrowser() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "/Users/mmelko/Downloads/chromedriver");
         System.setProperty("selenide.browser", "Chrome");
         System.setProperty("window-size","1920,1080");
 

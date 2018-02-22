@@ -40,7 +40,7 @@ public class MappingValidator {
     public TargetMappingTestClass processMapping(SourceMappingTestClass input) throws Exception {
         sourceMap = new HashMap<>();
         sourceMap.put(input.getClass().getName(), input);
-        Map<String, Object> targetMap = processMapping(sourceMap);
+        Map<String, Object> targetMap = processMappingInputMap(sourceMap);
         return (TargetMappingTestClass) targetMap.get("io.atlasmap.qe.test.TargetMappingTestClass");
     }
 
@@ -48,8 +48,15 @@ public class MappingValidator {
         return processMapping(this.source);
     }
 
+    public Object processSingleObjectMapping(Object input,String expected) throws Exception {
+        Map<String,Object> sourceMap = new HashMap<>();
+        sourceMap.put(input.getClass().getName(),input);
+        Map<String,Object> processed = processMappingInputMap(sourceMap);
 
-    public Map<String,Object> processMapping(Map<String, Object> input) throws Exception {
+        return processed.get(expected);
+    }
+
+    public Map<String,Object> processMappingInputMap(Map<String, Object> input) throws Exception {
         CamelContext context = new DefaultCamelContext();
         context.addComponent("atlas", new AtlasComponent());
         context.addRoutes(new RouteBuilder() {
@@ -77,6 +84,8 @@ public class MappingValidator {
         return targetMap;
     }
 
+
+
     public boolean verifyMapping(SourceMappingTestClass source, TargetMappingTestClass target, boolean equals) throws Exception {
         TargetMappingTestClass processedTarget = processMapping(source);
         LOG.info("source: " + source);
@@ -100,25 +109,30 @@ public class MappingValidator {
     }
 
     public boolean verifyMultiObjectMapping(Map<String,Object> input) throws Exception {
-        Map<String,Object> target = processMapping(input);
-        Assert.assertTrue(target.size()>0);
-        if (target.isEmpty()) {
+      return verifyMappingInputExpected(input,this.expectedMap);
+    }
+
+    public boolean verifyMappingInputExpected(Map<String,Object> input,Map<String,Object> expected) throws Exception {
+        Map<String,Object> processed = processMappingInputMap(input);
+        Assert.assertTrue(processed.size()>0);
+        if (processed.isEmpty()) {
             return false;
         }
 
-        expectedMap.forEach((k, v) -> {
-           Object actual = target.get(k);
+        expected.forEach((k, v) -> {
+            Object actual = processed.get(k);
             LOG.info("looking for key: " + k);
             LOG.info("actual" + actual);
             LOG.info("expected" + v);
             Assert.assertEquals(v,actual);
 
         });
-        this.sourceMap = new HashMap<>();
-        this.expectedMap = new HashMap<>();
+        input = new HashMap<>();
+        expected = new HashMap<>();
 
         return true;
     }
+
 
     public boolean verifyMapping() throws Exception {
         return this.verifyMapping(this.source, this.target, true);

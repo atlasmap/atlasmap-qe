@@ -1,6 +1,5 @@
 @Mappings
 @ComplexMappings
-
   Feature: Usage more complex mappings, between more than one source and targets.
 
     Background:  Given atlasmap contains TestClass

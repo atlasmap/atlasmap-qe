@@ -1,4 +1,5 @@
 @SmokeTests
+@Ignore
 Feature: Simple mappings creation and test framework verification
 
   Background:

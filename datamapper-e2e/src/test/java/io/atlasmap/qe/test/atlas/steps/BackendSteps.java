@@ -12,11 +12,12 @@ import cucumber.api.java.en.When;
 
 import io.atlasmap.qe.test.DatesObject;
 import io.atlasmap.qe.test.SmallMappingTestClass;
+import io.atlasmap.qe.test.SourceListsClass;
 import io.atlasmap.qe.test.StringObject;
-
+import io.atlasmap.qe.test.TargetListsClass;
 import io.atlasmap.qe.test.TargetMappingTestClass;
-import io.atlasmap.qe.test.atlas.utils.Utils;
 
+import io.atlasmap.qe.test.atlas.utils.Utils;
 
 public class BackendSteps extends CucumberGlue {
 
@@ -162,7 +163,6 @@ public class BackendSteps extends CucumberGlue {
     @Then("^save and verify mapping with multiple objects as \"([^\"]*)\"$")
     public void saveAndVerifyMappingWithMultipleObjectsAs(String arg0) throws Throwable {
         userSavesMappingAs(arg0);
-
         Assert.assertTrue(validator.verifyMultiObjectMapping());
     }
 
@@ -170,5 +170,21 @@ public class BackendSteps extends CucumberGlue {
     public void initSmallMappingTestClassAndAddToSourceMap() throws Throwable {
         final SmallMappingTestClass s = new SmallMappingTestClass();
         validator.addSource(s.getClass().getName(), s);
+    }
+
+    @Then("^save and verify repeating mapping of ListClasses as \"([^\"]*)\"$")
+    public void saveAndVerifyMappingOfListClassesAs(String mapping) throws Throwable {
+        userSavesMappingAs(mapping);
+
+        SourceListsClass slc = new SourceListsClass();
+        TargetListsClass tlc = (TargetListsClass) validator.processSingleObjectMapping(slc,TargetListsClass.class.getName());
+
+        for (int i =0;i<slc.getObjects().size();i++) {
+            final StringObject src = slc.getObjects().get(i);
+            final StringObject tgt = tlc.getObjects().get(i);
+
+            Assert.assertEquals(src.getFirstName(),tgt.getLastName());
+            Assert.assertEquals(src.getLastName(),tgt.getFirstName());
+        }
     }
 }

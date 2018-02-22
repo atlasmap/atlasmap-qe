@@ -95,6 +95,7 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                 "| targetShort=" + targetShort +
                 "| targetByte=" + targetByte +
                 "| targetChar=" + targetChar +
+                "| targetMappingTestClass=" + targetSmallMappingTestClass +
                 '}';
     }
 

@@ -29,6 +29,19 @@ jobs:
           key: atlasmap-e2e-qe-mvn-{{ checksum "pom.xml" }}
       - <<: *load_m2
       - run:
+          name: Checkout Atlasmap
+          command: |
+            git clone git@github.com:atlasmap/atlasmap.git
+      - run:
+          name: Build Rest
+          command: |
+            ./atlasmap/build  --batch-mode 
+      - run:
+          name: Build tests
+          command: |
+            ./mvnw clean install -B -DskipTests | tee build_log.txt
+      - run:
+      - run:
           name: Execute tests
           command: |
             ./mvnw clean test  -DskipBuild=true  -Dcucumber.options="--tags @SmokeTests" -Dselenide.headless=true -Dselenide.browser-size=1920x1080

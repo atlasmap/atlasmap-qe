@@ -31,7 +31,7 @@ jobs:
       - run:
           name: Execute tests
           command: |
-            mvn clean test  -DskipBuild=true  -Dcucumber.options="--tags @SmokeTests" -Dselenide.headless=true -Dselenide.browser-size=1920x1080
+            ./mvnw clean test  -DskipBuild=true  -Dcucumber.options="--tags @SmokeTests" -Dselenide.headless=true -Dselenide.browser-size=1920x1080
       - run:
           name: Store Cucumber report
           when: always

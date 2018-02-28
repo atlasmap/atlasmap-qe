@@ -22,7 +22,7 @@
         <selenium.version>3.7.1</selenium.version>
         <node.version>v8.9.1</node.version>
         <cucumber.version>2.1.0</cucumber.version>
-        <camel.version>2.21.0.fuse-000038</camel.version>
+        <camel.version>2.20.2</camel.version>
         <log4j.version>2.9.1</log4j.version>
         <httpcomponents.version>4.5.3</httpcomponents.version>
         <maven.compiler.source>1.8</maven.compiler.source>

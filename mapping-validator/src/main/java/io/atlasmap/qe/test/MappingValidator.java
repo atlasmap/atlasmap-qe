@@ -105,11 +105,15 @@ public class MappingValidator {
     public boolean verifyMultiObjectMapping() throws  Exception {
         this.sourceMap.put(this.source.getClass().getName(),this.source);
         this.expectedMap.put(this.target.getClass().getName(),this.target);
-        return verifyMultiObjectMapping(this.sourceMap);
+        final boolean res = verifyMultiObjectMapping(this.sourceMap);
+        this.clear();
+        return res;
     }
 
     public boolean verifyMultiObjectMapping(Map<String,Object> input) throws Exception {
-      return verifyMappingInputExpected(input,this.expectedMap);
+     final Boolean res = verifyMappingInputExpected(input,this.expectedMap);
+      clear();
+      return res;
     }
 
     public boolean verifyMappingInputExpected(Map<String,Object> input,Map<String,Object> expected) throws Exception {
@@ -127,9 +131,6 @@ public class MappingValidator {
             Assert.assertEquals(v,actual);
 
         });
-        input = new HashMap<>();
-        expected = new HashMap<>();
-
         return true;
     }
 
@@ -198,5 +199,12 @@ public class MappingValidator {
 
     public void addSource(String name, Object s) {
         this.sourceMap.put(name,s);
+    }
+
+    private void clear() {
+        this.sourceMap.clear();
+        this.expectedMap.clear();
+        this.source = new SourceMappingTestClass();
+        this.target = new TargetMappingTestClass();
     }
 }

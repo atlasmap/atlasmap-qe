@@ -33,7 +33,7 @@ Feature: conversion from Boolean
     When set mapping to "targetShort" from "sourceBoolean"
     Then check if no warnings are displayed
 
-    When set mapping to "targetChar" from "sourceBoolean"
+   # When set mapping to "targetChar" from "sourceBoolean"
    # Then check if no warnings are displayed
 
     When set mapping to "targetByte" from "sourceBoolean"
@@ -43,5 +43,7 @@ Feature: conversion from Boolean
     And set expected data
       | targetInteger | targetString | targetLong | targetDouble | targetFloat | targetBoolean | targetByte | targetShort |
       | 0             | false        | 0          | 0            | 0           | false         | 0          | 0           |
+
+
     And save and verify mapping as "fromDouble.xml"
 

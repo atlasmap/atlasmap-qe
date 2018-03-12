@@ -202,7 +202,7 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                 } else if (value instanceof Number) {
                     this.setTargetDate(new Date(((Number) value).longValue()));
                 } else {
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-hh");
                     this.setTargetDate(format.parse(value.toString()));
                 }
                 break;

@@ -5,12 +5,17 @@ import java.sql.Timestamp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
+
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Objects;
@@ -26,9 +31,18 @@ public class DatesObject {
     private LocalTime localTime;
     private Time time;
     private GregorianCalendar gregorianCalendar;
+    private Calendar calendar;
+
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
+    }
 
     public DatesObject() throws ParseException {
-        String date = "05-05-1989";
+        final String date = "05-05-1989";
         init(date);
     }
 
@@ -39,14 +53,17 @@ public class DatesObject {
     private void init(String date) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         this.standardJavaDate = formatter.parse(date);
-        this.sqlDate = new java.sql.Date(standardJavaDate.getTime());
-        this.timestamp = Timestamp.from(standardJavaDate.toInstant());
-        this.zonedDateTime = ZonedDateTime.ofInstant(standardJavaDate.toInstant(), ZoneId.systemDefault());
-        this.localDateTime = LocalDateTime.ofInstant(standardJavaDate.toInstant(), ZoneId.systemDefault());
-        this.localDate = LocalDate.of(1989, 5, 5);
-        this.localTime = LocalTime.now();
+        Instant i = this.standardJavaDate.toInstant();
+
+        this.sqlDate = new java.sql.Date(i.toEpochMilli());
+        this.timestamp = Timestamp.from(i);
+        this.zonedDateTime = ZonedDateTime.ofInstant(i, ZoneId.systemDefault());
+        this.localDateTime = LocalDateTime.ofInstant(i, ZoneId.systemDefault());
+        this.localDate = localDateTime.toLocalDate();
+        this.localTime = localDateTime.toLocalTime();
         this.time = Time.valueOf(localTime);
         this.gregorianCalendar = GregorianCalendar.from(this.zonedDateTime);
+        this.calendar = gregorianCalendar;
     }
 
     public Date getStandardJavaDate() {
@@ -146,5 +163,21 @@ public class DatesObject {
     public int hashCode() {
 
         return Objects.hash(standardJavaDate, sqlDate, timestamp, zonedDateTime, localDateTime, localDate, localTime, time, gregorianCalendar);
+    }
+
+    @Override
+    public String toString() {
+        return "DatesObject{" +
+                "standardJavaDate=" + standardJavaDate +
+                ", sqlDate=" + sqlDate +
+                ", timestamp=" + timestamp +
+                ", zonedDateTime=" + zonedDateTime +
+                ", localDateTime=" + localDateTime +
+                ", localDate=" + localDate +
+                ", localTime=" + localTime +
+                ", time=" + time +
+                ", gregorianCalendar=" + gregorianCalendar +
+                ", calendar=" + calendar +
+                '}';
     }
 }

@@ -24,6 +24,7 @@ public class BackendSteps extends CucumberGlue {
     @Given("^atlasmap is clean$")
     public void atlasmapIsClean() throws Exception {
         Utils.cleanMappingFolder();
+        //validator
     }
 
     @Given("^atlasmap contains TestClass$")
@@ -138,18 +139,6 @@ public class BackendSteps extends CucumberGlue {
         verifyMultipleValues(mapping, testValues, false);
     }
 
-    @And("^save and verify dates mapping as \"([^\"]*)\"$")
-    public void saveAndVerifyDatesMappingAs(String arg0) throws Throwable {
-        userSavesMappingAs(arg0);
-        TargetMappingTestClass t = validator.processMapping(validator.getSource());
-        DatesObject d = t.getDateObjectVariable();
-
-        System.out.println(" ====> " + d.getStandardJavaDate());
-        System.out.println(" ====> " + d.getSqlDate());
-        System.out.println(" ====> " + t.getTargetSmallMappingTestClass().getObjectField1());
-
-        Assert.assertTrue(validator.verifyMapping());
-    }
 
     @And("^Add StringObject to expected map with \"([^\"]*)\", \"([^\"]*)\" values$")
     public void addStringObjectToExpedtedMapWithAndValues(String arg0, String arg1) throws Throwable {
@@ -186,5 +175,60 @@ public class BackendSteps extends CucumberGlue {
             Assert.assertEquals(src.getFirstName(),tgt.getLastName());
             Assert.assertEquals(src.getLastName(),tgt.getFirstName());
         }
+    }
+
+    @And("^init DateObject \"([^\"]*)\"$")
+    public void initDateObject(String date) throws Throwable {
+        DatesObject d = new DatesObject(date);
+        System.out.println(d.toString());
+
+        this.validator.addSource(d.getClass().getName(),d);
+        System.out.println(this.validator.getSource(d.getClass().getName()));
+
+    }
+
+    @Then("^save and verify mapping from \"([^\"]*)\" to datetypes as \"([^\"]*)\"$")
+    public void saveAndVerifyMappingFromToDatetypesAs(String source, String mapping) throws Throwable {
+     //   Thread.sleep(00);
+        userSavesMappingAs(mapping);
+        TargetMappingTestClass t = (TargetMappingTestClass) validator.processMapping(TargetMappingTestClass.class.getName());
+        DatesObject d = t.getDateObjectVariable();
+        DatesObject sourceDate = (DatesObject)this.validator.getSource(DatesObject.class.getName());
+
+        System.out.println("=======TARGET DO:" + d);
+
+        Assert.assertEquals(sourceDate.getStandardJavaDate(),d.getStandardJavaDate());
+        Assert.assertEquals(sourceDate.getCalendar().getTimeInMillis(),d.getCalendar().getTimeInMillis());
+        Assert.assertEquals(sourceDate.getLocalDate(),d.getLocalDate());
+        Assert.assertEquals(sourceDate.getLocalDateTime(),d.getLocalDateTime());
+        Assert.assertEquals(sourceDate.getLocalTime(),d.getLocalTime());
+        Assert.assertEquals(sourceDate.getTime(),d.getTime());
+        Assert.assertEquals(sourceDate.getTimestamp(),d.getTimestamp());
+        Assert.assertEquals(sourceDate.getZonedDateTime(),d.getZonedDateTime());
+        Assert.assertEquals(sourceDate.getSqlDate(),d.getSqlDate());
+        Assert.assertEquals(sourceDate.getGregorianCalendar(),d.getGregorianCalendar());
+
+        Assert.assertTrue(validator.verifyMultiObjectMapping());
+    }
+
+    @Then("^save and verify datetypes mapping  as \"([^\"]*)\" and skip sql formats$")
+    public void saveAndVerifyDatetypesMappingAsAndSkipSqlFormats(String mapping) throws Throwable {
+     //   Thread.sleep(500);
+        userSavesMappingAs(mapping);
+        TargetMappingTestClass t = (TargetMappingTestClass) validator.processMapping(TargetMappingTestClass.class.getName());
+        DatesObject d = t.getDateObjectVariable();
+        DatesObject sourceDate = (DatesObject)this.validator.getSource(DatesObject.class.getName());
+
+
+        if (!mapping.contains("Time")) {
+            Assert.assertEquals(sourceDate.getLocalDate(), d.getLocalDate());
+            Assert.assertEquals(sourceDate.getStandardJavaDate(),d.getStandardJavaDate());
+            Assert.assertEquals(sourceDate.getCalendar().getTime(),d.getCalendar().getTime());
+        }
+        Assert.assertEquals(sourceDate.getLocalDateTime(),d.getLocalDateTime());
+        Assert.assertEquals(sourceDate.getLocalTime(),d.getLocalTime());
+        Assert.assertEquals(sourceDate.getZonedDateTime(),d.getZonedDateTime());
+        Assert.assertEquals(sourceDate.getGregorianCalendar(),d.getGregorianCalendar());
+        Assert.assertTrue(validator.verifyMultiObjectMapping());
     }
 }

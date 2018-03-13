@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@atlasmap/atlasmap.data.mapper": ">=1.33.0-SNAPSHOT.20180309140714"
+    "@atlasmap/atlasmap.data.mapper": ">=1.33.0-SNAPSHOT"
   },
   "peerDependencies": {
     "@angular/animations": "^5.2.0",

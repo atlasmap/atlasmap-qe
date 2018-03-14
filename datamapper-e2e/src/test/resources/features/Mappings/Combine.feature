@@ -28,7 +28,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
   Scenario: Mixed types combine , executed from Mapping Details window
     When click on "sourceString"
     And add select "Combine" action
-    When select "Colon" separator
+    When select "Space [ ]" separator
     And for "input-target-" id input set "targetCombineString"
 
 
@@ -53,20 +53,61 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 
     Then save and verify mapping as "ComplexCombine.xml"
 
-    # NOT IMPLEMENTED
-#    When select "Colon" separator
-#    And set source data
-#      | sourceString | sourceChar | sourceInteger | sourceFloat | sourceLong | sourceShort | sourceDouble |
-#      | numbers:     | 1          | 2             | 3           | 4          | 5           | 6            |
-#
-#    And set expected data
-#      | targetCombineString |
-#      | Combined: numbers::1:2:3.0:4:5:6.0:Thu Jan 01 01:00:00 CET 1970 |
-#
-#    Then save and verify mapping as "ComplexCombineColon.xml"
+    When select "Colon [:]" separator
+    And set source data
+      | sourceString | sourceChar | sourceInteger | sourceFloat | sourceLong | sourceShort | sourceDouble |
+      | numbers:     | 1          | 2             | 3           | 4          | 5           | 6            |
 
+    And set expected data
+      | targetCombineString |
+      | Combined: numbers::1:2:3.0:4:5:6.0:1970-01-01T00:00:00Z |
 
+    Then save and verify mapping as "ComplexCombineColon.xml"
 
+    When select "Ampersand [&]" separator
+    And set source data
+      | sourceString | sourceChar | sourceInteger | sourceFloat | sourceLong | sourceShort | sourceDouble |
+      | numbers:     | 1          | 2             | 3           | 4          | 5           | 6            |
+
+    And set expected data
+      | targetCombineString |
+      | Combined: numbers:&1&2&3.0&4&5&6.0&1970-01-01T00:00:00Z |
+
+    Then save and verify mapping as "ComplexCombineAmpersand.xml"
+
+    When select "At Sign [@]" separator
+    And set source data
+      | sourceString | sourceChar | sourceInteger | sourceFloat | sourceLong | sourceShort | sourceDouble |
+      | numbers:     | 1          | 2             | 3           | 4          | 5           | 6            |
+
+    And set expected data
+      | targetCombineString |
+      | Combined: numbers:@1@2@3.0@4@5@6.0@1970-01-01T00:00:00Z |
+
+    Then save and verify mapping as "ComplexCombineAtSign.xml"
+
+    When select "Backslash [\]" separator
+    And set source data
+      | sourceString | sourceChar | sourceInteger | sourceFloat | sourceLong | sourceShort | sourceDouble |
+      | numbers:     | 1          | 2             | 3           | 4          | 5           | 6            |
+
+    And set expected data
+      | targetCombineString |
+      | Combined: numbers:\1\2\3.0\4\5\6.0\1970-01-01T00:00:00Z |
+
+    Then save and verify mapping as "ComplexCombineBackslash.xml"
+
+    When select "Comma [,]" separator
+    And set source data
+      | sourceString | sourceChar | sourceInteger | sourceFloat | sourceLong | sourceShort | sourceDouble |
+      | numbers:     | 1          | 2             | 3           | 4          | 5           | 6            |
+
+    And set expected data
+      | targetCombineString |
+      | Combined: numbers:,1,2,3.0,4,5,6.0,1970-01-01T00:00:00Z |
+
+    Then save and verify mapping as "ComplexCombineColon.xml"
+    
 
   Scenario: Mixed types combine with mixed indexes , executed from Mapping Details window
     When click on "sourceString"

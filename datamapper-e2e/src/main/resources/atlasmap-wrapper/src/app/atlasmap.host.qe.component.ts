@@ -63,6 +63,7 @@ export class AtlasMapHostQEComponent implements OnInit {
             // if classPath is specified, maven call to resolve pom will be skipped
             this.configModel.initCfg.classPath = null;
                 this.addJavaDocument('io.atlasmap.qe.test.SourceMappingTestClass', true);
+                this.addJavaDocument('io.atlasmap.qe.test.DatesObject', true);
                 this.addJavaDocument('io.atlasmap.qe.test.SourceListsClass', true);
                 this.addJavaDocument('io.atlasmap.qe.test.SmallMappingTestClass', true);
                 this.addJavaDocument('io.atlasmap.qe.test.TargetMappingTestClass', false);

@@ -45,7 +45,7 @@ Feature: conversions from Char to all supported types
 
     And set expected data
       | targetChar | targetBoolean | targetByte |
-      | 5          | false         | 53         |
+      | 5          | true         | 53         |
 
     And save and verify mapping as "fromChar.xml"
 

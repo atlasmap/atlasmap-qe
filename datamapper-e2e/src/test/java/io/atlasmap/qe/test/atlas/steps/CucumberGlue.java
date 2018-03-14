@@ -26,7 +26,6 @@ public abstract class CucumberGlue {
 
     @BeforeClass
     public void beforeMethod() {
-        System.setProperty("webdriver.chrome.driver", "/Users/mmelko/Downloads/chromedriver");
         System.setProperty("selenide.browser", "Chrome");
     }
 }

@@ -35,6 +35,7 @@ public class MappingValidator {
         target = new TargetMappingTestClass();
         expectedMap = new HashMap<>();
         sourceMap = new HashMap<>();
+        sourceMap.put(source.getClass().getName(),source);
     }
 
     public TargetMappingTestClass processMapping(SourceMappingTestClass input) throws Exception {
@@ -56,7 +57,13 @@ public class MappingValidator {
         return processed.get(expected);
     }
 
-    public Map<String,Object> processMappingInputMap(Map<String, Object> input) throws Exception {
+    public Object processMapping(String expected) throws Exception {
+
+        Map<String,Object> processed = processMappingInputMap(sourceMap);
+        return processed.get(expected);
+    }
+
+    private Map<String,Object> processMappingInputMap(Map<String, Object> input) throws Exception {
         CamelContext context = new DefaultCamelContext();
         context.addComponent("atlas", new AtlasComponent());
         context.addRoutes(new RouteBuilder() {
@@ -182,6 +189,10 @@ public class MappingValidator {
 
     public SourceMappingTestClass getSource() {
         return source;
+    }
+
+    public Object getSource (String name) {
+        return this.sourceMap.get(name);
     }
 
     public void setSource(SourceMappingTestClass source) {

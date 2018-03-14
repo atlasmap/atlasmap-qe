@@ -121,4 +121,16 @@ public class UISteps extends CucumberGlue {
     public void revealMappingDetails() throws Throwable {
        atlasmapPage.clickOnLinkByClass(".fa.fa-edit.link");
     }
+
+    @When("^change transformation from \"([^\"]*)\" to \"([^\"]*)\"$")
+    public void changeTransformationFromTo(String defaultValue, String newValue) throws Throwable {
+       this.atlasmapPage.selectTransformation(newValue,defaultValue);
+    }
+
+    @And("^add mapping from \"([^\"]*)\" to \"([^\"]*)\"$")
+    public void addMappingFromTo(String from, String to) throws Throwable {
+        atlasmapPage.clickOnLinkByClass(".fa.fa-plus.link");
+       forIdInputSet("input-source-",from);
+       forIdInputSet("input-target-",to);
+    }
 }

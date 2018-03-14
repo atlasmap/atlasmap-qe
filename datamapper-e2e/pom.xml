@@ -124,6 +124,15 @@
 
 	</dependencies>
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources/atlasmap-wrapper
+				</directory>
+				<excludes>
+					<exclude>**/*</exclude>
+				</excludes>
+			</resource>
+		</resources>
 		<finalName>datamapperUIe2e</finalName>
 		<plugins>
 			<plugin>
@@ -135,13 +144,14 @@
 						<folder>${project.build.testOutputDirectory}</folder>
 					</folders>
 					<arguments>
-						<argument>--logging.level.io.atlasmap=DEBUG</argument>
+						<argument>--logging.level.io.atlasmap=debug</argument>
 						<argument>--logging.file=target/atlasmap-spring-boot.log</argument>
 					</arguments>
 					<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
 						-server -Xms256m -Xmx512m
 					</jvmArguments>
 				</configuration>
+
 			</plugin>
 			 <!--copy custom host app file-->
 
@@ -156,51 +166,6 @@
 			</activation>
 			<build>
 				<plugins>
-					<!--<plugin>-->
-						<!--<artifactId>maven-resources-plugin</artifactId>-->
-						<!--<version>3.0.2</version>-->
-						<!--<executions>-->
-							<!--&lt;!&ndash;<execution>&ndash;&gt;-->
-								<!--&lt;!&ndash;<id>copy-file</id>&ndash;&gt;-->
-								<!--&lt;!&ndash;&lt;!&ndash; here the phase you need &ndash;&gt;&ndash;&gt;-->
-								<!--&lt;!&ndash;<phase>process-sources</phase>&ndash;&gt;-->
-								<!--&lt;!&ndash;<goals>&ndash;&gt;-->
-									<!--&lt;!&ndash;<goal>copy-resources</goal>&ndash;&gt;-->
-								<!--&lt;!&ndash;</goals>&ndash;&gt;-->
-								<!--&lt;!&ndash;<configuration>&ndash;&gt;-->
-									<!--&lt;!&ndash;<outputDirectory>${atlasmap.ui.directory}/src/app/lib/atlasmap-data-mapper/components/</outputDirectory>&ndash;&gt;-->
-									<!--&lt;!&ndash;<resources>&ndash;&gt;-->
-										<!--&lt;!&ndash;<resource>&ndash;&gt;-->
-											<!--&lt;!&ndash;<directory>src/main/resources/</directory>&ndash;&gt;-->
-											<!--&lt;!&ndash;<includes>&ndash;&gt;-->
-												<!--&lt;!&ndash;data.mapper.example.host.component.ts&ndash;&gt;-->
-											<!--&lt;!&ndash;</includes>&ndash;&gt;-->
-											<!--&lt;!&ndash;<filtering>true</filtering>&ndash;&gt;-->
-										<!--&lt;!&ndash;</resource>&ndash;&gt;-->
-									<!--&lt;!&ndash;</resources>&ndash;&gt;-->
-								<!--&lt;!&ndash;</configuration>&ndash;&gt;-->
-							<!--&lt;!&ndash;</execution>&ndash;&gt;-->
-
-							<!--<execution>-->
-								<!--<id>copy-resources</id>-->
-								<!--&lt;!&ndash; here the phase you need &ndash;&gt;-->
-								<!--<phase>generate-resources</phase>-->
-								<!--<goals>-->
-									<!--<goal>copy-resources</goal>-->
-								<!--</goals>-->
-								<!--<configuration>-->
-									<!--<outputDirectory>target/dist</outputDirectory>-->
-									<!--<resources>-->
-										<!--<resource>-->
-											<!--<directory>${atlasmap.ui.directory}/dist</directory>-->
-											<!--<filtering>true</filtering>-->
-										<!--</resource>-->
-									<!--</resources>-->
-								<!--</configuration>-->
-							<!--</execution>-->
-						<!--</executions>-->
-
-					<!--</plugin>-->
 					<plugin>
 						<groupId>com.github.eirslett</groupId>
 						<artifactId>frontend-maven-plugin</artifactId>
@@ -216,23 +181,32 @@
 								<phase>process-sources</phase>
 							</execution>
 							<execution>
-								<id>npm-install</id>
+								<id>install yarn</id>
 								<goals>
-									<goal>npm</goal>
+									<goal>install-node-and-yarn</goal>
+								</goals>
+								<configuration>
+									<nodeVersion>${node.version}</nodeVersion>
+									<yarnVersion>${yarn.version}</yarnVersion>
+								</configuration>
+							</execution>
+
+							<execution>
+								<id>yarn-install</id>
+								<goals>
+									<goal>yarn</goal>
 								</goals>
 								<phase>generate-resources</phase>
-								<configuration>
-									<arguments>install</arguments>
-								</configuration>
+
 							</execution>
 							<execution>
 								<id>build</id>
 								<goals>
-									<goal>npm</goal>
+									<goal>yarn</goal>
 								</goals>
 								<phase>generate-resources</phase>
 								<configuration>
-									<arguments>run-script build</arguments>
+									<arguments>build</arguments>
 								</configuration>
 							</execution>
 						</executions>

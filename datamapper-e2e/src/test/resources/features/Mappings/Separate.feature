@@ -50,15 +50,40 @@ Feature: atlasmap is able to separate input to multiple fields
     And add "targetShort" to separate
     And add "targetDouble" to separate
 
-    And set expected data
-      | targetString | targetChar | targetInteger | targetFloat | targetLong | targetShort | targetDouble |
-      | numbers:     | A          | 2             | 3           | 4          | 5           | 6            |
+    Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.xml"
 
-    And set source data
-      | sourceCombineString |
-      | numbers: A 2 3.0 4 5 6.0 |
+    When select "Ampersand [&]" separator
+    Then save and verify separate mapping with "&" separator as "ComplexSeparateAmpersand.xml"
 
-    Then save and verify mapping as "ComplexSeparate.xml"
+    When select "At Sign [@]" separator
+    Then save and verify separate mapping with "@" separator as "ComplexSeparateAtSign.xml"
+
+    When select "Backslash [\]" separator
+    Then save and verify separate mapping with "\" separator as "ComplexSeparateBackslash.xml"
+
+    When select "Comma [,]" separator
+    Then save and verify separate mapping with "," separator as "ComplexSeparateComma.xml"
+
+    When select "Dash [-]" separator
+    Then save and verify separate mapping with "-" separator as "ComplexSeparateDash.xml"
+
+    When select "Equal [=]" separator
+    Then save and verify separate mapping with "=" separator as "ComplexSeparateEqual.xml"
+
+    When select "Hash [#]" separator
+    Then save and verify separate mapping with "#" separator as "ComplexSeparateHash.xml"
+
+    When select "Pipe [|]" separator
+    Then save and verify separate mapping with "|" separator as "ComplexSeparatePipe.xml"
+
+    When select "Semicolon [;]" separator
+    Then save and verify separate mapping with ";" separator as "ComplexSeparateSemicolon.xml"
+
+    When select "Slash [/]" separator
+    Then save and verify separate mapping with "/" separator as "ComplexSeparateSlash.xml"
+
+    When select "Underscore [_]" separator
+    Then save and verify separate mapping with "_" separator as "ComplexSeparatePipe.xml"
 
   Scenario: Mixed types separate, with mixed indexes executed from Mapping Details window
     When click on "sourceCombineString"

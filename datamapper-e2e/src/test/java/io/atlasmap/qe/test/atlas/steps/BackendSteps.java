@@ -231,4 +231,34 @@ public class BackendSteps extends CucumberGlue {
         Assert.assertEquals(sourceDate.getGregorianCalendar(),d.getGregorianCalendar());
         Assert.assertTrue(validator.verifyMultiObjectMapping());
     }
+
+    @Then("^save and verify combine mapping with \"([^\"]*)\" separator as \"([^\"]*)\"$")
+    public void saveAndVerifyCombineMappingWithSeparatorAs(String separator, String mapping) throws Throwable {
+        validator.getSource().setSourceChar('1');
+        validator.getSource().setSourceInteger(2);
+        validator.getSource().setSourceFloat(3);
+        validator.getSource().setSourceLong(4);
+        validator.getSource().setSourceShort((short) 5);
+        validator.getSource().setSourceDouble(6);
+
+        validator.getTarget().setTargetCombineString(String.format("Combined: sourceString%1$s1%1$s2%1$s3.0%1$s4%1$s5%1$s6.0%1$s1970-01-01T00:00:00Z",separator));
+        userSavesMappingAs(mapping);
+        Assert.assertTrue(validator.verifyMapping());
+
+    }
+
+    @Then("^save and verify separate mapping with \"([^\"]*)\" separator as \"([^\"]*)\"$")
+    public void saveAndVerifySeparateMappingWithSeparatorAs(String separator, String mapping) throws Throwable {
+        validator.getSource().setSourceCombineString(String.format("numbers:%1$sA%1$s2%1$s3.0%1$s4%1$s5%1$s6.0",separator));
+
+        validator.getTarget().setTargetChar('A');
+        validator.getTarget().setTargetString("numbers:");
+        validator.getTarget().setTargetInteger(2);
+        validator.getTarget().setTargetFloat(3);
+        validator.getTarget().setTargetLong(4);
+        validator.getTarget().setTargetShort((short) 5);
+        validator.getTarget().setTargetDouble(6);
+        userSavesMappingAs(mapping);
+        Assert.assertTrue(validator.verifyMapping());
+    }
 }

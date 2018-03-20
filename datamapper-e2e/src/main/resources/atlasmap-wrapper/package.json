@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@atlasmap/atlasmap.data.mapper": "^1.33.0-SNAPSHOT"
+    "@atlasmap/atlasmap.data.mapper": "~1.34.0-SNAPSHOT"
   },
   "peerDependencies": {
     "@angular/animations": "^5.2.x",

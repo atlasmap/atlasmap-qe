@@ -36,6 +36,7 @@ public class MappingValidator {
         expectedMap = new HashMap<>();
         sourceMap = new HashMap<>();
         sourceMap.put(source.getClass().getName(),source);
+        sourceMap.put(SourceListsClass.class.getName(),new SourceListsClass());
     }
 
     public TargetMappingTestClass processMapping(SourceMappingTestClass input) throws Exception {
@@ -58,7 +59,7 @@ public class MappingValidator {
     }
 
     public Object processMapping(String expected) throws Exception {
-
+        sourceMap.put(source.getClass().getName(),source);
         Map<String,Object> processed = processMappingInputMap(sourceMap);
         return processed.get(expected);
     }
@@ -94,7 +95,8 @@ public class MappingValidator {
 
 
     public boolean verifyMapping(SourceMappingTestClass source, TargetMappingTestClass target, boolean equals) throws Exception {
-        TargetMappingTestClass processedTarget = processMapping(source);
+        this.sourceMap.put(source.getClass().getName(),source);
+        TargetMappingTestClass processedTarget = (TargetMappingTestClass) processMapping(TargetMappingTestClass.class.getName());
         LOG.info("source: " + source);
         LOG.info("expected target: " + target);
         LOG.info("actual target: " + processedTarget);

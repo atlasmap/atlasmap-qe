@@ -144,7 +144,7 @@
 						<folder>${project.build.testOutputDirectory}</folder>
 					</folders>
 					<arguments>
-						<argument>--logging.level.io.atlasmap=debug</argument>
+						<argument>--logging.level.io.atlasmap=error</argument>
 						<argument>--logging.file=target/atlasmap-spring-boot.log</argument>
 					</arguments>
 					<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000

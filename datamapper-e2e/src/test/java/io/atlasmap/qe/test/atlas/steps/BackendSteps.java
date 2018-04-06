@@ -261,4 +261,33 @@ public class BackendSteps extends CucumberGlue {
         userSavesMappingAs(mapping);
         Assert.assertTrue(validator.verifyMapping());
     }
+
+    @And("^init SourceListClass and add in sourceMap$")
+    public void initSourceListClassAndAddInSourceMap() throws Throwable {
+        final SourceListsClass src = new SourceListsClass();
+        validator.addSource(src.getClass().getName(),src);
+    }
+
+    @Then("^save and verify that \"([^\"]*)\" contains \"([^\"]*)\" as \"([^\"]*)\"$")
+    public void saveAndVerifyThatContainsAs(String array, String var, String path) throws Throwable {
+      userSavesMappingAs(path);
+
+      TargetMappingTestClass target = (TargetMappingTestClass) validator.processMapping(TargetMappingTestClass.class.getName());
+      if ("listOfStrings".equals(array)) {
+          if(!var.contains("listOfIntegers")) {
+              Assert.assertTrue(target.getTargetSmallMappingTestClass().getListOfStrings().contains(var));
+          } else {
+              //listOfIntegers
+              for(int i=0;i<target.getTargetSmallMappingTestClass().getListOfIntegers().size();i++) {
+                  Assert.assertEquals(target.getTargetSmallMappingTestClass().getListOfIntegers().get(i).toString(),target.getTargetSmallMappingTestClass().getListOfStrings().get(i));
+              }
+          }
+      }
+      else if ("listOfIntegers".equals(array)) {
+          Assert.assertTrue(target.getTargetSmallMappingTestClass().getListOfIntegers().contains(Integer.valueOf(var)));
+      }
+      else {
+          Assert.fail("Unable to find field " +array);
+      }
+    }
 }

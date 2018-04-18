@@ -25,6 +25,9 @@ import {DocumentInitializationModel} from '@atlasmap/atlasmap.data.mapper';
 import { DataMapperAppComponent } from '@atlasmap/atlasmap.data.mapper';
 import { InspectionType } from '@atlasmap/atlasmap.data.mapper';
 import { DocumentType } from '@atlasmap/atlasmap.data.mapper';
+import {jsonResources} from './json.resources';
+import {xmlResources} from './xml.resources';
+
 
 
 @Component({
@@ -69,8 +72,13 @@ export class AtlasMapHostQEComponent implements OnInit {
                 this.addJavaDocument('io.atlasmap.qe.test.TargetMappingTestClass', false);
                 this.addJavaDocument('io.atlasmap.qe.test.StringObject', false);
                 this.addJavaDocument('io.atlasmap.qe.test.TargetListsClass', false);
-    
 
+                this.addJSONSchema("sourceJson",DocumentType.JSON,jsonResources.sourceSchema,true);
+                this.addJSONSchema("targetJson",DocumentType.JSON,jsonResources.sourceSchema,false);
+
+                this.addJSONSchema("targetXmlSchema",DocumentType.XML,xmlResources.targetXMLSchema,false);
+                this.addJSONSchema("sourceXmlSchema",DocumentType.XML,xmlResources.sourceXMLSchema,true);
+                
             this.initializationService.initialize();
     
             //save the mappings when the ui calls us back asking for save
@@ -94,4 +102,15 @@ export class AtlasMapHostQEComponent implements OnInit {
             model.isSource = isSource;
              this.configModel.addDocument(model);
         }
+
+        private addJSONSchema(name: string, type: DocumentType, source:string, isSource:boolean) {
+            const model: DocumentInitializationModel = new DocumentInitializationModel();
+            model.id = name;
+            model.type = type;
+            model.inspectionType = InspectionType.SCHEMA;
+            model.inspectionSource = source;
+            model.isSource = isSource;
+            this.configModel.addDocument(model);
+        }
+
     }

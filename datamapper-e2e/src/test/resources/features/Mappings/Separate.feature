@@ -22,21 +22,6 @@ Feature: atlasmap is able to separate input to multiple fields
 
     Then  save and verify mapping as "SimpleSeparate.xml"
 
-#    #COLON separator
-#    When select "Colon" separator
-#    And set "foo:bar" value in source's "sourceCombineString"
-#    And set "foo" value in target's "targetString"
-#    And set "bar" value in target's "targetAnotherString"
-#
-#    Then  save and verify mapping as "SimpleSeparateColon.xml"
-#    Comma separator
-#    When select "Comma" separator
-#    And set "foo,bar" value in source's "sourceCombineString"
-#    And set "foo" value in target's "targetString"
-#    And set "bar" value in target's "targetAnotherString"
-#
-#    Then  save and verify mapping as "SimpleSeparateComma.xml"
-
   Scenario: Mixed types separate , executed from Mapping Details window
     When click on "sourceCombineString"
     And add select "Separate" action

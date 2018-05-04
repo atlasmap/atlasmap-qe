@@ -290,4 +290,16 @@ public class BackendSteps extends CucumberGlue {
           Assert.fail("Unable to find field " +array);
       }
     }
-}
+
+    @Then("^save mapping as \"([^\"]*)\" and verify \"([^\"]*)\" with$")
+    public void saveAndVerifyMappingXmlJsonAsWith(String path ,String expected, DataTable values) throws Throwable {
+        userSavesMappingAs(path);
+        String result = (String) validator.processMapping(expected);
+        System.out.println(result);
+        for(String value:values.asList(String.class)) {
+            LOG.info("Checking " + value);
+            Assert.assertTrue(result.contains(value));
+        }
+
+
+}}

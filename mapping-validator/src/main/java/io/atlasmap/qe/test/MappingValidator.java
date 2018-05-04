@@ -17,6 +17,7 @@ import org.apache.camel.impl.DefaultMessage;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.junit.Assert;
 
 import io.atlasmap.qe.resources.ResourcesGenerator;
@@ -228,5 +229,7 @@ public class MappingValidator {
         sourceMap.put(SmallMappingTestClass.class.getName(), new SmallMappingTestClass());
         sourceMap.put(DatesObject.class.getName(), new DatesObject("22-12-2012"));
         sourceMap.put("sourceJson", ResourcesGenerator.getJsonInstance());
+        sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
+        sourceMap.put("sourceXmlSchema", ResourcesGenerator.getXmlSchemaInstance(null));
     }
 }

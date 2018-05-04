@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
+import io.atlasmap.qe.resources.ResourcesGenerator;
+
 /**
  * Created by mmelko on 30/10/2017.
  */
@@ -33,7 +35,7 @@ public class MappingTest {
         LOG.info(body);
     }
 
-    //    @Test
+    //@Test
     public void testMappingValidator() throws Exception {
         MappingValidator mv = new MappingValidator();
         mv.setMappingLocation("javaToJavaMapping.xml");
@@ -41,7 +43,7 @@ public class MappingTest {
         Assert.assertTrue(mv.verifyMapping());
     }
 
-    @Test
+   // @Test
     public void testJSonToJavaMapping() throws Exception {
         MappingValidator mv = new MappingValidator();
         Map<String, Object> input = new HashMap<>();
@@ -53,5 +55,36 @@ public class MappingTest {
         TargetMappingTestClass body = (TargetMappingTestClass) mv.processMapping(TargetMappingTestClass.class.getName());
         Assert.assertEquals(10000, body.getTargetInteger());
     }
+
+  //  @Test
+    public void testXmlToJavaMapping() throws Exception {
+        MappingValidator mv = new MappingValidator();
+        mv.setMappingLocation("flatXmlToJava.xml");
+        TargetMappingTestClass body = (TargetMappingTestClass) mv.processMapping(TargetMappingTestClass.class.getName());
+        Assert.assertEquals(300, body.getTargetInteger());
+    }
+
+ //   @Test
+    public void testXmlSchemaToJavaMapping() throws Exception {
+        MappingValidator mv = new MappingValidator();
+        mv.setMappingLocation("xmlSchemaToJava.xml");
+        mv.addSource("sourceXmlSchema", ResourcesGenerator.getXmlSchemaInstance(null));
+        TargetMappingTestClass body = (TargetMappingTestClass) mv.processMapping(TargetMappingTestClass.class.getName());
+        Assert.assertEquals(300, body.getTargetInteger());
+    }
+
+    @Test
+    public void testXmlSchemaToJsonMapping() throws Exception {
+        MappingValidator mv = new MappingValidator();
+        mv.setMappingLocation("xmlSchemaToJson.xml");
+        mv.addSource("sourceXmlSchema", ResourcesGenerator.getXmlSchemaInstance(null));
+        String body = (String) mv.processMapping("targetJson");
+        System.out.println(body);
+        //Assert.assertEquals(300, body.getTargetInteger());
+    }
+
+
+
 }
+
 

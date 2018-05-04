@@ -65,19 +65,20 @@ export class AtlasMapHostQEComponent implements OnInit {
             this.configModel.initCfg.classPathFetchTimeoutInMilliseconds = 30000;
             // if classPath is specified, maven call to resolve pom will be skipped
             this.configModel.initCfg.classPath = null;
-                this.addJavaDocument('io.atlasmap.qe.test.SourceMappingTestClass', true);
-                this.addJavaDocument('io.atlasmap.qe.test.DatesObject', true);
-                this.addJavaDocument('io.atlasmap.qe.test.SourceListsClass', true);
-                this.addJavaDocument('io.atlasmap.qe.test.SmallMappingTestClass', true);
-                this.addJavaDocument('io.atlasmap.qe.test.TargetMappingTestClass', false);
-                this.addJavaDocument('io.atlasmap.qe.test.StringObject', false);
-                this.addJavaDocument('io.atlasmap.qe.test.TargetListsClass', false);
+            this.addJavaDocument('io.atlasmap.qe.test.SourceMappingTestClass', true);
+            this.addJavaDocument('io.atlasmap.qe.test.DatesObject', true);
+            this.addJavaDocument('io.atlasmap.qe.test.SourceListsClass', true);
+            this.addJavaDocument('io.atlasmap.qe.test.SmallMappingTestClass', true);
+            this.addJavaDocument('io.atlasmap.qe.test.TargetMappingTestClass', false);
+            this.addJavaDocument('io.atlasmap.qe.test.StringObject', false);
+            this.addJavaDocument('io.atlasmap.qe.test.TargetListsClass', false);
 
-                this.addJSONSchema("sourceJson",DocumentType.JSON,jsonResources.sourceSchema,true);
-                this.addJSONSchema("targetJson",DocumentType.JSON,jsonResources.sourceSchema,false);
+            this.addTextDocument("sourceJson",DocumentType.JSON,InspectionType.SCHEMA,jsonResources.sourceSchema,true);
+            this.addTextDocument("targetJson",DocumentType.JSON,InspectionType.SCHEMA,jsonResources.targetSchema,false);
 
-                this.addJSONSchema("targetXmlSchema",DocumentType.XML,xmlResources.targetXMLSchema,false);
-                this.addJSONSchema("sourceXmlSchema",DocumentType.XML,xmlResources.sourceXMLSchema,true);
+            this.addTextDocument("targetXmlSchema",DocumentType.XML,InspectionType.SCHEMA,xmlResources.targetXMLSchema,false);
+            this.addTextDocument("sourceXmlInstance",DocumentType.XML,InspectionType.INSTANCE,xmlResources.sourceInstance,true);
+            this.addTextDocument("sourceXmlSchema",DocumentType.XML,InspectionType.SCHEMA,xmlResources.sourceXMLSchema,true);
                 
             this.initializationService.initialize();
     
@@ -103,11 +104,11 @@ export class AtlasMapHostQEComponent implements OnInit {
              this.configModel.addDocument(model);
         }
 
-        private addJSONSchema(name: string, type: DocumentType, source:string, isSource:boolean) {
+        private addTextDocument(name: string, type: DocumentType,inspectionType:InspectionType,  source:string, isSource:boolean) {
             const model: DocumentInitializationModel = new DocumentInitializationModel();
             model.id = name;
             model.type = type;
-            model.inspectionType = InspectionType.SCHEMA;
+            model.inspectionType = inspectionType;
             model.inspectionSource = source;
             model.isSource = isSource;
             this.configModel.addDocument(model);

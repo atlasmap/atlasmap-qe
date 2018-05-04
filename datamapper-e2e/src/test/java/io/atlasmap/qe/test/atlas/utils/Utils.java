@@ -33,7 +33,6 @@ public class Utils {
         newMapping.createNewFile();
 
         if (mapping.isFile()) {
-            LOG.info("File: " + mapping);
             Files.copy(mapping, newMapping);
         }
         return newMapping.getAbsolutePath();

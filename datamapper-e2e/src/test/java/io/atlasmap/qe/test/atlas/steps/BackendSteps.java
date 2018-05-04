@@ -180,10 +180,10 @@ public class BackendSteps extends CucumberGlue {
     @And("^init DateObject \"([^\"]*)\"$")
     public void initDateObject(String date) throws Throwable {
         DatesObject d = new DatesObject(date);
-        System.out.println(d.toString());
+       // System.out.println(d.toString());
 
         this.validator.addSource(d.getClass().getName(),d);
-        System.out.println(this.validator.getSource(d.getClass().getName()));
+        //System.out.println(this.validator.getSource(d.getClass().getName()));
 
     }
 
@@ -194,8 +194,6 @@ public class BackendSteps extends CucumberGlue {
         TargetMappingTestClass t = (TargetMappingTestClass) validator.processMapping(TargetMappingTestClass.class.getName());
         DatesObject d = t.getDateObjectVariable();
         DatesObject sourceDate = (DatesObject)this.validator.getSource(DatesObject.class.getName());
-
-        System.out.println("=======TARGET DO:" + d);
 
         Assert.assertEquals(sourceDate.getStandardJavaDate(),d.getStandardJavaDate());
         Assert.assertEquals(sourceDate.getCalendar().getTimeInMillis(),d.getCalendar().getTimeInMillis());
@@ -290,4 +288,16 @@ public class BackendSteps extends CucumberGlue {
           Assert.fail("Unable to find field " +array);
       }
     }
-}
+
+    @Then("^save mapping as \"([^\"]*)\" and verify \"([^\"]*)\" with$")
+    public void saveAndVerifyMappingXmlJsonAsWith(String path ,String expected, DataTable values) throws Throwable {
+        userSavesMappingAs(path);
+        String result = (String) validator.processMapping(expected);
+       // System.out.println(result);
+        for(String value:values.asList(String.class)) {
+            LOG.info("Checking " + value);
+            Assert.assertTrue(result.contains(value));
+        }
+
+
+}}

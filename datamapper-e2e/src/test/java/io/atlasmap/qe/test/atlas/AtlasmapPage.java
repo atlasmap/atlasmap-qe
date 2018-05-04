@@ -74,7 +74,7 @@ public class AtlasmapPage {
     }
 
     public void selectAction(String action) {
-        $("#select-action").selectOption(action);
+        $("#selectAction").selectOption(action);
     }
     public void selectSeparator(String action) {
         $("#select-separator").selectOption(action);

@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Objects;
+import java.util.TimeZone;
 
 public class DatesObject {
 
@@ -52,6 +53,7 @@ public class DatesObject {
 
     private void init(String date) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         this.standardJavaDate = formatter.parse(date);
         Instant i = this.standardJavaDate.toInstant();
 

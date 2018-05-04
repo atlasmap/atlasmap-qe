@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
+import java.util.TimeZone;
 
 /**
  * Created by mmelko on 26/10/2017.
@@ -63,6 +64,8 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         TargetMappingTestClass that = (TargetMappingTestClass) o;
         return targetInteger == that.targetInteger &&
                 targetLong == that.targetLong &&
@@ -74,7 +77,7 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                 targetChar == that.targetChar &&
                 Objects.equals(targetString, that.targetString) &&
                 Objects.equals(targetCombineString, that.targetCombineString) &&
-                Objects.equals(targetDate, that.targetDate) &&
+                Objects.equals(sdf.format(targetDate), sdf.format(that.targetDate)) &&
                 Objects.equals(targetAnotherString, that.targetAnotherString)
                 &&
                 Objects.equals(targetSmallMappingTestClass, that.targetSmallMappingTestClass);
@@ -203,6 +206,7 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                     this.setTargetDate(new Date(((Number) value).longValue()));
                 } else {
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-hh");
+                    format.setTimeZone(TimeZone.getTimeZone("UTC"));
                     this.setTargetDate(format.parse(value.toString()));
                 }
                 break;

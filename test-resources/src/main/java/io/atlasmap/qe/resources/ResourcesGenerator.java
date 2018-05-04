@@ -1,34 +1,8 @@
 package io.atlasmap.qe.resources;
 
-import java.io.IOException;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.schema.JsonSchema;
-
 public class ResourcesGenerator {
 
-    private static JsonSchema getJsonSchema(Class clazz) throws IOException {
-        org.codehaus.jackson.map.ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING, true);
-        JsonSchema schema = mapper.generateJsonSchema(clazz);
-        return schema;
-    }
-
     public static String getJsonInstance() {
-//        try {
-//            System.out.println(System.getProperty("user.dir")+"/sourceJson.json");
-//            Stream<String> stream = Files.lines(Paths.get( System.getProperty("user.dir")+"/test-resources/src/main/resources/sourceJson.json"));
-//            StringBuilder json= new StringBuilder();
-//           stream.forEach( s -> {
-//               json.append(s+"");
-//           });
-//           return  json.toString();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return "null";
-//    }
     return "{" +
             "\"sourceJsonString\": \"sourceJsonString\"," +
             "\"sourceJsonInteger\": 10," +

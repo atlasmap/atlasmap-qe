@@ -89,7 +89,6 @@ public class MappingValidator {
         input.forEach((k, v) -> {
             Message msg = new DefaultMessage(context);
             msg.setBody(v);
-            LOG.info("=====>" + k + " | " + v);
             atlasSourceMap.put(k, msg);
         });
 
@@ -103,9 +102,6 @@ public class MappingValidator {
     public boolean verifyMapping(SourceMappingTestClass source, TargetMappingTestClass target, boolean equals) throws Exception {
         this.sourceMap.put(source.getClass().getName(), source);
         TargetMappingTestClass processedTarget = (TargetMappingTestClass) processMapping(TargetMappingTestClass.class.getName());
-        LOG.info("source: " + source);
-        LOG.info("expected target: " + target);
-        LOG.info("actual target: " + processedTarget);
         LOG.info("cleaning");
 
         this.target = new TargetMappingTestClass();
@@ -140,11 +136,7 @@ public class MappingValidator {
 
         expected.forEach((k, v) -> {
             Object actual = processed.get(k);
-            LOG.info("looking for key: " + k);
-            LOG.info("actual" + actual);
-            LOG.info("expected" + v);
             Assert.assertEquals(v, actual);
-
         });
         return true;
     }

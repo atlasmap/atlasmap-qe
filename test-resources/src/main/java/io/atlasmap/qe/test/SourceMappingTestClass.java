@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by mmelko on 26/10/2017.
@@ -35,7 +36,13 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
         this.sourceShort = 5;
         this.sourceByte = Byte.MAX_VALUE;
         this.sourceChar = 'A';
-        this.sourceDate = new Date(0);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            this.sourceDate = sdf.parse("1970-01-01-00:00:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         this.sourceAnotherString = "sourceAnotherString";
         this.sourceBoolean = true;
 
@@ -217,7 +224,8 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
                 } else if (value instanceof Number) {
                     this.setSourceDate(new Date(((Number) value).longValue()));
                 } else {
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-hh");
+                    format.setTimeZone(TimeZone.getTimeZone("UTC"));
                     this.setSourceDate(format.parse(value.toString()));
                 }
                 break;

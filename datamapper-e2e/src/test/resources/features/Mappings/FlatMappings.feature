@@ -1,0 +1,99 @@
+@Mappings
+@FlatMappings
+
+Feature: flat mappings between primitives, objects, JSON,XML ..
+
+  Background:  Given atlasmap contains TestClass
+    And atlasmap is clean
+    And internal mapping is set to "false"
+    And browser is opened
+##
+  Scenario: mapping from JSON to Java
+    When set mapping from "sourceJsonInteger" to "targetInteger"
+    And set mapping from "sourceJsonString" to "targetString"
+    And set mapping from "sourceJsonShort" to "targetDouble"
+    And set mapping from "sourceJsonDouble" to "targetFloat"
+
+    And set expected data
+      | targetString     | targetInteger | targetDouble | targetFloat |
+      | sourceJsonString | 10            | -50          | 40.0        |
+
+    Then save and verify mapping as "flatJsonToJava.xml"
+
+  Scenario: mapping from JSON to JSON
+    When set mapping from "sourceJsonInteger" to "targetJsonInteger"
+    And set mapping from "sourceJsonString" to "targetJsonString"
+    And set mapping from "sourceJsonShort" to "targetJsonDouble"
+    And set mapping from "sourceJsonDouble" to "targetJsonFloat"
+
+    Then save mapping as "flatJavaToJSon.xml" and verify "targetJson" with
+      | "targetJsonInteger":10 | targetJsonString":"sourceJsonString" |
+
+  Scenario: mapping from Java to JSON
+    When add mapping from "sourceInteger" to "targetJsonInteger"
+    And add mapping from "sourceString" to "targetJsonString"
+    And add mapping from "sourceShort" to "targetJsonFloat"
+    And add mapping from "sourceInteger" to "targetJsonDouble"
+    Then save mapping as "flatJavaToJSon.xml" and verify "targetJson" with
+      | "targetJsonInteger":1 | "targetJsonDouble":1 |
+
+
+  Scenario: mapping from XML instance to Java
+    When add mapping from "/SourceXmlInstance/sourceXmlInteger" to "targetInteger"
+    And add mapping from "/SourceXmlInstance/sourceXmlString" to "targetString"
+    And add mapping from "/SourceXmlInstance/sourceXmlShort" to "targetDouble"
+    And add mapping from "/SourceXmlInstance/sourceXmlDouble" to "targetFloat"
+
+    And set expected data
+      | targetString | targetInteger | targetDouble | targetFloat |
+      | XmlString    | 300           | 500          | 100.1       |
+
+    Then save and verify mapping as "flatXmlToJava.xml"
+
+  Scenario: mapping from XML schema to Java
+    When add mapping from "/SourceXmlMappingSchema/sourceXmlInteger" to "targetInteger"
+    And add mapping from "/SourceXmlMappingSchema/sourceXmlString" to "targetString"
+    And add mapping from "/SourceXmlMappingSchema/sourceXmlShort" to "targetDouble"
+    And add mapping from "/SourceXmlMappingSchema/sourceXmlDouble" to "targetFloat"
+
+    And set expected data
+      | targetString | targetInteger | targetDouble | targetFloat |
+      | XmlString    | 300           | 500          | 100.1       |
+
+    Then save and verify mapping as "flatXmlToJava.xml"
+
+  Scenario:  mapping from XML to XML
+    When add mapping from "/SourceXmlInstance/sourceXmlInteger" to "/TargetXmlMappingTestClass/targetXmlInteger"
+    And add mapping from "/SourceXmlInstance/sourceXmlString" to "/TargetXmlMappingTestClass/targetXmlString"
+    And add mapping from "/SourceXmlInstance/sourceXmlShort" to "/TargetXmlMappingTestClass/targetXmlDouble"
+    And add mapping from "/SourceXmlInstance/sourceXmlDouble" to "/TargetXmlMappingTestClass/targetXmlFloat"
+
+    Then save mapping as "flatJavaToXmlSchema.xml" and verify "targetXmlSchema" with
+      | <targetXmlString>XmlString</targetXmlString> | <targetXmlInteger>300</ | <targetXmlDouble>500.0</targetXmlDouble> | <targetXmlFloat>100.1</ |
+
+  Scenario: mapping from Java to XML
+
+    When add mapping from "sourceInteger" to "/TargetXmlMappingTestClass/targetXmlInteger"
+    And add mapping from "sourceString" to "/TargetXmlMappingTestClass/targetXmlString"
+    And add mapping from "sourceShort" to "/TargetXmlMappingTestClass/targetXmlDouble"
+    And add mapping from "sourceDouble" to "/TargetXmlMappingTestClass/targetXmlFloat"
+
+    Then save mapping as "flatJavaToXmlSchema.xml" and verify "targetXmlSchema" with
+      | <targetXmlString>sourceString</targetXmlString> | <targetXmlInteger>1 | <targetXmlDouble>5.0</targetXmlDouble> |  |
+
+  Scenario: mapping from XML to JSON
+    When add mapping from "/SourceXmlMappingSchema/sourceXmlInteger" to "targetJsonInteger"
+    And add mapping from "/SourceXmlMappingSchema/sourceXmlString" to "targetJsonString"
+    And add mapping from "/SourceXmlMappingSchema/sourceXmlShort" to "targetJsonFloat"
+    And add mapping from "/SourceXmlMappingSchema/sourceXmlDouble" to "targetJsonDouble"
+    Then save mapping as "flatJavaToJSon.xml" and verify "targetJson" with
+      | "targetJsonInteger":300 | "targetJsonString":"XmlString" |
+
+  Scenario: mapping from JSON to XML
+    When add mapping from "sourceJsonInteger" to "/TargetXmlMappingTestClass/targetXmlInteger"
+    And add mapping from "sourceJsonString" to "/TargetXmlMappingTestClass/targetXmlString"
+    And add mapping from "sourceJsonShort" to "/TargetXmlMappingTestClass/targetXmlDouble"
+    And add mapping from "sourceJsonDouble" to "/TargetXmlMappingTestClass/targetXmlFloat"
+
+    Then save mapping as "flatJavaToXmlSchema.xml" and verify "targetXmlSchema" with
+      | <targetXmlString>sourceJsonString</targetXmlString> | <targetXmlInteger>10 | <targetXmlDouble>-50.0</targetXmlDouble> |  |

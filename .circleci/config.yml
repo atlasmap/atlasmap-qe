@@ -17,13 +17,22 @@ save_m2: &save_m2
     paths:
       - repository/io/atlasmap
 
+image_upgrade: &image_upgrade
+  run:
+    name: Upgrade image dependencies
+    command: |
+      curl https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+      sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+      sudo apt-get update
+      sudo apt-get -f upgrade google-chrome-stable
+
 jobs:
   build:
     <<: *job_defaults
     environment:
       <<: *common_env
-
     steps:
+      - <<: *image_upgrade
       - checkout
       - restore_cache:
           key: atlasmap-e2e-qe-mvn-{{ checksum "pom.xml" }}
@@ -31,7 +40,7 @@ jobs:
       - run:
           name: Checkout Atlasmap
           command: |
-            git clone git@github.com:atlasmap/atlasmap.git
+            git clone -b atlasmap-1.34.x git@github.com:atlasmap/atlasmap.git
       - run:
           name: Build atlasmap runtime
           command: |
@@ -40,13 +49,13 @@ jobs:
       - run:
           name: Execute tests
           command: |
-            ./mvnw clean test  -DskipBuild=true -Dselenide.headless=true -Dselenide.browser-size=1920x1080
+            ./mvnw clean test -Dselenide.headless=true -Dselenide.browser-size=1920x1080
       - run:
           name: Store Cucumber report
           when: always
           command: |
             mkdir -p ~/cucumber
-            cp -f datamapper-e2e/target/surefire-reports/TEST-io.atlasmap.qe.test.atlas.CucumberTest.xml ~/cucumber/ui.cucumber
+            cp -r datamapper-e2e/target/surefire-reports/TEST-io.atlasmap.qe.test.atlas.CucumberTest.xml ~/cucumber/ui.cucumber
       - store_artifacts:
           path: datamapper-e2e/target/cucumber
       - <<: *save_m2

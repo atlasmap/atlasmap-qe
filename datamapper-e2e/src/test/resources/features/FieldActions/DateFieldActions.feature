@@ -1,6 +1,5 @@
 @FieldActions
 @DateFieldActions
-@Ignore
 Feature: Date related field actions
 
   Background:
@@ -10,26 +9,26 @@ Feature: Date related field actions
     And internal mapping is set to "false"
 
   Scenario: Day of week transformation
-    When set mapping from "sourceDate" to "targetInteger"
-    And add click "Add Transformation" button
-    And change transformation from "AbsoluteValue" to "DayOfWeek"
-    And set "4" value in target's "targetInteger"
-    Then save and verify mapping as "dayOfWeek.xml"
-
-    When change transformation from "DayOfWeek" to "DayOfYear"
-    And set "1" value in target's "targetInteger"
-    Then save and verify mapping as "dayOfYear.xml"
+#    When set mapping from "sourceDate" to "targetInteger"
+#    And add click "Add Transformation" button
+#    And change transformation from "AbsoluteValue" to "DayOfWeek"
+#    And set "4" value in target's "targetInteger"
+#    Then save and verify mapping as "dayOfWeek.xml"
+#
+#    When change transformation from "DayOfWeek" to "DayOfYear"
+#    And set "1" value in target's "targetInteger"
+#    Then save and verify mapping as "dayOfYear.xml"
 
   Scenario:Add days transformation
     When set mapping from "sourceDate" to "targetDate"
     And add click "Add Transformation" button
     And for "input-days" input set "5"
-    And set "1970-01-06-01:00" value in target's "targetDate"
+    And set "1970-01-06-00:00" value in target's "targetDate"
     Then save and verify mapping as "addDays.xml"
 
     And change transformation from "AddDays" to "AddSeconds"
     And for "input-seconds" input set "86400"
-    And set "1970-01-02-01:00" value in target's "targetDate"
+    And set "1970-01-02-00:00" value in target's "targetDate"
     Then save and verify mapping as "addSeconds.xml"
 
   Scenario:Add days transformation

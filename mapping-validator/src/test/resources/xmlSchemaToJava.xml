@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AtlasMapping xmlns="http://atlasmap.io/v2" xmlns:ns2="http://atlasmap.io/java/v2" xmlns:ns3="http://atlasmap.io/xml/v2" xmlns:ns4="http://atlasmap.io/json/v2" name="UI.6558">
+    <DataSource id="io.atlasmap.qe.test.SourceMappingTestClass" uri="atlas:java:io.atlasmap.qe.test.SourceMappingTestClass?className=io.atlasmap.qe.test.SourceMappingTestClass" dataSourceType="Source"/>
+    <DataSource id="io.atlasmap.qe.test.DatesObject" uri="atlas:java:io.atlasmap.qe.test.DatesObject?className=io.atlasmap.qe.test.DatesObject" dataSourceType="Source"/>
+    <DataSource id="io.atlasmap.qe.test.SourceListsClass" uri="atlas:java:io.atlasmap.qe.test.SourceListsClass?className=io.atlasmap.qe.test.SourceListsClass" dataSourceType="Source"/>
+    <DataSource id="io.atlasmap.qe.test.SmallMappingTestClass" uri="atlas:java:io.atlasmap.qe.test.SmallMappingTestClass?className=io.atlasmap.qe.test.SmallMappingTestClass" dataSourceType="Source"/>
+    <DataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:JsonDataSource" id="sourceJson" uri="atlas:json:sourceJson" dataSourceType="Source"/>
+    <DataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns3:XmlDataSource" id="sourceXmlInstance" uri="atlas:xml:sourceXmlInstance" dataSourceType="Source">
+        <ns3:XmlNamespaces/>
+    </DataSource>
+    <DataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns3:XmlDataSource" id="sourceXmlSchema" uri="atlas:xml:sourceXmlSchema" dataSourceType="Source">
+        <ns3:XmlNamespaces/>
+    </DataSource>
+    <DataSource id="io.atlasmap.qe.test.TargetMappingTestClass" uri="atlas:java:io.atlasmap.qe.test.TargetMappingTestClass?className=io.atlasmap.qe.test.TargetMappingTestClass" dataSourceType="Target"/>
+    <DataSource id="io.atlasmap.qe.test.StringObject" uri="atlas:java:io.atlasmap.qe.test.StringObject?className=io.atlasmap.qe.test.StringObject" dataSourceType="Target"/>
+    <DataSource id="io.atlasmap.qe.test.TargetListsClass" uri="atlas:java:io.atlasmap.qe.test.TargetListsClass?className=io.atlasmap.qe.test.TargetListsClass" dataSourceType="Target"/>
+    <DataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns4:JsonDataSource" id="targetJson" uri="atlas:json:targetJson" dataSourceType="Target"/>
+    <DataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns3:XmlDataSource" id="targetXmlSchema" uri="atlas:xml:targetXmlSchema" dataSourceType="Target">
+        <ns3:XmlNamespaces/>
+    </DataSource>
+    <Mappings>
+        <Mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Mapping" id="mapping.683664" mappingType="Map">
+            <InputField xsi:type="ns3:XmlField" name="sourceXMLInteger" userCreated="false" docId="sourceXmlSchema" path="/SourceXmlMappingSchema/sourceXMLInteger" fieldType="Long"/>
+            <OutputField xsi:type="ns2:JavaField" name="targetInteger" docId="io.atlasmap.qe.test.TargetMappingTestClass" path="/targetInteger" fieldType="Integer"/>
+        </Mapping>
+        <Mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Mapping" id="mapping.579101" mappingType="Map">
+            <InputField xsi:type="ns3:XmlField" name="sourceXMLString" userCreated="false" docId="sourceXmlSchema" path="/SourceXmlMappingSchema/sourceXMLString" fieldType="String"/>
+            <OutputField xsi:type="ns2:JavaField" name="targetString" docId="io.atlasmap.qe.test.TargetMappingTestClass" path="/targetString" fieldType="String"/>
+        </Mapping>
+        <Mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Mapping" id="mapping.894471" mappingType="Map">
+            <InputField xsi:type="ns3:XmlField" name="sourceXMLShort" userCreated="false" docId="sourceXmlSchema" path="/SourceXmlMappingSchema/sourceXMLShort" fieldType="Integer"/>
+            <OutputField xsi:type="ns2:JavaField" name="targetDouble" docId="io.atlasmap.qe.test.TargetMappingTestClass" path="/targetDouble" fieldType="Double"/>
+        </Mapping>
+        <Mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Mapping" id="mapping.679921" mappingType="Map">
+            <InputField xsi:type="ns3:XmlField" name="sourceXMLDouble" userCreated="false" docId="sourceXmlSchema" path="/SourceXmlMappingSchema/sourceXMLDouble" fieldType="Double"/>
+            <OutputField xsi:type="ns2:JavaField" name="targetFloat" docId="io.atlasmap.qe.test.TargetMappingTestClass" path="/targetFloat" fieldType="Float"/>
+        </Mapping>
+    </Mappings>
+    <LookupTables/>
+    <Constants/>
+    <Properties/>
+</AtlasMapping>

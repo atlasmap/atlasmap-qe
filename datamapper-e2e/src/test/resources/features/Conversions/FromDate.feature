@@ -1,6 +1,5 @@
 @Conversions
 @FromDate
-@Ignore
 Feature: Cover all dates conversion
 
   Background:

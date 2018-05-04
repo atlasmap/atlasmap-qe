@@ -5,3 +5,7 @@
 **/*.iml
 **/*.cache
 **/.idea
+**/*.lock
+**/yarn-error.log
+**/package-lock.json
+**/.vscode

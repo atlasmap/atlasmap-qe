@@ -34,6 +34,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
 		<dependency>
@@ -144,7 +149,7 @@
 						<folder>${project.build.testOutputDirectory}</folder>
 					</folders>
 					<arguments>
-						<argument>--logging.level.io.atlasmap=error</argument>
+						<argument>--logging.level.io.atlasmap=DEBUG</argument>
 						<argument>--logging.file=target/atlasmap-spring-boot.log</argument>
 					</arguments>
 					<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000

@@ -15,9 +15,9 @@
     </modules>
     <properties>
         <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
-        <atlasmap.version>1.34.4</atlasmap.version>
+        <atlasmap.version>1.35-SNAPSHOT</atlasmap.version>
         <junit.version>4.12</junit.version>
-        <spring-boot.version>1.5.8.RELEASE</spring-boot.version>
+        <spring-boot.version>1.5.12.RELEASE</spring-boot.version>
         <selenide.version>4.10</selenide.version>
         <selenium.version>3.7.1</selenium.version>
         <node.version>v8.9.1</node.version>

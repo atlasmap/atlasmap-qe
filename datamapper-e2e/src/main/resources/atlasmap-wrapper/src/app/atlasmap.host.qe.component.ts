@@ -14,19 +14,20 @@
     limitations under the License.
 */
 
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { ConfigModel } from '@atlasmap/atlasmap.data.mapper';
-import { ChangeDetectorRef } from "@angular/core";
-import { ErrorHandlerService } from '@atlasmap/atlasmap.data.mapper';
-import { DocumentManagementService } from '@atlasmap/atlasmap.data.mapper';
-import { MappingManagementService } from '@atlasmap/atlasmap.data.mapper';
-import { InitializationService } from '@atlasmap/atlasmap.data.mapper';
-import { DocumentInitializationModel } from '@atlasmap/atlasmap.data.mapper';
-import { DataMapperAppComponent } from '@atlasmap/atlasmap.data.mapper';
-import { InspectionType } from '@atlasmap/atlasmap.data.mapper';
-import { DocumentType } from '@atlasmap/atlasmap.data.mapper';
-import { jsonResources } from "./json.resources";
-import { xmlResources } from "./xml.resources";
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { ConfigModel } from '@atlasmap/atlasmap-data-mapper';
+import { ChangeDetectorRef } from '@angular/core';
+import { ErrorHandlerService } from '@atlasmap/atlasmap-data-mapper';
+import { DocumentManagementService } from '@atlasmap/atlasmap-data-mapper';
+import { MappingManagementService } from '@atlasmap/atlasmap-data-mapper';
+import { InitializationService } from '@atlasmap/atlasmap-data-mapper';
+import { DocumentInitializationModel } from '@atlasmap/atlasmap-data-mapper';
+import { DataMapperAppComponent } from '@atlasmap/atlasmap-data-mapper';
+import { InspectionType } from '@atlasmap/atlasmap-data-mapper';
+import { DocumentType } from '@atlasmap/atlasmap-data-mapper';
+import { Subscription } from 'rxjs';
+import { jsonResources } from './json.resources';
+import { xmlResources } from './xml.resources';
 
 
 
@@ -39,10 +40,12 @@ import { xmlResources } from "./xml.resources";
 
 })
 
-export class AtlasMapHostQEComponent implements OnInit {
+export class AtlasMapHostQEComponent implements OnInit, OnDestroy {
 
     @ViewChild('dataMapperComponent')
     dataMapperComponent: DataMapperAppComponent;
+
+    private saveMappingSubscription: Subscription;
     configModel: ConfigModel;
 
     constructor(private initializationService: InitializationService) { }
@@ -58,6 +61,12 @@ export class AtlasMapHostQEComponent implements OnInit {
         this.configModel.initCfg.baseMappingServiceUrl = 'http://localhost:8585/v2/atlas/';
         //initialize data for our class path service call
         //note that quotes, newlines, and tabs are escaped
+
+        this.configModel.initCfg.xsrfHeaderName = 'ATLASMAP-XSRF-TOKEN';
+        this.configModel.initCfg.xsrfCookieName = 'ATLASMAP-XSRF-TOKEN';
+        this.configModel.initCfg.xsrfDefaultTokenValue = 'awesome';
+
+
         this.configModel.initCfg.pomPayload = InitializationService.createExamplePom();
         this.configModel.initCfg.classPathFetchTimeoutInMilliseconds = 30000;
         // if classPath is specified, maven call to resolve pom will be skipped
@@ -70,12 +79,12 @@ export class AtlasMapHostQEComponent implements OnInit {
         this.addJavaDocument('io.atlasmap.qe.test.StringObject', false);
         this.addJavaDocument('io.atlasmap.qe.test.TargetListsClass', false);
 
-        this.addTextDocument("sourceJson", DocumentType.JSON, InspectionType.SCHEMA, jsonResources.sourceSchema, true);
-        this.addTextDocument("targetJson", DocumentType.JSON, InspectionType.SCHEMA, jsonResources.targetSchema, false);
+        this.addTextDocument('sourceJson', DocumentType.JSON, InspectionType.SCHEMA, jsonResources.sourceSchema, true);
+        this.addTextDocument('targetJson', DocumentType.JSON, InspectionType.SCHEMA, jsonResources.targetSchema, false);
 
-        this.addTextDocument("targetXmlSchema", DocumentType.XML, InspectionType.SCHEMA, xmlResources.targetXMLSchema, false);
-        this.addTextDocument("sourceXmlInstance", DocumentType.XML, InspectionType.INSTANCE, xmlResources.sourceInstance, true);
-        this.addTextDocument("sourceXmlSchema", DocumentType.XML, InspectionType.SCHEMA, xmlResources.sourceXMLSchema, true);
+        this.addTextDocument('targetXmlSchema', DocumentType.XML, InspectionType.SCHEMA, xmlResources.targetXMLSchema, false);
+        this.addTextDocument('sourceXmlInstance', DocumentType.XML, InspectionType.INSTANCE, xmlResources.sourceInstance, true);
+        this.addTextDocument('sourceXmlSchema', DocumentType.XML, InspectionType.SCHEMA, xmlResources.sourceXMLSchema, true);
 
         this.initializationService.initialize();
 
@@ -111,4 +120,7 @@ export class AtlasMapHostQEComponent implements OnInit {
         this.configModel.addDocument(model);
     }
 
+    ngOnDestroy() {
+        this.saveMappingSubscription.unsubscribe();
+      }
 }

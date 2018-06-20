@@ -34,7 +34,7 @@ export const xmlResources = {
       </xs:element>
 </xs:schema>
     `,
-    
+
     sourceInstance: `<?xml version="1.0" encoding="UTF-8" ?><sourceXmlInstance>
         <sourceXmlBoolean>true</sourceXmlBoolean>
         <sourceXmlByte>A</sourceXmlByte>

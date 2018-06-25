@@ -69,7 +69,7 @@ Feature: atlasmap is able to separate input to multiple fields
 
     When select "Underscore [_]" separator
     Then save and verify separate mapping with "_" separator as "ComplexSeparatePipe.xml"
-
+#
   Scenario: Mixed types separate, with mixed indexes executed from Mapping Details window
     When click on "sourceCombineString"
     And add select "Separate" action
@@ -77,24 +77,17 @@ Feature: atlasmap is able to separate input to multiple fields
 
 
     And add "targetChar" to separate
-    And for "input-Index" input with "2" set "7"
-
     And add "targetInteger" to separate
-    And for "input-Index" input with "8" set "6"
-
     And add "targetFloat" to separate
-    And for "input-Index" input with "8" set "5"
-
     And add "targetLong" to separate
-    And for "input-Index" input with "8" set "4"
-
     And add "targetShort" to separate
-    And for "input-Index" input with "8" set "3"
-
     And add "targetDouble" to separate
-    And for "input-Index" input with "8" set "2"
-   # And sleep for "30000"
 
+    And for "input-target-targetChar" id input with "2" set "7"
+    And for "input-target-targetInteger" id input with "2" set "6"
+    And for "input-target-targetFloat" id input with "2" set "5"
+    And for "input-target-targetLong" id input with "2" set "4"
+    And for "input-target-targetShort" id input with "2" set "3"
 
     And set expected data
       | targetString | targetChar | targetInteger | targetFloat | targetLong | targetShort | targetDouble |

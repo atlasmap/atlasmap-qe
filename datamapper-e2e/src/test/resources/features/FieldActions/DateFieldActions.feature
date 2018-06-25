@@ -10,7 +10,7 @@ Feature: Date related field actions
 
   Scenario: Day of week transformation
 #    When set mapping from "sourceDate" to "targetInteger"
-#    And add click "Add Transformation" button
+#    And add click "Add Transformation" link
 #    And change transformation from "AbsoluteValue" to "DayOfWeek"
 #    And set "4" value in target's "targetInteger"
 #    Then save and verify mapping as "dayOfWeek.xml"
@@ -21,7 +21,7 @@ Feature: Date related field actions
 
   Scenario:Add days transformation
     When set mapping from "sourceDate" to "targetDate"
-    And add click "Add Transformation" button
+    And add click "Add Transformation" link
     And for "input-days" input set "5"
     And set "1970-01-06-00:00" value in target's "targetDate"
     Then save and verify mapping as "addDays.xml"
@@ -33,7 +33,7 @@ Feature: Date related field actions
 
   Scenario:Add days transformation
     When add mapping from "/localDateTime" to "/targetDate"
-    And add click "Add Transformation" button
+    And add click "Add Transformation" link
     And for "input-days" input set "5"
     And set "2012-12-26-00:00" value in target's "targetDate"
     And init DateObject "21-12-2012"
@@ -47,7 +47,7 @@ Feature: Date related field actions
 
   Scenario:Add days transformation
     When add mapping from "/timestamp" to "/targetDate"
-    And add click "Add Transformation" button
+    And add click "Add Transformation" link
     And for "input-days" input set "5"
     And set "2012-12-26-00:00" value in target's "targetDate"
     And init DateObject "21-12-2012"

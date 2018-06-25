@@ -8,7 +8,7 @@ Feature: conversion from string
     And browser is opened
     And internal mapping is set to "true"
     And set mapping from "sourceString" to "targetString"
-    And add click "Add Transformation" button
+    And add click "Add Transformation" link
 
 
     # APPEND

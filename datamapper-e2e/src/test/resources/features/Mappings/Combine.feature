@@ -33,15 +33,15 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     And for "input-target-" id input set "targetCombineString"
 
 
-    And add "sourceChar" to combine
-    And add "sourceInteger" to combine
-    And add "sourceFloat" to combine
-    And add "sourceLong" to combine
-    And add "sourceShort" to combine
-    And add "sourceDouble" to combine
-    And add "sourceDate" to combine
+    And add "/sourceChar" to combine
+    And add "/sourceInteger" to combine
+    And add "/sourceFloat" to combine
+    And add "/sourceLong" to combine
+    And add "/sourceShort" to combine
+    And add "/sourceDouble" to combine
+    And add "/sourceDate" to combine
 
-    And add click "Add Transformation" button
+    And add click "Add Transformation" link
     And select "Prepend" transformation
     And for "input-string" input set "Combined: "
 
@@ -91,33 +91,24 @@ Feature: atlasmap is able to combine multiple inputs into one filed
   Scenario: Mixed types combine with mixed indexes , executed from Mapping Details window
     When click on "sourceString"
     And add select "Combine" action
-    And for "input-target-" id input set "targetCombineString"
+    And for "input-target-" id input set "/targetCombineString"
+
+    And add "/sourceDouble" to combine
+    And add "/sourceInteger" to combine
+    And add "/sourceFloat" to combine
+    And add "/sourceLong" to combine
+    And add "/sourceShort" to combine
+    And add "/sourceChar" to combine
+    And add "/sourceDate" to combine
 
 
-    And add "sourceChar" to combine
-    And for "input-Index" input with "2" set "7"
-
-    And add "sourceInteger" to combine
-    And for "input-Index" input with "8" set "6"
-
-    And add "sourceFloat" to combine
-    And for "input-Index" input with "8" set "5"
-
-    And add "sourceLong" to combine
-    And for "input-Index" input with "8" set "4"
-
-    And add "sourceShort" to combine
-    And for "input-Index" input with "8" set "3"
-
-    And add "sourceDouble" to combine
-    And for "input-Index" input with "8" set "2"
-
-    And add "sourceDate" to combine
-    And for "input-Index" input with "8" set "8"
+    And for "input-source-sourceShort" id input with "6" set "3"
+    And for "input-source-sourceLong" id input with "6" set "4"
+    And for "input-source-sourceFloat" id input with "6" set "5"
 
 
 
-    And add click "Add Transformation" button
+    And add click "Add Transformation" link
     And select "Prepend" transformation
     And for "input-string" input set "Combined: "
     And set source data

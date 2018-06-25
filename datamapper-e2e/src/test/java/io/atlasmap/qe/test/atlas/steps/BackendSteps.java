@@ -203,7 +203,7 @@ public class BackendSteps extends CucumberGlue {
         Assert.assertEquals(sourceDate.getTime(),d.getTime());
         Assert.assertEquals(sourceDate.getTimestamp(),d.getTimestamp());
         Assert.assertEquals(sourceDate.getZonedDateTime(),d.getZonedDateTime());
-       // Assert.assertEquals(sourceDate.getSqlDate(),d.getSqlDate());
+        Assert.assertEquals(sourceDate.getSqlDate().toString(),d.getSqlDate().toString());
         Assert.assertEquals(sourceDate.getGregorianCalendar(),d.getGregorianCalendar());
 
         Assert.assertTrue(validator.verifyMultiObjectMapping());

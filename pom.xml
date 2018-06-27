@@ -21,7 +21,7 @@
         <selenide.version>4.10</selenide.version>
         <selenium.version>3.7.1</selenium.version>
         <node.version>v8.9.1</node.version>
-        <yarn.version>v1.5.1</yarn.version>
+        <yarn.version>v1.7.0</yarn.version>
         <cucumber.version>2.1.0</cucumber.version>
         <camel.version>2.21.0</camel.version>
         <log4j.version>2.9.1</log4j.version>

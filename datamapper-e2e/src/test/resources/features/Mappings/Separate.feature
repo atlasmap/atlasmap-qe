@@ -99,3 +99,16 @@ Feature: atlasmap is able to separate input to multiple fields
 
     Then save and verify mapping as "ComplexSeparateMixedIndexes.xml"
 
+  Scenario: Separate created with CMD holding
+    When click on "sourceCombineString"
+
+    And click on "targetString" holding cmd button
+    And click on "targetChar" holding cmd button
+    And click on "targetInteger" holding cmd button
+    And click on "targetFloat" holding cmd button
+    And click on "targetLong" holding cmd button
+    And click on "targetShort" holding cmd button
+    And click on "targetDouble" holding cmd button
+
+    Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.xml"
+

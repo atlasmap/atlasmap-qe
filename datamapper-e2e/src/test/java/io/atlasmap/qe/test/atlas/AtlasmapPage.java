@@ -8,13 +8,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 
+import io.atlasmap.qe.test.atlas.steps.CucumberGlue;
 import io.atlasmap.qe.test.atlas.utils.Constants;
-
-
 
 public class AtlasmapPage {
 
@@ -117,4 +118,24 @@ public class AtlasmapPage {
         $(".pull-right.btn.btn-primary").shouldBe(Condition.visible).isDisplayed();
         clickOnButtonByText("Remove");
     }
+
+    public void clickOnWhileHolding(String id, String cmd) {
+
+        SelenideElement e =  $(By.id(id)).shouldBe(Condition.visible);
+        System.out.println(e);
+        Keys k = Keys.LEFT_CONTROL;
+
+        if(CucumberGlue.isMac){
+            k = Keys.COMMAND;
+        }
+
+
+        new Actions(WebDriverRunner.getWebDriver())
+                .moveToElement(e)
+                .keyDown(k)
+                .click()
+                .keyUp(k)
+                .build()
+                .perform();
+        }
 }

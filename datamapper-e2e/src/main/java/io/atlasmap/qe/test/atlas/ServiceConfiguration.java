@@ -15,6 +15,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
+import io.atlasmap.api.AtlasException;
 import io.atlasmap.java.service.JavaService;
 import io.atlasmap.java.v2.MavenClasspathResponse;
 import io.atlasmap.json.service.JsonService;
@@ -45,7 +46,7 @@ public class ServiceConfiguration extends SpringBootServletInitializer {
     }
 
     @Bean
-    public AtlasService atlasService() {
+    public AtlasService atlasService()  throws AtlasException {
         return new AtlasService();
     }
 

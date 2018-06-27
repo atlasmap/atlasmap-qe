@@ -11,12 +11,12 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 import io.atlasmap.qe.test.DatesObject;
+import io.atlasmap.qe.test.MappingValidator;
 import io.atlasmap.qe.test.SmallMappingTestClass;
 import io.atlasmap.qe.test.SourceListsClass;
 import io.atlasmap.qe.test.StringObject;
 import io.atlasmap.qe.test.TargetListsClass;
 import io.atlasmap.qe.test.TargetMappingTestClass;
-
 import io.atlasmap.qe.test.atlas.utils.Utils;
 
 public class BackendSteps extends CucumberGlue {
@@ -24,7 +24,7 @@ public class BackendSteps extends CucumberGlue {
     @Given("^atlasmap is clean$")
     public void atlasmapIsClean() throws Exception {
         Utils.cleanMappingFolder();
-        //validator
+        validator = new MappingValidator();
     }
 
     @Given("^atlasmap contains TestClass$")

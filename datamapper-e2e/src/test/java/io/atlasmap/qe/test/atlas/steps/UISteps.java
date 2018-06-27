@@ -154,4 +154,8 @@ public class UISteps extends CucumberGlue {
       this.atlasmapPage.changeSelectValue(from,to);
     }
 
+    @When("^click on \"([^\"]*)\" holding cmd button$")
+    public void clickOnHoldingCmdButton(String id) throws Throwable {
+      this.atlasmapPage.clickOnWhileHolding(id,"cmd");
+    }
 }

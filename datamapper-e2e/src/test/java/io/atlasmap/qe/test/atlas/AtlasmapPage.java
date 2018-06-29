@@ -8,12 +8,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.interactions.Actions;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 
+import io.atlasmap.qe.test.atlas.steps.CucumberGlue;
 import io.atlasmap.qe.test.atlas.utils.Constants;
-
-
 
 public class AtlasmapPage {
 
@@ -40,7 +42,18 @@ public class AtlasmapPage {
         LOG.info("looking ...");
         $(".alert-warning").shouldBe(Condition.appears);
         for (String s : $$(".alert-warning").texts()) {
-            if (s.equals("Conversion from '"+fromType+"' to '"+toType+"' can cause "+exceptionType)) {
+            if (s.equals("Conversion from '" + fromType + "' to '" + toType + "' can cause " + exceptionType)) {
+                return true;
+            }
+        }
+        return  false;
+    }
+
+    public boolean checkWarningContainMessage(String containsMessage) {
+        LOG.info("looking ...");
+        $(".alert-warning").shouldBe(Condition.appears);
+        for (String s : $$(".alert-warning").texts()) {
+            if (s.contains(containsMessage)) {
                 return true;
             }
         }
@@ -60,12 +73,24 @@ public class AtlasmapPage {
         $$(By.tagName("select")).filter(Condition.exactValue(deafaultValue)).get(0).selectOption(transformation);
     }
 
+    public void changeSelectValue(String from, String to){
+        $$(By.tagName("select")).filter(Condition.exactValue(from)).get(0).selectOption(to);
+    }
+
     public void setInputValueByClass(String inputSelector, String inputValue) {
         $(By.className(inputSelector)).setValue(inputValue);
     }
 
+    public void setInputValueByIdAndDefaultValue(String inputSelector, String def, String inputValue){
+       SelenideElement e = $$(By.id(inputSelector)).filter(Condition.exactValue(def)).get(0);
+       e.clear();
+       e.setValue(inputValue);
+    }
+
     public void setInputValueByClassAndDefaultValue(String inputSelector, String def, String inputValue){
-        $$(By.className(inputSelector)).filter(Condition.exactValue(def)).get(0).setValue(inputValue);
+        SelenideElement e = $$(By.className(inputSelector)).filter(Condition.exactValue(def)).get(0);
+        e.clear();
+        e.setValue(inputValue);
     }
     public void setInputValueById(String inputId,String newValue) throws InterruptedException {
         $(By.id(inputId)).setValue(newValue);
@@ -93,4 +118,24 @@ public class AtlasmapPage {
         $(".pull-right.btn.btn-primary").shouldBe(Condition.visible).isDisplayed();
         clickOnButtonByText("Remove");
     }
+
+    public void clickOnWhileHolding(String id, String cmd) {
+
+        SelenideElement e =  $(By.id(id)).shouldBe(Condition.visible);
+        System.out.println(e);
+        Keys k = Keys.LEFT_CONTROL;
+
+        if(CucumberGlue.isMac){
+            k = Keys.COMMAND;
+        }
+
+
+        new Actions(WebDriverRunner.getWebDriver())
+                .moveToElement(e)
+                .keyDown(k)
+                .click()
+                .keyUp(k)
+                .build()
+                .perform();
+        }
 }

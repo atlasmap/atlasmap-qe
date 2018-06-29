@@ -1,8 +1,8 @@
 version: 2
 
 common_env: &common_env
-  MAVEN_OPTS: "-Xms512m -Xmx1536m"
-  JVM_OPTS: "-Xms512m -Xmx1536m -XX:+UseSerialGC -XX:MaxRAM=2g"
+  MAVEN_OPTS: "-Xms512m -Xmx4096m"
+  JVM_OPTS: "-Xms512m -Xmx496m -XX:+UseSerialGC -XX:MaxRAM=4g"
 
 job_default: &job_defaults
   docker:
@@ -41,7 +41,7 @@ jobs:
       - run:
           name: Checkout Atlasmap
           command: |
-            git clone -b atlasmap-1.34.x git@github.com:atlasmap/atlasmap.git
+            git clone git@github.com:atlasmap/atlasmap.git
       - run:
           name: Build atlasmap runtime
           command: |

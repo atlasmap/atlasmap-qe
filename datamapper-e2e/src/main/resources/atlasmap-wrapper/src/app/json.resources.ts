@@ -1,5 +1,5 @@
 export const jsonResources = {
-    sourceSchema: `{  
+    sourceSchema: `{
           "type" : "object",
  "properties" : {
           "sourceJsonString" : {
@@ -71,7 +71,7 @@ export const jsonResources = {
           "targetJsonString" : {
             "type" : "string"
           },
-  
+
           "targetJsonInteger" : {
             "type" : "integer"
           },

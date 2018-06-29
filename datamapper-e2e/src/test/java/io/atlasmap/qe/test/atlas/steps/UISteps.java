@@ -36,6 +36,11 @@ public class UISteps extends CucumberGlue {
         Assert.assertTrue(this.atlasmapPage.checkWarning(exceptionType, from, to));
     }
 
+    @And("^check if warning contains \"([^\"]*)\" message$")
+    public void checkIfWarningContainsMessage(String message) throws Throwable {
+        Assert.assertTrue(this.atlasmapPage.checkWarningContainMessage(message));
+    }
+
     @Then("^check if \"([^\"]*)\" warning from \"([^\"]*)\" to \"([^\"]*)\" is not displayed$")
     public void checkIfWarningFromToIsNotDisplayed(String exceptionType, String from, String to) {
         Assert.assertFalse(this.atlasmapPage.checkWarning(exceptionType, from, to));
@@ -132,5 +137,25 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.clickOnLinkByClass(".fa.fa-plus.link");
        forIdInputSet("input-source-",from);
        forIdInputSet("input-target-",to);
+    }
+
+    @And("^add click \"([^\"]*)\" link$")
+    public void addClickLink(String arg0) throws Throwable {
+        this.atlasmapPage.clickOnLinkByClass(".fa.fa-long-arrow-right");
+    }
+
+    @And("^for \"([^\"]*)\" id input with \"([^\"]*)\" set \"([^\"]*)\"$")
+    public void forIdInputWithSet(String id, String def, String value) throws Throwable {
+        this.atlasmapPage.setInputValueByIdAndDefaultValue(id,def,value);
+    }
+
+    @When("^change select from \"([^\"]*)\" to \"([^\"]*)\"$")
+    public void changeSelectFromTo(String from, String to) throws Throwable {
+      this.atlasmapPage.changeSelectValue(from,to);
+    }
+
+    @When("^click on \"([^\"]*)\" holding cmd button$")
+    public void clickOnHoldingCmdButton(String id) throws Throwable {
+      this.atlasmapPage.clickOnWhileHolding(id,"cmd");
     }
 }

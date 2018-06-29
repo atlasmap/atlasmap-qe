@@ -23,6 +23,7 @@ public abstract class CucumberGlue {
     protected static MappingValidator validator = new MappingValidator();
     protected static boolean internalMapping = true;
     protected static final Logger LOG = LogManager.getLogger(CucumberGlue.class);
+    public static boolean isMac = (System.getProperty("os.name").toLowerCase().indexOf("darwin") >=0);
 
     @BeforeClass
     public void beforeMethod() {

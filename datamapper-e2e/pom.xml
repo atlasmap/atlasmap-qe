@@ -126,6 +126,11 @@
 			<artifactId>selenium-remote-driver</artifactId>
 			<version>${selenium.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>25.1-jre</version>
+		</dependency>
 
 	</dependencies>
 	<build>
@@ -202,7 +207,16 @@
 									<goal>yarn</goal>
 								</goals>
 								<phase>generate-resources</phase>
-
+							</execution>
+							<execution>
+								<id>yarn-upgrade</id>
+								<goals>
+									<goal>yarn</goal>
+								</goals>
+								<configuration>
+									<arguments>upgrade @atlasmap/atlasmap-data-mapper@${atlasmap.ui.version}</arguments>
+								</configuration>
+								<phase>generate-resources</phase>
 							</execution>
 							<execution>
 								<id>build</id>

@@ -20,14 +20,13 @@ Feature: Simple mappings creation and test framework verification
   Scenario: Setting  source data for mapping verification.
     Given browser is opened
     When set source data
-      | sourceString | sourceCombineString | sourceInteger | sourceLong | sourceFloat | sourceDouble | sourceDate | sourceAnotherString |
-      | String1      | String2             | 10            | 20         | 30          | 40           | 1989-05-05 | AnotherSource       |
+      | sourceString | sourceCombineString | sourceInteger | sourceLong | sourceFloat | sourceDouble  | sourceAnotherString |
+      | String1      | String2             | 10            | 20         | 30          | 40            | AnotherSource       |
     And set mapping from "sourceInteger" to "targetInteger"
     And set mapping from "sourceLong" to "targetLong"
     And set mapping from "sourceDouble" to "targetDouble"
     And set mapping from "sourceFloat" to "targetFloat"
     And set mapping from "sourceString" to "targetString"
-    And set mapping from "sourceDate" to "targetDate"
     Then save mapping as "simpleMapping2.xml"
     And verify "simpleMapping2.xml"
 

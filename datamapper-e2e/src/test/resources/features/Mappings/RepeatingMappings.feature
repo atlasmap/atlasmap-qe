@@ -32,6 +32,7 @@ Feature: flat mappings between Collections ..
     And Init smallMappingTestClass and add to source map
     Then save and verify that "listOfStrings" contains "listOfIntegers" as "repetitive4.xml"
 
+    @SmokeTest
   Scenario: verify List<Object> to List<Object> mapping
     When click on "objects"
     And click on "firstName"

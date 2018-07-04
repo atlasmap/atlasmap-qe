@@ -94,14 +94,14 @@ Feature: atlasmap is able to separate input to multiple fields
       | numbers:     | A          | 2             | 3           | 4          | 5           | 6            |
 
     And set source data
-      | sourceCombineString |
+      | sourceCombineString      |
       | numbers: 6.0 5 4 3.0 2 A |
 
     Then save and verify mapping as "ComplexSeparateMixedIndexes.xml"
 
+  @SmokeTest
   Scenario: Separate created with CMD holding
     When click on "sourceCombineString"
-
     And click on "targetString" holding cmd button
     And click on "targetChar" holding cmd button
     And click on "targetInteger" holding cmd button
@@ -111,4 +111,30 @@ Feature: atlasmap is able to separate input to multiple fields
     And click on "targetDouble" holding cmd button
 
     Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.xml"
+
+
+  Scenario: Separate with Gaps
+    When click on "sourceCombineString"
+
+    And click on "targetInteger" holding cmd button
+    And click on "targetFloat" holding cmd button
+    And click on "targetLong" holding cmd button
+    And click on "targetDouble" holding cmd button
+
+    When select "Colon [:]" separator
+
+    And for "input-target-targetDouble" id input with "4" set "8"
+    And for "input-target-targetLong" id input with "3" set "6"
+    And for "input-target-targetFloat" id input with "2" set "4"
+    And for "input-target-targetInteger" id input with "1" set "2"
+
+    And set source data
+      | sourceCombineString |
+      | :2::4.0::6::8.0     |
+
+    And set expected data
+      | targetInteger | targetFloat | targetLong | targetDouble |
+      | 2             | 4           | 6          | 8            |
+
+    Then save and verify mapping as "ComplexSeparateCMD.xml"
 

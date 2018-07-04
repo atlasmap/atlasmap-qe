@@ -7,7 +7,8 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
     And atlasmap is clean
     And internal mapping is set to "false"
     And browser is opened
-##
+
+  @SmokeTest
   Scenario: mapping from JSON to Java
     When set mapping from "sourceJsonInteger" to "targetInteger"
     And set mapping from "sourceJsonString" to "targetString"
@@ -71,6 +72,7 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
     Then save mapping as "flatJavaToXmlSchema.xml" and verify "targetXmlSchema" with
       | <targetXmlString>XmlString</targetXmlString> | <targetXmlInteger>300</ | <targetXmlDouble>500.0</targetXmlDouble> | <targetXmlFloat>100.1</ |
 
+  @SmokeTest
   Scenario: mapping from Java to XML
 
     When add mapping from "sourceInteger" to "/TargetXmlMappingTestClass/targetXmlInteger"
@@ -81,6 +83,7 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
     Then save mapping as "flatJavaToXmlSchema.xml" and verify "targetXmlSchema" with
       | <targetXmlString>sourceString</targetXmlString> | <targetXmlInteger>1 | <targetXmlDouble>5.0</targetXmlDouble> |  |
 
+  @SmokeTest
   Scenario: mapping from XML to JSON
     When add mapping from "/SourceXmlMappingSchema/sourceXmlInteger" to "targetJsonInteger"
     And add mapping from "/SourceXmlMappingSchema/sourceXmlString" to "targetJsonString"

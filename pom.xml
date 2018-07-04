@@ -59,6 +59,10 @@
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2/</url>
         </repository>
+        <repository>
+            <id>redhat</id>
+            <url>http://maven.repository.redhat.com/earlyaccess/</url>
+        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>

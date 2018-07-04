@@ -1,5 +1,6 @@
 @Conversions
 @FromString
+@SmokeTest
 Feature: conversion from string
 
   Background:

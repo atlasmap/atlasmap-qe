@@ -1,10 +1,11 @@
-@SmokeTests
+@SmokeTest
 @Ignore
 Feature: Simple mappings creation and test framework verification
 
   Background:
     Given atlasmap contains TestClass
     And atlasmap is clean
+    And internal mapping is set to "true"
 
   Scenario: Few mapping are created, processed and verified.
     Given browser is opened

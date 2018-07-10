@@ -40,6 +40,7 @@
         <dependency>
             <groupId>io.atlasmap</groupId>
             <artifactId>camel-atlasmap</artifactId>
+            <version>${atlasmap.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

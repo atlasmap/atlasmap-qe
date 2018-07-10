@@ -121,6 +121,11 @@
 			<artifactId>selenium-remote-driver</artifactId>
 			<version>${selenium.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>25.1-jre</version>
+		</dependency>
 
 	</dependencies>
 	<build>

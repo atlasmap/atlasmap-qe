@@ -33,7 +33,6 @@ public class MappingValidator {
     private TargetMappingTestClass target;
     private Map<String, Object> expectedMap;
     private Map<String, Object> sourceMap;
-
     public MappingValidator() {
         source = new SourceMappingTestClass();
         target = new TargetMappingTestClass();
@@ -167,9 +166,14 @@ public class MappingValidator {
         source.setAndConvertValue(field, value);
     }
 
-    private Object getSourceValue(String field) {
+    public Object getSourceValue(String field) {
         return this.source.getValue(field);
     }
+
+    public Object getTargetValue(String field) {
+        return this.target.getValue(field);
+    }
+
 
     public TargetMappingTestClass getTarget() {
         return target;

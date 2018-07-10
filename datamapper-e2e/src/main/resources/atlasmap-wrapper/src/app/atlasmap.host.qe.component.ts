@@ -59,6 +59,8 @@ export class AtlasMapHostQEComponent implements OnInit, OnDestroy {
         this.configModel.initCfg.baseXMLInspectionServiceUrl = 'http://localhost:8585/v2/atlas/xml/';
         this.configModel.initCfg.baseJSONInspectionServiceUrl = 'http://localhost:8585/v2/atlas/json/';
         this.configModel.initCfg.baseMappingServiceUrl = 'http://localhost:8585/v2/atlas/';
+        this.configModel.initCfg.disableMappingPreviewMode = false;
+        
         //initialize data for our class path service call
         //note that quotes, newlines, and tabs are escaped
 

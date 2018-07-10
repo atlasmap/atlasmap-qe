@@ -50,7 +50,7 @@ jobs:
       - run:
           name: Execute tests
           command: |
-            ./mvnw clean test -Dselenide.headless=true -Dselenide.browser-size=1920x1080
+            ./mvnw clean test -Dselenide.headless=true -Dselenide.browser-size=1920x1080 -Dcucumber.options='--tags @SmokeTest'
       - run:
           name: Store Cucumber report
           when: always

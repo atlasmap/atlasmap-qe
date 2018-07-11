@@ -25,8 +25,4 @@ public abstract class CucumberGlue {
     protected static final Logger LOG = LogManager.getLogger(CucumberGlue.class);
     public static boolean isMac = (System.getProperty("os.name").toLowerCase().indexOf("mac") >=0);
 
-    @BeforeClass
-    public void beforeMethod() {
-        System.setProperty("selenide.browser", "Chrome");
-    }
 }

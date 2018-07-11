@@ -25,7 +25,6 @@ public class AtlasmapPage {
 
 
     public void openBrowser() throws InterruptedException {
-        System.setProperty("selenide.browser", "Chrome");
         System.setProperty("window-size", "1920,1080");
         System.setProperty("selenide.chrome.switches", "--disable-web-security");
 

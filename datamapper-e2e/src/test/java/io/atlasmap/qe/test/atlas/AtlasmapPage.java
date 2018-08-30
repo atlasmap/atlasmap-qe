@@ -60,6 +60,17 @@ public class AtlasmapPage {
         return false;
     }
 
+    public boolean checkDangerWarningContainMessage(String containsMessage) {
+        LOG.info("looking ...");
+        $(".alert-danger").shouldBe(Condition.appears);
+        for (String s : $$(".alert-danger").texts()) {
+            if (s.contains(containsMessage)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void checkWarnings() {
         LOG.info("looking ...");
         $(".alert-warning").shouldNot(Condition.appears);

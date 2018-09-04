@@ -2,6 +2,7 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import java.util.Map;
 
+import cucumber.api.PendingException;
 import org.junit.Assert;
 
 import cucumber.api.DataTable;
@@ -219,5 +220,10 @@ public class UISteps extends CucumberGlue {
         String preview = this.atlasmapPage.getFieldPreviewValue(targetField);
         Assert.assertEquals(targetValue, preview);
         UISteps.previousSelected = transformation;
+    }
+
+    @And("^check if danger warning contains \"([^\"]*)\" message$")
+    public void checkIfDangerWarningContainsMessage(String message) throws Throwable {
+       Assert.assertTrue(this.atlasmapPage.checkDangerWarningContainMessage(message));
     }
 }

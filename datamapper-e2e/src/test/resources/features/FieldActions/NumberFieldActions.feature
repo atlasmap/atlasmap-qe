@@ -57,7 +57,7 @@ Feature: number related field actions
 
     # meter to meter
     When change select from "Square Foot" to "Square Meter"
-    And check if warning contains "select differing 'from' and 'to' units in your conversion transformation." message
+    And check if danger warning contains "select differing 'from' and 'to' units in your conversion transformation." message
 
     Then save and verify "Area3.xml" with
       | sourceDouble | targetDouble |
@@ -75,7 +75,7 @@ Feature: number related field actions
 
     #foot to foot
     When change select from "Square Meter" to "Square Foot"
-    And check if warning contains "select differing 'from' and 'to' units in your conversion transformation." message
+    And check if danger warning contains "select differing 'from' and 'to' units in your conversion transformation." message
     Then save and verify "Area6.xml" with
       | sourceDouble | targetDouble |
       | 5            | 5            |
@@ -87,7 +87,7 @@ Feature: number related field actions
 
     #mile to mile
     When change select from "Square Foot" to "Square Mile"
-    And check if warning contains "select differing 'from' and 'to' units in your conversion transformation." message
+    And check if danger warning contains "select differing 'from' and 'to' units in your conversion transformation." message
     Then save and verify "Area8.xml" with
       | sourceDouble | targetDouble |
       | 5            | 5            |
@@ -247,7 +247,7 @@ Scenario: Convert Distance unit - from Foot
       | 1            | 264.17205236 |
 
     When change select from "Gallon (US Fluid)" to "Cubic Meter"
-    And check if warning contains "select differing 'from' and 'to' units in your conversion transformation." message
+    And check if danger warning contains "select differing 'from' and 'to' units in your conversion transformation." message
     Then save and verify "Volume4.xml" with
       | sourceDouble | targetDouble |
       | 1            | 1            |
@@ -272,7 +272,7 @@ Scenario: Convert Distance unit - from Foot
       | 264.17205236 | 1            |
 
     When change select from "Cubic Meter" to "Gallon (US Fluid)"
-    And check if warning contains "select differing 'from' and 'to' units in your conversion transformation." message
+    And check if danger warning contains "select differing 'from' and 'to' units in your conversion transformation." message
     Then save and verify "Volume8.xml" with
       | sourceDouble | targetDouble |
       | 1            | 1            |
@@ -297,7 +297,7 @@ Scenario: Convert Distance unit - from Foot
       | 35.31466672148859 | 1            |
 
     When change select from "Cubic Meter" to "Cubic Foot"
-    And check if warning contains "select differing 'from' and 'to' units in your conversion transformation." message
+    And check if danger warning contains "select differing 'from' and 'to' units in your conversion transformation." message
     Then save and verify "Volume12.xml" with
       | sourceDouble | targetDouble |
       | 1            | 1            |
@@ -325,7 +325,7 @@ Scenario: Convert Distance unit - from Foot
       | 3.785411783973468 | 1            |
 
     When change select from "Gallon (US Fluid)" to "Liter"
-    And check if warning contains "select differing 'from' and 'to' units in your conversion transformation." message
+    And check if danger warning contains "select differing 'from' and 'to' units in your conversion transformation." message
     Then save and verify "Volume16.xml" with
       | sourceDouble | targetDouble |
       | 1            | 1            |

@@ -2,10 +2,12 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import java.util.Map;
 
-import cucumber.api.PendingException;
 import org.junit.Assert;
 
+import com.codeborne.selenide.WebDriverRunner;
+
 import cucumber.api.DataTable;
+import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -145,33 +147,34 @@ public class UISteps extends CucumberGlue {
     }
 
     @And("^add click \"([^\"]*)\" link$")
-    public void addClickLink(String arg0) throws Throwable {
+    public void addClickLink(String arg0) {
         this.atlasmapPage.clickOnLinkByClass(".fa.fa-long-arrow-right");
     }
 
     @And("^for \"([^\"]*)\" id input with \"([^\"]*)\" set \"([^\"]*)\"$")
-    public void forIdInputWithSet(String id, String def, String value) throws Throwable {
+    public void forIdInputWithSet(String id, String def, String value) {
         this.atlasmapPage.setInputValueByIdAndDefaultValue(id, def, value);
     }
 
     @When("^change select from \"([^\"]*)\" to \"([^\"]*)\"$")
-    public void changeSelectFromTo(String from, String to) throws Throwable {
+    public void changeSelectFromTo(String from, String to) {
         this.atlasmapPage.changeSelectValue(from, to);
     }
 
     @When("^click on \"([^\"]*)\" holding cmd button$")
-    public void clickOnHoldingCmdButton(String id) throws Throwable {
+    public void clickOnHoldingCmdButton(String id) {
         this.atlasmapPage.clickOnWhileHolding(id, "cmd");
     }
 
     @And("^drag \"([^\"]*)\" and drop on \"([^\"]*)\"$")
-    public void dragAndDropOn(String drag, String drop) throws Throwable {
+    public void dragAndDropOn(String drag, String drop) {
         this.atlasmapPage.dragNDrop(drag, drop);
     }
 
     @And("^Show mapping preview$")
     public void showMappingPreview() {
-        this.atlasmapPage.clickOnLinkByClass(".fa.fa-cog.link.selected");
+
+        this.atlasmapPage.clickOnLinkByClass(".fa.fa-cog.link");
         this.atlasmapPage.clickOnElementByText("a", "Show Mapping Preview ");
     }
 
@@ -225,5 +228,14 @@ public class UISteps extends CucumberGlue {
     @And("^check if danger warning contains \"([^\"]*)\" message$")
     public void checkIfDangerWarningContainsMessage(String message) throws Throwable {
        Assert.assertTrue(this.atlasmapPage.checkDangerWarningContainMessage(message));
+    }
+
+    @And("^add transformation on target$")
+    public void addTransformationOnTarget() {
+        this.atlasmapPage.clickOnTargets(".fa.fa-long-arrow-right");
+    }
+    @After
+    public void closeDriver() {
+        WebDriverRunner.closeWebDriver();
     }
 }

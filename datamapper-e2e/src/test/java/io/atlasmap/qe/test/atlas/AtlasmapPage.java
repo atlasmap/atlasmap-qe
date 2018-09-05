@@ -185,4 +185,10 @@ public class AtlasmapPage {
     public String getFieldPreviewValue(String field) {
         return $(By.id(field)).$("textarea").getValue();
     }
+
+    public void clickOnTargets(String classSelector) {
+        System.out.println("Class selector " + classSelector);
+        SelenideElement e = $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\"false\"]")).waitUntil(Condition.visible, 5000).$(classSelector);
+        e.click();
+    }
 }

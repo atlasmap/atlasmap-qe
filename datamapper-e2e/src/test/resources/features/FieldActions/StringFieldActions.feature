@@ -8,10 +8,10 @@ Feature: conversion from string
     And browser is opened
     And internal mapping is set to "true"
     And set mapping from "sourceString" to "targetString"
-    And add click "Add Transformation" link
+    And add transformation on target
 
 
-    # APPEND
+   #  APPEND
   Scenario: Append to input string
     When select "Append" transformation
     And for "input-string" input set "bar"
@@ -69,7 +69,7 @@ Feature: conversion from string
     Then save and verify "PadStringRight.xml" with
       | sourceString | targetString |
       | FooBar       | FooBar---    |
-
+#
     # PREPEND
   Scenario: Prepend to input string
     When select "Prepend" transformation

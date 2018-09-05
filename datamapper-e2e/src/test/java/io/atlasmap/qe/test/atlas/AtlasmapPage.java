@@ -29,8 +29,8 @@ public class AtlasmapPage {
         System.setProperty("selenide.chrome.switches", "--disable-web-security");
 
         open(Constants.UI_INDEX_PATH);
-        $("#SourceMappingTestClass").shouldBe(Condition.appear);
-        $("#TargetMappingTestClass").shouldBe(Condition.appear);
+        $("#SourceMappingTestClass").waitUntil(Condition.visible,5000);
+        $("#TargetMappingTestClass").waitUntil(Condition.appear,5000);
     }
 
     public void clickOn(String elementID) {
@@ -127,6 +127,7 @@ public class AtlasmapPage {
     }
 
     public void clickOnLinkByClass(String classSelector) {
+        $(classSelector).shouldBe(Condition.visible);
         $(classSelector).click();
     }
 
@@ -178,10 +179,10 @@ public class AtlasmapPage {
     }
 
     public void setInputValueForFieldPreview(String field, String value) {
-        $(By.id(field)).$("input").setValue(value);
+        $(By.id(field)).$("textarea").setValue(value);
     }
 
     public String getFieldPreviewValue(String field) {
-        return $(By.id(field)).$("input").getValue();
+        return $(By.id(field)).$("textarea").getValue();
     }
 }

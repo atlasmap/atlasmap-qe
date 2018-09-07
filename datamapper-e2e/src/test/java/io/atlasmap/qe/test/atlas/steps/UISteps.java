@@ -2,6 +2,9 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import java.util.Map;
 
+import cucumber.api.Scenario;
+import cucumber.api.java.Before;
+import io.atlasmap.qe.test.atlas.utils.Utils;
 import org.junit.Assert;
 
 import com.codeborne.selenide.WebDriverRunner;
@@ -11,9 +14,24 @@ import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriverException;
+
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+
 
 public class UISteps extends CucumberGlue {
     private static String previousSelected = "";
+
+    private Scenario myScenario;
+
+    @Before()
+    public void embedScreenshotStep(Scenario scenario) {
+
+        myScenario = scenario;
+
+    }
 
     @When("^set mapping from \"([^\"]*)\" to \"([^\"]*)\"$")
     public void userSsetsMappingFromTo(String source, String target) throws Exception {
@@ -144,6 +162,7 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.clickOnLinkByClass(".fa.fa-plus.link");
         forIdInputSet("input-source-", from);
         forIdInputSet("input-target-", to);
+      //  Utils.waitAndVerifyMappingIsWritten(from,to);
     }
 
     @And("^add click \"([^\"]*)\" link$")
@@ -234,8 +253,28 @@ public class UISteps extends CucumberGlue {
     public void addTransformationOnTarget() {
         this.atlasmapPage.clickOnTargets(".fa.fa-long-arrow-right");
     }
+
+
+    @Then ("^take a screenshot$")
+    public void takeAscreenshot() throws Throwable {
+
+        try {
+            myScenario.write("Current Page URL is " + getWebDriver().getCurrentUrl());
+            byte[] screenshot = ((TakesScreenshot)getWebDriver()).getScreenshotAs(OutputType.BYTES);
+            myScenario.embed(screenshot, "image/png");  // Stick it in the report
+        } catch (WebDriverException somePlatformsDontSupportScreenshots) {
+            //log.error(somePlatformsDontSupportScreenshots.getMessage());
+        } catch (ClassCastException cce) {
+            cce.printStackTrace();
+        }
+    }
     @After
     public void closeDriver() {
+        try {
+            takeAscreenshot();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
         WebDriverRunner.closeWebDriver();
     }
 }

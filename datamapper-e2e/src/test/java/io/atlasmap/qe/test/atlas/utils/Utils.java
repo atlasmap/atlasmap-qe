@@ -10,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.io.Files;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Created by mmelko on 16/11/2017.
  */
@@ -43,6 +45,7 @@ public class Utils {
         File mappings = new File(mappingsPath);
         if (mappings.exists()) {
             FileUtils.cleanDirectory(mappings);
+            assertThat(mappings.listFiles().length).isEqualTo(0);
         }
     }
 }

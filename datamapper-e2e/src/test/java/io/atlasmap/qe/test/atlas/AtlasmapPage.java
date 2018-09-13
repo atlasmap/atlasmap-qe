@@ -29,8 +29,8 @@ public class AtlasmapPage {
         System.setProperty("selenide.chrome.switches", "--disable-web-security");
 
         open(Constants.UI_INDEX_PATH);
-        $("#SourceMappingTestClass").waitUntil(Condition.visible,5000);
-        $("#TargetMappingTestClass").waitUntil(Condition.appear,5000);
+        $("#SourceMappingTestClass").waitUntil(Condition.visible, 5000);
+        $("#TargetMappingTestClass").waitUntil(Condition.appear, 5000);
     }
 
     public void clickOn(String elementID) {
@@ -109,9 +109,11 @@ public class AtlasmapPage {
     }
 
     public void setInputValueById(String inputId, String newValue) throws InterruptedException {
-        $(By.id(inputId)).setValue(newValue);
+        SelenideElement e = $(By.id(inputId));
+        e.clear();
         Thread.sleep(500);
-        $(By.id(inputId)).sendKeys(Keys.ENTER);
+        e.sendKeys(newValue);
+        $(By.id(inputId)).parent().$$("h5").filter(Condition.text(newValue)).get(0).click();
     }
 
     public void selectAction(String action) {

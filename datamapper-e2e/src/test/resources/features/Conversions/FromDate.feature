@@ -9,7 +9,7 @@ Feature: Cover all dates conversion
     And browser is opened
 
   Scenario: Conversion from standardJavaDate (DATE_TIME) to al types
-    When click on "dateObjectVariable"
+   # When click on "dateObjectVariable"
     And add mapping from "/standardJavaDate" to "/standardJavaDate"
     And add mapping from "/standardJavaDate" to "/dateObjectVariable/calendar"
     And add mapping from "/standardJavaDate" to "/dateObjectVariable/gregorianCalendar"
@@ -35,12 +35,13 @@ Feature: Cover all dates conversion
       | targetInteger | targetString         | targetLong | targetDouble | targetFloat | targetByte | targetShort |
       | 0             | 1970-01-01T00:00:00Z | 0          | 0            | 0           | 0          | 0           |
 
+    And take a screenshot
     And init DateObject "22-12-2012"
     Then save and verify mapping from "standardJavaDate" to datetypes as "dates_fromxJavaDate.xml"
 
 #
   Scenario: Conversion from LocalDateTime (DATE_TIME) to al types
-    When click on "dateObjectVariable"
+ #   When click on "dateObjectVariable"
     And add mapping from "/localDateTime" to "/standardJavaDate"
     And add mapping from "/localDateTime" to "/dateObjectVariable/calendar"
     And add mapping from "/localDateTime" to "/dateObjectVariable/gregorianCalendar"
@@ -57,7 +58,7 @@ Feature: Cover all dates conversion
     Then save and verify mapping from "localDateTIme" to datetypes as "dates_fromLocalDateTime.xml"
 
   Scenario: Conversion from zonedDT  (DATE) to al types
-    When click on "dateObjectVariable"
+  #  When click on "dateObjectVariable"
     And add mapping from "/zonedDateTime" to "/standardJavaDate"
     And add mapping from "/zonedDateTime" to "/dateObjectVariable/sqlDate"
     And add mapping from "/zonedDateTime" to "/dateObjectVariable/localDate"
@@ -73,7 +74,7 @@ Feature: Cover all dates conversion
     Then save and verify mapping from "localDateTIme" to datetypes as "dates_fromLocalDateTime.xml"
 
   Scenario: Conversion from timestamp (DATE_TIME) to al types
-    When click on "dateObjectVariable"
+   # When click on "dateObjectVariable"
     And add mapping from "/timestamp" to "/standardJavaDate"
     And add mapping from "/timestamp" to "/dateObjectVariable/sqlDate"
     And add mapping from "/timestamp" to "/dateObjectVariable/localDate"

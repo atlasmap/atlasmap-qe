@@ -13,7 +13,7 @@
 	<groupId>io.syndesis.qe</groupId>
 	<artifactId>datamapper-e2e</artifactId>
 	<properties>
-		<atlasmap.ui.directory>${project.basedir}/src/main/resources/atlasmap-wrapper</atlasmap.ui.directory>
+		<atlasmap.ui.directory>${project.basedir}/src/main/resources/atlasmap-datamapper-wrapper</atlasmap.ui.directory>
 	</properties>
 
 	<dependencyManagement>
@@ -84,7 +84,11 @@
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.11.1</version>
+		</dependency>
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-java</artifactId>

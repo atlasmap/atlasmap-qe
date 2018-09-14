@@ -97,7 +97,7 @@ public class AtlasmapPage {
     }
 
     public void setInputValueByIdAndDefaultValue(String inputSelector, String def, String inputValue) {
-        SelenideElement e = $$(By.id(inputSelector)).filter(Condition.exactValue(def)).get(0);
+        SelenideElement e = $$(By.id(inputSelector)).filter(Condition.value(def)).get(0);
         e.clear();
         e.setValue(inputValue);
     }
@@ -192,5 +192,25 @@ public class AtlasmapPage {
         System.out.println("Class selector " + classSelector);
         SelenideElement e = $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\"false\"]")).waitUntil(Condition.visible, 5000).$(classSelector);
         e.click();
+    }
+
+    public void addConstant(String type, String value) {
+        SelenideElement e = $(By.id("Constants"));
+        e.$(".fa.fa-plus.link").click();
+        SelenideElement textInput = $(By.id("name")).waitUntil(Condition.visible, Constants.WAIT_TIMEOUT);
+        textInput.sendKeys(value);
+        SelenideElement select = $(By.tagName("select")).shouldHave(Condition.value("String"));
+        // System.out.println(select.toString());
+        select.selectOption(type);
+        $$(By.tagName("button")).findBy(Condition.text("Save")).click();
+    }
+
+    public void addProperty(String type, String name, String value) {
+        SelenideElement e = $(By.id("Properties"));
+        e.$(".fa.fa-plus.link").click();
+        $(By.id("name")).waitUntil(Condition.visible, Constants.WAIT_TIMEOUT).sendKeys(name);
+        $(By.id("value")).waitUntil(Condition.visible, Constants.WAIT_TIMEOUT).sendKeys(value);
+        $(By.tagName("select")).shouldHave(Condition.value("String")).selectOption(type);
+        $$(By.tagName("button")).findBy(Condition.text("Save")).click();
     }
 }

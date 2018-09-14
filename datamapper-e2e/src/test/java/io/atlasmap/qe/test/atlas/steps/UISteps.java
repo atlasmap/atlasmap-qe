@@ -1,25 +1,23 @@
 package io.atlasmap.qe.test.atlas.steps;
 
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+
 import java.util.Map;
 
-import cucumber.api.Scenario;
-import cucumber.api.java.Before;
-import io.atlasmap.qe.test.atlas.utils.Utils;
 import org.junit.Assert;
-
-import com.codeborne.selenide.WebDriverRunner;
-
-import cucumber.api.DataTable;
-import cucumber.api.java.After;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriverException;
 
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import com.codeborne.selenide.WebDriverRunner;
 
+import cucumber.api.DataTable;
+import cucumber.api.Scenario;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 public class UISteps extends CucumberGlue {
     private static String previousSelected = "";
@@ -276,5 +274,15 @@ public class UISteps extends CucumberGlue {
             throwable.printStackTrace();
         }
         WebDriverRunner.closeWebDriver();
+    }
+
+    @And("^set \"([^\"]*)\" constant with \"([^\"]*)\" value$")
+    public void setConstantWithValue(String type, String value) throws Throwable {
+        atlasmapPage.addConstant(type,value);
+    }
+
+    @When("^set \"([^\"]*)\" property of \"([^\"]*)\" type and \"([^\"]*)\" value$")
+    public void setPropertyWithTypeAndValue(String name, String type, String value) throws Throwable {
+        atlasmapPage.addProperty(type,name,value);
     }
 }

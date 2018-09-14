@@ -1,5 +1,7 @@
 package io.atlasmap.qe.test.atlas.utils;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -9,8 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.io.Files;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by mmelko on 16/11/2017.

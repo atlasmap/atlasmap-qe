@@ -2,7 +2,6 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
 import org.springframework.boot.test.context.SpringBootTest;

@@ -29,8 +29,8 @@ public class AtlasmapPage {
         System.setProperty("selenide.chrome.switches", "--disable-web-security");
 
         open(Constants.UI_INDEX_PATH);
-        $("#SourceMappingTestClass").shouldBe(Condition.appear);
-        $("#TargetMappingTestClass").shouldBe(Condition.appear);
+        $("#SourceMappingTestClass").waitUntil(Condition.visible, 5000);
+        $("#TargetMappingTestClass").waitUntil(Condition.appear, 5000);
     }
 
     public void clickOn(String elementID) {
@@ -97,7 +97,7 @@ public class AtlasmapPage {
     }
 
     public void setInputValueByIdAndDefaultValue(String inputSelector, String def, String inputValue) {
-        SelenideElement e = $$(By.id(inputSelector)).filter(Condition.exactValue(def)).get(0);
+        SelenideElement e = $$(By.id(inputSelector)).filter(Condition.value(def)).get(0);
         e.clear();
         e.setValue(inputValue);
     }
@@ -109,9 +109,11 @@ public class AtlasmapPage {
     }
 
     public void setInputValueById(String inputId, String newValue) throws InterruptedException {
-        $(By.id(inputId)).setValue(newValue);
+        SelenideElement e = $(By.id(inputId));
+        e.clear();
         Thread.sleep(500);
-        $(By.id(inputId)).sendKeys(Keys.ENTER);
+        e.sendKeys(newValue);
+        $(By.id(inputId)).parent().$$("h5").filter(Condition.text(newValue)).get(0).click();
     }
 
     public void selectAction(String action) {
@@ -127,6 +129,7 @@ public class AtlasmapPage {
     }
 
     public void clickOnLinkByClass(String classSelector) {
+        $(classSelector).shouldBe(Condition.visible);
         $(classSelector).click();
     }
 
@@ -178,10 +181,39 @@ public class AtlasmapPage {
     }
 
     public void setInputValueForFieldPreview(String field, String value) {
-        $(By.id(field)).$("input").setValue(value);
+        $(By.id(field)).$("textarea").setValue(value);
     }
 
     public String getFieldPreviewValue(String field) {
-        return $(By.id(field)).$("input").getValue();
+        return $(By.id(field)).$("textarea").getValue();
+    }
+
+    public void clickOnTargets(String classSelector) {
+        addTransformationOnTargetOrSource(classSelector,false);
+    }
+    public void addTransformationOnTargetOrSource(String classSelector,boolean isSource) {
+        System.out.println("Class selector " + classSelector);
+        SelenideElement e = $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\""+isSource+"\"]")).waitUntil(Condition.visible, 5000).$(classSelector);
+        e.click();
+    }
+
+    public void addConstant(String type, String value) {
+        SelenideElement e = $(By.id("Constants"));
+        e.$(".fa.fa-plus.link").click();
+        SelenideElement textInput = $(By.id("name")).waitUntil(Condition.visible, Constants.WAIT_TIMEOUT);
+        textInput.sendKeys(value);
+        SelenideElement select = $(By.tagName("select")).shouldHave(Condition.value("String"));
+        // System.out.println(select.toString());
+        select.selectOption(type);
+        $$(By.tagName("button")).findBy(Condition.text("Save")).click();
+    }
+
+    public void addProperty(String type, String name, String value) {
+        SelenideElement e = $(By.id("Properties"));
+        e.$(".fa.fa-plus.link").click();
+        $(By.id("name")).waitUntil(Condition.visible, Constants.WAIT_TIMEOUT).sendKeys(name);
+        $(By.id("value")).waitUntil(Condition.visible, Constants.WAIT_TIMEOUT).sendKeys(value);
+        $(By.tagName("select")).shouldHave(Condition.value("String")).selectOption(type);
+        $$(By.tagName("button")).findBy(Condition.text("Save")).click();
     }
 }

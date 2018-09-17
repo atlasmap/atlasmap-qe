@@ -21,14 +21,14 @@
         <spring-boot.version>1.5.12.RELEASE</spring-boot.version>
         <selenide.version>4.12.2</selenide.version>
         <selenium.version>3.13.0</selenium.version>
-        <node.version>v8.9.1</node.version>
-        <yarn.version>v1.7.0</yarn.version>
+        <node.version>v8.11.4</node.version>
+        <yarn.version>v1.9.4</yarn.version>
         <cucumber.version>2.1.0</cucumber.version>
         <log4j.version>2.9.1</log4j.version>
         <httpcomponents.version>4.5.3</httpcomponents.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <fuse.version>7.1.0.fuse-710018-redhat-00002</fuse.version>
+        <fuse.version>7.1.0.fuse-710019-redhat-00002</fuse.version>
     </properties>
 
     <dependencyManagement>

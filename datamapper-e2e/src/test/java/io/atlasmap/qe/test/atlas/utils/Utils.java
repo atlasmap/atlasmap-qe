@@ -1,5 +1,7 @@
 package io.atlasmap.qe.test.atlas.utils;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -43,6 +45,7 @@ public class Utils {
         File mappings = new File(mappingsPath);
         if (mappings.exists()) {
             FileUtils.cleanDirectory(mappings);
+            assertThat(mappings.listFiles().length).isEqualTo(0);
         }
     }
 }

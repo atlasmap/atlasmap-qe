@@ -88,7 +88,9 @@ public class UISteps extends CucumberGlue {
 
     @And("^for \"([^\"]*)\" input set \"([^\"]*)\"$")
     public void putValueIn(String inputSelector, String inputValue) throws Throwable {
-        this.atlasmapPage.setInputValueByClass(inputSelector, inputValue);
+        if (!inputSelector.contains("N/A") && !inputValue.contains("N/A")) {
+            this.atlasmapPage.setInputValueByClass(inputSelector, inputValue);
+        }
     }
 
     @When("^click on \"([^\"]*)\"$")
@@ -160,7 +162,7 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.clickOnLinkByClass(".fa.fa-plus.link");
         forIdInputSet("input-source-", from);
         forIdInputSet("input-target-", to);
-      //  Utils.waitAndVerifyMappingIsWritten(from,to);
+        //  Utils.waitAndVerifyMappingIsWritten(from,to);
     }
 
     @And("^add click \"([^\"]*)\" link$")
@@ -244,7 +246,7 @@ public class UISteps extends CucumberGlue {
 
     @And("^check if danger warning contains \"([^\"]*)\" message$")
     public void checkIfDangerWarningContainsMessage(String message) throws Throwable {
-       Assert.assertTrue(this.atlasmapPage.checkDangerWarningContainMessage(message));
+        Assert.assertTrue(this.atlasmapPage.checkDangerWarningContainMessage(message));
     }
 
     @And("^add transformation on target$")
@@ -253,12 +255,12 @@ public class UISteps extends CucumberGlue {
     }
 
 
-    @Then ("^take a screenshot$")
+    @Then("^take a screenshot$")
     public void takeAscreenshot() throws Throwable {
 
         try {
             myScenario.write("Current Page URL is " + getWebDriver().getCurrentUrl());
-            byte[] screenshot = ((TakesScreenshot)getWebDriver()).getScreenshotAs(OutputType.BYTES);
+            byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
             myScenario.embed(screenshot, "image/png");  // Stick it in the report
         } catch (WebDriverException somePlatformsDontSupportScreenshots) {
             //log.error(somePlatformsDontSupportScreenshots.getMessage());
@@ -266,6 +268,7 @@ public class UISteps extends CucumberGlue {
             cce.printStackTrace();
         }
     }
+
     @After
     public void closeDriver() {
         try {
@@ -278,11 +281,18 @@ public class UISteps extends CucumberGlue {
 
     @And("^set \"([^\"]*)\" constant with \"([^\"]*)\" value$")
     public void setConstantWithValue(String type, String value) throws Throwable {
-        atlasmapPage.addConstant(type,value);
+        atlasmapPage.addConstant(type, value);
     }
 
     @When("^set \"([^\"]*)\" property of \"([^\"]*)\" type and \"([^\"]*)\" value$")
     public void setPropertyWithTypeAndValue(String name, String type, String value) throws Throwable {
-        atlasmapPage.addProperty(type,name,value);
+        atlasmapPage.addProperty(type, name, value);
     }
+
+    @When("^add transformation on \"([^\"]*)\"$")
+    public void addTransformationOn(String sourceTarget) throws Throwable {
+        final boolean isSource = sourceTarget.equals("source");
+        atlasmapPage.addTransformationOnTargetOrSource(".fa.fa-long-arrow-right", isSource);
+    }
+
 }

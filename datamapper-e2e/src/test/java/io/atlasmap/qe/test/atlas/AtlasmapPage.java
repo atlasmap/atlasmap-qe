@@ -189,8 +189,11 @@ public class AtlasmapPage {
     }
 
     public void clickOnTargets(String classSelector) {
+        addTransformationOnTargetOrSource(classSelector,false);
+    }
+    public void addTransformationOnTargetOrSource(String classSelector,boolean isSource) {
         System.out.println("Class selector " + classSelector);
-        SelenideElement e = $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\"false\"]")).waitUntil(Condition.visible, 5000).$(classSelector);
+        SelenideElement e = $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\""+isSource+"\"]")).waitUntil(Condition.visible, 5000).$(classSelector);
         e.click();
     }
 

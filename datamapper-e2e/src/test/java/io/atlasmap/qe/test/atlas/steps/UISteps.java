@@ -26,9 +26,17 @@ public class UISteps extends CucumberGlue {
 
     @Before()
     public void embedScreenshotStep(Scenario scenario) {
-
         myScenario = scenario;
+    }
 
+    @After
+    public void closeDriver() {
+        try {
+            takeAscreenshot();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+        WebDriverRunner.closeWebDriver();
     }
 
     @When("^set mapping from \"([^\"]*)\" to \"([^\"]*)\"$")
@@ -269,16 +277,6 @@ public class UISteps extends CucumberGlue {
         }
     }
 
-    @After
-    public void closeDriver() {
-        try {
-            takeAscreenshot();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-        WebDriverRunner.closeWebDriver();
-    }
-
     @And("^set \"([^\"]*)\" constant with \"([^\"]*)\" value$")
     public void setConstantWithValue(String type, String value) throws Throwable {
         atlasmapPage.addConstant(type, value);
@@ -295,4 +293,16 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.addTransformationOnTargetOrSource(".fa.fa-long-arrow-right", isSource);
     }
 
+    @When("^add \"([^\"]*)\" transformation on \"([^\"]*)\"$")
+    public void addTransformationOn(String transformation, String sourceTarget) throws Throwable {
+        final boolean isSource = sourceTarget.equals("source");
+        atlasmapPage.addTransformationToTargetOrSource(transformation, isSource);
+    }
+
+    @And("^set from \"([^\"]*)\" to \"([^\"]*)\" units on \"([^\"]*)\"$")
+    public void setFromToUnitsOn(String from, String to, String sourceTarget) throws Throwable {
+        final boolean isSource = sourceTarget.equals("source");
+        atlasmapPage.selectOptionOnIndex(from,1,isSource);
+        atlasmapPage.selectOptionOnIndex(to,2,isSource);
+    }
 }

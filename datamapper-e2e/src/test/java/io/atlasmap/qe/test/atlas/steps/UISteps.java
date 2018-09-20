@@ -304,5 +304,9 @@ public class UISteps extends CucumberGlue {
         final boolean isSource = sourceTarget.equals("source");
         atlasmapPage.selectOptionOnIndex(from,1,isSource);
         atlasmapPage.selectOptionOnIndex(to,2,isSource);
+
+        if(from.equals(to)) {
+            atlasmapPage.checkDangerWarningContainMessage("select differing 'from' and 'to' units in your conversion transformation.");
+        }
     }
 }

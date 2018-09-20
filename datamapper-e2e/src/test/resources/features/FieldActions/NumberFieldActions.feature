@@ -99,7 +99,3 @@ Feature: number related field actions
       | ConvertVolumeUnit | Gallon (US Fluid) | Cubic Meter       | 264.17205236       | 1                  | target        |
       | ConvertVolumeUnit | Gallon (US Fluid) | Liter             | 1                  | 3.785411783973468  | source        |
       | ConvertVolumeUnit | Gallon (US Fluid) | Cubic Foot        | 1                  | 0.1336805555546186 | target        |
-
-#    And check if danger warning contains "select differing 'from' and 'to' units in your conversion transformation." message
-
-#

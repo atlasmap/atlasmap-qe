@@ -39,7 +39,7 @@ public class AtlasmapPage {
 
 
     public boolean checkWarning(String exceptionType, String fromType, String toType) {
-        LOG.info("looking ...");
+        LOG.debug("looking ...");
         $(".alert-warning").shouldBe(Condition.appears);
         for (String s : $$(".alert-warning").texts()) {
             if (s.equals("Conversion from '" + fromType + "' to '" + toType + "' can cause " + exceptionType)) {
@@ -50,7 +50,7 @@ public class AtlasmapPage {
     }
 
     public boolean checkWarningContainMessage(String containsMessage) {
-        LOG.info("looking ...");
+        LOG.debug("looking ...");
         $(".alert-warning").shouldBe(Condition.appears);
         for (String s : $$(".alert-warning").texts()) {
             if (s.contains(containsMessage)) {
@@ -61,7 +61,7 @@ public class AtlasmapPage {
     }
 
     public boolean checkDangerWarningContainMessage(String containsMessage) {
-        LOG.info("looking ...");
+        LOG.debug("looking ...");
         $(".alert-danger").shouldBe(Condition.appears);
         for (String s : $$(".alert-danger").texts()) {
             if (s.contains(containsMessage)) {
@@ -72,7 +72,7 @@ public class AtlasmapPage {
     }
 
     public void checkWarnings() {
-        LOG.info("looking ...");
+        LOG.debug("looking ...");
         $(".alert-warning").shouldNot(Condition.appears);
     }
 
@@ -215,5 +215,18 @@ public class AtlasmapPage {
         $(By.id("value")).waitUntil(Condition.visible, Constants.WAIT_TIMEOUT).sendKeys(value);
         $(By.tagName("select")).shouldHave(Condition.value("String")).selectOption(type);
         $$(By.tagName("button")).findBy(Condition.text("Save")).click();
+    }
+
+    public void addTransformationToTargetOrSource(String transformation, boolean isSource) {
+        SelenideElement e = $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\""+isSource+"\"]")).waitUntil(Condition.visible, 5000);
+        e.$(".fa.fa-long-arrow-right").click();
+        SelenideElement parent = e.parent();
+        parent.$(By.tagName("select")).selectOption(transformation);
+    }
+
+    public void selectOptionOnIndex(String option,int index, boolean isSource) {
+        SelenideElement e = $(By.xpath("//mapping-field-action[@ng-reflect-is-source=\""+isSource+"\"]")).waitUntil(Condition.visible, 5000);
+        e.$$(By.tagName("select")).get(index).selectOption(option);
+
     }
 }

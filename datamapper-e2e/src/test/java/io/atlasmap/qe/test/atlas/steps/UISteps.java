@@ -1,6 +1,7 @@
 package io.atlasmap.qe.test.atlas.steps;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
 
@@ -140,28 +141,32 @@ public class UISteps extends CucumberGlue {
     }
 
     @When("^select \"([^\"]*)\" number transformation$")
-    public void selectNumberTransformation(String arg0) throws Throwable {
+    public void selectNumberTransformation(String arg0) {
         atlasmapPage.selectTransformation(arg0, "AbsoluteValue");
 
     }
 
     @And("^open mapping details window$")
-    public void openMappingDetailsWindow() throws Throwable {
+    public void openMappingDetailsWindow() {
         atlasmapPage.openMappingDetails();
     }
 
     @When("^delete current mapping$")
-    public void deleteCurrentMapping() throws Throwable {
-        atlasmapPage.deleteCurrent();
+    public void deleteCurrentMapping() {
+        try {
+            atlasmapPage.deleteCurrent();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @And("^reveal mapping details$")
-    public void revealMappingDetails() throws Throwable {
+    public void revealMappingDetails() {
         atlasmapPage.clickOnLinkByClass(".fa.fa-edit.link");
     }
 
     @When("^change transformation from \"([^\"]*)\" to \"([^\"]*)\"$")
-    public void changeTransformationFromTo(String defaultValue, String newValue) throws Throwable {
+    public void changeTransformationFromTo(String defaultValue, String newValue) {
         this.atlasmapPage.selectTransformation(newValue, defaultValue);
     }
 
@@ -242,7 +247,7 @@ public class UISteps extends CucumberGlue {
     }
 
     @Then("^verify preview of \"([^\"]*)\" transformation from \"([^\"]*)\" with value \"([^\"]*)\" is transformed to \"([^\"]*)\" in \"([^\"]*)\"$")
-    public void verifyPreviewOfTransformationFromWithValueIsTransformedToIn(String transformation, String sourceField, String sourceValue, String targetValue, String targetField) throws Throwable {
+    public void verifyPreviewOfTransformationFromWithValueIsTransformedToIn(String transformation, String sourceField, String sourceValue, String targetValue, String targetField) {
         this.atlasmapPage.selectTransformation(transformation, ("".equals(previousSelected) ? "Append" : previousSelected));
         this.atlasmapPage.setInputValueForFieldPreview(sourceField, sourceValue);
         this.atlasmapPage.setInputValueForFieldPreview(sourceField, sourceValue);
@@ -253,7 +258,7 @@ public class UISteps extends CucumberGlue {
     }
 
     @And("^check if danger warning contains \"([^\"]*)\" message$")
-    public void checkIfDangerWarningContainsMessage(String message) throws Throwable {
+    public void checkIfDangerWarningContainsMessage(String message) {
         Assert.assertTrue(this.atlasmapPage.checkDangerWarningContainMessage(message));
     }
 
@@ -264,7 +269,7 @@ public class UISteps extends CucumberGlue {
 
 
     @Then("^take a screenshot$")
-    public void takeAscreenshot() throws Throwable {
+    public void takeAscreenshot() {
 
         try {
             myScenario.write("Current Page URL is " + getWebDriver().getCurrentUrl());
@@ -278,29 +283,29 @@ public class UISteps extends CucumberGlue {
     }
 
     @And("^set \"([^\"]*)\" constant with \"([^\"]*)\" value$")
-    public void setConstantWithValue(String type, String value) throws Throwable {
+    public void setConstantWithValue(String type, String value) {
         atlasmapPage.addConstant(type, value);
     }
 
     @When("^set \"([^\"]*)\" property of \"([^\"]*)\" type and \"([^\"]*)\" value$")
-    public void setPropertyWithTypeAndValue(String name, String type, String value) throws Throwable {
+    public void setPropertyWithTypeAndValue(String name, String type, String value)  {
         atlasmapPage.addProperty(type, name, value);
     }
 
     @When("^add transformation on \"([^\"]*)\"$")
-    public void addTransformationOn(String sourceTarget) throws Throwable {
+    public void addTransformationOn(String sourceTarget) {
         final boolean isSource = sourceTarget.equals("source");
         atlasmapPage.addTransformationOnTargetOrSource(".fa.fa-long-arrow-right", isSource);
     }
 
     @When("^add \"([^\"]*)\" transformation on \"([^\"]*)\"$")
-    public void addTransformationOn(String transformation, String sourceTarget) throws Throwable {
+    public void addTransformationOn(String transformation, String sourceTarget) {
         final boolean isSource = sourceTarget.equals("source");
         atlasmapPage.addTransformationToTargetOrSource(transformation, isSource);
     }
 
     @And("^set from \"([^\"]*)\" to \"([^\"]*)\" units on \"([^\"]*)\"$")
-    public void setFromToUnitsOn(String from, String to, String sourceTarget) throws Throwable {
+    public void setFromToUnitsOn(String from, String to, String sourceTarget) {
         final boolean isSource = sourceTarget.equals("source");
         atlasmapPage.selectOptionOnIndex(from,1,isSource);
         atlasmapPage.selectOptionOnIndex(to,2,isSource);
@@ -308,5 +313,23 @@ public class UISteps extends CucumberGlue {
         if(from.equals(to)) {
             atlasmapPage.checkDangerWarningContainMessage("select differing 'from' and 'to' units in your conversion transformation.");
         }
+    }
+
+    @And("^reveal mapping table$")
+    public void revealMappingTable() throws Throwable {
+        atlasmapPage.clickOnLinkByClass(".fa.fa-table.link");
+    }
+
+    @Then("^check that row number \"([^\"]*)\" contains \"([^\"]*)\" as sources, \"([^\"]*)\" as taget and \"([^\"]*)\" as type$")
+    public void checkThatRowNumberContainsAsSourcesAsTagetAndAsType(int number, String sources, String targets, String mappingType) {
+        assertThat(atlasmapPage.getFromMappingTable(number,"type")).isEqualToIgnoringCase(mappingType);
+        assertThat(atlasmapPage.getFromMappingTable(number,"sources")).isEqualToIgnoringCase(sources);
+        assertThat(atlasmapPage.getFromMappingTable(number,"targets")).isEqualToIgnoringCase(targets);
+
+    }
+
+    @And("^click on \"([^\"]*)\" index of table$")
+    public void clickOnIndexOfTable(int index) {
+        atlasmapPage.clickOnRowInMappingTable(index);
     }
 }

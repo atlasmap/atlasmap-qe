@@ -1,5 +1,6 @@
 package io.atlasmap.qe.test.atlas;
 
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
@@ -29,7 +30,7 @@ public class AtlasmapPage {
         System.setProperty("selenide.chrome.switches", "--disable-web-security");
 
         open(Constants.UI_INDEX_PATH);
-        $("#SourceMappingTestClass").waitUntil(Condition.visible, 5000);
+        $("#SourceMappingTestClass").waitUntil(visible, 5000);
         $("#TargetMappingTestClass").waitUntil(Condition.appear, 5000);
     }
 
@@ -77,11 +78,11 @@ public class AtlasmapPage {
     }
 
     public void clickOnButtonByText(String elementName) {
-        $$(By.tagName("button")).filter(Condition.text(elementName)).get(0).shouldBe(Condition.visible).click();
+        $$(By.tagName("button")).filter(Condition.text(elementName)).get(0).shouldBe(visible).click();
     }
 
     public void clickOnElementByText(String elementName, String text) {
-        $$(By.tagName(elementName)).filter(Condition.text(text)).get(0).shouldBe(Condition.visible).click();
+        $$(By.tagName(elementName)).filter(Condition.text(text)).get(0).shouldBe(visible).click();
     }
 
     public void selectTransformation(String transformation, String deafaultValue) {
@@ -129,20 +130,20 @@ public class AtlasmapPage {
     }
 
     public void clickOnLinkByClass(String classSelector) {
-        $(classSelector).shouldBe(Condition.visible);
+        $(classSelector).shouldBe(visible);
         $(classSelector).click();
     }
 
     public void deleteCurrent() throws InterruptedException {
         $((".fa.fa-trash.link")).click();
-        Thread.sleep(10100);
-        $(".pull-right.btn.btn-primary").shouldBe(Condition.visible).isDisplayed();
+        //Thread.sleep(10100);
+        $(".pull-right.btn.btn-primary").shouldBe(visible).isDisplayed();
         clickOnButtonByText("Remove");
     }
 
     public void clickOnWhileHolding(String id, String cmd) {
 
-        SelenideElement e = $(By.id(id)).shouldBe(Condition.visible);
+        SelenideElement e = $(By.id(id)).shouldBe(visible);
         Keys k = Keys.LEFT_CONTROL;
 
         if (CucumberGlue.isMac) {
@@ -159,8 +160,8 @@ public class AtlasmapPage {
     }
 
     public void dragNDrop(String drag, String drop) {
-        WebElement dr = $$(By.id(drag)).get(1).shouldBe(Condition.visible);
-        WebElement dro = $$(By.id(drop)).get(1).shouldBe(Condition.visible);
+        WebElement dr = $$(By.id(drag)).get(1).shouldBe(visible);
+        WebElement dro = $$(By.id(drop)).get(1).shouldBe(visible);
         // dr
         System.out.println(dr.toString());
         System.out.println(dro.toString());
@@ -189,18 +190,19 @@ public class AtlasmapPage {
     }
 
     public void clickOnTargets(String classSelector) {
-        addTransformationOnTargetOrSource(classSelector,false);
+        addTransformationOnTargetOrSource(classSelector, false);
     }
-    public void addTransformationOnTargetOrSource(String classSelector,boolean isSource) {
+
+    public void addTransformationOnTargetOrSource(String classSelector, boolean isSource) {
         System.out.println("Class selector " + classSelector);
-        SelenideElement e = $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\""+isSource+"\"]")).waitUntil(Condition.visible, 5000).$(classSelector);
+        SelenideElement e = $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\"" + isSource + "\"]")).waitUntil(visible, 5000).$(classSelector);
         e.click();
     }
 
     public void addConstant(String type, String value) {
         SelenideElement e = $(By.id("Constants"));
         e.$(".fa.fa-plus.link").click();
-        SelenideElement textInput = $(By.id("name")).waitUntil(Condition.visible, Constants.WAIT_TIMEOUT);
+        SelenideElement textInput = $(By.id("name")).waitUntil(visible, Constants.WAIT_TIMEOUT);
         textInput.sendKeys(value);
         SelenideElement select = $(By.tagName("select")).shouldHave(Condition.value("String"));
         // System.out.println(select.toString());
@@ -211,22 +213,50 @@ public class AtlasmapPage {
     public void addProperty(String type, String name, String value) {
         SelenideElement e = $(By.id("Properties"));
         e.$(".fa.fa-plus.link").click();
-        $(By.id("name")).waitUntil(Condition.visible, Constants.WAIT_TIMEOUT).sendKeys(name);
-        $(By.id("value")).waitUntil(Condition.visible, Constants.WAIT_TIMEOUT).sendKeys(value);
+        $(By.id("name")).waitUntil(visible, Constants.WAIT_TIMEOUT).sendKeys(name);
+        $(By.id("value")).waitUntil(visible, Constants.WAIT_TIMEOUT).sendKeys(value);
         $(By.tagName("select")).shouldHave(Condition.value("String")).selectOption(type);
         $$(By.tagName("button")).findBy(Condition.text("Save")).click();
     }
 
     public void addTransformationToTargetOrSource(String transformation, boolean isSource) {
-        SelenideElement e = $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\""+isSource+"\"]")).waitUntil(Condition.visible, 5000);
+        SelenideElement e = $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\"" + isSource + "\"]")).waitUntil(visible, 5000);
         e.$(".fa.fa-long-arrow-right").click();
         SelenideElement parent = e.parent();
         parent.$(By.tagName("select")).selectOption(transformation);
     }
 
-    public void selectOptionOnIndex(String option,int index, boolean isSource) {
-        SelenideElement e = $(By.xpath("//mapping-field-action[@ng-reflect-is-source=\""+isSource+"\"]")).waitUntil(Condition.visible, 5000);
+    public void selectOptionOnIndex(String option, int index, boolean isSource) {
+        SelenideElement e = $(By.xpath("//mapping-field-action[@ng-reflect-is-source=\"" + isSource + "\"]")).waitUntil(visible, 5000);
         e.$$(By.tagName("select")).get(index).selectOption(option);
 
+    }
+
+    public String getFromMappingTable(int number, String type) {
+        SelenideElement row = $$(".itemRow").get(number);
+        String className = "";
+        switch (type) {
+            case "sources":
+                className = ".sourceFieldNames.fieldNames";
+                break;
+            case "targets":
+                className = ".targetFieldNames.fieldNames";
+                break;
+            case "type":
+                className = ".transition";
+        }
+        String text = "";
+        for (SelenideElement e : row.$(className).$$(By.tagName("label"))) {
+            if (text.toCharArray().length > 0) {
+                text += ",";
+            }
+            text += e.getText();
+        }
+
+        return text;
+    }
+
+    public void clickOnRowInMappingTable(int index) {
+        $$(".itemRow").get(index).click();
     }
 }

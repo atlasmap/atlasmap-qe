@@ -138,6 +138,7 @@ public class UISteps extends CucumberGlue {
     public void addToSeparate(String field) throws Throwable {
         addClickButton("Add Target");
         forIdInputSet("input-target-", field);
+        atlasmapPage.verifyThatIpnutExist("input-target-"+field);
     }
 
     @When("^select \"([^\"]*)\" number transformation$")

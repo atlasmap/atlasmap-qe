@@ -112,9 +112,11 @@ public class AtlasmapPage {
     public void setInputValueById(String inputId, String newValue) throws InterruptedException {
         SelenideElement e = $(By.id(inputId));
         e.clear();
+        e.scrollIntoView(true);
         Thread.sleep(500);
         e.sendKeys(newValue);
         $(By.id(inputId)).parent().$$("h5").filter(Condition.text(newValue)).get(0).click();
+
     }
 
     public void selectAction(String action) {
@@ -258,5 +260,9 @@ public class AtlasmapPage {
 
     public void clickOnRowInMappingTable(int index) {
         $$(".itemRow").get(index).click();
+    }
+
+    public void verifyThatIpnutExist(String id) {
+        $(By.id(id)).should(Condition.exist);
     }
 }

@@ -1,5 +1,5 @@
 @Mappings
-@MappingPreview
+@MappingPreviews
 Feature: Atlasmap is able to create preview
 
   Background:
@@ -36,7 +36,8 @@ Feature: Atlasmap is able to create preview
       | -1000         | 200.547     | Some String  |
     And click on "targetCombineString"
     Then verify that "targetCombineString" contains "200.547--1000---Some String"
-#
+
+
   Scenario: simple Separate with separator change
     When click on "sourceCombineString"
     And click on "targetInteger" holding cmd button
@@ -49,22 +50,19 @@ Feature: Atlasmap is able to create preview
       | targetInteger | targetLong | targetString |
       | 1             | 2          | 3            |
 
+    When for "input-target-targetInteger" id input with "1" set "3"
+    And for "input-target-targetString" id input with "2" set "3"
+    And set "2-1-3" for "sourceCombineString" field
+    And select "Dash [-]" separator
 
-#    When for "input-target-targetInteger" id input with "1" set "3"
-#
-#    And for "input-target-targetString" id input with "2" set "3"
-#    And set "2-1-3" for "sourceCombineString" field
-#    And select "Dash [-]" separator
-#
-#
-#    Then verify preview data
-#      | targetInteger | targetLong | targetString |
-#      | 1             | 2          | 3            |
+
+    Then verify preview data
+      | targetInteger | targetLong | targetString |
+      | 1             | 2          | 3            |
 
 
   #TODO investigate DATE conversions
   #TODO different formating of number fields
-  #TODO investigate previews when string involved + gaps +separate
 
   Scenario Outline: conversion fromto primitive types
     When set "9" value in source's "sourceString"

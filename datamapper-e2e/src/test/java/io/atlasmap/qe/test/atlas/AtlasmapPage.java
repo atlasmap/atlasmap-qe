@@ -99,6 +99,7 @@ public class AtlasmapPage {
 
     public void setInputValueByIdAndDefaultValue(String inputSelector, String def, String inputValue) {
         SelenideElement e = $$(By.id(inputSelector)).filter(Condition.value(def)).get(0);
+        e.scrollIntoView(true);
         e.clear();
         e.setValue(inputValue);
     }
@@ -234,7 +235,7 @@ public class AtlasmapPage {
 
     }
 
-    public String getFromMappingTable(int number, String type) {
+    private SelenideElement getFromMappingTable(int number, String type) {
         SelenideElement row = $$(".itemRow").get(number);
         String className = "";
         switch (type) {
@@ -247,15 +248,40 @@ public class AtlasmapPage {
             case "type":
                 className = ".transition";
         }
+        return row.$(className);
+    }
+
+    public String getTextFromMappingTable(int number, String type, String tag) {
+        SelenideElement record = getFromMappingTable(number, type);
         String text = "";
-        for (SelenideElement e : row.$(className).$$(By.tagName("label"))) {
+        for (SelenideElement e : record.$$(By.tagName(tag))) {
             if (text.toCharArray().length > 0) {
                 text += ",";
             }
-            text += e.getText();
+            if ("label".equals(tag)) {
+                text += e.getText();
+            } else {
+                text += e.getValue();
+            }
         }
 
         return text;
+    }
+
+    public String getLabelFromMappingTable(int number, String type) {
+        return getTextFromMappingTable(number,type,"label");
+    }
+
+    public String getPreviewValueInTable(int number,String type,String... values) {
+        return getTextFromMappingTable(number,type,"textarea");
+    }
+
+    public void setPreviewValueInTable(int number,String type,String... values) {
+        SelenideElement record = getFromMappingTable(number,type);
+        SelenideElement[] areas = record.$$(By.tagName("textarea")).toArray(new SelenideElement[0]);
+        for (int i=0; i< areas.length; i++) {
+            areas[i].sendKeys(values[i]);
+        }
     }
 
     public void clickOnRowInMappingTable(int index) {

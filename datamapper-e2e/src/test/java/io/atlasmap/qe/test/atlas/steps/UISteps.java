@@ -323,14 +323,24 @@ public class UISteps extends CucumberGlue {
 
     @Then("^check that row number \"([^\"]*)\" contains \"([^\"]*)\" as sources, \"([^\"]*)\" as taget and \"([^\"]*)\" as type$")
     public void checkThatRowNumberContainsAsSourcesAsTagetAndAsType(int number, String sources, String targets, String mappingType) {
-        assertThat(atlasmapPage.getFromMappingTable(number,"type")).isEqualToIgnoringCase(mappingType);
-        assertThat(atlasmapPage.getFromMappingTable(number,"sources")).isEqualToIgnoringCase(sources);
-        assertThat(atlasmapPage.getFromMappingTable(number,"targets")).isEqualToIgnoringCase(targets);
+        assertThat(atlasmapPage.getLabelFromMappingTable(number,"type")).isEqualToIgnoringCase(mappingType);
+        assertThat(atlasmapPage.getLabelFromMappingTable(number,"sources")).isEqualToIgnoringCase(sources);
+        assertThat(atlasmapPage.getLabelFromMappingTable(number,"targets")).isEqualToIgnoringCase(targets);
 
     }
 
     @And("^click on \"([^\"]*)\" index of table$")
     public void clickOnIndexOfTable(int index) {
         atlasmapPage.clickOnRowInMappingTable(index);
+    }
+
+    @Then("^check that on \"([^\"]*)\" row number is for \"([^\"]*)\" source value displayed \"([^\"]*)\" target preview$")
+    public void checkThatOnRowNumberIsForSourceValueSDisplayedTargetPreview(int index, String source, String target) throws Throwable {
+        atlasmapPage.clickOnRowInMappingTable(index);
+        atlasmapPage.setPreviewValueInTable(index,"sources",source.split(";"));
+        atlasmapPage.clickOnRowInMappingTable(index);
+        final String preview = atlasmapPage.getPreviewValueInTable(index,"targets");
+        assertThat(preview).isEqualTo(target);
+
     }
 }

@@ -1,4 +1,4 @@
-@MappingPreview
+@MappingPreviews
 @MappingsTablePreviews
 Feature: mappings table
 
@@ -25,7 +25,7 @@ Feature: mappings table
     And add "sourceFloat" to combine
     And add "sourceString" to combine
     And Show mapping preview
-    Then check that on "0" row number is for "5;6;7" source value displayed "6 5.0 7" target preview
+    Then check that on "0" row number is for "5;6;7" source value displayed "5 6.0 7" target preview
 
   Scenario: check separate mapping in table anch check if table is filled properly
     When add mapping from "sourceCombineString" to "targetString"
@@ -33,4 +33,4 @@ Feature: mappings table
     And add "targetInteger" to separate
     And add "targetFloat" to separate
     And Show mapping preview
-    Then check that on "0" row number is for "5 6 7" source value displayed "7,6,5" target preview
+    Then check that on "0" row number is for "5 6 7" source value displayed "5,6,7" target preview

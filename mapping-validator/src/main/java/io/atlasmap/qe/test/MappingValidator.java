@@ -33,6 +33,7 @@ public class MappingValidator {
     private TargetMappingTestClass target;
     private Map<String, Object> expectedMap;
     private Map<String, Object> sourceMap;
+
     public MappingValidator() {
         source = new SourceMappingTestClass();
         target = new TargetMappingTestClass();

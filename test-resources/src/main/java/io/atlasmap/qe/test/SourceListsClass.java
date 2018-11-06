@@ -19,8 +19,8 @@ public class SourceListsClass {
         this.objects = new ArrayList<>();
         this.sourceMappingTestclass = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            this.strings.add("String " + i);
+        for (int i = 1; i < 10; i++) {
+            this.strings.add("String" + i);
             this.integers.add(i);
             this.doubles.add((double) i);
             this.floats.add((float) i);

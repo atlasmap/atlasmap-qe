@@ -27,7 +27,7 @@ Feature: number related field actions
       | Floor          | 4.9    | 4.0    | target        |
 
     Scenario: Index of
-    When add "IndexOf" transformation on "source"
+    When add "IndexOf" transformation on "target"
     And for "input-string" input set "1"
 
     Then save and verify "Distance.xml" with

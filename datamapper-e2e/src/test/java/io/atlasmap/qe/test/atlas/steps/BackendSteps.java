@@ -1,5 +1,7 @@
 package io.atlasmap.qe.test.atlas.steps;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Map;
 
 import org.junit.Assert;
@@ -18,6 +20,7 @@ import io.atlasmap.qe.test.StringObject;
 import io.atlasmap.qe.test.TargetListsClass;
 import io.atlasmap.qe.test.TargetMappingTestClass;
 import io.atlasmap.qe.test.atlas.utils.Utils;
+
 
 public class BackendSteps extends CucumberGlue {
 
@@ -300,4 +303,24 @@ public class BackendSteps extends CucumberGlue {
         }
 
 
-}}
+}
+
+    @Then("^save and verify collections mappings in \"([^\"]*)\" \"([^\"]*)\" value is presented in \"([^\"]*)\" collection$")
+    public void saveAndVerifyCollectionsMappingsInValueIsPresentedInCollection(String mapping, String value, String collection) throws Exception {
+            userSavesMappingAs(mapping);
+
+            TargetListsClass result = (TargetListsClass) validator.processMapping(TargetListsClass.class.getName());
+            if ("/doubles".equalsIgnoreCase(collection)) {
+                assertThat(result.getDoubles().toString()).isEqualTo(value);
+            }
+            else  if ("/integers".equalsIgnoreCase(collection)) {
+                assertThat(result.getIntegers().toString()).isEqualTo(value);
+            }
+            if ("/strings".equalsIgnoreCase(collection)) {
+                assertThat(result.getStrings().toString()).isEqualTo(value);
+            }
+        if ("/floats".equalsIgnoreCase(collection)) {
+            assertThat(result.getFloats().toString()).isEqualTo(value);
+        }
+    }
+}

@@ -23,7 +23,7 @@ Feature: mappings table
     And add select "Combine" action
     And add "sourceFloat" to combine
     And add "sourceString" to combine
-    Then check that row number "0" contains "/sourceFloat,/sourceInteger,/sourceString" as sources, "/targetString" as taget and "Combine (Space [ ])" as type
+    Then check that row number "0" contains "/sourceInteger,/sourceFloat,/sourceString" as sources, "/targetString" as taget and "Combine (Space [ ])" as type
 
 
   Scenario: check separate mapping in table anch check if table is filled properly
@@ -31,7 +31,7 @@ Feature: mappings table
     And add select "Separate" action
     And add "targetInteger" to separate
     And add "targetFloat" to separate
-    Then check that row number "0" contains "/sourceCombineString" as sources, "/targetFloat,/targetInteger,/targetString" as taget and "Separate (Space [ ])" as type
+    Then check that row number "0" contains "/sourceCombineString" as sources, "/targetString,/targetInteger,/targetFloat" as taget and "Separate (Space [ ])" as type
 
   @SmokeTest
   Scenario: select and edit

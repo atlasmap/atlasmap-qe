@@ -41,8 +41,8 @@ public class AtlasmapPage {
 
     public boolean checkWarning(String exceptionType, String fromType, String toType) {
         LOG.debug("looking ...");
-        $(".alert-warning").shouldBe(Condition.appears);
-        for (String s : $$(".alert-warning").texts()) {
+        $(".alert-warn").shouldBe(Condition.appears);
+        for (String s : $$(".alert-warn").texts()) {
             if (s.equals("Conversion from '" + fromType + "' to '" + toType + "' can cause " + exceptionType)) {
                 return true;
             }
@@ -52,8 +52,8 @@ public class AtlasmapPage {
 
     public boolean checkWarningContainMessage(String containsMessage) {
         LOG.debug("looking ...");
-        $(".alert-warning").shouldBe(Condition.appears);
-        for (String s : $$(".alert-warning").texts()) {
+        $(".alert-warn").shouldBe(Condition.appears);
+        for (String s : $$(".alert-warn").texts()) {
             if (s.contains(containsMessage)) {
                 return true;
             }

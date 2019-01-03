@@ -102,6 +102,7 @@ public class AtlasmapPage {
         e.scrollIntoView(true);
         e.clear();
         e.setValue(inputValue);
+        e.waitUntil(Condition.value(inputValue),1000);
     }
 
     public void setInputValueByClassAndDefaultValue(String inputSelector, String def, String inputValue) {
@@ -185,11 +186,21 @@ public class AtlasmapPage {
     }
 
     public void setInputValueForFieldPreview(String field, String value) {
-        $(By.id(field)).$("textarea").setValue(value);
+       SelenideElement e = $(By.id(field)).$("textarea");
+       e.setValue(value);
+       e.waitUntil(Condition.value(value),1000);
     }
 
     public String getFieldPreviewValue(String field) {
-        return $(By.id(field)).$("textarea").getValue();
+        SelenideElement textarea = $(By.id(field)).$("textarea");
+        do {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while ("".equals(textarea.getValue()));
+        return textarea.getValue();
     }
 
     public void clickOnTargets(String classSelector) {

@@ -8,7 +8,7 @@ Feature: Atlasmap is able to create preview
     And internal mapping is set to "false"
     And browser is opened
     And Show mapping preview
-
+#
   Scenario: simple Combine with index change
     When click on "sourceInteger" holding cmd button
     And click on "sourceFloat" holding cmd button
@@ -60,10 +60,10 @@ Feature: Atlasmap is able to create preview
       | targetInteger | targetLong | targetString |
       | 1             | 2          | 3            |
 
-
-  #TODO investigate DATE conversions
-  #TODO different formating of number fields
-
+#
+#  #TODO investigate DATE conversions
+#  #TODO different formating of number fields
+#
   Scenario Outline: conversion fromto primitive types
     When set "9" value in source's "sourceString"
     And set mapping to "targetInteger" from "<source>"

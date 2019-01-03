@@ -242,7 +242,8 @@ public class BackendSteps extends CucumberGlue {
         validator.getSource().setSourceShort((short) 5);
         validator.getSource().setSourceDouble(6);
 
-        validator.getTarget().setTargetCombineString(String.format("Combined: sourceString%1$s1%1$s2%1$s3.0%1$s4%1$s5%1$s6.0%1$s1970-01-01T00:00:00Z",separator));
+        validator.getTarget().setTargetCombineString(String.format("sourceString%1$s1%1$s2%1$s3.0%1$s4%1$s5%1$s6.0%1$s1970-01-01T00:00:00Z",separator));
+        //validator.getTarget().setTargetCombineString(String.format("Combined: sourceString%1$s1%1$s2%1$s3.0%1$s4%1$s5%1$s6.0%1$s1970-01-01T00:00:00Z",separator));
         userSavesMappingAs(mapping);
         Assert.assertTrue(validator.verifyMapping());
 

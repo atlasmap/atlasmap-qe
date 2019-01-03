@@ -31,13 +31,14 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
@@ -45,11 +46,28 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-multipart-provider</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${spring-boot.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>3.8.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -66,18 +84,51 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--<dependency>-->
+			<!--<groupId>io.atlasmap</groupId>-->
+			<!--<artifactId>runtime</artifactId>-->
+			<!--<version>${atlasmap.version}</version>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>io.atlasmap</groupId>
-			<artifactId>runtime</artifactId>
+			<artifactId>atlas-java-module</artifactId>
 			<version>${atlasmap.version}</version>
-			<!--<scope>test</scope>-->
+		</dependency>
+		<dependency>
+			<groupId>io.atlasmap</groupId>
+			<artifactId>atlas-java-service</artifactId>
+			<version>${atlasmap.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.atlasmap</groupId>
+			<artifactId>atlas-json-module</artifactId>
+			<version>${atlasmap.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.atlasmap</groupId>
+			<artifactId>atlas-json-service</artifactId>
+			<version>${atlasmap.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.atlasmap</groupId>
+			<artifactId>atlas-xml-module</artifactId>
+			<version>${atlasmap.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.atlasmap</groupId>
+			<artifactId>atlas-xml-service</artifactId>
+			<version>${atlasmap.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.atlasmap</groupId>
+			<artifactId>atlas-service</artifactId>
+			<version>${atlasmap.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.atlasmap</groupId>
 			<artifactId>atlas-java-test-model</artifactId>
 			<version>${atlasmap.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -166,8 +217,7 @@
 						<argument>--logging.level.io.atlasmap=DEBUG</argument>
 						<argument>--logging.file=target/atlasmap-spring-boot.log</argument>
 					</arguments>
-					<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
-						-server -Xms256m -Xmx512m
+					<jvmArguments>-server -Xms256m -Xmx1024m
 					</jvmArguments>
 				</configuration>
 

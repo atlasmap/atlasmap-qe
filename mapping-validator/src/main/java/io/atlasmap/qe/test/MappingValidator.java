@@ -1,32 +1,33 @@
 package io.atlasmap.qe.test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.camel.CamelContext;
-import org.apache.camel.Message;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.atlasmap.AtlasComponent;
-import org.apache.camel.component.atlasmap.AtlasConstants;
 import org.apache.camel.component.mock.MockEndpoint;
 
 import org.apache.camel.impl.DefaultCamelContext;
-import org.apache.camel.impl.DefaultMessage;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import org.junit.Assert;
-
 import io.atlasmap.qe.resources.ResourcesGenerator;
+
+
 
 /**
  * Created by mmelko on 15/11/2017.
  */
 public class MappingValidator {
     private static final Logger LOG = LogManager.getLogger(MappingValidator.class);
+    public static final String SOURCE_MAP = "SOURCE_MAP";
+    public static final String TARGET_MAP = "TARGET_MAP";
 
     private String mappingLocation;
     private SourceMappingTestClass source;
@@ -84,16 +85,16 @@ public class MappingValidator {
         MockEndpoint resultEndpoint = context.getEndpoint("mock:result", MockEndpoint.class);
         ProducerTemplate template = context.createProducerTemplate();
         context.start();
-        Map<String, Message> atlasSourceMap = new HashMap<>();
+//        Map<String, Message> atlasSourceMap = new HashMap<>();
+//
+//        input.forEach((k, v) -> {
+//            Message msg = new DefaultMessage(context);
+//            msg.setBody(v);
+//            atlasSourceMap.put(k, msg);
+//        });
 
-        input.forEach((k, v) -> {
-            Message msg = new DefaultMessage(context);
-            msg.setBody(v);
-            atlasSourceMap.put(k, msg);
-        });
-
-        template.sendBodyAndProperty("direct:start", null, AtlasConstants.ATLAS_SOURCE_MAP, atlasSourceMap);
-        Map<String, Object> targetMap = resultEndpoint.getExchanges().get(0).getProperty(AtlasConstants.ATLAS_TARGET_MAP, Map.class);
+        template.sendBody("direct:start", input);
+        Map<String, Object> targetMap = resultEndpoint.getExchanges().get(0).getIn().getBody( Map.class);
         context.stop();
 
         return targetMap;
@@ -107,7 +108,7 @@ public class MappingValidator {
         this.target = new TargetMappingTestClass();
         this.source = new SourceMappingTestClass();
         if (equals) {
-            Assert.assertEquals(target, processedTarget);
+            assertThat(target).isEqualTo(processedTarget);
         }
         return target.equals(processedTarget);
     }
@@ -129,14 +130,14 @@ public class MappingValidator {
 
     public boolean verifyMappingInputExpected(Map<String, Object> input, Map<String, Object> expected) throws Exception {
         Map<String, Object> processed = processMappingInputMap(input);
-        Assert.assertTrue(processed.size() > 0);
+        assertThat(processed.size()).isGreaterThan(0);
         if (processed.isEmpty()) {
             return false;
         }
 
         expected.forEach((k, v) -> {
             Object actual = processed.get(k);
-            Assert.assertEquals(v, actual);
+            assertThat(v).isEqualTo(actual);
         });
         return true;
     }
@@ -228,5 +229,19 @@ public class MappingValidator {
         sourceMap.put("sourceJson", ResourcesGenerator.getJsonInstance());
         sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
         sourceMap.put("sourceXmlSchema", ResourcesGenerator.getXmlSchemaInstance(null));
+    }
+
+    public static void main(String[] args) {
+        MappingValidator mv = new MappingValidator();
+        if (args.length > 1) {
+            mv.setMappingLocation(args[0]);
+            Object result = null;
+            try {
+                result = mv.processMapping(args[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println(result.toString());
+        }
     }
 }

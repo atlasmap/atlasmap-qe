@@ -30,6 +30,14 @@ Feature: conversion from FLOAT to all supported types
     When  set mapping to "targetBoolean" from "sourceFloat"
     Then check if no warnings are displayed
 
+    When  set mapping to "targetBigInteger" from "sourceFloat"
+  #  Then check if no warnings are displayed
+
+    When  set mapping to "targetBigDecimal" from "sourceFloat"
+    Then check if no warnings are displayed
+
+
+
     When set mapping to "targetShort" from "sourceFloat"
     Then check if "numeric format exceptions" warning from "FLOAT" to "SHORT" is not displayed
     And check if "out of range exceptions" warning from "FLOAT" to "SHORT" is displayed

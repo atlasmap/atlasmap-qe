@@ -22,6 +22,12 @@ Feature: conversions from INTEGER to all supported types
     When set mapping to "targetDouble" from "sourceInteger"
     Then check if no warnings are displayed
 
+    When set mapping to "targetBigInteger" from "sourceInteger"
+    Then check if no warnings are displayed
+
+    When set mapping to "targetBigDecimal" from "sourceInteger"
+    Then check if no warnings are displayed
+
     When set mapping to "targetFloat" from "sourceInteger"
     Then check if "out of range exceptions" warning from "INTEGER" to "FLOAT" is displayed
     And check if "numeric format exceptions" warning from "INTEGER" to "FLOAT" is not displayed

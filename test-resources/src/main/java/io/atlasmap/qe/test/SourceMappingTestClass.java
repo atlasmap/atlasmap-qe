@@ -1,6 +1,8 @@
 package io.atlasmap.qe.test;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,13 +20,25 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
     private long sourceLong;
     private float sourceFloat;
     private double sourceDouble;
+    private BigDecimal sourceBigDecimal;
     private Date sourceDate;
     private String sourceAnotherString;
     private boolean sourceBoolean;
     private short sourceShort;
     private byte sourceByte;
     private char sourceChar;
+
+    public BigDecimal getSourceBigDecimal() {
+        return sourceBigDecimal;
+    }
+
+    public void setSourceBigDecimal(BigDecimal sourceBigDecimal) {
+        this.sourceBigDecimal = sourceBigDecimal;
+    }
+
+    private BigInteger sourceBigInteger;
     private SmallMappingTestClass smallMappingTestClass;
+
 
     public SourceMappingTestClass() {
         this.sourceString = "sourceString";
@@ -36,6 +50,8 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
         this.sourceShort = 5;
         this.sourceByte = Byte.MAX_VALUE;
         this.sourceChar = 'A';
+        this.sourceBigInteger=new BigInteger("12345");
+        this.sourceBigDecimal=new BigDecimal("12345");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         try {
@@ -170,6 +186,13 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
         this.smallMappingTestClass = o;
     }
 
+    public BigInteger getSourceBigInteger() {
+        return sourceBigInteger;
+    }
+
+    public void setSourceBigInteger(BigInteger sourceBigInteger) {
+        this.sourceBigInteger = sourceBigInteger;
+    }
 
     @Override
     public void setAndConvertValue(String field, Object value) throws ParseException {
@@ -208,7 +231,14 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
                 this.setSourceByte(Byte.parseByte(value.toString()));
                 break;
             }
-
+            case "sourceBigInteger": {
+                this.setSourceBigInteger(new BigInteger(value.toString()));
+                break;
+            }
+            case "sourceBigDecimal": {
+                this.setSourceBigDecimal(new BigDecimal(value.toString()));
+                break;
+            }
             case "sourceChar": {
                 this.setSourceChar(value.toString().toCharArray()[0]);
                 break;
@@ -245,6 +275,10 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
                 return getSourceString();
             case "sourceInteger":
                 return getSourceInteger();
+            case "sourceBigInteger":
+                return getSourceBigInteger();
+            case "sourceBigDecimal":
+                return getSourceBigDecimal();
             case "sourceLong":
                 return getSourceLong();
             case "sourceFloat":

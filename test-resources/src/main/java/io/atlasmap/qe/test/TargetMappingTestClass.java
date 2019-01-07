@@ -1,6 +1,8 @@
 package io.atlasmap.qe.test;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +27,8 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
     private short targetShort;
     private byte targetByte;
     private char targetChar;
+    private BigInteger targetBigInteger;
+    private BigDecimal targetBigDecimal;
     private SmallMappingTestClass targetSmallMappingTestClass;
     private DatesObject dateObjectVariable;
 
@@ -128,6 +132,15 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                 }
                 break;
             }
+
+            case "targetBigDecimal": {
+                if (value instanceof Character) {
+                    this.setTargetBigDecimal(BigDecimal.valueOf((Character) value));
+                } else {
+                    this.setTargetBigDecimal(new BigDecimal(value.toString()));
+                }
+                break;
+            }
             case "targetLong": {
                 if (value instanceof Character) {
                     this.setTargetLong(Long.valueOf((Character) value));
@@ -226,6 +239,10 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                 return getTargetString();
             case "targetInteger":
                 return getTargetInteger();
+            case "targetBigInteger":
+                return getTargetBigInteger();
+            case "tagetBigDecimal":
+                return getTargetBigDecimal();
             case "targetLong":
                 return getTargetLong();
             case "targetFloat":
@@ -266,6 +283,22 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
 
     public int getTargetInteger() {
         return targetInteger;
+    }
+
+    public BigInteger getTargetBigInteger() {
+        return targetBigInteger;
+    }
+
+    public void setTargetBigInteger(BigInteger targetBigInteger) {
+        this.targetBigInteger = targetBigInteger;
+    }
+
+    public BigDecimal getTargetBigDecimal() {
+        return targetBigDecimal;
+    }
+
+    public void setTargetBigDecimal(BigDecimal targetBigDecimal) {
+        this.targetBigDecimal = targetBigDecimal;
     }
 
     public void setTargetInteger(int targetInteger) {

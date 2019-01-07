@@ -31,6 +31,13 @@ Feature: conversion from LONG
     When  set mapping to "targetBoolean" from "sourceDouble"
     Then check if no warnings are displayed
 
+    When  set mapping to "targetBigInteger" from "sourceDouble"
+    Then check if no warnings are displayed
+    
+    When  set mapping to "targetBigDecimal" from "sourceDouble"
+    Then check if no warnings are displayed
+
+
     When set mapping to "targetShort" from "sourceDouble"
     Then check if "numeric format exceptions" warning from "DOUBLE" to "SHORT" is not displayed
     And check if "out of range exceptions" warning from "DOUBLE" to "SHORT" is displayed

@@ -74,7 +74,7 @@ public class AtlasmapPage {
 
     public void checkWarnings() {
         LOG.debug("looking ...");
-        $(".alert-warning").shouldNot(Condition.appears);
+        $(".alert-warn").shouldNot(Condition.appears);
     }
 
     public void clickOnButtonByText(String elementName) {

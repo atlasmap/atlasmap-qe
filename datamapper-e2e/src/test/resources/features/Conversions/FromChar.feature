@@ -26,6 +26,12 @@ Feature: conversions from Char to all supported types
     When set mapping to "targetDouble" from "sourceChar"
     Then check if no warnings are displayed
 
+    When set mapping to "targetBigDecimal" from "sourceChar"
+    Then check if no warnings are displayed
+
+    When set mapping to "targetBigInteger" from "sourceChar"
+    Then check if no warnings are displayed
+
     When set mapping to "targetByte" from "sourceChar"
     Then check if "out of range exceptions" warning from "CHAR" to "BYTE" is displayed
     And check if "numeric format exceptions" warning from "CHAR" to "BYTE" is not displayed

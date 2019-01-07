@@ -15,6 +15,12 @@ Feature: conversion from Boolean
     When set mapping to "targetInteger" from "sourceBoolean"
     Then check if no warnings are displayed
 
+    When set mapping to "targetBigInteger" from "sourceBoolean"
+    Then check if no warnings are displayed
+
+    When set mapping to "targetBigDecimal" from "sourceBoolean"
+    Then check if no warnings are displayed
+
     When set mapping to "targetString" from "sourceBoolean"
     Then check if no warnings are displayed
 

@@ -17,6 +17,10 @@ public class StringObject {
         this.lastName = p + "_Snow";
     }
 
+    public StringObject (String first,String last) {
+        this.firstName = first;
+        this.lastName = last;
+    }
     @Override
     public String toString() {
         return "StringObject{" +

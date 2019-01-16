@@ -72,6 +72,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
      this.addTextDocument('sourceJson', DocumentType.JSON, InspectionType.SCHEMA, jsonResources.sourceSchema, true)
      this.addTextDocument('targetJson', DocumentType.JSON, InspectionType.SCHEMA, jsonResources.targetSchema, false);
+     this.addTextDocument('sourceArrays', DocumentType.JSON, InspectionType.INSTANCE, jsonResources.sourceInstance, true);
+     this.addTextDocument('targetArrays', DocumentType.JSON, InspectionType.INSTANCE, jsonResources.sourceInstance, false);
 
      this.addTextDocument('targetXmlSchema', DocumentType.XML, InspectionType.SCHEMA, xmlResources.targetXMLSchema, false);
      this.addTextDocument('sourceXmlInstance', DocumentType.XML, InspectionType.INSTANCE, xmlResources.sourceInstance, true);

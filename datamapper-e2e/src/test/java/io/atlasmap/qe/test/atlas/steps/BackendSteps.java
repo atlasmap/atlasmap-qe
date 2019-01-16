@@ -2,9 +2,9 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-
-import org.junit.Assert;
 
 import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
@@ -12,6 +12,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import io.atlasmap.qe.resources.ResourcesGenerator;
 import io.atlasmap.qe.test.DatesObject;
 import io.atlasmap.qe.test.MappingValidator;
 import io.atlasmap.qe.test.SmallMappingTestClass;
@@ -20,6 +21,8 @@ import io.atlasmap.qe.test.StringObject;
 import io.atlasmap.qe.test.TargetListsClass;
 import io.atlasmap.qe.test.TargetMappingTestClass;
 import io.atlasmap.qe.test.atlas.utils.Utils;
+
+
 
 
 public class BackendSteps extends CucumberGlue {
@@ -33,7 +36,7 @@ public class BackendSteps extends CucumberGlue {
     @Given("^atlasmap contains TestClass$")
     public void atlasmapContainsTestClass() throws Exception {
         String resp = Utils.requestClass(atlasmapPage.TEST_CLASS);
-        Assert.assertTrue(resp.contains(atlasmapPage.TEST_CLASS));
+        assertThat(resp).contains(atlasmapPage.TEST_CLASS);
     }
 
     @Then("^save mapping as \"([^\"]*)\"$")
@@ -45,7 +48,7 @@ public class BackendSteps extends CucumberGlue {
 
     @And("^verify \"([^\"]*)\"$")
     public void verify(String arg0) throws Throwable {
-        Assert.assertTrue(validator.verifyMapping());
+        assertThat(validator.verifyMapping()).isTrue();
 
     }
 
@@ -88,14 +91,14 @@ public class BackendSteps extends CucumberGlue {
     public void verifyIfIsNotIn(String field, String value, String path) throws Throwable { //
         // Assert.assertTrue(validator.verifyMapping());
         TargetMappingTestClass processed = this.validator.processMapping();
-        Assert.assertNotEquals(processed.getValue(field), value);
+        assertThat(processed.getValue(field)).isNotEqualTo(value);
 
     }
 
     @Then("^save and verify mapping as \"([^\"]*)\"$")
     public void saveAndVerifyMappingAs(String arg0) throws Throwable {
         userSavesMappingAs(arg0);
-        Assert.assertTrue(validator.verifyMapping());
+        assertThat(validator.verifyMapping()).isTrue();
     }
 
     @And("^set \"([^\"]*)\" value in source's \"([^\"]*)\"$")
@@ -124,10 +127,9 @@ public class BackendSteps extends CucumberGlue {
         String targetField = testValues.getPickleRows().get(0).getCells().get(1).getValue();
 
         for (Map<String, String> data : testValues.asMaps(String.class, String.class)) {
-
             this.validator.setSourceValue(sourceField, data.get(sourceField));
             this.validator.setTargetValue(targetField, data.get(targetField));
-            Assert.assertEquals(this.validator.verifyMapping(checkIfTrue), checkIfTrue);
+            assertThat(this.validator.verifyMapping(checkIfTrue)).isEqualTo(checkIfTrue);
         }
     }
 
@@ -155,7 +157,7 @@ public class BackendSteps extends CucumberGlue {
     @Then("^save and verify mapping with multiple objects as \"([^\"]*)\"$")
     public void saveAndVerifyMappingWithMultipleObjectsAs(String arg0) throws Throwable {
         userSavesMappingAs(arg0);
-        Assert.assertTrue(validator.verifyMultiObjectMapping());
+        assertThat(validator.verifyMultiObjectMapping()).isTrue();
     }
 
     @And("^Init smallMappingTestClass and add to source map$")
@@ -169,68 +171,68 @@ public class BackendSteps extends CucumberGlue {
         userSavesMappingAs(mapping);
 
         SourceListsClass slc = new SourceListsClass();
-        TargetListsClass tlc = (TargetListsClass) validator.processSingleObjectMapping(slc,TargetListsClass.class.getName());
-
-        for (int i =0;i<slc.getObjects().size();i++) {
+        TargetListsClass tlc = (TargetListsClass) validator.processSingleObjectMapping(slc, TargetListsClass.class.getName());
+        tlc.getObjects().forEach(s -> System.out.println(s.toString()));
+        for (int i = 0; i < slc.getObjects().size(); i++) {
             final StringObject src = slc.getObjects().get(i);
             final StringObject tgt = tlc.getObjects().get(i);
 
-            Assert.assertEquals(src.getFirstName(),tgt.getLastName());
-            Assert.assertEquals(src.getLastName(),tgt.getFirstName());
+            assertThat(src.getFirstName()).isEqualTo(tgt.getLastName());
+            assertThat(src.getLastName()).isEqualTo(tgt.getFirstName());
         }
     }
 
     @And("^init DateObject \"([^\"]*)\"$")
     public void initDateObject(String date) throws Throwable {
         DatesObject d = new DatesObject(date);
-       // System.out.println(d.toString());
+        // System.out.println(d.toString());
 
-        this.validator.addSource(d.getClass().getName(),d);
+        this.validator.addSource(d.getClass().getName(), d);
         //System.out.println(this.validator.getSource(d.getClass().getName()));
 
     }
 
     @Then("^save and verify mapping from \"([^\"]*)\" to datetypes as \"([^\"]*)\"$")
     public void saveAndVerifyMappingFromToDatetypesAs(String source, String mapping) throws Throwable {
-     //   Thread.sleep(00);
+        //   Thread.sleep(00);
         userSavesMappingAs(mapping);
         TargetMappingTestClass t = (TargetMappingTestClass) validator.processMapping(TargetMappingTestClass.class.getName());
         DatesObject d = t.getDateObjectVariable();
-        DatesObject sourceDate = (DatesObject)this.validator.getSource(DatesObject.class.getName());
+        DatesObject sourceDate = (DatesObject) this.validator.getSource(DatesObject.class.getName());
 
-        Assert.assertEquals(sourceDate.getStandardJavaDate(),d.getStandardJavaDate());
-        Assert.assertEquals(sourceDate.getCalendar().getTimeInMillis(),d.getCalendar().getTimeInMillis());
-        Assert.assertEquals(sourceDate.getLocalDate(),d.getLocalDate());
-        Assert.assertEquals(sourceDate.getLocalDateTime(),d.getLocalDateTime());
-        Assert.assertEquals(sourceDate.getLocalTime(),d.getLocalTime());
-        Assert.assertEquals(sourceDate.getTime(),d.getTime());
-        Assert.assertEquals(sourceDate.getTimestamp(),d.getTimestamp());
-        Assert.assertEquals(sourceDate.getZonedDateTime(),d.getZonedDateTime());
-        Assert.assertEquals(sourceDate.getSqlDate().toString(),d.getSqlDate().toString());
-        Assert.assertEquals(sourceDate.getGregorianCalendar(),d.getGregorianCalendar());
+       assertThat(sourceDate.getStandardJavaDate()).isEqualTo(d.getStandardJavaDate());
+       assertThat(sourceDate.getCalendar().getTimeInMillis()).isEqualTo(d.getCalendar().getTimeInMillis());
+       assertThat(sourceDate.getLocalDate()).isEqualTo(d.getLocalDate());
+       assertThat(sourceDate.getLocalDateTime()).isEqualTo(d.getLocalDateTime());
+       assertThat(sourceDate.getLocalTime()).isEqualTo(d.getLocalTime());
+       assertThat(sourceDate.getTime()).isEqualTo(d.getTime());
+       assertThat(sourceDate.getTimestamp()).isEqualTo(d.getTimestamp());
+       assertThat(sourceDate.getZonedDateTime()).isEqualTo(d.getZonedDateTime());
+       assertThat(sourceDate.getSqlDate().toString()).isEqualTo(d.getSqlDate().toString());
+       assertThat(sourceDate.getGregorianCalendar()).isEqualTo(d.getGregorianCalendar());
 
-        Assert.assertTrue(validator.verifyMultiObjectMapping());
+       assertThat(validator.verifyMultiObjectMapping()).isTrue();
     }
 
     @Then("^save and verify datetypes mapping  as \"([^\"]*)\" and skip sql formats$")
     public void saveAndVerifyDatetypesMappingAsAndSkipSqlFormats(String mapping) throws Throwable {
-     //   Thread.sleep(500);
+        //   Thread.sleep(500);
         userSavesMappingAs(mapping);
         TargetMappingTestClass t = (TargetMappingTestClass) validator.processMapping(TargetMappingTestClass.class.getName());
         DatesObject d = t.getDateObjectVariable();
-        DatesObject sourceDate = (DatesObject)this.validator.getSource(DatesObject.class.getName());
+        DatesObject sourceDate = (DatesObject) this.validator.getSource(DatesObject.class.getName());
 
 
         if (!mapping.contains("Time")) {
-            Assert.assertEquals(sourceDate.getLocalDate(), d.getLocalDate());
-            Assert.assertEquals(sourceDate.getStandardJavaDate(),d.getStandardJavaDate());
-            Assert.assertEquals(sourceDate.getCalendar().getTime(),d.getCalendar().getTime());
+           assertThat(sourceDate.getLocalDate()).isEqualTo( d.getLocalDate());
+           assertThat(sourceDate.getStandardJavaDate()).isEqualTo( d.getStandardJavaDate());
+           assertThat(sourceDate.getCalendar().getTime()).isEqualTo(d.getCalendar().getTime());
         }
-        Assert.assertEquals(sourceDate.getLocalDateTime(),d.getLocalDateTime());
-        Assert.assertEquals(sourceDate.getLocalTime(),d.getLocalTime());
-        Assert.assertEquals(sourceDate.getZonedDateTime(),d.getZonedDateTime());
-        Assert.assertEquals(sourceDate.getGregorianCalendar(),d.getGregorianCalendar());
-        Assert.assertTrue(validator.verifyMultiObjectMapping());
+       assertThat(sourceDate.getLocalDateTime()).isEqualTo( d.getLocalDateTime());
+       assertThat(sourceDate.getLocalTime()).isEqualTo( d.getLocalTime());
+       assertThat(sourceDate.getZonedDateTime()).isEqualTo( d.getZonedDateTime());
+       assertThat(sourceDate.getGregorianCalendar()).isEqualTo(d.getGregorianCalendar());
+        assertThat(validator.verifyMultiObjectMapping()).isTrue();
     }
 
     @Then("^save and verify combine mapping with \"([^\"]*)\" separator as \"([^\"]*)\"$")
@@ -242,16 +244,16 @@ public class BackendSteps extends CucumberGlue {
         validator.getSource().setSourceShort((short) 5);
         validator.getSource().setSourceDouble(6);
 
-        validator.getTarget().setTargetCombineString(String.format("sourceString%1$s1%1$s2%1$s3.0%1$s4%1$s5%1$s6.0%1$s1970-01-01T00:00:00Z",separator));
+        validator.getTarget().setTargetCombineString(String.format("sourceString%1$s1%1$s2%1$s3.0%1$s4%1$s5%1$s6.0%1$s1970-01-01T00:00:00Z", separator));
         //validator.getTarget().setTargetCombineString(String.format("Combined: sourceString%1$s1%1$s2%1$s3.0%1$s4%1$s5%1$s6.0%1$s1970-01-01T00:00:00Z",separator));
         userSavesMappingAs(mapping);
-        Assert.assertTrue(validator.verifyMapping());
+        assertThat(validator.verifyMapping()).isTrue();
 
     }
 
     @Then("^save and verify separate mapping with \"([^\"]*)\" separator as \"([^\"]*)\"$")
     public void saveAndVerifySeparateMappingWithSeparatorAs(String separator, String mapping) throws Throwable {
-        validator.getSource().setSourceCombineString(String.format("numbers:%1$sA%1$s2%1$s3.0%1$s4%1$s5%1$s6.0",separator));
+        validator.getSource().setSourceCombineString(String.format("numbers:%1$sA%1$s2%1$s3.0%1$s4%1$s5%1$s6.0", separator));
 
         validator.getTarget().setTargetChar('A');
         validator.getTarget().setTargetString("numbers:");
@@ -261,67 +263,116 @@ public class BackendSteps extends CucumberGlue {
         validator.getTarget().setTargetShort((short) 5);
         validator.getTarget().setTargetDouble(6);
         userSavesMappingAs(mapping);
-        Assert.assertTrue(validator.verifyMapping());
+        assertThat(validator.verifyMapping()).isTrue();
     }
 
     @And("^init SourceListClass and add in sourceMap$")
-    public void initSourceListClassAndAddInSourceMap() throws Throwable {
+    public void initSourceListClassAndAddInSourceMap() {
         final SourceListsClass src = new SourceListsClass();
-        validator.addSource(src.getClass().getName(),src);
+        validator.addSource(src.getClass().getName(), src);
     }
 
     @Then("^save and verify that \"([^\"]*)\" contains \"([^\"]*)\" as \"([^\"]*)\"$")
     public void saveAndVerifyThatContainsAs(String array, String var, String path) throws Throwable {
-      userSavesMappingAs(path);
+        userSavesMappingAs(path);
+        TargetMappingTestClass target = (TargetMappingTestClass) validator.processMapping(TargetMappingTestClass.class.getName());
 
-      TargetMappingTestClass target = (TargetMappingTestClass) validator.processMapping(TargetMappingTestClass.class.getName());
-      if ("listOfStrings".equals(array)) {
-          if(!var.contains("listOfIntegers")) {
-              Assert.assertTrue(target.getTargetSmallMappingTestClass().getListOfStrings().contains(var));
-          } else {
-              //listOfIntegers
-              for(int i=0;i<target.getTargetSmallMappingTestClass().getListOfIntegers().size();i++) {
-                  Assert.assertEquals(target.getTargetSmallMappingTestClass().getListOfIntegers().get(i).toString(),target.getTargetSmallMappingTestClass().getListOfStrings().get(i));
-              }
-          }
-      }
-      else if ("listOfIntegers".equals(array)) {
-          Assert.assertTrue(target.getTargetSmallMappingTestClass().getListOfIntegers().contains(Integer.valueOf(var)));
-      }
-      else {
-          Assert.fail("Unable to find field " +array);
-      }
+        if ("listOfStrings".equals(array)) {
+            final List strings = target.getTargetSmallMappingTestClass().getListOfStrings();
+
+            if (var.contains("listOfIntegers")) {
+                final List<Integer> integers = target.getTargetSmallMappingTestClass().getListOfIntegers();
+                integers.forEach(i -> {
+                    assertThat(strings).contains(i.toString());
+                });
+            } else if (var.contains("set")) {
+                assertThat(target.getTargetSmallMappingTestClass().getListOfStrings()).containsAll((new SourceListsClass()).getSet());
+            } else if (var.contains("array")) {
+                assertThat(target.getTargetSmallMappingTestClass().getListOfStrings()).containsAll(Arrays.asList((new SourceListsClass()).getArray()));
+            }
+        } else if ("listOfIntegers".equals(array)) {
+            final List integers = target.getTargetSmallMappingTestClass().getListOfIntegers();
+            if ("listOfIntegers".equals(var)) {
+                integers.forEach(i -> {
+                    ResourcesGenerator.getJsonArrays("jsonIntegers").contains(i);
+                });
+            }
+            else {
+                assertThat(integers).contains(Integer.valueOf(var));
+            }
+        } else {
+            throw new Exception("Unable to find field " + array);
+        }
     }
 
+    @Then("^save and verify repeating mapping of collections to object as \"([^\"]*)\"$")
+    public void saveAndVerifyRepeatingMappingOfCollectionsToObjectAs(String mapping) throws Throwable {
+        userSavesMappingAs(mapping);
+
+        SourceListsClass slc = new SourceListsClass();
+        TargetListsClass tlc = (TargetListsClass) validator.processSingleObjectMapping(slc, TargetListsClass.class.getName());
+        tlc.getObjects().forEach(s -> {
+            System.out.println(s.toString());
+            assertThat(slc.getSet()).contains( s.getFirstName());
+            assertThat(slc.getStrings()).contains(s.getLastName());
+        });
+    }
+
+
     @Then("^save mapping as \"([^\"]*)\" and verify \"([^\"]*)\" with$")
-    public void saveAndVerifyMappingXmlJsonAsWith(String path ,String expected, DataTable values) throws Throwable {
+    public void saveAndVerifyMappingXmlJsonAsWith(String path, String expected, DataTable values) throws Throwable {
         userSavesMappingAs(path);
         String result = (String) validator.processMapping(expected);
-       // System.out.println(result);
-        for(String value:values.asList(String.class)) {
+        // System.out.println(result);
+        for (String value : values.asList(String.class)) {
             LOG.info("Checking " + value);
-            Assert.assertTrue(result.contains(value));
+            assertThat(result).contains(value);
         }
-
-
-}
+    }
 
     @Then("^save and verify collections mappings in \"([^\"]*)\" \"([^\"]*)\" value is presented in \"([^\"]*)\" collection$")
     public void saveAndVerifyCollectionsMappingsInValueIsPresentedInCollection(String mapping, String value, String collection) throws Exception {
-            userSavesMappingAs(mapping);
+        userSavesMappingAs(mapping);
 
-            TargetListsClass result = (TargetListsClass) validator.processMapping(TargetListsClass.class.getName());
-            if ("/doubles".equalsIgnoreCase(collection)) {
-                assertThat(result.getDoubles().toString()).isEqualTo(value);
-            }
-            else  if ("/integers".equalsIgnoreCase(collection)) {
-                assertThat(result.getIntegers().toString()).isEqualTo(value);
-            }
-            if ("/strings".equalsIgnoreCase(collection)) {
-                assertThat(result.getStrings().toString()).isEqualTo(value);
-            }
+        TargetListsClass result = (TargetListsClass) validator.processMapping(TargetListsClass.class.getName());
+        if ("/doubles".equalsIgnoreCase(collection)) {
+            assertThat(result.getDoubles().toString()).isEqualTo(value);
+        } else if ("/integers".equalsIgnoreCase(collection)) {
+            assertThat(result.getIntegers().toString()).isEqualTo(value);
+        }
+        if ("/strings".equalsIgnoreCase(collection)) {
+            assertThat(result.getStrings().toString()).isEqualTo(value);
+        }
         if ("/floats".equalsIgnoreCase(collection)) {
             assertThat(result.getFloats().toString()).isEqualTo(value);
+        }
+    }
+
+    @Then("^save and verify repeating mapping of json collections to object as \"([^\"]*)\"$")
+    public void saveAndVerifyRepeatingMappingOfJsonCollectionsToObjectAs(String mapping) throws Throwable {
+        userSavesMappingAs(mapping);
+
+        TargetListsClass tlc = (TargetListsClass) validator.processSingleObjectMapping(ResourcesGenerator.getJsonArrays(),"sourceArrays", TargetListsClass.class.getName());
+        final List<Object> integers = ResourcesGenerator.getJsonArrays("jsonIntegers");
+        final List<Object> strings = ResourcesGenerator.getJsonArrays("jsonStrings");
+
+        assertThat(integers.size()).isGreaterThan(0);
+        assertThat(strings.size()).isGreaterThan(0);
+        tlc.getObjects().forEach(s -> {
+            System.out.println(s.toString());
+            assertThat(integers).contains( Integer.parseInt(s.getFirstName()));
+            assertThat(strings).contains(s.getLastName());
+        });
+    }
+
+    @Then("^save and verify repeating mapping of json object to object as \"([^\"]*)\"$")
+    public void saveAndVerifyRepeatingMappingOfJsonObjectToObjectAs(String mapping) throws Throwable {
+        userSavesMappingAs(mapping);
+        final List<StringObject> targetObjects = ((TargetListsClass) validator.processSingleObjectMapping(ResourcesGenerator.getJsonArrays(),"sourceArrays", TargetListsClass.class.getName())).getObjects();
+        final List jsonObjects = ResourcesGenerator.getJsonArrays("jsonObjects");
+        for(int i=0;i<targetObjects.size();i++) {
+            assertThat(targetObjects.get(i).getFirstName()).isEqualTo(((StringObject)jsonObjects.get(i)).getFirstName());
+            assertThat(targetObjects.get(i).getLastName()).isEqualTo(((StringObject)jsonObjects.get(i)).getLastName());
         }
     }
 }

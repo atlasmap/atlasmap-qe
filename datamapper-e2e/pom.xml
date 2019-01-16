@@ -14,6 +14,9 @@
 	<artifactId>datamapper-e2e</artifactId>
 	<properties>
 		<atlasmap.ui.directory>${project.basedir}/src/main/resources/atlasmap-datamapper-wrapper</atlasmap.ui.directory>
+		<workspace.dir>/home/mmelko/RH_WORK/Work/Test/syndesis </workspace.dir>
+		<atlasmap.ui.dependency>${workspace.dir}/atlasmap/ui/dist/lib</atlasmap.ui.dependency>
+
 	</properties>
 
 	<dependencyManagement>
@@ -284,7 +287,8 @@
 									<goal>yarn</goal>
 								</goals>
 								<configuration>
-									<arguments>upgrade @atlasmap/atlasmap-data-mapper@${atlasmap.ui.version}</arguments>
+									<!--<arguments>upgrade @atlasmap/atlasmap-data-mapper@${atlasmap.ui.version}</arguments>-->
+									<arguments>add file:${atlasmap.ui.dependency}</arguments>
 								</configuration>
 								<phase>generate-resources</phase>
 							</execution>

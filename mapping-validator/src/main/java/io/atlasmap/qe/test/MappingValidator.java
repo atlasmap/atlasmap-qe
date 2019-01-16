@@ -59,8 +59,12 @@ public class MappingValidator {
     }
 
     public Object processSingleObjectMapping(Object input, String expected) throws Exception {
+        return processSingleObjectMapping(input,input.getClass().getName(),expected);
+    }
+
+    public Object processSingleObjectMapping(Object input,String inputName, String expected) throws Exception {
         Map<String, Object> sourceMap = new HashMap<>();
-        sourceMap.put(input.getClass().getName(), input);
+        sourceMap.put(inputName, input);
         Map<String, Object> processed = processMappingInputMap(sourceMap);
 
         return processed.get(expected);
@@ -227,6 +231,7 @@ public class MappingValidator {
         sourceMap.put(SmallMappingTestClass.class.getName(), new SmallMappingTestClass());
         sourceMap.put(DatesObject.class.getName(), new DatesObject("22-12-2012"));
         sourceMap.put("sourceJson", ResourcesGenerator.getJsonInstance());
+        sourceMap.put("sourceArrays", ResourcesGenerator.getJsonArrays());
         sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
         sourceMap.put("sourceXmlSchema", ResourcesGenerator.getXmlSchemaInstance(null));
     }

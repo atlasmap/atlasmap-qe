@@ -8,7 +8,7 @@ Feature: conversion from string
     And browser is opened
     And internal mapping is set to "true"
     And set mapping from "sourceString" to "targetString"
-
+#
   Scenario Outline: Simple string transformations:
     When add transformation on "<source/target>"
     Then verify in "<transformation>" transformation that  "<source>" is transformed to "<target>"
@@ -45,7 +45,7 @@ Feature: conversion from string
     When add transformation on "source"
     Then  verify in "TrimRight" transformation that  "  String for   trim  " is transformed to "  String for   trim"
 
-#     GGNERATE UUID Problem --disabled
+ #    GGNERATE UUID Problem --disabled
 #  Scenario Outline:  Generate UUID
 #    When add transformation on "<source/target>"
 #    And select "GenerateUUID" transformation
@@ -62,6 +62,7 @@ Feature: conversion from string
 
 #
 #  # PAD STRING LEFT
+#  # PAD STRING LEFT
   Scenario Outline: with inputs
     When add transformation on "<source/target>"
     When select "<transformation>" transformation
@@ -73,24 +74,22 @@ Feature: conversion from string
 
     Examples:
       | source/target | transformation | input-1            | input-1-value | input-2          | input-2-value | source                       | target              |
-  #    | target        | Append         | input-string       | bar           | N/A              | N/A           | FOO                          | FOObar              |
+      | target        | Append         | input-string       | bar           | N/A              | N/A           | FOO                          | FOObar              |
       | target        | PadStringLeft  | input-padCharacter | -             | input-padCount   | 3             | FooBar                       | ---FooBar           |
       | source        | PadStringLeft  | input-padCharacter | -             | input-padCount   | 3             | FooBar                       | ---FooBar           |
       | target        | PadStringLeft  | input-padCharacter | -             | input-padCount   | 0             | FooBar                       | FooBar              |
       | source        | PadStringLeft  | input-padCharacter | -             | input-padCount   | 0             | FooBar                       | FooBar              |
       | target        | PadStringRight | input-padCharacter | -             | input-padCount   | 3             | FooBar                       | FooBar---           |
       | source        | PadStringRight | input-padCharacter | -             | input-padCount   | 3             | FooBar                       | FooBar---           |
-  #    | target        | Prepend        | input-string       | bar           | N/A              | N/A           | FOO                          | barFOO              |
-  #    | source        | Prepend        | input-string       | bar           | N/A              | N/A           | FOO                          | barFOO              |
-  #    | source        | Prepend        | input-string       | bar           | N/A              | N/A           |                              | bar                 |
+      | target        | Prepend        | input-string       | bar           | N/A              | N/A           | FOO                          | barFOO              |
+      | source        | Prepend        | input-string       | bar           | N/A              | N/A           | FOO                          | barFOO              |
+      | source        | Prepend        | input-string       | bar           | N/A              | N/A           |                              | bar                 |
       | target        | ReplaceAll     | input-match        | DASH          | input-newString  | -             | ThisDASHisDASHtestDASHstring | This-is-test-string |
       | source        | ReplaceAll     | input-match        | DASH          | input-newString  | -             | ThisDASHisDASHtestDASHstring | This-is-test-string |
       | target        | ReplaceFirst   | input-match        | DASH          | input-newString  | -             | FooDASHBarDASHFoo            | Foo-BarDASHFoo      |
       | source        | ReplaceFirst   | input-match        | DASH          | input-newString  | -             | FooDASHBarDASHFoo            | Foo-BarDASHFoo      |
       | target        | SubString      | input-endIndex     | 4             | input-startIndex | 1             | FFoobarff                    | Foo                 |
       | source        | SubString      | input-endIndex     | 4             | input-startIndex | 1             | FFoobarff                    | Foo                 |
-      | source        | IndexOf        | input-string       | 1             | N/A              | N/A           | 654321                       | 5                   |
-      | source        | LastIndexOf    | input-string       | 1             | N/A              | N/A           | 212121                       | 5                   |
 
   Scenario: Substring after from input string
     When add transformation on "target"
@@ -111,3 +110,5 @@ Feature: conversion from string
     Then save and verify "SubstringBefore.xml" with
       | sourceString | targetString |
       | foobarblah   | bar          |
+
+

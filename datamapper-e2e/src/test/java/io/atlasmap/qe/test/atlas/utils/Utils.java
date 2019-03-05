@@ -1,11 +1,13 @@
 package io.atlasmap.qe.test.atlas.utils;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.http.client.fluent.Request;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +22,9 @@ public class Utils {
     private static final String JAVA_SERVICE = Constants.BACKEND_URL + "/v2/atlas/java/";
     private static final Logger LOG = LogManager.getLogger(Utils.class);
 
+    // directory with AtlasMap mappings
+    private static final String mappingsPath = System.getProperty("workspace.dir") + "/atlasmap/standalone/target/mappings/";
+
     public static String requestClass(String className) throws IOException {
         final String requestURL = JAVA_SERVICE + "class?className=" + className;
         LOG.debug("requesting " + requestURL);
@@ -27,25 +32,56 @@ public class Utils {
         return resp;
     }
 
-    public static String moveMappping(String newName) throws IOException {
-        final String mappingsPath = System.getProperty("user.dir") + "/target/mappings";
-        File mapping = new File(mappingsPath).listFiles()[0];
+    // TODO change LOG level
+
+    /**
+     * Copies mappings from {@link Utils#mappingsPath} to a new file with {@code newName}.
+     * @param newName of mappings file
+     * @return path of the new file
+     * @throws IOException if there is a problem with copying
+     */
+    public static String moveMapping(String newName) throws IOException {
+        File mappings = new File(mappingsPath);
+        if (!mappings.exists()) {
+            throw new FileNotFoundException("Directory with mappings doesn't exist: " + mappingsPath);
+        }
+
+        // FIXME tests shows that there are 2 xml files
+        LOG.info("Number of xml files in mappings folder: "
+                + FileUtils.listFiles(mappings, new WildcardFileFilter("*.xml"), TrueFileFilter.TRUE).size());
+
+        // Finds first file from mappings path that ends with ".xml".
+        Optional<File> oldMapping = FileUtils.listFiles(mappings, new WildcardFileFilter("*.xml"), TrueFileFilter.TRUE)
+                .stream().findFirst();
+
         File newMapping = new File(System.getProperty("user.dir") + "/" + Constants.MAPPINGS_PATH + "/" + newName);
+
         newMapping.getParentFile().mkdirs();
         newMapping.createNewFile();
 
-        if (mapping.isFile()) {
-            Files.copy(mapping, newMapping);
+        if (oldMapping.isPresent()) {
+            Files.copy(oldMapping.get(), newMapping);
+            LOG.info("Mapping copied to " + newMapping.getAbsolutePath() + " from " + oldMapping.get().getAbsolutePath());
+        } else {
+            LOG.error("Mapping is not present in " + mappingsPath);
         }
+
         return newMapping.getAbsolutePath();
     }
 
-    public static void cleanMappingFolder() throws IOException {
-        final String mappingsPath = System.getProperty("user.dir") + "/target/mappings";
+    /**
+     * Deletes all mappings from {@link Utils#mappingsPath}.
+     */
+    public static void cleanMappingFolder() {
         File mappings = new File(mappingsPath);
         if (mappings.exists()) {
-            FileUtils.cleanDirectory(mappings);
-            assertThat(mappings.listFiles().length).isEqualTo(0);
+            FileUtils.listFiles(mappings, new WildcardFileFilter("*.xml"), TrueFileFilter.TRUE).forEach(f -> {
+                if (f.delete()) {
+                    LOG.info("Mapping deleted: " + f.getAbsolutePath());
+                } else {
+                    LOG.error("Cannot delete mapping: " + f.getAbsolutePath());
+                }
+            });
         }
     }
 }

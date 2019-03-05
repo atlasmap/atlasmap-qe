@@ -13,8 +13,8 @@ import io.atlasmap.qe.test.atlas.AtlasmapPage;
 /**
  * Created by mmelko on 02/11/2017.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+// @RunWith(SpringRunner.class)
+// @SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 
 public abstract class CucumberGlue {
 

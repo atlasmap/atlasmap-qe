@@ -41,7 +41,7 @@ public class BackendSteps extends CucumberGlue {
     @Then("^save mapping as \"([^\"]*)\"$")
     public void userSavesMappingAs(String arg1) throws Exception {
         Thread.sleep(1000);
-        String mappingLocation = Utils.moveMappping(arg1);
+        String mappingLocation = Utils.moveMapping(arg1);
         validator.setMappingLocation(arg1);
     }
 

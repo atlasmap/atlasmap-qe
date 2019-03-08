@@ -3,6 +3,7 @@ package io.atlasmap.qe.test.atlas.utils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
@@ -32,13 +33,11 @@ public class Utils {
         return resp;
     }
 
-    // TODO change LOG level
-
     /**
      * Copies mappings from {@link Utils#mappingsPath} to a new file with {@code newName}.
      * @param newName of mappings file
      * @return path of the new file
-     * @throws IOException if there is a problem with copying
+     * @throws IOException if there is a problem with copying or mapping doesn't exist
      */
     public static String moveMapping(String newName) throws IOException {
         File mappings = new File(mappingsPath);
@@ -46,13 +45,9 @@ public class Utils {
             throw new FileNotFoundException("Directory with mappings doesn't exist: " + mappingsPath);
         }
 
-        // FIXME tests shows that there are 2 xml files
-        LOG.info("Number of xml files in mappings folder: "
-                + FileUtils.listFiles(mappings, new WildcardFileFilter("*.xml"), TrueFileFilter.TRUE).size());
-
-        // Finds first file from mappings path that ends with ".xml".
+        // Finds file from mappings path that was last modified and that ends with ".xml".
         Optional<File> oldMapping = FileUtils.listFiles(mappings, new WildcardFileFilter("*.xml"), TrueFileFilter.TRUE)
-                .stream().findFirst();
+                .stream().max(Comparator.comparingLong(File::lastModified));
 
         File newMapping = new File(System.getProperty("user.dir") + "/" + Constants.MAPPINGS_PATH + "/" + newName);
 
@@ -61,9 +56,9 @@ public class Utils {
 
         if (oldMapping.isPresent()) {
             Files.copy(oldMapping.get(), newMapping);
-            LOG.info("Mapping copied to " + newMapping.getAbsolutePath() + " from " + oldMapping.get().getAbsolutePath());
+            LOG.debug("Mapping copied to " + newMapping.getAbsolutePath() + " from " + oldMapping.get().getAbsolutePath());
         } else {
-            LOG.error("Mapping is not present in " + mappingsPath);
+            throw new FileNotFoundException("Mapping is not present in " + mappingsPath);
         }
 
         return newMapping.getAbsolutePath();
@@ -71,17 +66,20 @@ public class Utils {
 
     /**
      * Deletes all mappings from {@link Utils#mappingsPath}.
+     * @throws IOException if directory with mappings doesn't exist
      */
-    public static void cleanMappingFolder() {
+    public static void cleanMappingFolder() throws IOException {
         File mappings = new File(mappingsPath);
         if (mappings.exists()) {
             FileUtils.listFiles(mappings, new WildcardFileFilter("*.xml"), TrueFileFilter.TRUE).forEach(f -> {
                 if (f.delete()) {
-                    LOG.info("Mapping deleted: " + f.getAbsolutePath());
+                    LOG.debug("Mapping deleted: " + f.getAbsolutePath());
                 } else {
                     LOG.error("Cannot delete mapping: " + f.getAbsolutePath());
                 }
             });
+        } else {
+            throw new FileNotFoundException("Directory with mappings doesn't exist: " + mappingsPath);
         }
     }
 }

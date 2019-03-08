@@ -13,22 +13,30 @@ Feature: collection related field actions
 
 #    Done Collection -> single
   Scenario Outline: <transformation>
-    When set mapping from "<source>" to "<target>"
+    When add mapping from "<source>" to "<target>"
     And add "<transformation>" transformation on "source"
     And set "<value>" value in target's "<target>"
     Then save and verify mapping as "collection_<transformation>.xml"
 
     Examples:
-      | transformation | value                                                           | target        | source   |
-      | Average        | 5                                                               | targetDouble  | integers |
-      | Add            | 45                                                              | targetFloat   | integers |
-      | Multiply       | 362880                                                          | targetLong    | integers |
-      | Subtract       | -43                                                             | targetInteger | integers |
-      | Divide         | 2.7557319223985893E-6                                           | targetDouble  | integers |
-      | Minimum        | 1                                                               | targetShort   | integers |
-      | Maximum        | 9                                                               | targetShort   | integers |
-      | Concatenate    | String1String2String3String4String5String6String7String8String9 | targetString  | strings  |
-#
+      | transformation | value                                                           | target        | source         |
+      | Average        | 5                                                               | targetDouble  | /integers       |
+      | Add            | 45                                                              | targetFloat   | /integers       |
+      | Multiply       | 362880                                                          | targetLong    | /integers       |
+      | Subtract       | -43                                                             | targetInteger | /integers       |
+      | Divide         | 2.7557319223985893E-6                                           | targetDouble  | /integers       |
+      | Minimum        | 1                                                               | targetShort   | /integers       |
+      | Maximum        | 9                                                               | targetShort   | /integers       |
+      | Concatenate    | String1String2String3String4String5String6String7String8String9 | targetString  | /strings        |
+      | Average        | 2                                                               | targetDouble  | <>/arrayNumber |
+      | Add            | 6                                                               | targetFloat   | <>/arrayNumber |
+      | Multiply       | 6                                                               | targetLong    | <>/arrayNumber |
+      | Subtract       | -4                                                              | targetInteger | <>/arrayNumber |
+      | Divide         | 0.16666666666666666                                             | targetDouble  | <>/arrayNumber |
+      | Minimum        | 1                                                               | targetShort   | <>/arrayNumber |
+      | Maximum        | 3                                                               | targetShort   | <>/arrayNumber |
+
+
   Scenario: item at transformation
     When set mapping from "integers" to "targetString"
     When add "ItemAt" transformation on "source"
@@ -58,13 +66,14 @@ Feature: collection related field actions
     Then save and verify collections mappings in "<transformation>Collection.xml" "<expectedValue>" value is presented in "<to>" collection
 
     Examples:
-      | transformation | from     | to        | input        | input-value | expectedValue                                                                     | source/target |
-      #| Prepend        | /strings | /strings  | input-string | blah        | [blah1.0, blah2.0, blah3.0, blah4.0, blah5.0, blah6.0, blah7.0, blah8.0, blah9.0] | target          |
-      #| Append         | /floats  | /strings  | input-string | ->          | [1.0->, 2.0->, 3.0->, 4.0->, 5.0->, 6.0->, 7.0->, 8.0->, 9.0->]                   | target          |
-      | ReplaceFirst   | /strings | /integers | input-match  | String      | [1, 2, 3, 4, 5, 6, 7, 8, 9]                                                       | source          |
-      | IndexOf        | /strings | /floats   | input-string | t           | [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]                                     | source          |
+      | transformation | from     | to        | input        | input-value | expectedValue                                                                                                         | source/target |
+      | Prepend        | /strings | /strings  | input-string | blah        | [blahString1, blahString2, blahString3, blahString4, blahString5, blahString6, blahString7, blahString8, blahString9] | target        |
+      | Append         | /floats  | /strings  | input-string | ->          | [1.0->, 2.0->, 3.0->, 4.0->, 5.0->, 6.0->, 7.0->, 8.0->, 9.0->]                                                       | target        |
+      | ReplaceFirst   | /strings | /integers | input-match  | String      | [1, 2, 3, 4, 5, 6, 7, 8, 9]                                                                                           | source        |
+      | IndexOf        | /strings | /floats   | input-string | t           | [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]                                                                         | source        |
   #TODO investigate Contains, Equals, length etc
 #      | Contains         | /strings| /strings | input-value | 2           | [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0] |
+
 
   Scenario Outline: transformations between collections
     When add mapping from "<source>" to "/<target>"
@@ -79,6 +88,6 @@ Feature: collection related field actions
       | ConvertDistanceUnit | Yard (yd) | Foot (ft) | source        | /floats   | integers | [3, 6, 9, 12, 15, 18, 21, 24, 27]                   |
       | ConvertDistanceUnit | Yard (yd) | Foot (ft) | source        | /integers | strings  | [3.0, 6.0, 9.0, 12.0, 15.0, 18.0, 21.0, 24.0, 27.0] |
 
-#
 
-#Add, Average, Divide Lenght, Maximum, Minimum Multiply, Substract
+
+#  Add, Average, Divide Lenght, Maximum, Minimum Multiply, Substract

@@ -27,6 +27,9 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
     private short sourceShort;
     private byte sourceByte;
     private char sourceChar;
+    private BigInteger sourceBigInteger;
+    private SmallMappingTestClass smallMappingTestClass;
+
 
     public BigDecimal getSourceBigDecimal() {
         return sourceBigDecimal;
@@ -35,10 +38,6 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
     public void setSourceBigDecimal(BigDecimal sourceBigDecimal) {
         this.sourceBigDecimal = sourceBigDecimal;
     }
-
-    private BigInteger sourceBigInteger;
-    private SmallMappingTestClass smallMappingTestClass;
-
 
     public SourceMappingTestClass() {
         this.sourceString = "sourceString";

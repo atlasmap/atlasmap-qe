@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Build atlasmap runtime
           command: |
-           cd atlasmap && ./mvnw clean install -DskipTests  && ./mvnw -f ui/pom.xml -P release com.github.eirslett:frontend-maven-plugin:yarn@"yarn build"
+           cd atlasmap && ./mvnw clean install -DskipTests  && ./mvnw compile -f ui/pom.xml -P release
 
       - run:
           name: Execute tests

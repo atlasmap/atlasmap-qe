@@ -148,5 +148,22 @@ export const jsonResources = {
             {"key":9,"value":"json9"}
         ]
     }
-      `
+      `,
+
+      arrayInstance: `
+      [{
+        "arrayNumber": 1,
+        "arrayString": "2",
+        "arrayAnotherString": "another-string"
+    },
+    {
+      "arrayNumber": 2,
+      "arrayString": "2",
+      "arrayAnotherString": "another-string"
+  },
+  {
+    "arrayNumber": 3,
+    "arrayString": "3",
+    "arrayAnotherString": "another-string"
+}]`
 };

@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.NotFoundException;
+
 import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -21,9 +23,6 @@ import io.atlasmap.qe.test.StringObject;
 import io.atlasmap.qe.test.TargetListsClass;
 import io.atlasmap.qe.test.TargetMappingTestClass;
 import io.atlasmap.qe.test.atlas.utils.Utils;
-
-
-
 
 public class BackendSteps extends CucumberGlue {
 
@@ -301,7 +300,7 @@ public class BackendSteps extends CucumberGlue {
                 assertThat(integers).contains(Integer.valueOf(var));
             }
         } else {
-            throw new Exception("Unable to find field " + array);
+            throw new NotFoundException("Unable to find field " + array);
         }
     }
 
@@ -374,5 +373,26 @@ public class BackendSteps extends CucumberGlue {
             assertThat(targetObjects.get(i).getFirstName()).isEqualTo(((StringObject)jsonObjects.get(i)).getFirstName());
             assertThat(targetObjects.get(i).getLastName()).isEqualTo(((StringObject)jsonObjects.get(i)).getLastName());
         }
+    }
+
+    @Then("^save and verify rootArrayMappings mapping as \"([^\"]*)\"$")
+    public void saveAndVerifyRootArrayMappingsMappingAs(String mapping) throws Throwable {
+        userSavesMappingAs(mapping);
+        String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getRootJsonArray(),"sourceJsonArray","targetJsonArray");
+        System.out.println("++++>"+output);
+        assertThat(output).contains("{\"arrayAnotherString\":\"1\",\"arrayString\":\"another-string\"},{\"arrayAnotherString\":\"2\",\"arrayString\":\"another-string\"},{\"arrayAnotherString\":\"3\",\"arrayString\":\"another-string\"}");
+    }
+
+    @Then("^save and verify mapping from java collections to root array \"([^\"]*)\"$")
+    public void saveAndVerifyMappingFromJavaCollectionsToRootArray(String mapping) throws Throwable {
+        userSavesMappingAs(mapping);
+        SourceListsClass slc = new SourceListsClass();
+        String output = (String) validator.processSingleObjectMapping(new SourceListsClass(),SourceListsClass.class.getName(),"targetJsonArray");
+        System.out.println("++++>"+output);
+        for(int i : slc.getIntegers()) {
+            assertThat(output).contains("\"arrayNumber\":"+i);
+            assertThat(output).contains("\"arrayString\":\"String"+i+"\"");
+        }
+
     }
 }

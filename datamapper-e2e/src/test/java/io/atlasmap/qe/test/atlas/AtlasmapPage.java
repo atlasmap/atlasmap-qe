@@ -1,5 +1,6 @@
 package io.atlasmap.qe.test.atlas;
 
+import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -30,8 +31,8 @@ public class AtlasmapPage {
         System.setProperty("selenide.chrome.switches", "--disable-web-security");
 
         open(Constants.UI_INDEX_PATH);
-        $("#SourceMappingTestClass").waitUntil(visible, 5000);
-        $("#TargetMappingTestClass").waitUntil(Condition.appear, 5000);
+        $("#SourceMappingTestClass").waitUntil(appear, 15000);
+        $("#TargetMappingTestClass").waitUntil(appear, 15000);
     }
 
     public void clickOn(String elementID) {

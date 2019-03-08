@@ -8,7 +8,6 @@ Feature: flat mappings between Collections ..
     And internal mapping is set to "false"
     And browser is opened
 
-
   Scenario: List<String> to String
     When set mapping from "listOfStrings" to "targetString"
     And Init smallMappingTestClass and add to source map
@@ -44,6 +43,18 @@ Feature: flat mappings between Collections ..
     And for "input-target-" id input set "targetSmallMappingTestClass/listOfStrings"
     And Init smallMappingTestClass and add to source map
     Then save and verify that "listOfStrings" contains "array" as "repetitive6.xml"
+
+
+    @SmokeTest
+  Scenario: mapping between root json arrays
+    When add mapping from "/<>/arrayString" to "/<>/arrayAnotherString"
+    And add mapping from "/<>/arrayAnotherString" to "/<>/arrayString"
+    Then save and verify rootArrayMappings mapping as "rootArrayMappings.xml"
+
+  Scenario: mapping from arrays to root json array
+    When add mapping from "/integers" to "/<>/arrayNumber"
+    And add mapping from "/strings" to "/<>/arrayString"
+    Then save and verify mapping from java collections to root array "toRootArrayMappings.xml"
 
 
   @SmokeTest

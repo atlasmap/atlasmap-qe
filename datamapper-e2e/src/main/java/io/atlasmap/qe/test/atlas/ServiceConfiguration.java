@@ -10,6 +10,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
@@ -23,10 +25,8 @@ import io.atlasmap.java.v2.MavenClasspathResponse;
 @ComponentScan(basePackageClasses = {ServiceConfiguration.class,})
 public class ServiceConfiguration extends SpringBootServletInitializer {
 
-    // =====================================================================
-
     public static class JavaServiceEmptyClasspath extends JavaService {
-
+        private static final Logger LOG = LogManager.getLogger(ServiceConfiguration.class);
         /**
          * Stub out mavenclasspath processing for now.
          *
@@ -49,7 +49,7 @@ public class ServiceConfiguration extends SpringBootServletInitializer {
         public static void main(String[] args) {
             SpringApplication app = new SpringApplication(ServiceConfiguration.class);
             ConfigurableApplicationContext context = app.run(args);
-           // LOG.info("### AtlasMap Data Mapper UI started at port: {} ###", context.getEnvironment().getProperty("server.port"));
+            LOG.info("### AtlasMap Data Mapper UI started at port: " + context.getEnvironment().getProperty("server.port"));
         }
     }
 

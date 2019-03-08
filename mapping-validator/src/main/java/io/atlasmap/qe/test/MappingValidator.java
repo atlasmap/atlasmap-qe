@@ -89,13 +89,6 @@ public class MappingValidator {
         MockEndpoint resultEndpoint = context.getEndpoint("mock:result", MockEndpoint.class);
         ProducerTemplate template = context.createProducerTemplate();
         context.start();
-//        Map<String, Message> atlasSourceMap = new HashMap<>();
-//
-//        input.forEach((k, v) -> {
-//            Message msg = new DefaultMessage(context);
-//            msg.setBody(v);
-//            atlasSourceMap.put(k, msg);
-//        });
 
         template.sendBody("direct:start", input);
         Map<String, Object> targetMap = resultEndpoint.getExchanges().get(0).getIn().getBody( Map.class);
@@ -234,6 +227,7 @@ public class MappingValidator {
         sourceMap.put("sourceArrays", ResourcesGenerator.getJsonArrays());
         sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
         sourceMap.put("sourceXmlSchema", ResourcesGenerator.getXmlSchemaInstance(null));
+        sourceMap.put("sourceJsonArray", ResourcesGenerator.getRootJsonArray());
     }
 
     public static void main(String[] args) {

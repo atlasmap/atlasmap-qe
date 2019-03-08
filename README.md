@@ -1,4 +1,4 @@
-#Atlasmap tests
+# Atlasmap tests
 
  E2E tests of standalone atlasmap based on Selenide and Cucumber framework.
 
@@ -6,7 +6,16 @@
 - _mapping-validator_ used for processing mapping files with atlasmap-camel
 - _datamapper-e2e_ contains gherkin test scenarios and run tests.
 
-### How it works
+## How to run tests
+1. `cd {ATLASMAP_QE}/datamapper-e2e/`
+2. run tests with: `../mvnw clean test -Dselenide.browser-size=1920x1080 -Dselenide.browser=Chrome -P atlasmap-build -Dworkspace.dir=${DIR} -Dui.path=${URL}`
+    * `${DIR}` is folder where is _AtlasMap_ installed
+    * `${URL}` must point to running _AtlasMap Data Mapper UI_
+    * add `-Dselenide.headless=true` if you want to run test in the background
+    * add `-Dselenide.holdBrowserOpen=false` if you want to keep browser opened after tests
+    * add `-Dcucumber.options='--tags @SmokeTest'` if you want to run only tests tagged with `@SmokeTest`
+
+## How it works
 During
 `mvn clean install -Datlasui.path=../${PATH_TO_ATLASMAP_UI}/` following steps are executed:
 

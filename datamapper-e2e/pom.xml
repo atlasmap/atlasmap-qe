@@ -14,6 +14,9 @@
 	<artifactId>datamapper-e2e</artifactId>
 	<properties>
 		<atlasmap.ui.directory>${project.basedir}/src/main/resources/atlasmap-datamapper-wrapper</atlasmap.ui.directory>
+		<workspace.dir>/workspace/atlasmap </workspace.dir>
+		<atlasmap.ui.dependency>${workspace.dir}/atlasmap/ui/dist/lib</atlasmap.ui.dependency>
+
 	</properties>
 
 	<dependencyManagement>
@@ -31,13 +34,14 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
@@ -45,11 +49,28 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-multipart-provider</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${spring-boot.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>3.8.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -66,18 +87,51 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--<dependency>-->
+			<!--<groupId>io.atlasmap</groupId>-->
+			<!--<artifactId>runtime</artifactId>-->
+			<!--<version>${atlasmap.version}</version>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>io.atlasmap</groupId>
-			<artifactId>runtime</artifactId>
+			<artifactId>atlas-java-module</artifactId>
 			<version>${atlasmap.version}</version>
-			<!--<scope>test</scope>-->
+		</dependency>
+		<dependency>
+			<groupId>io.atlasmap</groupId>
+			<artifactId>atlas-java-service</artifactId>
+			<version>${atlasmap.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.atlasmap</groupId>
+			<artifactId>atlas-json-module</artifactId>
+			<version>${atlasmap.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.atlasmap</groupId>
+			<artifactId>atlas-json-service</artifactId>
+			<version>${atlasmap.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.atlasmap</groupId>
+			<artifactId>atlas-xml-module</artifactId>
+			<version>${atlasmap.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.atlasmap</groupId>
+			<artifactId>atlas-xml-service</artifactId>
+			<version>${atlasmap.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.atlasmap</groupId>
+			<artifactId>atlas-service</artifactId>
+			<version>${atlasmap.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>io.atlasmap</groupId>
 			<artifactId>atlas-java-test-model</artifactId>
 			<version>${atlasmap.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -166,8 +220,7 @@
 						<argument>--logging.level.io.atlasmap=DEBUG</argument>
 						<argument>--logging.file=target/atlasmap-spring-boot.log</argument>
 					</arguments>
-					<jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
-						-server -Xms256m -Xmx512m
+					<jvmArguments>-server -Xms256m -Xmx1024m
 					</jvmArguments>
 				</configuration>
 
@@ -184,8 +237,13 @@
 					</execution>
 				</executions>
 			</plugin>
-
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<useSystemClassLoader>false</useSystemClassLoader>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<profiles>
@@ -234,7 +292,8 @@
 									<goal>yarn</goal>
 								</goals>
 								<configuration>
-									<arguments>upgrade @atlasmap/atlasmap-data-mapper@${atlasmap.ui.version}</arguments>
+									<!--<arguments>upgrade @atlasmap/atlasmap-data-mapper@${atlasmap.ui.version}</arguments>-->
+									<arguments>add file:${atlasmap.ui.dependency}</arguments>
 								</configuration>
 								<phase>generate-resources</phase>
 							</execution>

@@ -1,7 +1,12 @@
 package io.atlasmap.qe.test;
 
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class SourceListsClass {
     private List<String> strings;
@@ -10,6 +15,9 @@ public class SourceListsClass {
     private List<Float> floats;
     private List<StringObject> objects;
     private List<SourceMappingTestClass> sourceMappingTestclass;
+    private Map<String,String> map;
+    private Set<String> set;
+    private String[] array;
 
     public SourceListsClass() {
         this.strings = new ArrayList<>();
@@ -18,6 +26,9 @@ public class SourceListsClass {
         this.floats = new ArrayList<>();
         this.objects = new ArrayList<>();
         this.sourceMappingTestclass = new ArrayList<>();
+        this.map = new HashMap<>();
+        this.set = new HashSet<>();
+        this.array = new String[10];
 
         for (int i = 1; i < 10; i++) {
             this.strings.add("String" + i);
@@ -25,8 +36,10 @@ public class SourceListsClass {
             this.doubles.add((double) i);
             this.floats.add((float) i);
             this.objects.add(new StringObject(i + ""));
+            this.map.put("key"+i,"value"+i);
+            this.array[i] = "Str"+i;
+            this.set.add("setStr"+i);
         }
-
     }
 
     public List<String> getStrings() {
@@ -77,5 +90,28 @@ public class SourceListsClass {
         this.sourceMappingTestclass = sourceMappingTestclass;
     }
 
+    public Map<String, String> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<String, String> map) {
+        this.map = map;
+    }
+
+    public Set<String> getSet() {
+        return set;
+    }
+
+    public void setSet(Set<String> set) {
+        this.set = set;
+    }
+
+    public String[] getArray() {
+        return array;
+    }
+
+    public void setArray(String[] array) {
+        this.array = array;
+    }
 
 }

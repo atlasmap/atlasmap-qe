@@ -45,12 +45,12 @@ jobs:
       - run:
           name: Build atlasmap runtime
           command: |
-           cd atlasmap && ./mvnw clean install -DskipTests
+           cd atlasmap && ./mvnw clean install -DskipTests  && ./mvnw compile -f ui/pom.xml -P release
 
       - run:
           name: Execute tests
           command: |
-            ./mvnw clean test -Dselenide.headless=true -Dselenide.browser-size=1920x1080 -Dselenide.browser=Chrome -Dcucumber.options='--tags @SmokeTest' -P atlasmap-build
+            ./mvnw clean test -Dselenide.headless=true -Dselenide.browser-size=1920x1080 -Dselenide.browser=Chrome -Dcucumber.options='--tags @SmokeTest' -P atlasmap-build -Dworkspace.dir=/home/circleci/project
       - run:
           name: Store Cucumber report
           when: always

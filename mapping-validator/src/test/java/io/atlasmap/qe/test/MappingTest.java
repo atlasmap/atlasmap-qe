@@ -27,7 +27,7 @@ public class MappingTest {
         source.setSourceInteger(new Integer(1));
         source.setSourceDouble(2);
         source.setSourceFloat(3);
-
+        mv.addSource(source.getClass().getName(),source);
         TargetMappingTestClass body = mv.processMapping(source);
 
         Assert.assertEquals("1",body.getTargetString());

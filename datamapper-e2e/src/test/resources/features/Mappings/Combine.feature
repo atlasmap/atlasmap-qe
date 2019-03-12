@@ -42,9 +42,9 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     And add "/sourceDouble" to combine
     And add "/sourceDate" to combine
 
-    And add click "Add Transformation" link
-    And select "Prepend" transformation
-    And for "input-string" input set "Combined: "
+   # And add click "Add Transformation" link
+  #  And select "Prepend" transformation
+  #  And for "input-string" input set "Combined: "
 
     Then save and verify combine mapping with " " separator as "ComplexCombine.xml"
 
@@ -108,16 +108,17 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 
 
 
-    And add click "Add Transformation" link
-    And select "Prepend" transformation
-    And for "input-string" input set "Combined: "
+    #And add click "Add Transformation" link
+  #  And select "Prepend" transformation
+  #  And for "input-string" input set "Combined: "
     And set source data
       | sourceString | sourceChar | sourceInteger | sourceFloat | sourceLong | sourceShort | sourceDouble |
       | numbers:     | 1          | 2             | 3           | 4          | 5           | 6            |
 
     And set expected data
       | targetCombineString                                     |
-      | Combined: numbers: 6.0 5 4 3.0 2 1 1970-01-01T00:00:00Z |
+      #| Combined: numbers: 6.0 5 4 3.0 2 1 1970-01-01T00:00:00Z |
+      | numbers: 6.0 5 4 3.0 2 1 1970-01-01T00:00:00Z |
 
     Then save and verify mapping as "ComplexCombineMixedIndexes.xml"
 
@@ -168,9 +169,9 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 
     And click on "targetCombineString"
 
-    And add click "Add Transformation" link
-    And select "Prepend" transformation
-    And for "input-string" input set "Combined: "
+   # And add click "Add Transformation" link
+#    And select "Prepend" transformation
+#    And for "input-string" input set "Combined: "
 
     Then save and verify combine mapping with " " separator as "ComplexCombineCMD.xml"
 

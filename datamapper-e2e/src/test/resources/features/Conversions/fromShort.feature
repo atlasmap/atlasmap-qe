@@ -30,6 +30,11 @@ Feature: conversion to all supported types from Short
 
     When set mapping to "targetShort" from "sourceShort"
     Then check if no warnings are displayed
+    When set mapping to "targetBigInteger" from "sourceShort"
+    Then check if no warnings are displayed
+
+    When set mapping to "targetBigDecimal" from "sourceShort"
+    Then check if no warnings are displayed
 
     When set mapping to "targetChar" from "sourceShort"
     Then check if "numeric format exceptions" warning from "SHORT" to "CHAR" is not displayed

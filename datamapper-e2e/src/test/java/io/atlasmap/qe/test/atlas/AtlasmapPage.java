@@ -1,5 +1,6 @@
 package io.atlasmap.qe.test.atlas;
 
+import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -30,8 +31,8 @@ public class AtlasmapPage {
         System.setProperty("selenide.chrome.switches", "--disable-web-security");
 
         open(Constants.UI_INDEX_PATH);
-        $("#SourceMappingTestClass").waitUntil(visible, 5000);
-        $("#TargetMappingTestClass").waitUntil(Condition.appear, 5000);
+        $("#SourceMappingTestClass").waitUntil(appear, 15000);
+        $("#TargetMappingTestClass").waitUntil(appear, 15000);
     }
 
     public void clickOn(String elementID) {
@@ -74,7 +75,7 @@ public class AtlasmapPage {
 
     public void checkWarnings() {
         LOG.debug("looking ...");
-        $(".alert-warning").shouldNot(Condition.appears);
+        $(".alert-warn").shouldNot(Condition.appears);
     }
 
     public void clickOnButtonByText(String elementName) {
@@ -102,6 +103,7 @@ public class AtlasmapPage {
         e.scrollIntoView(true);
         e.clear();
         e.setValue(inputValue);
+        e.waitUntil(Condition.value(inputValue),1000);
     }
 
     public void setInputValueByClassAndDefaultValue(String inputSelector, String def, String inputValue) {
@@ -185,11 +187,21 @@ public class AtlasmapPage {
     }
 
     public void setInputValueForFieldPreview(String field, String value) {
-        $(By.id(field)).$("textarea").setValue(value);
+       SelenideElement e = $(By.id(field)).$("textarea");
+       e.setValue(value);
+       e.waitUntil(Condition.value(value),1000);
     }
 
     public String getFieldPreviewValue(String field) {
-        return $(By.id(field)).$("textarea").getValue();
+        SelenideElement textarea = $(By.id(field)).$("textarea");
+        do {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while ("".equals(textarea.getValue()));
+        return textarea.getValue();
     }
 
     public void clickOnTargets(String classSelector) {

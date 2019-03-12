@@ -37,6 +37,12 @@ Feature: conversions from BYTE to all supported types
     When set mapping to "targetByte" from "sourceByte"
     Then check if no warnings are displayed
 
+    When set mapping to "targetBigInteger" from "sourceByte"
+    Then check if no warnings are displayed
+
+    When set mapping to "targetBigDecimal" from "sourceByte"
+    Then check if no warnings are displayed
+
     And save mapping as "fromByte.xml"
     And verify "fromByte.xml"
 

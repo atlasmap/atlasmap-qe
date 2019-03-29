@@ -8,7 +8,7 @@
 
 ## How to run tests
 1. `cd {ATLASMAP_QE}/datamapper-e2e/`
-2. run tests with: `../mvnw clean test -Dselenide.browser-size=1920x1080 -Dselenide.browser=Chrome -P atlasmap-build -Dworkspace.dir=${DIR} -Dui.path=${URL}`
+2. run tests with: `../mvnw clean test -Dselenide.browser-size=1920x1080 -Dselenide.browser=Chrome -Dworkspace.dir=${DIR} -Dui.path=${URL}`
     * `${DIR}` is folder where is _AtlasMap_ installed
     * `${URL}` must point to running _AtlasMap Data Mapper UI_
     * add `-Dselenide.headless=true` if you want to run test in the background

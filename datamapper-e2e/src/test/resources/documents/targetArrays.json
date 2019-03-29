@@ -1,0 +1,16 @@
+ {
+        "jsonIntegers": [0,1,2,3,4,5,6,7,8,9],
+        "jsonStrings": ["json0","json1","json2","json3","json4","json5","json6","json7","json8","json9"],
+        "jsonObjects": [
+            {"key":0,"value":"json0"},
+            {"key":1,"value":"json1"},
+            {"key":2,"value":"json2"},
+            {"key":3,"value":"json3"},
+            {"key":4,"value":"json4"},
+            {"key":5,"value":"json5"},
+            {"key":6,"value":"json6"},
+            {"key":7,"value":"json7"},
+            {"key":8,"value":"json8"},
+            {"key":9,"value":"json9"}
+        ]
+    }

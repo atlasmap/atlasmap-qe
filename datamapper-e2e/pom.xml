@@ -254,12 +254,12 @@
 			<!--</activation>-->
 			<build>
 				<plugins>
-					<plugin>
+					<!--<plugin>
 						<groupId>com.github.eirslett</groupId>
-						<artifactId>frontend-maven-plugin</artifactId>
+						<artifactId>frontend-maven-plugin</artifactId -->
 						<!-- Use the latest released version:-
                         https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
-						<version>1.6</version>
+						<!-- version>1.6</version>
 						<executions>
 							<execution>
 								<id>install node and npm</id>
@@ -291,9 +291,9 @@
 								<goals>
 									<goal>yarn</goal>
 								</goals>
-								<configuration>
+								<configuration -->
 									<!--<arguments>upgrade @atlasmap/atlasmap-data-mapper@${atlasmap.ui.version}</arguments>-->
-									<arguments>add file:${atlasmap.ui.dependency}</arguments>
+									<!-- arguments>add file:${atlasmap.ui.dependency}</arguments>
 								</configuration>
 								<phase>generate-resources</phase>
 							</execution>
@@ -312,7 +312,7 @@
 							<nodeVersion>${node.version}</nodeVersion>
 							<workingDirectory>${atlasmap.ui.directory}</workingDirectory>
 						</configuration>
-					</plugin>
+					</plugin> -->
 				</plugins>
 			</build>
 		</profile>

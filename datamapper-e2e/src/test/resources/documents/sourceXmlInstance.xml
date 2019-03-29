@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<sourceXmlInstance>
+	<sourceXmlBoolean>true</sourceXmlBoolean>
+        <sourceXmlByte>A</sourceXmlByte>
+        <sourceXmlChar>A</sourceXmlChar>
+        <sourceXmlDate></sourceXmlDate>
+        <sourceXmlDouble>100.100</sourceXmlDouble>
+        <sourceXmlFloat>200.200</sourceXmlFloat>
+        <sourceXmlInteger>300</sourceXmlInteger>
+        <sourceXmlLong>400</sourceXmlLong>
+        <sourceXmlShort>500</sourceXmlShort>
+        <sourceXmlString>XmlString</sourceXmlString>
+</sourceXmlInstance>

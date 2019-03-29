@@ -1,5 +1,7 @@
 package io.atlasmap.qe.test.atlas;
 
+import static com.codeborne.selenide.Condition.appear;
+import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -30,8 +32,8 @@ public class AtlasmapPage {
         System.setProperty("selenide.chrome.switches", "--disable-web-security");
 
         open(Constants.UI_INDEX_PATH);
-        $(By.id("io.atlasmap.qe.test.SourceMappingTestClass")).waitUntil(visible, 5000);
-        $(By.id("io.atlasmap.qe.test.TargetMappingTestClass")).waitUntil(Condition.appear, 5000);
+        $(".pficon.pficon-export.link").waitUntil(appear, 15000);
+        $(".fa.fa-plus-square").waitUntil(appear, 15000);
     }
 
     public void clickOn(String elementID) {
@@ -144,6 +146,43 @@ public class AtlasmapPage {
 
         $(".pull-right.btn.btn-primary").shouldBe(visible).isDisplayed();
         clickOnButtonByText("Remove");
+    }
+
+    public void resetAll () {
+        $(".fa.fa-cog.link").click();
+        clickOnElementByText("label", "Reset All ");
+        clickOnButtonByText("Reset");
+    }
+
+    public void importJAR(String path) {
+        $(By.id("usermappingsfile")).sendKeys(path);
+        $(By.id("DataMapperLoadingMessage")).waitUntil(disappear, 1000);
+    }
+
+    public void enableSourceClass(String className) {
+        $$(".fa.fa-plus-square").first().click();
+        enableClass(className);
+    }
+
+    public void enableTargetClass(String className) {
+        $$(".fa.fa-plus-square").last().click();
+        enableClass(className);
+    }
+
+    private void enableClass(String className) {
+        setInputValueByClass("form-control", className);
+        clickOnButtonByText("OK");
+        $(By.id(className)).waitUntil(appear, 15000);
+    }
+
+    public void enableSourceFile(String path) {
+        $$(By.id("userfile")).first().sendKeys(path);
+        $(By.id("DataMapperLoadingMessage")).waitUntil(disappear, 1000);
+    }
+
+    public void enableTargetFile(String path) {
+        $$(By.id("userfile")).last().sendKeys(path);
+        $(By.id("DataMapperLoadingMessage")).waitUntil(disappear, 1000);
     }
 
     public void clickOnWhileHolding(String id, String cmd) {

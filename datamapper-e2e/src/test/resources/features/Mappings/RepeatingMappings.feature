@@ -14,6 +14,7 @@ Feature: flat mappings between Collections ..
     And set "1_9" value in target's "targetString"
     Then save and verify mapping with multiple objects as "repetitive1.xml"
 
+    @fail
   Scenario: String to String<List>
     When add mapping from "sourceString" to "/targetSmallMappingTestClass/listOfStrings"
     And set "test" value in source's "sourceString"
@@ -36,8 +37,7 @@ Feature: flat mappings between Collections ..
     And for "input-target-" id input set "targetSmallMappingTestClass/listOfStrings"
     And Init smallMappingTestClass and add to source map
     Then save and verify that "listOfStrings" contains "set" as "repetitive5.xml"
-
-
+    
   Scenario: Mapping array to list
     When click on "array"
     And for "input-target-" id input set "targetSmallMappingTestClass/listOfStrings"
@@ -103,10 +103,10 @@ Feature: flat mappings between Collections ..
   Scenario: map from json array of objects to java array of objects
     When click on "jsonObjects"
     When click on "key"
-    And for "input-target-" id input set "listOfStrings"
+    And for "input-target-" id input set "/targetSmallMappingTestClass/listOfStrings"
     And click on "value"
-    And for "input-target-" id input set "listOfIntegers"
-    And add "ReplaceFirst" transformation on "source"
+    And for "input-target-" id input set "/targetSmallMappingTestClass/listOfIntegers"
+    And add "Replace First" transformation on "source"
     And for "input-match" input set "v"
     And for "input-newString" input set ""
     And Init smallMappingTestClass and add to source map

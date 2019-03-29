@@ -85,8 +85,8 @@ public class AtlasmapPage {
         $$(By.tagName(elementName)).filter(Condition.text(text)).get(0).shouldBe(visible).click();
     }
 
-    public void selectTransformation(String transformation, String deafaultValue) {
-        $$(By.tagName("select")).filter(Condition.exactValue(deafaultValue)).get(0).selectOption(transformation);
+    public void selectTransformation(String transformation, String defaultValue) {
+        $$(By.tagName("select")).filter(Condition.value(defaultValue.replaceAll(" ",""))).get(0).selectOption(transformation);
     }
 
     public void changeSelectValue(String from, String to) {
@@ -117,6 +117,7 @@ public class AtlasmapPage {
         e.scrollIntoView(true);
         Thread.sleep(500);
         e.sendKeys(newValue);
+      //  Thread.sleep(15000);
         $(By.id(inputId)).parent().$$("h5").filter(Condition.text(newValue)).get(0).click();
 
     }
@@ -139,8 +140,8 @@ public class AtlasmapPage {
     }
 
     public void deleteCurrent() throws InterruptedException {
-        $((".fa.fa-trash.link")).click();
-        //Thread.sleep(10100);
+        $(By.className("fieldMappingDetail")).$(By.cssSelector(".fa.fa-trash.link")).click();
+
         $(".pull-right.btn.btn-primary").shouldBe(visible).isDisplayed();
         clickOnButtonByText("Remove");
     }

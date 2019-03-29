@@ -92,10 +92,11 @@ Feature: Atlasmap is able to create preview
       | sourceBoolean |
       | sourceString  |
 
+
   Scenario: Examples of string transfomation
     When set mapping from "sourceString" to "targetString"
     And add click "Add Transformation" link
     Then verify preview of "Capitalize" transformation from "sourceString" with value "foo" is transformed to "Foo" in "targetString"
     Then verify preview of "Lowercase" transformation from "sourceString" with value "fOo" is transformed to "foo" in "targetString"
-    Then verify preview of "SeparateByDash" transformation from "sourceString" with value "this:is_foo=bar+expression" is transformed to "this-is-foo-bar-expression" in "targetString"
-    Then verify preview of "SeparateByUnderscore" transformation from "sourceString" with value "this_is_foo_bar_expression" is transformed to "this_is_foo_bar_expression" in "targetString"
+    Then verify preview of "Separate By Dash" transformation from "sourceString" with value "this:is_foo=bar+expression" is transformed to "this-is-foo-bar-expression" in "targetString"
+    Then verify preview of "Separate By Underscore" transformation from "sourceString" with value "this:is_foo=bar+expression" is transformed to "this_is_foo_bar_expression" in "targetString"

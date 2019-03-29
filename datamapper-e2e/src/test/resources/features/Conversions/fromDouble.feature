@@ -32,7 +32,7 @@ Feature: conversion from LONG
     Then check if no warnings are displayed
 
     When  set mapping to "targetBigInteger" from "sourceDouble"
-    Then check if no warnings are displayed
+    Then check if "fractional part to be lost" warning from "DOUBLE" to "BIG_INTEGER" is displayed
     
     When  set mapping to "targetBigDecimal" from "sourceDouble"
     Then check if no warnings are displayed

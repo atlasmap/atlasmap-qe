@@ -6,7 +6,7 @@ Feature: conversion from LONG
     Given atlasmap is clean
     And atlasmap contains TestClass
 
-  Scenario: Conversions from LONG to all types and warning checks
+  Scenario: Conversions from BIG INTEGER to all types and warning checks
     Given browser is opened
     And internal mapping is set to "true"
 
@@ -15,16 +15,16 @@ Feature: conversion from LONG
     And check if "out of range exceptions" warning from "BIG_INTEGER" to "INTEGER" is displayed
 
     When set mapping to "targetLong" from "sourceBigInteger"
-    Then check if no warnings are displayed
+    Then check if "out of range exceptions" warning from "BIG_INTEGER" to "LONG" is displayed
 
     When set mapping to "targetString" from "sourceBigInteger"
     Then check if no warnings are displayed
 
     When set mapping to "targetDouble" from "sourceBigInteger"
-    Then check if no warnings are displayed
+    Then check if "out of range exceptions" warning from "BIG_INTEGER" to "DOUBLE" is displayed
 
     When set mapping to "targetFloat" from "sourceBigInteger"
-    Then check if no warnings are displayed
+    Then check if "out of range exceptions" warning from "BIG_INTEGER" to "FLOAT" is displayed
 
     When  set mapping to "targetBoolean" from "sourceBigInteger"
     Then check if no warnings are displayed

@@ -322,7 +322,7 @@ public class BackendSteps extends CucumberGlue {
     public void saveAndVerifyMappingXmlJsonAsWith(String path, String expected, DataTable values) throws Throwable {
         userSavesMappingAs(path);
         String result = (String) validator.processMapping(expected);
-        // System.out.println(result);
+         System.out.println(result);
         for (String value : values.asList(String.class)) {
             LOG.info("Checking " + value);
             assertThat(result).contains(value);

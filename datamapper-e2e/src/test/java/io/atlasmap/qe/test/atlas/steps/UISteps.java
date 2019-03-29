@@ -176,6 +176,7 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.clickOnLinkByClass(".fa.fa-plus.link");
         forIdInputSet("input-source-", from);
         forIdInputSet("input-target-", to);
+
         //  Utils.waitAndVerifyMappingIsWritten(from,to);
     }
 

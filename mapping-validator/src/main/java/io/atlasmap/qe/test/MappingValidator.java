@@ -73,6 +73,7 @@ public class MappingValidator {
     public Object processMapping(String expected) throws Exception {
         sourceMap.put(source.getClass().getName(), source);
         Map<String, Object> processed = processMappingInputMap(sourceMap);
+        System.out.println(processed);
         return processed.get(expected);
     }
 
@@ -226,7 +227,7 @@ public class MappingValidator {
         sourceMap.put("sourceJson", ResourcesGenerator.getJsonInstance());
         sourceMap.put("sourceArrays", ResourcesGenerator.getJsonArrays());
         sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
-        sourceMap.put("sourceXmlSchema", ResourcesGenerator.getXmlSchemaInstance(null));
+        sourceMap.put("sourceXMLSchema", ResourcesGenerator.getXmlSchemaInstance(null));
         sourceMap.put("sourceJsonArray", ResourcesGenerator.getRootJsonArray());
     }
 

@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import io.atlasmap.qe.resources.ResourcesGenerator;
@@ -37,6 +38,7 @@ public class MappingTest {
         Assert.assertEquals(1.0,body.getTargetDouble(),0);
     }
 
+    @Ignore
     @Test
     public void testJSonToJavaMapping() throws Exception {
         MappingValidator mv = new MappingValidator();
@@ -49,6 +51,7 @@ public class MappingTest {
         Assert.assertEquals(10000, body.getTargetInteger());
     }
 
+    @Ignore
     @Test
     public void testXmlToJavaMapping() throws Exception {
         MappingValidator mv = new MappingValidator();
@@ -57,6 +60,7 @@ public class MappingTest {
         Assert.assertEquals(300, body.getTargetInteger());
     }
 
+    @Ignore
     @Test
     public void testXmlSchemaToJavaMapping() throws Exception {
         MappingValidator mv = new MappingValidator();
@@ -66,6 +70,7 @@ public class MappingTest {
         Assert.assertEquals(300, body.getTargetInteger());
     }
 
+    @Ignore
     @Test
     public void testXmlSchemaToJsonMapping() throws Exception {
         MappingValidator mv = new MappingValidator();

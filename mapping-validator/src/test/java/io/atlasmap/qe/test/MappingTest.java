@@ -19,6 +19,7 @@ public class MappingTest {
     private String mappingPath;
     private static final Logger LOG = LogManager.getLogger(MappingTest.class);
 
+    @Ignore
     @Test
     public void testMapping() throws Exception {
         MappingValidator mv = new MappingValidator();

@@ -26,8 +26,7 @@ public class AtlasmapPage {
     public static final String TEST_CLASS = "SourceMappingTestClass";
     private static final Logger LOG = LogManager.getLogger(AtlasmapPage.class);
 
-
-    public void openBrowser() throws InterruptedException {
+    public void openBrowser() {
         System.setProperty("window-size", "1920,1080");
         System.setProperty("selenide.chrome.switches", "--disable-web-security");
 
@@ -177,12 +176,20 @@ public class AtlasmapPage {
 
     public void enableSourceFile(String path) {
         $$(By.id("userfile")).first().sendKeys(path);
-        $(By.id("DataMapperLoadingMessage")).waitUntil(disappear, 1000);
+        checkIfFileAppeared(path);
     }
 
     public void enableTargetFile(String path) {
         $$(By.id("userfile")).last().sendKeys(path);
-        $(By.id("DataMapperLoadingMessage")).waitUntil(disappear, 1000);
+        checkIfFileAppeared(path);
+    }
+
+    /**
+     * Gets filename from {@code path}. And checks if element with this filename appeared.
+     */
+    private void checkIfFileAppeared(String path) {
+        $(By.id(path.substring(path.lastIndexOf("/") + 1).split("\\.")[0])).waitUntil(appear, 15000);
+        LOG.info("File successfully imported:" + path);
     }
 
     public void clickOnWhileHolding(String id, String cmd) {

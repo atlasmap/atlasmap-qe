@@ -14,7 +14,7 @@
 	<artifactId>datamapper-e2e</artifactId>
 	<properties>
 		<atlasmap.ui.directory>${project.basedir}/src/main/resources/atlasmap-datamapper-wrapper</atlasmap.ui.directory>
-		<workspace.dir>/workspace/atlasmap </workspace.dir>
+		<workspace.dir>/workspace/atlasmap</workspace.dir>
 		<atlasmap.ui.dependency>${workspace.dir}/atlasmap/ui/dist/lib</atlasmap.ui.dependency>
 
 	</properties>
@@ -249,74 +249,68 @@
 	<profiles>
 		<profile>
 			<id>atlasmap-build</id>
-			<!--<activation>-->
-				<!--<activeByDefault>true</activeByDefault>-->
-			<!--</activation>-->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
 			<build>
 				<plugins>
-					<!--<plugin>
-						<groupId>com.github.eirslett</groupId>
-						<artifactId>frontend-maven-plugin</artifactId -->
-						<!-- Use the latest released version:-
-                        https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
-						<!-- version>1.6</version>
-						<executions>
-							<execution>
-								<id>install node and npm</id>
-								<goals>
-									<goal>install-node-and-npm</goal>
-								</goals>
-								<phase>process-sources</phase>
-							</execution>
-							<execution>
-								<id>install yarn</id>
-								<goals>
-									<goal>install-node-and-yarn</goal>
-								</goals>
-								<configuration>
-									<nodeVersion>${node.version}</nodeVersion>
-									<yarnVersion>${yarn.version}</yarnVersion>
-								</configuration>
-							</execution>
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-server-artifact</id>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <phase>process-test-classes</phase>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>io.atlasmap</groupId>
+                                            <artifactId>atlasmap-standalone</artifactId>
+                                            <version>${atlasmap.version}</version>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                            <destFileName>app.jar</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.bazaarvoice.maven.plugins</groupId>
+                        <artifactId>process-exec-maven-plugin</artifactId>
+                        <version>0.7</version>
+                        <executions>
+                            <execution>
+                                <id>start-server</id>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                                <configuration>
+                                    <name>run-server</name>
+                                    <waitForInterrupt>false</waitForInterrupt>
+                                    <healthcheckUrl>http://localhost:8585</healthcheckUrl>
+                                    <arguments>
+                                        <argument>java</argument>
+                                        <argument>-jar</argument>
+                                        <argument>${project.build.directory}/app.jar</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
 
-							<execution>
-								<id>yarn-install</id>
-								<goals>
-									<goal>yarn</goal>
-								</goals>
-								<phase>generate-resources</phase>
-							</execution>
-							<execution>
-								<id>yarn-upgrade</id>
-								<goals>
-									<goal>yarn</goal>
-								</goals>
-								<configuration -->
-									<!--<arguments>upgrade @atlasmap/atlasmap-data-mapper@${atlasmap.ui.version}</arguments>-->
-									<!-- arguments>add file:${atlasmap.ui.dependency}</arguments>
-								</configuration>
-								<phase>generate-resources</phase>
-							</execution>
-							<execution>
-								<id>build</id>
-								<goals>
-									<goal>yarn</goal>
-								</goals>
-								<phase>generate-resources</phase>
-								<configuration>
-									<arguments>build</arguments>
-								</configuration>
-							</execution>
-						</executions>
-						<configuration>
-							<nodeVersion>${node.version}</nodeVersion>
-							<workingDirectory>${atlasmap.ui.directory}</workingDirectory>
-						</configuration>
-					</plugin> -->
+                            <execution>
+                                <id>stop-server</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop-all</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
 				</plugins>
 			</build>
 		</profile>
 	</profiles>
-
-
 </project>

@@ -23,7 +23,7 @@ public class Utils {
     private static final String JAVA_SERVICE = Constants.BACKEND_URL + "/v2/atlas/java/";
     private static final Logger LOG = LogManager.getLogger(Utils.class);
 
-    // directory with AtlasMap mappings
+    // FIXME directory with AtlasMap mappings
     private static final String MAPPINGS_PATH = System.getProperty("workspace.dir") + "/atlasmap/standalone/target/mappings/";
 
     public static String requestClass(String className) throws IOException {

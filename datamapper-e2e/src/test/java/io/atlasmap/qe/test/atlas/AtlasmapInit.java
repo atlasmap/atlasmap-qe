@@ -52,11 +52,10 @@ public class AtlasmapInit implements Formatter {
             try {
                 page.importJAR(jarFile.get().getCanonicalPath());
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new IllegalStateException("Error when getting canonical path of JAR file.", e);
             }
         } else {
-            LOG.error("Cannot find JAR file!");
-            return;
+            throw new IllegalStateException("Cannot find JAR file with test classes!");
         }
 
         page.enableSourceClass("io.atlasmap.qe.test.SourceMappingTestClass");
@@ -74,7 +73,7 @@ public class AtlasmapInit implements Formatter {
             } else if (file.getName().startsWith("target")) {
                 page.enableTargetFile(file.getAbsolutePath());
             } else {
-                LOG.error("Unexpected file in \"documents\" folder: " + file.getName());
+                LOG.error("Unexpected file in " + DOCUMENTS_FOLDER + ": " + file.getName());
             }
         }
     });
@@ -90,16 +89,11 @@ public class AtlasmapInit implements Formatter {
      * @param pageConsumer that will be executed inside web browser on {@link AtlasmapInit#atlasMapPage}.
      */
     private void runOnPage(Consumer<AtlasmapPage> pageConsumer) {
-        try {
-            atlasMapPage.openBrowser();
+        atlasMapPage.openBrowser();
 
-            pageConsumer.accept(atlasMapPage);
+        pageConsumer.accept(atlasMapPage);
 
-            WebDriverRunner.closeWebDriver();
-        } catch (Exception e) {
-            LOG.error("Something wrong happened during steps execution inside browser!");
-            e.printStackTrace();
-        }
+        WebDriverRunner.closeWebDriver();
     }
 
     /**

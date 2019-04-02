@@ -1,66 +1,66 @@
 {
-	"$schema": "http://json-schema.org/schema#",
-          "type" : "object",
- "properties" : {
-          "sourceJsonString" : {
-            "type" : "string"
-          },
-          "sourceJsonInteger" : {
-            "type" : "integer"
-          },
-          "sourceJsonLong" : {
-            "type" : "number"
-          },
-          "sourceJsonFloat" : {
-            "type" : "number"
-          },
-          "sourceJsonDouble" : {
-            "type" : "number"
-          },
-          "sourceJsonDate" : {
-            "type" : "number"
-          },
-          "sourceJsonBoolean" : {
-            "type" : "boolean",
-            "required" : true
-          },
-          "sourceJsonShort" : {
-            "type" : "integer"
-          },
-          "sourceJsonByte" : {
-            "type" : "integer"
-          },
-          "sourceJsonChar" : {
-            "type" : "string"
-          },
-          "smallMappingTestClass" : {
-            "type" : "object",
-            "properties" : {
-              "objectField1" : {
-                "type" : "string"
-              },
-              "objectField2" : {
-                "type" : "string"
-              },
-              "listOfStrings" : {
-                "type" : "array",
-                "items" : {
-                  "type" : "string"
-                }
-              },
-              "listOfIntegers" : {
-                "type" : "array",
-                "items" : {
-                  "type" : "integer"
-                }
-              },
-              "listOfDoubles" : {
-                "type" : "array",
-                "items" : {
-                  "type" : "number"
-                }
-              }
-            }
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "sourceJsonString": {
+      "type": "string"
+    },
+    "sourceJsonInteger": {
+      "type": "integer"
+    },
+    "sourceJsonLong": {
+      "type": "number"
+    },
+    "sourceJsonFloat": {
+      "type": "number"
+    },
+    "sourceJsonDouble": {
+      "type": "number"
+    },
+    "sourceJsonDate": {
+      "type": "number"
+    },
+    "sourceJsonBoolean": {
+      "type": "boolean",
+      "required": true
+    },
+    "sourceJsonShort": {
+      "type": "integer"
+    },
+    "sourceJsonByte": {
+      "type": "integer"
+    },
+    "sourceJsonChar": {
+      "type": "string"
+    },
+    "smallMappingTestClass": {
+      "type": "object",
+      "properties": {
+        "objectField1": {
+          "type": "string"
+        },
+        "objectField2": {
+          "type": "string"
+        },
+        "listOfStrings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "listOfIntegers": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "listOfDoubles": {
+          "type": "array",
+          "items": {
+            "type": "number"
           }
         }
       }
+    }
+  }
+}

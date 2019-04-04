@@ -3,7 +3,6 @@ package io.atlasmap.qe.test.atlas;
 import java.io.File;
 import java.io.IOException;
 import java.util.Comparator;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -20,8 +19,6 @@ import cucumber.api.event.EventPublisher;
 import cucumber.api.event.TestRunFinished;
 import cucumber.api.event.TestRunStarted;
 import cucumber.api.formatter.Formatter;
-
-
 
 /**
  * Loads test resources into AtlasMap.
@@ -52,6 +49,7 @@ public class AtlasmapInit implements Formatter {
         Optional<File> jarFile = FileUtils.listFiles(new File(TARGET_FOLDER), new WildcardFileFilter("*.jar"), TrueFileFilter.TRUE)
                 .stream().max(Comparator.comparingLong(File::lastModified));
 
+        // Imports JAR file.
         if (jarFile.isPresent()) {
             try {
                 page.importJAR(jarFile.get().getCanonicalPath());
@@ -62,24 +60,29 @@ public class AtlasmapInit implements Formatter {
             throw new IllegalStateException("Cannot find JAR file with test classes!");
         }
 
+        // Source classes:
         page.enableSourceClass("io.atlasmap.qe.test.SourceMappingTestClass");
         page.enableSourceClass("io.atlasmap.qe.test.DatesObject");
         page.enableSourceClass("io.atlasmap.qe.test.SourceListsClass");
         page.enableSourceClass("io.atlasmap.qe.test.SmallMappingTestClass");
 
+        // Target classes:
         page.enableTargetClass("io.atlasmap.qe.test.TargetMappingTestClass");
         page.enableTargetClass("io.atlasmap.qe.test.StringObject");
         page.enableTargetClass("io.atlasmap.qe.test.TargetListsClass");
 
-        for (File file: Objects.requireNonNull((new File(DOCUMENTS_FOLDER)).listFiles())) {
-            if (file.getName().startsWith("source")) {
-                page.enableSourceFile(file.getAbsolutePath());
-            } else if (file.getName().startsWith("target")) {
-                page.enableTargetFile(file.getAbsolutePath());
-            } else {
-                LOG.error("Unexpected file in " + DOCUMENTS_FOLDER + ": " + file.getName());
-            }
-        }
+        // Source documents:
+        page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceArrays.json");
+        page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceJsonArray.json");
+        page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceJson.schema.json");
+        page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceXmlInstance.xml");
+        page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceXMLSchema.xsd");
+
+        // Target documents:
+        page.enableTargetDocument(DOCUMENTS_FOLDER + "targetArrays.json");
+        page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJsonArray.json");
+        page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJson.schema.json");
+        page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
     });
 
     /**

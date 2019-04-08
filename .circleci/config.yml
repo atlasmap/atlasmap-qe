@@ -50,7 +50,7 @@ jobs:
       - run:
           name: Execute tests
           command: |
-            ./mvnw clean test -Dselenide.headless=true -Dselenide.browser-size=1920x1080 -Dselenide.browser=Chrome -Dcucumber.options='--tags @SmokeTest' -P atlasmap-build
+            ./mvnw clean test -Dselenide.headless=true -Dselenide.browser-size=1920x1080 -Dselenide.browser=Chrome -Dwebdriver.chrome.driver=/home/circleci/project/atlasmap-qe/datamapper-e2e/drivers/chromedriver -Dcucumber.options='--tags @SmokeTest' -P atlasmap-build
       - run:
           name: Store Cucumber report
           when: always

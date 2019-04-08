@@ -168,7 +168,18 @@
 							<goal>install-drivers</goal>
 						</goals>
 					</execution>
+
 				</executions>
+				<configuration>
+					<drivers>
+						<driver>
+							<name>chromedriver</name>
+							<platform>linux</platform>
+							<bit>64</bit>
+							<version>2.44</version>
+						</driver>
+					</drivers>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

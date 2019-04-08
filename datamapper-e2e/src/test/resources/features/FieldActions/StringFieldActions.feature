@@ -14,19 +14,19 @@ Feature: conversion from string
     Then verify in "<transformation>" transformation that  "<source>" is transformed to "<target>"
 
     Examples:
-      | transformation       | source                     | target                     | source/target |
-      | Capitalize           | foo                        | Foo                        | source        |
-      | Capitalize           | foo                        | Foo                        | target        |
-      | File Extension        | bar.jpg                    | jpg                        | source        |
-      | File Extension        | bar.jpg                    | jpg                        | target        |
-      | Lowercase            | BAR                        | bar                        | source        |
-      | Lowercase            | BAR                        | bar                        | target        |
-      | Normalize            | foo \t bar                 | foo bar                    | source        |
-      | Normalize            | foo \t bar                 | foo bar                    | target        |
+      | transformation         | source                     | target                     | source/target |
+      | Capitalize             | foo                        | Foo                        | source        |
+      | Capitalize             | foo                        | Foo                        | target        |
+      | File Extension         | bar.jpg                    | jpg                        | source        |
+      | File Extension         | bar.jpg                    | jpg                        | target        |
+      | Lowercase              | BAR                        | bar                        | source        |
+      | Lowercase              | BAR                        | bar                        | target        |
+      | Normalize              | foo \t bar                 | foo bar                    | source        |
+      | Normalize              | foo \t bar                 | foo bar                    | target        |
       | Remove File Extension  | bar.jpg                    | bar                        | source        |
       | Remove File Extension  | bar.jpg                    | bar                        | target        |
-      | Uppercase            | foo                        | FOO                        | source        |
-      | Uppercase            | foo                        | FOO                        | target        |
+      | Uppercase              | foo                        | FOO                        | source        |
+      | Uppercase              | foo                        | FOO                        | target        |
       | Separate By Dash       | this:is_foo=bar+expression | this-is-foo-bar-expression | source        |
       | Separate By Dash       | this:is_foo=bar+expression | this-is-foo-bar-expression | target        |
       | Separate By Underscore | this:is_foo=bar+expression | this_is_foo_bar_expression | source        |
@@ -73,23 +73,23 @@ Feature: conversion from string
       | <source>     | <target>     |
 
     Examples:
-      | source/target | transformation | input-1            | input-1-value | input-2          | input-2-value | source                       | target              |
-      | target        | Append         | input-string       | bar           | N/A              | N/A           | FOO                          | FOObar              |
+      | source/target | transformation   | input-1            | input-1-value | input-2          | input-2-value | source                       | target              |
+      | target        | Append           | input-string       | bar           | N/A              | N/A           | FOO                          | FOObar              |
       | target        | Pad String Left  | input-padCharacter | -             | input-padCount   | 3             | FooBar                       | ---FooBar           |
       | source        | Pad String Left  | input-padCharacter | -             | input-padCount   | 3             | FooBar                       | ---FooBar           |
       | target        | Pad String Left  | input-padCharacter | -             | input-padCount   | 0             | FooBar                       | FooBar              |
       | source        | Pad String Left  | input-padCharacter | -             | input-padCount   | 0             | FooBar                       | FooBar              |
       | target        | Pad String Right | input-padCharacter | -             | input-padCount   | 3             | FooBar                       | FooBar---           |
       | source        | Pad String Right | input-padCharacter | -             | input-padCount   | 3             | FooBar                       | FooBar---           |
-      | target        | Prepend        | input-string       | bar           | N/A              | N/A           | FOO                          | barFOO              |
-      | source        | Prepend        | input-string       | bar           | N/A              | N/A           | FOO                          | barFOO              |
-      | source        | Prepend        | input-string       | bar           | N/A              | N/A           |                              | bar                 |
-      | target        | Replace All     | input-match        | DASH          | input-newString  | -             | ThisDASHisDASHtestDASHstring | This-is-test-string |
-      | source        | Replace All     | input-match        | DASH          | input-newString  | -             | ThisDASHisDASHtestDASHstring | This-is-test-string |
-      | target        | Replace First   | input-match        | DASH          | input-newString  | -             | FooDASHBarDASHFoo            | Foo-BarDASHFoo      |
-      | source        | Replace First   | input-match        | DASH          | input-newString  | -             | FooDASHBarDASHFoo            | Foo-BarDASHFoo      |
-      | target        | Sub String      | input-endIndex     | 4             | input-startIndex | 1             | FFoobarff                    | Foo                 |
-      | source        | Sub String      | input-endIndex     | 4             | input-startIndex | 1             | FFoobarff                    | Foo                 |
+      | target        | Prepend          | input-string       | bar           | N/A              | N/A           | FOO                          | barFOO              |
+      | source        | Prepend          | input-string       | bar           | N/A              | N/A           | FOO                          | barFOO              |
+      | source        | Prepend          | input-string       | bar           | N/A              | N/A           |                              | bar                 |
+      | target        | Replace All      | input-match        | DASH          | input-newString  | -             | ThisDASHisDASHtestDASHstring | This-is-test-string |
+      | source        | Replace All      | input-match        | DASH          | input-newString  | -             | ThisDASHisDASHtestDASHstring | This-is-test-string |
+      | target        | Replace First    | input-match        | DASH          | input-newString  | -             | FooDASHBarDASHFoo            | Foo-BarDASHFoo      |
+      | source        | Replace First    | input-match        | DASH          | input-newString  | -             | FooDASHBarDASHFoo            | Foo-BarDASHFoo      |
+      | target        | Sub String       | input-endIndex     | 4             | input-startIndex | 1             | FFoobarff                    | Foo                 |
+      | source        | Sub String       | input-endIndex     | 4             | input-startIndex | 1             | FFoobarff                    | Foo                 |
 
   Scenario: Substring after from input string
     When add transformation on "target"

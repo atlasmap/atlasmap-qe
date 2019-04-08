@@ -45,12 +45,20 @@ jobs:
       - run:
           name: Build atlasmap runtime
           command: |
-           cd atlasmap && ./mvnw clean install -DskipTests  && ./mvnw compile -f ui/pom.xml -P release
-
+           cd atlasmap && ./mvnw clean install -DskipTests
+      - run:
+          name: build tests
+          command: |
+            ./mvnw clean install -DskipTests=true
+      - <<: *save_m2
+      - save_cache:
+          key: atlasmap-e2e-qe-mvn-{{ checksum "pom.xml" }}
+          paths:
+            - ~/.m2
       - run:
           name: Execute tests
           command: |
-            ./mvnw clean test -Dselenide.headless=true -Dselenide.browser-size=1920x1080 -Dselenide.browser=Chrome -Dwebdriver.chrome.driver=/home/circleci/project/atlasmap-qe/datamapper-e2e/drivers/chromedriver -Dcucumber.options='--tags @SmokeTest' -P atlasmap-build
+            ./mvnw test -Dselenide.headless=true -Dselenide.browser-size=1920x1080 -Dselenide.browser=Chrome -Dwebdriver.chrome.driver=/home/circleci/project/datamapper-e2e/drivers/chromedriver-linux-64bit  -Dui.path=http://127.0.0.1:8585/ -Dcucumber.options='--tags @SmokeTest' -P atlasmap-build
       - run:
           name: Store Cucumber report
           when: always

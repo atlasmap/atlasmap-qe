@@ -47,5 +47,5 @@ Feature: conversion from LONG
 #    Then check if "numeric format exceptions" warning from "BIG_INTEGER" to "BYTE" is not displayed
 #    And check if "out of range exceptions" warning from "BIG_INTEGER" to "BYTE" is displayed
 
-    And save mapping as "fromBigIngeter.xml"
-    And verify "fromBigInteger.xml"
+    And save mapping as "fromBigIngeter.json"
+    And verify "fromBigInteger.json"

@@ -15,8 +15,8 @@ Feature: Simple mappings creation and test framework verification
     And set mapping to "targetFloat" from "sourceDouble"
     And set mapping to "targetDouble" from "sourceDouble"
     And set mapping to "targetLong" from "sourceDouble"
-    Then save mapping as "simpleMapping.xml"
-    And verify "simpleMapping.xml"
+    Then save mapping as "simpleMapping.json"
+    And verify "simpleMapping.json"
 
   Scenario: Setting  source data for mapping verification.
     Given browser is opened
@@ -28,8 +28,8 @@ Feature: Simple mappings creation and test framework verification
     And set mapping from "sourceDouble" to "targetDouble"
     And set mapping from "sourceFloat" to "targetFloat"
     And set mapping from "sourceString" to "targetString"
-    Then save mapping as "simpleMapping2.xml"
-    And verify "simpleMapping2.xml"
+    Then save mapping as "simpleMapping2.json"
+    And verify "simpleMapping2.json"
 
 
   Scenario: Setting source and target data for verification.
@@ -43,5 +43,5 @@ Feature: Simple mappings creation and test framework verification
     And set expected data
       | targetString | targetCombineString | targetAnotherString |
       | two          | three               | one                 |
-    Then save mapping as "simpleMapping3.xml"
-    And verify "simpleMapping3.xml"
+    Then save mapping as "simpleMapping3.json"
+    And verify "simpleMapping3.json"

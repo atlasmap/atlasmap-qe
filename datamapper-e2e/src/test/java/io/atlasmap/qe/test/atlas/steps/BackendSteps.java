@@ -213,7 +213,7 @@ public class BackendSteps extends CucumberGlue {
        assertThat(validator.verifyMultiObjectMapping()).isTrue();
     }
 
-    @Then("^save and verify datetypes mapping  as \"([^\"]*)\" and skip sql formats$")
+    @Then("^save and verify datetypes mapping as \"([^\"]*)\" and skip sql formats$")
     public void saveAndVerifyDatetypesMappingAsAndSkipSqlFormats(String mapping) throws Throwable {
         //   Thread.sleep(500);
         userSavesMappingAs(mapping);

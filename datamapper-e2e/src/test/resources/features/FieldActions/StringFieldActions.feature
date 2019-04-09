@@ -51,7 +51,7 @@ Feature: conversion from string
 #    And select "GenerateUUID" transformation
 #    And set "test" value in source's "sourceString"
 #    And set "jpg" value in target's "targetString"
-#    Then save mapping as "uuid.xml"
+#    Then save mapping as "uuid.json"
 #    And  verify if "targetString" is not "jpg" in "uuid.xml"
 #    And  verify if "targetString" is not "test" in "uuid.xml"
 #
@@ -68,7 +68,7 @@ Feature: conversion from string
     When select "<transformation>" transformation
     And for "<input-1>" input set "<input-1-value>"
     And for "<input-2>" input set "<input-2-value>"
-    Then save and verify "<transformation>.xml" with
+    Then save and verify "<transformation>.json" with
       | sourceString | targetString |
       | <source>     | <target>     |
 
@@ -97,7 +97,7 @@ Feature: conversion from string
     And for "input-endIndex" input set "5"
     And for "input-startIndex" input set "0"
     And for "input-match" input set "middle"
-    Then save and verify "SubstringAfter.xml" with
+    Then save and verify "SubstringAfter.json" with
       | sourceString          | targetString |
       | fooleftmiddlerightbar | right        |
 
@@ -107,7 +107,7 @@ Feature: conversion from string
     And for "input-endIndex" input set "6"
     And for "input-startIndex" input set "3"
     And for "input-match" input set "blah"
-    Then save and verify "SubstringBefore.xml" with
+    Then save and verify "SubstringBefore.json" with
       | sourceString | targetString |
       | foobarblah   | bar          |
 

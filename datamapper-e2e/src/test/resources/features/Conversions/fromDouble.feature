@@ -50,8 +50,8 @@ Feature: conversion from LONG
     Then check if "numeric format exceptions" warning from "DOUBLE" to "BYTE" is not displayed
     And check if "out of range exceptions" warning from "DOUBLE" to "BYTE" is displayed
 
-    And save mapping as "fromDouble.xml"
-    And verify "fromDouble.xml"
+    And save mapping as "fromDouble.json"
+    And verify "fromDouble.json"
 
 
     # And set mapping to "targetDate" from "sourceDouble"

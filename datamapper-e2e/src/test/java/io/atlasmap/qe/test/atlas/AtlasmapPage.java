@@ -172,6 +172,7 @@ public class AtlasmapPage {
         setInputValueByClass("form-control", className);
         clickOnButtonByText("OK");
         $(By.id(className)).waitUntil(appear, 15000);
+        LOG.info("Class successfully enabled: " + className);
     }
 
     public void enableSourceDocument(String path) {
@@ -189,7 +190,7 @@ public class AtlasmapPage {
      */
     private void checkIfDocumentAppeared(String path) {
         $(By.id(path.substring(path.lastIndexOf("/") + 1).split("\\.")[0])).waitUntil(appear, 15000);
-        LOG.info("File successfully imported:" + path);
+        LOG.info("File successfully imported: " + path);
     }
 
     public void clickOnWhileHolding(String id, String cmd) {

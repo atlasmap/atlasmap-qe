@@ -46,7 +46,7 @@ public class Utils {
         }
 
         // Finds file from mappings path that was last modified and that ends with ".xml".
-        Optional<File> oldMapping = FileUtils.listFiles(mappings, new WildcardFileFilter("*.xml"), TrueFileFilter.TRUE)
+        Optional<File> oldMapping = FileUtils.listFiles(mappings, new WildcardFileFilter("*.json"), TrueFileFilter.TRUE)
                 .stream().max(Comparator.comparingLong(File::lastModified));
 
         File newMapping = new File(System.getProperty("user.dir") + "/" + Constants.MAPPINGS_PATH + "/" + newName);
@@ -71,7 +71,7 @@ public class Utils {
     public static void cleanMappingFolder() throws IOException {
         File mappings = new File(MAPPINGS_PATH);
         if (mappings.exists()) {
-            FileUtils.listFiles(mappings, new WildcardFileFilter("*.xml"), TrueFileFilter.TRUE).forEach(f -> {
+            FileUtils.listFiles(mappings, new WildcardFileFilter("*.json"), TrueFileFilter.TRUE).forEach(f -> {
                 if (f.delete()) {
                     LOG.debug("Mapping deleted: " + f.getAbsolutePath());
                 } else {

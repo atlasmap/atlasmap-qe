@@ -83,6 +83,9 @@ public class AtlasmapInit implements Formatter {
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJsonArray.json");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJson.schema.json");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
+
+        // FIXME: last document must be imported twice because of bug in AtlasMap
+        page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
     });
 
     /**

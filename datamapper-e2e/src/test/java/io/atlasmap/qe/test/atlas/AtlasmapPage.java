@@ -172,24 +172,25 @@ public class AtlasmapPage {
         setInputValueByClass("form-control", className);
         clickOnButtonByText("OK");
         $(By.id(className)).waitUntil(appear, 15000);
+        LOG.info("Class successfully enabled: " + className);
     }
 
-    public void enableSourceFile(String path) {
+    public void enableSourceDocument(String path) {
         $$(By.id("userfile")).first().sendKeys(path);
-        checkIfFileAppeared(path);
+        checkIfDocumentAppeared(path);
     }
 
-    public void enableTargetFile(String path) {
+    public void enableTargetDocument(String path) {
         $$(By.id("userfile")).last().sendKeys(path);
-        checkIfFileAppeared(path);
+        checkIfDocumentAppeared(path);
     }
 
     /**
      * Gets filename from {@code path}. And checks if element with this filename appeared.
      */
-    private void checkIfFileAppeared(String path) {
+    private void checkIfDocumentAppeared(String path) {
         $(By.id(path.substring(path.lastIndexOf("/") + 1).split("\\.")[0])).waitUntil(appear, 15000);
-        LOG.info("File successfully imported:" + path);
+        LOG.info("File successfully imported: " + path);
     }
 
     public void clickOnWhileHolding(String id, String cmd) {

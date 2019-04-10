@@ -1,35 +1,34 @@
-# Atlasmap tests
+# AtlasMap tests
 
- E2E tests of standalone atlasmap based on Selenide and Cucumber framework.
+E2E tests of standalone _AtlasMap_ based on _Selenide_ and _Cucumber_ framework.
 
-- _test-resources_ - test mapping classes that are loaded into atlasmap.
-- _mapping-validator_ used for processing mapping files with atlasmap-camel
-- _datamapper-e2e_ contains gherkin test scenarios and run tests.
+* _test-resources_ contains test mapping classes that are loaded into _AtlasMap_.
+* _mapping-validator_ is used for processing mapping files with _atlasmap-camel_.
+* _datamapper-e2e_ contains _gherkin_ test scenarios and run tests.
 
-## How to run tests
-1. `cd {ATLASMAP_QE}/datamapper-e2e/`
-2. run tests with: `../mvnw clean test -Dselenide.browser-size=1920x1080 -Dselenide.browser=Chrome -Dworkspace.dir=${DIR} -Dui.path=${URL}`
-    * `${DIR}` is folder where is _AtlasMap_ installed
-    * `${URL}` must point to running _AtlasMap Data Mapper UI_
-    * add `-Dselenide.headless=true` if you want to run test in the background
-    * add `-Dselenide.holdBrowserOpen=false` if you want to keep browser opened after tests
+## How to build project?
+1. download project via `git clone https://github.com/atlasmap/atlasmap-qe ${ATLASMAP_QE}`
+2. `cd ${ATLASMAP_QE}`
+3. build project with `./mvnw clean install -DskipTests`
+
+## How to run tests?
+1. `cd ${ATLASMAP_QE}/datamapper-e2e/`
+2. run tests with: `../mvnw clean test -Dselenide.browser-size=1920x1080 -Dselenide.browser=Chrome`
+    * add `-Datlasmap.version=${VERSION}` to specify AtlasMap version
+    * add `-Dselenide.headless=true` if you want to run tests in the background
+    * add `-Dselenide.holdBrowserOpen=true` if you want to keep browser opened after tests
     * add `-Dcucumber.options='--tags @SmokeTest'` if you want to run only tests tagged with `@SmokeTest`
 
-## How it works
-During
-`mvn clean install -Datlasui.path=../${PATH_TO_ATLASMAP_UI}/` following steps are executed:
-
-1. _maven-resource-plugin_ copies modified _data.mapper.example.host.component.ts_ with source and target classes set into datamaper UI
-2. _maven-frontend-plugin_ build datamapper UI
-3. Built UI is copied into target/dist directory
-4. _atlasmap-runtime_ is started
-5. Test execution:
-    - datamaper UI load SourceMappingTestClass and TargetMappingTestClass
-    - Set mappings via selenide
-    - save mapping.xml
-    - process and verify mapping.xml in camel-route
-6. Tests passed
-
-
-
-
+## How it works?
+1. _maven-dependency-plugin_ downloads _JAR_ with standalone _AtlasMap_
+2. _process-exec-maven-plugin_ runs the _JAR_
+3. Tests initialization:
+    1. resets _AtlasMap_
+    2. enables classes from _test-resources_
+    3. loads _json_ and _xml_ documents
+4. Test execution:
+    1. sets mappings via _Selenide_
+    2. saves _mapping.json_
+    3. processes and verifies _mapping.json_ in _camel-route_ via _mapping-validator_
+    4. removes mappings
+5. Tests passed

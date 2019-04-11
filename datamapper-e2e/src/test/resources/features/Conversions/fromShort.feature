@@ -45,5 +45,5 @@ Feature: conversion to all supported types from Short
     And check if "out of range exceptions" warning from "SHORT" to "BYTE" is displayed
 
 
-    And save mapping as "fromShort.json"
-    And verify "fromShort.json"
+    And save mapping as "fromShort.xml"
+    And verify "fromShort.xml"

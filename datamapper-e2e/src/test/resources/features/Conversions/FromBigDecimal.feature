@@ -49,5 +49,5 @@ Feature: conversion from LONG
 #    Then check if "numeric format exceptions" warning from "DECIMAL" to "BYTE" is not displayed
 #    And check if "out of range exceptions" warning from "DECIMAL" to "BYTE" is displayed
 
-    And save mapping as "fromBigDecimal.json"
-    And verify "fromBigDecimal.json"
+    And save mapping as "fromBigDecimal.xml"
+    And verify "fromBigDecimal.xml"

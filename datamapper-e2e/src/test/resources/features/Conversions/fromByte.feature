@@ -43,6 +43,6 @@ Feature: conversions from BYTE to all supported types
     When set mapping to "targetBigDecimal" from "sourceByte"
     Then check if no warnings are displayed
 
-    And save mapping as "fromByte.json"
-    And verify "fromByte.json"
+    And save mapping as "fromByte.xml"
+    And verify "fromByte.xml"
 

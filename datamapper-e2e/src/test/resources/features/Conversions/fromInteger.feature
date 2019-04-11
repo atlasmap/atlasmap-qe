@@ -47,8 +47,8 @@ Feature: conversions from INTEGER to all supported types
     Then check if "numeric format exceptions" warning from "INTEGER" to "BYTE" is not displayed
     And check if "out of range exceptions" warning from "INTEGER" to "BYTE" is displayed
 
-    And save mapping as "fromInteger.json"
-    And verify "fromInteger.json"
+    And save mapping as "fromInteger.xml"
+    And verify "fromInteger.xml"
 
 
     # And set mapping to "targetDate" from "sourceInteger"

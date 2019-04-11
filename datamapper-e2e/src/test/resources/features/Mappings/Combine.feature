@@ -24,7 +24,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     And set expected data
       | targetCombineString |
       | foo bar             |
-    Then  save and verify mapping as "SimpleCombine.json"
+    Then  save and verify mapping as "SimpleCombine.xml"
 
 
   Scenario: Mixed types combine , executed from Mapping Details window
@@ -46,46 +46,46 @@ Feature: atlasmap is able to combine multiple inputs into one filed
   #  And select "Prepend" transformation
   #  And for "input-string" input set "Combined: "
 
-    Then save and verify combine mapping with " " separator as "ComplexCombine.json"
+    Then save and verify combine mapping with " " separator as "ComplexCombine.xml"
 
     When select "Colon [:]" separator
-    Then save and verify combine mapping with ":" separator as "ComplexCombineColon.json"
+    Then save and verify combine mapping with ":" separator as "ComplexCombineColon.xml"
 
     When select "Ampersand [&]" separator
-    Then save and verify combine mapping with "&" separator as "ComplexCombineAmpersand.json"
+    Then save and verify combine mapping with "&" separator as "ComplexCombineAmpersand.xml"
 
     When select "At Sign [@]" separator
-    Then save and verify combine mapping with "@" separator as "ComplexCombineAtSign.json"
+    Then save and verify combine mapping with "@" separator as "ComplexCombineAtSign.xml"
 
     When select "Backslash [\]" separator
-    Then save and verify combine mapping with "\" separator as "ComplexCombineBackslash.json"
+    Then save and verify combine mapping with "\" separator as "ComplexCombineBackslash.xml"
 
     When select "Comma [,]" separator
-    Then save and verify combine mapping with "," separator as "ComplexCombineComma.json"
+    Then save and verify combine mapping with "," separator as "ComplexCombineComma.xml"
 
     When select "Dash [-]" separator
-    Then save and verify combine mapping with "-" separator as "ComplexCombineDash.json"
+    Then save and verify combine mapping with "-" separator as "ComplexCombineDash.xml"
 
     When select "Equal [=]" separator
-    Then save and verify combine mapping with "=" separator as "ComplexCombineEqual.json"
+    Then save and verify combine mapping with "=" separator as "ComplexCombineEqual.xml"
 
     When select "Hash [#]" separator
-    Then save and verify combine mapping with "#" separator as "ComplexCombineHash.json"
+    Then save and verify combine mapping with "#" separator as "ComplexCombineHash.xml"
 
     When select "Period [.]" separator
-    Then save and verify combine mapping with "." separator as "ComplexCombinePeriod.json"
+    Then save and verify combine mapping with "." separator as "ComplexCombinePeriod.xml"
 
     When select "Pipe [|]" separator
-    Then save and verify combine mapping with "|" separator as "ComplexCombinePipe.json"
+    Then save and verify combine mapping with "|" separator as "ComplexCombinePipe.xml"
 
     When select "Semicolon [;]" separator
-    Then save and verify combine mapping with ";" separator as "ComplexCombineSemicolon.json"
+    Then save and verify combine mapping with ";" separator as "ComplexCombineSemicolon.xml"
 
     When select "Slash [/]" separator
-    Then save and verify combine mapping with "/" separator as "ComplexCombineSlash.json"
+    Then save and verify combine mapping with "/" separator as "ComplexCombineSlash.xml"
 
     When select "Underscore [_]" separator
-    Then save and verify combine mapping with "_" separator as "ComplexCombinePipe.json"
+    Then save and verify combine mapping with "_" separator as "ComplexCombinePipe.xml"
 
 
   Scenario: Mixed types combine with mixed indexes , executed from Mapping Details window
@@ -120,7 +120,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
       #| Combined: numbers: 6.0 5 4 3.0 2 1 1970-01-01T00:00:00Z |
       | numbers: 6.0 5 4 3.0 2 1 1970-01-01T00:00:00Z |
 
-    Then save and verify mapping as "ComplexCombineMixedIndexes.json"
+    Then save and verify mapping as "ComplexCombineMixedIndexes.xml"
 
 
 
@@ -173,7 +173,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 #    And select "Prepend" transformation
 #    And for "input-string" input set "Combined: "
 
-    Then save and verify combine mapping with " " separator as "ComplexCombineCMD.json"
+    Then save and verify combine mapping with " " separator as "ComplexCombineCMD.xml"
 
 
   Scenario: Gaps testing
@@ -196,4 +196,4 @@ Feature: atlasmap is able to combine multiple inputs into one filed
       | targetCombineString |
       | :2::4.0::6::8.0     |
 
-    Then save and verify mapping as "ComplexCombineGaps.json"
+    Then save and verify mapping as "ComplexCombineGaps.xml"

@@ -11,7 +11,7 @@ Feature: number related field actions
 
   Scenario Outline: Simple number transformations
     When add "<transformation>" transformation on "<source/target>"
-    Then save and verify "<transformation>.json" with
+    Then save and verify "<transformation>.xml" with
       | sourceDouble | targetDouble |
       | <source>     | <target>     |
 
@@ -31,7 +31,7 @@ Feature: number related field actions
 #    When add "IndexOf" transformation on "source"
 #    And for "input-string" input set "1"
 #
-#    Then save and verify "IndexOf.json" with
+#    Then save and verify "IndexOf.xml" with
 #      | sourceString | targetFloat |
 #      | 654321       | 5           |
 #
@@ -42,7 +42,7 @@ Feature: number related field actions
 #    When add "LastIndexOf" transformation on "source"
 #    And for "input-string" input set "1"
 #
-#    Then save and verify "Distance.json" with
+#    Then save and verify "Distance.xml" with
 #      | sourceString | targetFloat |
 #      | 212121       | 5           |
 
@@ -51,7 +51,7 @@ Feature: number related field actions
     When add "<transformation>" transformation on "<source/target>"
     And set from "<from>" to "<to>" units on "<source/target>"
    # And
-    Then save and verify "<transformation><from><to>.json" with
+    Then save and verify "<transformation><from><to>.xml" with
       | sourceDouble | targetDouble |
       | <fromValue>  | <toValue>    |
 

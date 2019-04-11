@@ -20,7 +20,7 @@ Feature: atlasmap is able to separate input to multiple fields
     And set "foo" value in target's "targetString"
     And set "bar" value in target's "targetAnotherString"
 
-    Then  save and verify mapping as "SimpleSeparate.json"
+    Then  save and verify mapping as "SimpleSeparate.xml"
 
   Scenario: Mixed types separate , executed from Mapping Details window
     When click on "sourceCombineString"
@@ -35,40 +35,40 @@ Feature: atlasmap is able to separate input to multiple fields
     And add "targetShort" to separate
     And add "targetDouble" to separate
 
-    Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.json"
+    Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.xml"
 
     When select "Ampersand [&]" separator
-    Then save and verify separate mapping with "&" separator as "ComplexSeparateAmpersand.json"
+    Then save and verify separate mapping with "&" separator as "ComplexSeparateAmpersand.xml"
 
     When select "At Sign [@]" separator
-    Then save and verify separate mapping with "@" separator as "ComplexSeparateAtSign.json"
+    Then save and verify separate mapping with "@" separator as "ComplexSeparateAtSign.xml"
 
     When select "Backslash [\]" separator
-    Then save and verify separate mapping with "\" separator as "ComplexSeparateBackslash.json"
+    Then save and verify separate mapping with "\" separator as "ComplexSeparateBackslash.xml"
 
     When select "Comma [,]" separator
-    Then save and verify separate mapping with "," separator as "ComplexSeparateComma.json"
+    Then save and verify separate mapping with "," separator as "ComplexSeparateComma.xml"
 
     When select "Dash [-]" separator
-    Then save and verify separate mapping with "-" separator as "ComplexSeparateDash.json"
+    Then save and verify separate mapping with "-" separator as "ComplexSeparateDash.xml"
 
     When select "Equal [=]" separator
-    Then save and verify separate mapping with "=" separator as "ComplexSeparateEqual.json"
+    Then save and verify separate mapping with "=" separator as "ComplexSeparateEqual.xml"
 
     When select "Hash [#]" separator
-    Then save and verify separate mapping with "#" separator as "ComplexSeparateHash.json"
+    Then save and verify separate mapping with "#" separator as "ComplexSeparateHash.xml"
 
     When select "Pipe [|]" separator
-    Then save and verify separate mapping with "|" separator as "ComplexSeparatePipe.json"
+    Then save and verify separate mapping with "|" separator as "ComplexSeparatePipe.xml"
 
     When select "Semicolon [;]" separator
-    Then save and verify separate mapping with ";" separator as "ComplexSeparateSemicolon.json"
+    Then save and verify separate mapping with ";" separator as "ComplexSeparateSemicolon.xml"
 
     When select "Slash [/]" separator
-    Then save and verify separate mapping with "/" separator as "ComplexSeparateSlash.json"
+    Then save and verify separate mapping with "/" separator as "ComplexSeparateSlash.xml"
 
     When select "Underscore [_]" separator
-    Then save and verify separate mapping with "_" separator as "ComplexSeparatePipe.json"
+    Then save and verify separate mapping with "_" separator as "ComplexSeparatePipe.xml"
 ##
   Scenario: Mixed types separate, with mixed indexes executed from Mapping Details window
     When click on "sourceCombineString"
@@ -98,7 +98,7 @@ Feature: atlasmap is able to separate input to multiple fields
       | sourceCombineString      |
       | numbers: 6.0 5 4 3.0 2 A |
 
-    Then save and verify mapping as "ComplexSeparateMixedIndexes.json"
+    Then save and verify mapping as "ComplexSeparateMixedIndexes.xml"
 
   @SmokeTest
   Scenario: Separate created with CMD holding
@@ -111,7 +111,7 @@ Feature: atlasmap is able to separate input to multiple fields
     And click on "targetShort" holding cmd button
     And click on "targetDouble" holding cmd button
 
-    Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.json"
+    Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.xml"
 
 
   Scenario: Separate with Gaps
@@ -137,5 +137,5 @@ Feature: atlasmap is able to separate input to multiple fields
       | targetInteger | targetFloat | targetLong | targetDouble |
       | 2             | 4           | 6          | 8            |
 
-    Then save and verify mapping as "ComplexSeparateCMD.json"
+    Then save and verify mapping as "ComplexSeparateCMD.xml"
 

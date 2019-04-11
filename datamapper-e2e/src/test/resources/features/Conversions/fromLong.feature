@@ -47,8 +47,8 @@ Feature: conversion from LONG
     Then check if "numeric format exceptions" warning from "LONG" to "BYTE" is not displayed
     And check if "out of range exceptions" warning from "LONG" to "BYTE" is displayed
 
-    And save mapping as "fromLONG.json"
-    And verify "fromLONG.json"
+    And save mapping as "fromLONG.xml"
+    And verify "fromLONG.xml"
 
 
     # And set mapping to "targetDate" from "sourceLong"

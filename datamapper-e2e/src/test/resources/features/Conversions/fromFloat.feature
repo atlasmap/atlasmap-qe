@@ -50,5 +50,5 @@ Feature: conversion from FLOAT to all supported types
     Then check if "numeric format exceptions" warning from "FLOAT" to "BYTE" is not displayed
     And check if "out of range exceptions" warning from "FLOAT" to "BYTE" is displayed
 
-    And save mapping as "fromFloat.json"
-    And verify "fromFloat.json"
+    And save mapping as "fromFloat.xml"
+    And verify "fromFloat.xml"

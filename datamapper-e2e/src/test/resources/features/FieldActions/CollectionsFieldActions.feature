@@ -16,7 +16,7 @@ Feature: collection related field actions
     When add mapping from "<source>" to "<target>"
     And add "<transformation>" transformation on "source"
     And set "<value>" value in target's "<target>"
-    Then save and verify mapping as "collection_<transformation>.json"
+    Then save and verify mapping as "collection_<transformation>.xml"
 
     Examples:
       | transformation | value                                                           | target        | source          |
@@ -44,7 +44,7 @@ Feature: collection related field actions
     And add "<transformation>" transformation on "source"
     And set "<value>" value in target's "<target>"
     And for "<id>" input set "<parameter>"
-    Then save and verify mapping as "collection_<transformation>.json"
+    Then save and verify mapping as "collection_<transformation>.xml"
 
     Examples:
       | transformation | id              | parameter | value     | target       | source          |
@@ -55,7 +55,7 @@ Feature: collection related field actions
     When add "Item At" transformation on "source"
     And for "input-index" input set "5"
     And set "6" value in target's "targetString"
-    Then save and verify mapping as "collection_itemAt.json"
+    Then save and verify mapping as "collection_itemAt.xml"
 
 ##single -> array (split for example)
   Scenario Outline: single field -> collection transformations
@@ -63,7 +63,7 @@ Feature: collection related field actions
     And add "<transformation>" transformation on "source"
     And for "<input>" input set "<input-value>"
     And set "<value>" value in source's "<source>"
-    Then save and verify collections mappings in "<transformation>Collection.json" "<expectedValue>" value is presented in "<target>" collection
+    Then save and verify collections mappings in "<transformation>Collection.xml" "<expectedValue>" value is presented in "<target>" collection
 
     Examples:
       | transformation | source       | target    | value     | input           | input-value | expectedValue   |
@@ -76,7 +76,7 @@ Feature: collection related field actions
     And add "<transformation>" transformation on "<source/target>"
     And for "<input>" input set "<input-value>"
     And sleep for "2000"
-    Then save and verify collections mappings in "<transformation>Collection.json" "<expectedValue>" value is presented in "<to>" collection
+    Then save and verify collections mappings in "<transformation>Collection.xml" "<expectedValue>" value is presented in "<to>" collection
 
     Examples:
       | transformation | from     | to        | input        | input-value | expectedValue                                                                                                         | source/target |
@@ -92,7 +92,7 @@ Feature: collection related field actions
     When add mapping from "<source>" to "/<target>"
     When add "<transformation>" transformation on "<source/target>"
     And set from "<from>" to "<to>" units on "<source/target>"
-    Then save and verify collections mappings in "<transformation><from><to>.json" "<expected>" value is presented in "<target>" collection
+    Then save and verify collections mappings in "<transformation><from><to>.xml" "<expected>" value is presented in "<target>" collection
 
     Examples:
       | transformation        | from      | to        | source/target | source    | target   | expected                                            |

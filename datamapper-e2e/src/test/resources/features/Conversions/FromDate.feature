@@ -37,7 +37,7 @@ Feature: Cover all dates conversion
 
     And take a screenshot
     And init DateObject "22-12-2012"
-    Then save and verify mapping from "standardJavaDate" to datetypes as "dates_fromxJavaDate.json"
+    Then save and verify mapping from "standardJavaDate" to datetypes as "dates_fromxJavaDate.xml"
 
 #
   Scenario: Conversion from LocalDateTime (DATE_TIME) to al types
@@ -55,7 +55,7 @@ Feature: Cover all dates conversion
 
 
     And init DateObject "22-12-2012"
-    Then save and verify mapping from "localDateTIme" to datetypes as "dates_fromLocalDateTime.json"
+    Then save and verify mapping from "localDateTIme" to datetypes as "dates_fromLocalDateTime.xml"
 
   Scenario: Conversion from zonedDT  (DATE) to al types
   #  When click on "dateObjectVariable"
@@ -71,7 +71,7 @@ Feature: Cover all dates conversion
     And add mapping from "/zonedDateTime" to "/dateObjectVariable/gregorianCalendar"
 
     And init DateObject "22-12-2012"
-    Then save and verify mapping from "localDateTIme" to datetypes as "dates_fromLocalDateTime.json"
+    Then save and verify mapping from "localDateTIme" to datetypes as "dates_fromLocalDateTime.xml"
 
   Scenario: Conversion from timestamp (DATE_TIME) to al types
    # When click on "dateObjectVariable"
@@ -87,7 +87,7 @@ Feature: Cover all dates conversion
     And add mapping from "/timestamp" to "/dateObjectVariable/gregorianCalendar"
 
     And init DateObject "22-12-2012"
-    Then save and verify mapping from "standardJavaDate" to datetypes as "dates_fromxJavaDate.json"
+    Then save and verify mapping from "standardJavaDate" to datetypes as "dates_fromxJavaDate.xml"
 
   Scenario: Conversion from calendar (DATE) to al types
     When click on "dateObjectVariable"
@@ -103,5 +103,5 @@ Feature: Cover all dates conversion
     And add mapping from "/calendar" to "/dateObjectVariable/gregorianCalendar"
 
     And init DateObject "22-12-2012"
-    Then save and verify mapping from "standardJavaDate" to datetypes as "dates_fromxJavaDate.json"
+    Then save and verify mapping from "standardJavaDate" to datetypes as "dates_fromxJavaDate.xml"
 

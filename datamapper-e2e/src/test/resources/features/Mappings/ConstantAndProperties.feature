@@ -13,7 +13,7 @@ Feature: Map from constant and properties
   Scenario Outline: Create constant and map to string
     When set "<ConstantType>" constant with "<value>" value
     And add mapping from "<value>" to "targetString"
-    Then save and verify "<ConstantType>Constant.json" with
+    Then save and verify "<ConstantType>Constant.xml" with
       | sourceString | targetString |
       | nothing      | <value>      |
 
@@ -32,7 +32,7 @@ Feature: Map from constant and properties
   Scenario Outline: Create constant and map to relevant type
     When set "<ConstantType>" constant with "<value>" value
     And add mapping from "<value>" to "target<ConstantType>"
-    Then save and verify "<ConstantType>Constant.json" with
+    Then save and verify "<ConstantType>Constant.xml" with
       | sourceString | target<ConstantType> |
       | nothing      | <value>              |
 
@@ -50,7 +50,7 @@ Feature: Map from constant and properties
   Scenario Outline: Create property and map to string
     When set "My<type>" property of "<type>" type and "<value>" value
     And add mapping from "My<type>" to "targetString"
-    Then save and verify "<type>Property.json" with
+    Then save and verify "<type>Property.xml" with
       | sourceString | targetString |
       | nothing      | <value>      |
 
@@ -69,7 +69,7 @@ Feature: Map from constant and properties
   Scenario Outline: Create property and map to relevant type
     When set "My<type>" property of "<type>" type and "<value>" value
     And add mapping from "My<type>" to "target<type>"
-    Then save and verify "My<type>Property.json" with
+    Then save and verify "My<type>Property.xml" with
       | sourceString | target<type> |
       | nothing      | <value>      |
 
@@ -91,7 +91,7 @@ Feature: Map from constant and properties
     And add mapping from "Value=" to "targetString"
     And add select "Combine" action
     And add "Property" to combine
-    Then save and verify "CombineConstantAndProperty.json" with
+    Then save and verify "CombineConstantAndProperty.xml" with
       | sourceString | targetString    |
       | nothing      | Value= 1234.567 |
 

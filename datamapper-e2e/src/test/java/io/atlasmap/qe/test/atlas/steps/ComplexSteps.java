@@ -20,8 +20,8 @@ public class ComplexSteps extends CucumberGlue {
         if ("Normalize".equals(transformation)) {
             this.validator.setSourceValue("sourceString", "foo \t bar");
         }
-        backendSteps.userSavesMappingAs(transformation + ".json");
-        backendSteps.verify(transformation + ".json");
+        backendSteps.userSavesMappingAs(transformation + ".xml");
+        backendSteps.verify(transformation + ".xml");
     }
 
     @And("^verify conversion from \"([^\"]*)\" in preview$")
@@ -32,8 +32,8 @@ public class ComplexSteps extends CucumberGlue {
 
         String s = this.validator.getSourceValue(field).toString();
         this.atlasmapPage.setInputValueForFieldPreview(field, s);
-        backendSteps.userSavesMappingAs("from_" + field + ".json");
-        this.validator.setMappingLocation("from_" + field + ".json");
+        backendSteps.userSavesMappingAs("from_" + field + ".xml");
+        this.validator.setMappingLocation("from_" + field + ".xml");
         TargetMappingTestClass target = this.validator.processMapping();
 
         for (String targetField : targetFields) {

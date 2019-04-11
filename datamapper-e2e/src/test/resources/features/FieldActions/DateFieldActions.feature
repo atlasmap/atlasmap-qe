@@ -13,11 +13,11 @@ Feature: Date related field actions
 #    And add click "Add Transformation" link
 #    And change transformation from "AbsoluteValue" to "DayOfWeek"
 #    And set "4" value in target's "targetInteger"
-#    Then save and verify mapping as "dayOfWeek.json"
+#    Then save and verify mapping as "dayOfWeek.xml"
 #
 #    When change transformation from "DayOfWeek" to "DayOfYear"
 #    And set "1" value in target's "targetInteger"
-#    Then save and verify mapping as "dayOfYear.json"
+#    Then save and verify mapping as "dayOfYear.xml"
 
   Scenario Outline: simple date transformations
     When add mapping from "<source>" to "targetDate"
@@ -25,7 +25,7 @@ Feature: Date related field actions
     And for "<input>" input set "<inputValue>"
     And set "<targetValue>" value in target's "targetDate"
     And init DateObject "21-12-2012"
-    Then save and verify mapping as "<transformation>.json"
+    Then save and verify mapping as "<transformation>.xml"
 
     Examples:
       | transformation | source         | input         | inputValue | targetValue      | source/target |

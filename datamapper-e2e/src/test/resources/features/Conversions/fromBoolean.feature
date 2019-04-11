@@ -51,5 +51,5 @@ Feature: conversion from Boolean
       | 0             | false        | 0          | 0            | 0           | false         | 0          | 0           |
 
 
-    And save and verify mapping as "fromDouble.json"
+    And save and verify mapping as "fromDouble.xml"
 

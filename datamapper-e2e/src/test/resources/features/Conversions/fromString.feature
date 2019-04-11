@@ -45,8 +45,8 @@ Feature: conversion from string
     When  set mapping to "targetAnotherString" from "sourceString"
     Then check if no warnings are displayed
 
-    And save mapping as "fromString.json"
-    And verify "fromString.json"
+    And save mapping as "fromString.xml"
+    And verify "fromString.xml"
 
 
   Scenario: Conversion of bigDecimal and big integer

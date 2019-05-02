@@ -61,11 +61,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>io.atlasmap</groupId>-->
-			<!--<artifactId>runtime</artifactId>-->
-			<!--<version>${atlasmap.version}</version>-->
-		<!--</dependency>-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

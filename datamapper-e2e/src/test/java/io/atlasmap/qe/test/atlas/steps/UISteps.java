@@ -119,7 +119,6 @@ public class UISteps extends CucumberGlue {
 
     @And("^add \"([^\"]*)\" to combine$")
     public void addToCombine(String field) throws Throwable {
-        addClickButton("Add Source");
         forIdInputSet("input-source-", field);
     }
 
@@ -136,7 +135,6 @@ public class UISteps extends CucumberGlue {
 
     @And("^add \"([^\"]*)\" to separate$")
     public void addToSeparate(String field) throws Throwable {
-        addClickButton("Add Target");
         forIdInputSet("input-target-", field);
         atlasmapPage.verifyThatIpnutExist("input-target-"+field);
     }

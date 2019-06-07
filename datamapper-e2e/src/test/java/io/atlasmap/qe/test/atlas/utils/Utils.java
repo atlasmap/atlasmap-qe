@@ -71,7 +71,7 @@ public class Utils {
     public static void cleanMappingFolder() throws IOException {
         File mappings = new File(MAPPINGS_PATH);
         if (mappings.exists()) {
-            FileUtils.listFiles(mappings, new WildcardFileFilter("*.json"), TrueFileFilter.TRUE).forEach(f -> {
+            FileUtils.listFiles(mappings, new WildcardFileFilter("*.xml"), TrueFileFilter.TRUE).forEach(f -> {
                 if (f.delete()) {
                     LOG.debug("Mapping deleted: " + f.getAbsolutePath());
                 } else {

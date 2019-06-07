@@ -39,6 +39,10 @@ public class AtlasmapPage {
         $(By.id(elementID)).$("label").click();
     }
 
+    public void toggleConditionalMapping() {
+        $(By.xpath("/html/body/div[2]/atlasmap-dev-root/" +
+                "data-mapper-example-host/data-mapper/div/div/div[4]/toolbar/div/div/i[1]")).click();
+    }
 
     public boolean checkWarning(String exceptionType, String fromType, String toType) {
         LOG.debug("looking ...");
@@ -120,7 +124,10 @@ public class AtlasmapPage {
         e.sendKeys(newValue);
       //  Thread.sleep(15000);
         $(By.id(inputId)).parent().$$("h5").filter(Condition.text(newValue)).get(0).click();
+    }
 
+    public void setCondition(String condition) {
+        $(By.id("expressionMarkup")).sendKeys(condition);
     }
 
     public void selectAction(String action) {

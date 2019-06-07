@@ -63,6 +63,19 @@ public class UISteps extends CucumberGlue {
         }
     }
 
+    @And("^set mapping condition to \"([^\"]*)\" by Control key$")
+    public void setMappingConditionTo(String condition) {
+        atlasmapPage.toggleConditionalMapping();
+        for (String s: condition.split("((?<=@\\{\\w{0,100}\\})|(?=@\\{\\w{0,100}\\}))")) {
+            LOG.info(s);
+            if (s.startsWith("@")) {
+                clickOnHoldingCmdButton(s.replaceAll("[@{}]", ""));
+            } else {
+                atlasmapPage.setCondition(s);
+            }
+        }
+    }
+
     @Then("^check if \"([^\"]*)\" warning from \"([^\"]*)\" to \"([^\"]*)\" is displayed$")
     public void checkIfFromToDisplayed(String exceptionType, String from, String to) {
         Assert.assertTrue(this.atlasmapPage.checkWarning(exceptionType, from, to));

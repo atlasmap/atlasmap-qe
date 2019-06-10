@@ -4,6 +4,7 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.junit.Assert;
 import org.openqa.selenium.OutputType;
@@ -64,14 +65,31 @@ public class UISteps extends CucumberGlue {
     }
 
     @And("^set mapping condition to \"([^\"]*)\" by Control key$")
-    public void setMappingConditionTo(String condition) {
+    public void setMappingConditionByCtrl(String condition) {
+        setMappingConditionTo(condition, this::clickOnHoldingCmdButton);
+    }
+
+    @And("^set mapping condition to \"([^\"]*)\" by drag and drop$")
+    public void setMappingConditionByDragAndDrop(String condition) {
+        // TODO
+    }
+
+    @And("^set mapping condition to \"([^\"]*)\" by auto completion$")
+    public void setMappingConditionByAutoCompletion(String condition) {
+        setMappingConditionTo(condition, s-> {
+            atlasmapPage.addToConditionalMapping("@" + s);
+            atlasmapPage.clickOnXpath("/html/body/div[2]/atlasmap-dev-root/data-mapper-example-host/data-mapper/" +
+                    "div/div/div[4]/toolbar/div/div/div[1]/expression/div[2]/div[1]");
+        });
+    }
+
+    private void setMappingConditionTo(String condition, Consumer<String> method) {
         atlasmapPage.toggleConditionalMapping();
         for (String s: condition.split("((?<=@\\{\\w{0,100}\\})|(?=@\\{\\w{0,100}\\}))")) {
-            LOG.info(s);
             if (s.startsWith("@")) {
-                clickOnHoldingCmdButton(s.replaceAll("[@{}]", ""));
+                method.accept(s.replaceAll("[@{}]", ""));
             } else {
-                atlasmapPage.setCondition(s);
+                atlasmapPage.addToConditionalMapping(s);
             }
         }
     }

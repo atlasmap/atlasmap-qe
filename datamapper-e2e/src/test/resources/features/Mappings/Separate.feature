@@ -10,13 +10,11 @@ Feature: atlasmap is able to separate input to multiple fields
 
   Scenario: Simple separate workflow, executed from Mapping Details window
     When click on "sourceCombineString"
-    And add select "Separate" action
-    And for "input-target-" id input set "targetString"
 
-    And add click "Add Target" button
+    And for "input-target-" id input set "targetString"
     And for "input-target-" id input set "targetAnotherString"
 
-    And set "foo bar" value in source's "sourceCombineString"
+    And set "bar foo" value in source's "sourceCombineString"
     And set "foo" value in target's "targetString"
     And set "bar" value in target's "targetAnotherString"
 
@@ -24,9 +22,7 @@ Feature: atlasmap is able to separate input to multiple fields
 
   Scenario: Mixed types separate , executed from Mapping Details window
     When click on "sourceCombineString"
-    And add select "Separate" action
     And for "input-target-" id input set "targetString"
-
 
     And add "targetChar" to separate
     And add "targetInteger" to separate
@@ -72,16 +68,14 @@ Feature: atlasmap is able to separate input to multiple fields
 ##
   Scenario: Mixed types separate, with mixed indexes executed from Mapping Details window
     When click on "sourceCombineString"
-    And add select "Separate" action
-    And for "input-target-" id input set "targetString"
-
-
-    And add "targetChar" to separate
-    And add "targetInteger" to separate
-    And add "targetFloat" to separate
-    And add "targetLong" to separate
+    And for "input-target-" id input set "targetDouble"
     And add "targetShort" to separate
-    And add "targetDouble" to separate
+    And add "targetLong" to separate
+    And add "targetFloat" to separate
+    And add "targetInteger" to separate
+    And add "targetChar" to separate
+    And add "targetString" to separate
+
     And for "input-target-targetChar" id input with "2" set "7"
     #necessary
     And sleep for "1000"
@@ -113,6 +107,22 @@ Feature: atlasmap is able to separate input to multiple fields
 
     Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.json"
 
+  @DragAndDrop
+  Scenario: Separate created with CMD holding using drag'n'drop
+    When click on "targetString" holding cmd button
+    And click on "targetAnotherString" holding cmd button
+
+    And drag "targetAnotherString" and drop on "sourceCombineString"
+
+    And set source data
+      | sourceCombineString |
+      | foo bar             |
+
+    And set expected data
+      | targetString | targetAnotherString |
+      | foo          | bar                 |
+
+    Then save and verify mapping as "ComplexSeparateSpaceDragNDrop.json"
 
   Scenario: Separate with Gaps
     When click on "sourceCombineString"

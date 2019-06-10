@@ -128,7 +128,7 @@ public class AtlasmapPage {
     }
 
     public void selectSeparator(String action) {
-        $("#select-separator").selectOption(action);
+        $("#separator").selectOption(action);
     }
 
     public void openMappingDetails() {
@@ -212,25 +212,8 @@ public class AtlasmapPage {
     }
 
     public void dragNDrop(String drag, String drop) {
-        WebElement dr = $$(By.id(drag)).get(1).shouldBe(visible);
-        WebElement dro = $$(By.id(drop)).get(1).shouldBe(visible);
-        // dr
-        System.out.println(dr.toString());
-        System.out.println(dro.toString());
-
-        Actions a = new Actions(WebDriverRunner.getWebDriver());
-//        a.clickAndHold(dr)
-//                .moveByOffset(-1, -1)
-//                .moveToElement(dro)
-//                .release(dro)
-//                .build()
-//                .perform();
-        a.dragAndDrop(dr, dro).build().perform();
-
-    }
-
-    public void dragAndDropElement(String dragElement, String dropElement) {
-
+        $(By.id(drag)).dragAndDropTo($(By.id(drop)));
+        $(By.id(drop)).click();
     }
 
     public void setInputValueForFieldPreview(String field, String value) {

@@ -61,7 +61,7 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
         }
         this.sourceAnotherString = "sourceAnotherString";
         this.sourceBoolean = true;
-
+        this.sourceEnum = SimpleEnum.VALUE1;
     }
 
     @Override
@@ -79,6 +79,7 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
                 " | sourceShort=" + sourceShort +
                 " | sourceByte=" + sourceByte +
                 " | sourceChar=" + sourceChar +
+                " | sourceEnum=" + sourceEnum +
                 '}';
     }
 

@@ -273,7 +273,6 @@ public class UISteps extends CucumberGlue {
         for (Map<String, String> data : values.asMaps(String.class, String.class)) {
             for (String key : data.keySet()) {
                 final String value = data.get(key);
-                System.out.println(key + " " + value);
                 String val = this.atlasmapPage.getFieldPreviewValue(key);
                 Assert.assertEquals(value, val);
             }

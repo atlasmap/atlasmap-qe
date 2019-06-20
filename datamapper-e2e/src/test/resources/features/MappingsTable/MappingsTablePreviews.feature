@@ -21,7 +21,6 @@ Feature: mappings table
 
   Scenario: check combine mapping in table anch check if table is filled properly
     When add mapping from "sourceInteger" to "targetString"
-    And add select "Combine" action
     And add "sourceFloat" to combine
     And add "sourceString" to combine
     And Show mapping preview
@@ -29,7 +28,6 @@ Feature: mappings table
 
   Scenario: check separate mapping in table anch check if table is filled properly
     When add mapping from "sourceCombineString" to "targetString"
-    And add select "Separate" action
     And add "targetInteger" to separate
     And add "targetFloat" to separate
     And Show mapping preview

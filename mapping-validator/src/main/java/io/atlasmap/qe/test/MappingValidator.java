@@ -24,6 +24,7 @@ import io.atlasmap.qe.resources.ResourcesGenerator;
 /**
  * Created by mmelko on 15/11/2017.
  */
+
 public class MappingValidator {
     private static final Logger LOG = LogManager.getLogger(MappingValidator.class);
     public static final String SOURCE_MAP = "SOURCE_MAP";
@@ -73,7 +74,6 @@ public class MappingValidator {
     public Object processMapping(String expected) throws Exception {
         sourceMap.put(source.getClass().getName(), source);
         Map<String, Object> processed = processMappingInputMap(sourceMap);
-        System.out.println(processed);
         return processed.get(expected);
     }
 

@@ -107,7 +107,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
       | numbers:     | 1          | 2             | 3           | 4          | 5           | 6            |
 
     And set expected data
-      | targetCombineString                                     |
+      | targetCombineString                           |
       #| Combined: numbers: 6.0 5 4 3.0 2 1 1970-01-01T00:00:00Z |
       | numbers: 6.0 5 4 3.0 2 1 1970-01-01T00:00:00Z |
 
@@ -181,6 +181,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 
     Then save and verify combine mapping with " " separator as "ComplexCombineCMDDragNDrop.json"
 
+  @gaps
   Scenario: Gaps testing
     And click on "sourceInteger" holding cmd button
     And click on "sourceFloat" holding cmd button
@@ -199,6 +200,6 @@ Feature: atlasmap is able to combine multiple inputs into one filed
       | 2             | 4           | 6          | 8            |
     And set expected data
       | targetCombineString |
-      | 2:4.0:6:8.0     |
-
+      | :2::4.0::6::8.0     |
+    And sleep for "30000"
     Then save and verify mapping as "ComplexCombineGaps.json"

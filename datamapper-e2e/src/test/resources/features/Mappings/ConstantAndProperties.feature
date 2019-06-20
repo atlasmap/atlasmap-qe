@@ -84,14 +84,14 @@ Feature: Map from constant and properties
       | Short   | 1234          |
 
   @SmokeTest
+  @CombineConstants
   Scenario: combine of constant and property to string
-    When set "String" constant with "Value=" value
+    When set "String" constant with "Units" value
     And set "Property" property of "Float" type and "1234.567" value
 
-    And add mapping from "Value=" to "targetString"
-    And add select "Combine" action
+    And add mapping from "Units" to "targetString"
     And add "Property" to combine
     Then save and verify "CombineConstantAndProperty.json" with
       | sourceString | targetString    |
-      | nothing      | Value= 1234.567 |
+      | nothing      | 1234.567 Units|
 

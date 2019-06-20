@@ -8,6 +8,7 @@ Feature: atlasmap is able to separate input to multiple fields
     And browser is opened
     And internal mapping is set to "false"
 
+  @SimpleSeparate
   Scenario: Simple separate workflow, executed from Mapping Details window
     When click on "sourceCombineString"
 
@@ -20,16 +21,28 @@ Feature: atlasmap is able to separate input to multiple fields
 
     Then  save and verify mapping as "SimpleSeparate.json"
 
+  @SeparateWithAllSeparators
   Scenario: Mixed types separate , executed from Mapping Details window
     When click on "sourceCombineString"
-    And for "input-target-" id input set "targetString"
+#    And for "input-target-" id input set "targetString"
+#
+#    And add "targetChar" to separate
+#    And add "targetInteger" to separate
+#    And add "targetFloat" to separate
+#    And add "targetLong" to separate
+#    And add "targetShort" to separate
+#    And add "targetDouble" to separate
 
-    And add "targetChar" to separate
-    And add "targetInteger" to separate
-    And add "targetFloat" to separate
-    And add "targetLong" to separate
-    And add "targetShort" to separate
-    And add "targetDouble" to separate
+    And click on "targetString" holding cmd button
+    And click on "targetChar" holding cmd button
+    And click on "targetInteger" holding cmd button
+    And click on "targetFloat" holding cmd button
+    And click on "targetLong" holding cmd button
+    And click on "targetShort" holding cmd button
+    And click on "targetDouble" holding cmd button
+
+   # And sleep for "30000"
+    And take a screenshot
 
     Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.json"
 
@@ -39,8 +52,11 @@ Feature: atlasmap is able to separate input to multiple fields
     When select "At Sign [@]" separator
     Then save and verify separate mapping with "@" separator as "ComplexSeparateAtSign.json"
 
-    When select "Backslash [\]" separator
-    Then save and verify separate mapping with "\" separator as "ComplexSeparateBackslash.json"
+#    When select "Colon [:]" separator
+#    Then save and verify separate mapping with ":" separator as "ComplexSeparateAtSign.json"
+#
+#    When select "Backslash [\]" separator
+#    Then save and verify separate mapping with "\" separator as "ComplexSeparateBackslash.json"
 
     When select "Comma [,]" separator
     Then save and verify separate mapping with "," separator as "ComplexSeparateComma.json"
@@ -54,8 +70,8 @@ Feature: atlasmap is able to separate input to multiple fields
     When select "Hash [#]" separator
     Then save and verify separate mapping with "#" separator as "ComplexSeparateHash.json"
 
-    When select "Pipe [|]" separator
-    Then save and verify separate mapping with "|" separator as "ComplexSeparatePipe.json"
+#    When select "Pipe [|]" separator
+#    Then save and verify separate mapping with "|" separator as "ComplexSeparatePipe.json"
 
     When select "Semicolon [;]" separator
     Then save and verify separate mapping with ";" separator as "ComplexSeparateSemicolon.json"
@@ -66,6 +82,8 @@ Feature: atlasmap is able to separate input to multiple fields
     When select "Underscore [_]" separator
     Then save and verify separate mapping with "_" separator as "ComplexSeparatePipe.json"
 ##
+
+  @MixedIndexes
   Scenario: Mixed types separate, with mixed indexes executed from Mapping Details window
     When click on "sourceCombineString"
     And for "input-target-" id input set "targetDouble"
@@ -95,6 +113,7 @@ Feature: atlasmap is able to separate input to multiple fields
     Then save and verify mapping as "ComplexSeparateMixedIndexes.json"
 
   @SmokeTest
+  @CmdHolding
   Scenario: Separate created with CMD holding
     When click on "sourceCombineString"
     And click on "targetString" holding cmd button
@@ -107,6 +126,7 @@ Feature: atlasmap is able to separate input to multiple fields
 
     Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.json"
 
+  @SeparateDragAndDrop
   @DragAndDrop
   Scenario: Separate created with CMD holding using drag'n'drop
     When click on "targetString" holding cmd button
@@ -124,6 +144,7 @@ Feature: atlasmap is able to separate input to multiple fields
 
     Then save and verify mapping as "ComplexSeparateSpaceDragNDrop.json"
 
+  @gaps
   Scenario: Separate with Gaps
     When click on "sourceCombineString"
 

@@ -2,24 +2,32 @@ package io.atlasmap.qe.test.atlas;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.disappear;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 
 import io.atlasmap.qe.test.atlas.steps.CucumberGlue;
 import io.atlasmap.qe.test.atlas.utils.Constants;
+
+
+
+
+
 
 public class AtlasmapPage {
 
@@ -50,8 +58,11 @@ public class AtlasmapPage {
 
     public boolean checkWarning(String exceptionType, String fromType, String toType) {
         LOG.debug("looking ...");
-        $(".alert-warn").shouldBe(Condition.appears);
-        for (String s : $$(".alert-warn").texts()) {
+        $("modal-error-window").shouldBe(Condition.appears);
+        List<SelenideElement> se = $$(".modal-message");
+        // LOG.info();
+        for (String s : $$(".modal-message").texts()) {
+
             if (s.equals("Conversion from '" + fromType + "' to '" + toType + "' can cause " + exceptionType)) {
                 return true;
             }
@@ -95,7 +106,7 @@ public class AtlasmapPage {
     }
 
     public void selectTransformation(String transformation, String defaultValue) {
-        $$(By.tagName("select")).filter(Condition.value(defaultValue.replaceAll(" ",""))).get(0).selectOption(transformation);
+        $$(By.tagName("select")).filter(Condition.value(defaultValue.replaceAll(" ", ""))).get(0).selectOption(transformation);
     }
 
     public void changeSelectValue(String from, String to) {
@@ -111,7 +122,7 @@ public class AtlasmapPage {
         e.scrollIntoView(true);
         e.clear();
         e.setValue(inputValue);
-        e.waitUntil(Condition.value(inputValue),1000);
+        e.waitUntil(Condition.value(inputValue), 1000);
     }
 
     public void setInputValueByClassAndDefaultValue(String inputSelector, String def, String inputValue) {
@@ -126,7 +137,7 @@ public class AtlasmapPage {
         e.scrollIntoView(true);
         Thread.sleep(500);
         e.sendKeys(newValue);
-      //  Thread.sleep(15000);
+        //  Thread.sleep(15000);
         $(By.id(inputId)).parent().$$("h5").filter(Condition.text(newValue)).get(0).click();
     }
 
@@ -154,11 +165,11 @@ public class AtlasmapPage {
     public void deleteCurrent() throws InterruptedException {
         $(By.className("fieldMappingDetail")).$(By.cssSelector(".fa.fa-trash.link")).click();
 
-        $(".pull-right.btn.btn-primary").shouldBe(visible).isDisplayed();
+        $(By.xpath("//button[text()='Remove ']")).waitUntil(appear,20000);
         clickOnButtonByText("Remove");
     }
 
-    public void resetAll () {
+    public void resetAll() {
         $(".fa.fa-cog.link").click();
         clickOnElementByText("label", "Reset All ");
         clickOnButtonByText("Reset");
@@ -228,20 +239,24 @@ public class AtlasmapPage {
     }
 
     public void setInputValueForFieldPreview(String field, String value) {
-       SelenideElement e = $(By.id(field)).$("textarea");
-       e.setValue(value);
-       e.waitUntil(Condition.value(value),1000);
+        SelenideElement e = $(By.id(field)).$("textarea");
+        e.scrollTo().shouldBe(visible);
+        e.clear();
+        e.sendKeys(value);
+        e.waitUntil(Condition.value(value), 1000);
     }
 
     public String getFieldPreviewValue(String field) {
         SelenideElement textarea = $(By.id(field)).$("textarea");
+        int timeout = 5000;
         do {
             try {
                 Thread.sleep(200);
+                timeout -= 200;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        } while ("".equals(textarea.getValue()));
+        } while ("".equals(textarea.getValue()) && timeout > 0);
         return textarea.getValue();
     }
 
@@ -276,14 +291,17 @@ public class AtlasmapPage {
     }
 
     public void addTransformationToTargetOrSource(String transformation, boolean isSource) {
-        SelenideElement e = $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\"" + isSource + "\"]")).waitUntil(visible, 5000);
-        e.$(".fa.fa-long-arrow-right").click();
-        SelenideElement parent = e.parent();
-        parent.$(By.tagName("select")).selectOption(transformation);
+        SelenideElement e = $(By.cssSelector(String.format("simple-mapping[ng-reflect-is-source=\"%s\"]", isSource))).waitUntil(visible, 5000);
+
+        System.out.println(e.toString());
+        SelenideElement link = e.$$(By.tagName("label")).filter(text("Add Transformation")).first();
+        System.out.println(link);
+        link.click();
+        e.$(By.tagName("select")).selectOption(transformation);
     }
 
     public void selectOptionOnIndex(String option, int index, boolean isSource) {
-        SelenideElement e = $(By.xpath("//mapping-field-action[@ng-reflect-is-source=\"" + isSource + "\"]")).waitUntil(visible, 5000);
+        SelenideElement e = $(By.xpath("//simple-mapping[@ng-reflect-is-source=\"" + isSource + "\"]")).waitUntil(visible, 5000);
         e.$$(By.tagName("select")).get(index).selectOption(option);
 
     }
@@ -322,17 +340,17 @@ public class AtlasmapPage {
     }
 
     public String getLabelFromMappingTable(int number, String type) {
-        return getTextFromMappingTable(number,type,"label");
+        return getTextFromMappingTable(number, type, "label");
     }
 
-    public String getPreviewValueInTable(int number,String type,String... values) {
-        return getTextFromMappingTable(number,type,"textarea");
+    public String getPreviewValueInTable(int number, String type, String... values) {
+        return getTextFromMappingTable(number, type, "textarea");
     }
 
-    public void setPreviewValueInTable(int number,String type,String... values) {
-        SelenideElement record = getFromMappingTable(number,type);
+    public void setPreviewValueInTable(int number, String type, String... values) {
+        SelenideElement record = getFromMappingTable(number, type);
         SelenideElement[] areas = record.$$(By.tagName("textarea")).toArray(new SelenideElement[0]);
-        for (int i=0; i< areas.length; i++) {
+        for (int i = 0; i < areas.length; i++) {
             areas[i].sendKeys(values[i]);
         }
     }
@@ -343,5 +361,12 @@ public class AtlasmapPage {
 
     public void verifyThatIpnutExist(String id) {
         $(By.id(id)).should(Condition.exist);
+    }
+
+    public void openAllSubfolders() {
+        List<SelenideElement> subfolders = $$(By.className("parentFolder")).shouldHave(CollectionCondition.sizeGreaterThan(0));
+        subfolders.forEach(sf -> {
+            sf.click();
+        });
     }
 }

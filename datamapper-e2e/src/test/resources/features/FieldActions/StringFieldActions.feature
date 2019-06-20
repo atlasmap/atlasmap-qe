@@ -11,7 +11,7 @@ Feature: conversion from string
 #
   Scenario Outline: Simple string transformations:
     When add transformation on "<source/target>"
-    Then verify in "<transformation>" transformation that  "<source>" is transformed to "<target>"
+    Then verify in "<transformation>" on "<source/target>" transformation that  "<source>" is transformed to "<target>"
 
     Examples:
       | transformation         | source                     | target                     | source/target |
@@ -34,16 +34,13 @@ Feature: conversion from string
 
 
   Scenario: Trim input string
-    When add transformation on "source"
-    Then  verify in "Trim" transformation that  "  String for   trim  " is transformed to "String for   trim"
+    When  verify in "Trim" on "source" transformation that  "  String for   trim  " is transformed to "String for   trim"
 
   Scenario: Trim left input string
-    When add transformation on "target"
-    When  verify in "Trim Left" transformation that  "  String for   trim  " is transformed to "String for   trim  "
+    When  verify in "Trim Left" on "target" transformation that  "  String for   trim  " is transformed to "String for   trim  "
 #
   Scenario: Trim right input string
-    When add transformation on "source"
-    Then  verify in "Trim Right" transformation that  "  String for   trim  " is transformed to "  String for   trim"
+    When  verify in "Trim Right" on "source" transformation that  "  String for   trim  " is transformed to "  String for   trim"
 
  #    GGNERATE UUID Problem --disabled
 #  Scenario Outline:  Generate UUID
@@ -63,9 +60,9 @@ Feature: conversion from string
 #
 #  # PAD STRING LEFT
 #  # PAD STRING LEFT
+  @StringFieldActionsWithInputs
   Scenario Outline: with inputs
-    When add transformation on "<source/target>"
-    When select "<transformation>" transformation
+    When add "<transformation>" transformation on "<source/target>"
     And for "<input-1>" input set "<input-1-value>"
     And for "<input-2>" input set "<input-2-value>"
     Then save and verify "<transformation>.json" with
@@ -92,8 +89,7 @@ Feature: conversion from string
       | source        | Sub String       | input-endIndex     | 4             | input-startIndex | 1             | FFoobarff                    | Foo                 |
 
   Scenario: Substring after from input string
-    When add transformation on "target"
-    When select "Sub String After" transformation
+    When add "Sub String After" transformation on "target"
     And for "input-endIndex" input set "5"
     And for "input-startIndex" input set "0"
     And for "input-match" input set "middle"
@@ -102,8 +98,7 @@ Feature: conversion from string
       | fooleftmiddlerightbar | right        |
 
   Scenario: Substring before
-    When add transformation on "source"
-    And select "Sub String Before" transformation
+    And add "Sub String Before" transformation on "source"
     And for "input-endIndex" input set "6"
     And for "input-startIndex" input set "3"
     And for "input-match" input set "blah"

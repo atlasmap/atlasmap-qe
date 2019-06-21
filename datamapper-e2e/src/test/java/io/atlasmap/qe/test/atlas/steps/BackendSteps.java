@@ -325,6 +325,7 @@ public class BackendSteps extends CucumberGlue {
          System.out.println(result);
         for (String value : values.asList(String.class)) {
             LOG.info("Checking " + value);
+            LOG.info ("result, {}, value: {}",result,value);
             assertThat(result).contains(value);
         }
     }

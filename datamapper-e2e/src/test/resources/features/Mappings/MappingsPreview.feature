@@ -9,6 +9,7 @@ Feature: Atlasmap is able to create preview
     And browser is opened
     And Show mapping preview
 #
+  @CombineGaps
   Scenario: simple Combine with index change
     When click on "sourceInteger" holding cmd button
     And click on "sourceFloat" holding cmd button
@@ -35,9 +36,10 @@ Feature: Atlasmap is able to create preview
       | sourceInteger | sourceFloat | sourceString |
       | -1000         | 200.547     | Some String  |
     And click on "targetCombineString"
+    And sleep for "30000"
     Then verify that "targetCombineString" contains "200.547--1000---Some String"
 
-
+@PreviewSeparate
   Scenario: simple Separate with separator change
     When click on "sourceCombineString"
     And click on "targetInteger" holding cmd button
@@ -45,7 +47,7 @@ Feature: Atlasmap is able to create preview
     And click on "targetString" holding cmd button
 
     And set "1 2 3" for "sourceCombineString" field
-    And click on "targetInteger"
+    And click on "targetString"
     Then verify preview data
       | targetInteger | targetLong | targetString |
       | 1             | 2          | 3            |
@@ -76,8 +78,6 @@ Feature: Atlasmap is able to create preview
     And set mapping to "targetShort" from "<source>"
     And set mapping to "targetChar" from "<source>"
     And set mapping to "targetByte" from "<source>"
-
-
     Then verify conversion from "<source>" in preview
 
     Examples:
@@ -93,9 +93,10 @@ Feature: Atlasmap is able to create preview
       | sourceString  |
 
 
+    @debug
   Scenario: Examples of string transfomation
     When set mapping from "sourceString" to "targetString"
-    And add click "Add Transformation" link
+  #  And add click "Add Transformation" link
     Then verify preview of "Capitalize" transformation from "sourceString" with value "foo" is transformed to "Foo" in "targetString"
     Then verify preview of "Lowercase" transformation from "sourceString" with value "fOo" is transformed to "foo" in "targetString"
     Then verify preview of "Separate By Dash" transformation from "sourceString" with value "this:is_foo=bar+expression" is transformed to "this-is-foo-bar-expression" in "targetString"

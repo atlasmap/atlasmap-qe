@@ -135,7 +135,7 @@ public class AtlasmapPage {
     }
 
     public void clickOnValueFromPicker(String pickerClass, String value) {
-        SelenideElement pickerValue = $(By.className(pickerClass)).$$("div").filter(Condition.text(value)).get(0);
+        SelenideElement pickerValue = $(By.className(pickerClass)).$$("div").filter(text(value)).get(0);
 
         pickerValue.hover();
 

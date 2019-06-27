@@ -2,10 +2,6 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.runner.RunWith;
-
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import io.atlasmap.qe.test.MappingValidator;
 import io.atlasmap.qe.test.atlas.AtlasmapPage;
@@ -13,8 +9,6 @@ import io.atlasmap.qe.test.atlas.AtlasmapPage;
 /**
  * Created by mmelko on 02/11/2017.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 
 public abstract class CucumberGlue {
 

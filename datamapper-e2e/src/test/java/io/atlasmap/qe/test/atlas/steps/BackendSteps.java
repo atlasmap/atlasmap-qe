@@ -41,7 +41,7 @@ public class BackendSteps extends CucumberGlue {
     @Then("^save mapping as \"([^\"]*)\"$")
     public void userSavesMappingAs(String arg1) throws Exception {
         Thread.sleep(1000);
-        String mappingLocation = Utils.moveMappping(arg1);
+        String mappingLocation = Utils.moveMapping(arg1);
         validator.setMappingLocation(arg1);
     }
 
@@ -213,7 +213,7 @@ public class BackendSteps extends CucumberGlue {
        assertThat(validator.verifyMultiObjectMapping()).isTrue();
     }
 
-    @Then("^save and verify datetypes mapping  as \"([^\"]*)\" and skip sql formats$")
+    @Then("^save and verify datetypes mapping as \"([^\"]*)\" and skip sql formats$")
     public void saveAndVerifyDatetypesMappingAsAndSkipSqlFormats(String mapping) throws Throwable {
         //   Thread.sleep(500);
         userSavesMappingAs(mapping);
@@ -322,9 +322,10 @@ public class BackendSteps extends CucumberGlue {
     public void saveAndVerifyMappingXmlJsonAsWith(String path, String expected, DataTable values) throws Throwable {
         userSavesMappingAs(path);
         String result = (String) validator.processMapping(expected);
-        // System.out.println(result);
+         System.out.println(result);
         for (String value : values.asList(String.class)) {
             LOG.info("Checking " + value);
+            LOG.info ("result, {}, value: {}",result,value);
             assertThat(result).contains(value);
         }
     }

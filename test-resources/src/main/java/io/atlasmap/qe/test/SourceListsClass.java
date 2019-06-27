@@ -14,7 +14,6 @@ public class SourceListsClass {
     private List<Double> doubles;
     private List<Float> floats;
     private List<StringObject> objects;
-    private List<SourceMappingTestClass> sourceMappingTestclass;
     private Map<String,String> map;
     private Set<String> set;
     private String[] array;
@@ -25,7 +24,6 @@ public class SourceListsClass {
         this.doubles = new ArrayList<>();
         this.floats = new ArrayList<>();
         this.objects = new ArrayList<>();
-        this.sourceMappingTestclass = new ArrayList<>();
         this.map = new HashMap<>();
         this.set = new HashSet<>();
         this.array = new String[10];
@@ -80,14 +78,6 @@ public class SourceListsClass {
 
     public void setObjects(List<StringObject> objects) {
         this.objects = objects;
-    }
-
-    public List<SourceMappingTestClass> getSourceMappingTestclass() {
-        return sourceMappingTestclass;
-    }
-
-    public void setSourceMappingTestclass(List<SourceMappingTestClass> sourceMappingTestclass) {
-        this.sourceMappingTestclass = sourceMappingTestclass;
     }
 
     public Map<String, String> getMap() {

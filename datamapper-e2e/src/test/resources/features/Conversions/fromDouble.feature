@@ -32,7 +32,7 @@ Feature: conversion from LONG
     Then check if no warnings are displayed
 
     When  set mapping to "targetBigInteger" from "sourceDouble"
-    Then check if no warnings are displayed
+    Then check if "fractional part to be lost" warning from "DOUBLE" to "BIG_INTEGER" is displayed
     
     When  set mapping to "targetBigDecimal" from "sourceDouble"
     Then check if no warnings are displayed
@@ -50,8 +50,8 @@ Feature: conversion from LONG
     Then check if "numeric format exceptions" warning from "DOUBLE" to "BYTE" is not displayed
     And check if "out of range exceptions" warning from "DOUBLE" to "BYTE" is displayed
 
-    And save mapping as "fromDouble.xml"
-    And verify "fromDouble.xml"
+    And save mapping as "fromDouble.json"
+    And verify "fromDouble.json"
 
 
     # And set mapping to "targetDate" from "sourceDouble"

@@ -8,80 +8,92 @@ Feature: atlasmap is able to separate input to multiple fields
     And browser is opened
     And internal mapping is set to "false"
 
+  @SimpleSeparate
   Scenario: Simple separate workflow, executed from Mapping Details window
     When click on "sourceCombineString"
-    And add select "Separate" action
-    And for "input-target-" id input set "targetString"
 
-    And add click "Add Target" button
+    And for "input-target-" id input set "targetString"
     And for "input-target-" id input set "targetAnotherString"
 
-    And set "foo bar" value in source's "sourceCombineString"
+    And set "bar foo" value in source's "sourceCombineString"
     And set "foo" value in target's "targetString"
     And set "bar" value in target's "targetAnotherString"
 
-    Then  save and verify mapping as "SimpleSeparate.xml"
+    Then  save and verify mapping as "SimpleSeparate.json"
 
+  @SeparateWithAllSeparators
   Scenario: Mixed types separate , executed from Mapping Details window
     When click on "sourceCombineString"
-    And add select "Separate" action
-    And for "input-target-" id input set "targetString"
+#    And for "input-target-" id input set "targetString"
+#
+#    And add "targetChar" to separate
+#    And add "targetInteger" to separate
+#    And add "targetFloat" to separate
+#    And add "targetLong" to separate
+#    And add "targetShort" to separate
+#    And add "targetDouble" to separate
 
+    And click on "targetString" holding cmd button
+    And click on "targetChar" holding cmd button
+    And click on "targetInteger" holding cmd button
+    And click on "targetFloat" holding cmd button
+    And click on "targetLong" holding cmd button
+    And click on "targetShort" holding cmd button
+    And click on "targetDouble" holding cmd button
 
-    And add "targetChar" to separate
-    And add "targetInteger" to separate
-    And add "targetFloat" to separate
-    And add "targetLong" to separate
-    And add "targetShort" to separate
-    And add "targetDouble" to separate
+   # And sleep for "30000"
+    And take a screenshot
 
-    Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.xml"
+    Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.json"
 
     When select "Ampersand [&]" separator
-    Then save and verify separate mapping with "&" separator as "ComplexSeparateAmpersand.xml"
+    Then save and verify separate mapping with "&" separator as "ComplexSeparateAmpersand.json"
 
     When select "At Sign [@]" separator
-    Then save and verify separate mapping with "@" separator as "ComplexSeparateAtSign.xml"
+    Then save and verify separate mapping with "@" separator as "ComplexSeparateAtSign.json"
 
-    When select "Backslash [\]" separator
-    Then save and verify separate mapping with "\" separator as "ComplexSeparateBackslash.xml"
+#    When select "Colon [:]" separator
+#    Then save and verify separate mapping with ":" separator as "ComplexSeparateAtSign.json"
+#
+#    When select "Backslash [\]" separator
+#    Then save and verify separate mapping with "\" separator as "ComplexSeparateBackslash.json"
 
     When select "Comma [,]" separator
-    Then save and verify separate mapping with "," separator as "ComplexSeparateComma.xml"
+    Then save and verify separate mapping with "," separator as "ComplexSeparateComma.json"
 
     When select "Dash [-]" separator
-    Then save and verify separate mapping with "-" separator as "ComplexSeparateDash.xml"
+    Then save and verify separate mapping with "-" separator as "ComplexSeparateDash.json"
 
     When select "Equal [=]" separator
-    Then save and verify separate mapping with "=" separator as "ComplexSeparateEqual.xml"
+    Then save and verify separate mapping with "=" separator as "ComplexSeparateEqual.json"
 
     When select "Hash [#]" separator
-    Then save and verify separate mapping with "#" separator as "ComplexSeparateHash.xml"
+    Then save and verify separate mapping with "#" separator as "ComplexSeparateHash.json"
 
-    When select "Pipe [|]" separator
-    Then save and verify separate mapping with "|" separator as "ComplexSeparatePipe.xml"
+#    When select "Pipe [|]" separator
+#    Then save and verify separate mapping with "|" separator as "ComplexSeparatePipe.json"
 
     When select "Semicolon [;]" separator
-    Then save and verify separate mapping with ";" separator as "ComplexSeparateSemicolon.xml"
+    Then save and verify separate mapping with ";" separator as "ComplexSeparateSemicolon.json"
 
     When select "Slash [/]" separator
-    Then save and verify separate mapping with "/" separator as "ComplexSeparateSlash.xml"
+    Then save and verify separate mapping with "/" separator as "ComplexSeparateSlash.json"
 
     When select "Underscore [_]" separator
-    Then save and verify separate mapping with "_" separator as "ComplexSeparatePipe.xml"
+    Then save and verify separate mapping with "_" separator as "ComplexSeparatePipe.json"
 ##
+
+  @MixedIndexes
   Scenario: Mixed types separate, with mixed indexes executed from Mapping Details window
     When click on "sourceCombineString"
-    And add select "Separate" action
-    And for "input-target-" id input set "targetString"
-
-
-    And add "targetChar" to separate
-    And add "targetInteger" to separate
-    And add "targetFloat" to separate
-    And add "targetLong" to separate
+    And for "input-target-" id input set "targetDouble"
     And add "targetShort" to separate
-    And add "targetDouble" to separate
+    And add "targetLong" to separate
+    And add "targetFloat" to separate
+    And add "targetInteger" to separate
+    And add "targetChar" to separate
+    And add "targetString" to separate
+
     And for "input-target-targetChar" id input with "2" set "7"
     #necessary
     And sleep for "1000"
@@ -98,9 +110,10 @@ Feature: atlasmap is able to separate input to multiple fields
       | sourceCombineString      |
       | numbers: 6.0 5 4 3.0 2 A |
 
-    Then save and verify mapping as "ComplexSeparateMixedIndexes.xml"
+    Then save and verify mapping as "ComplexSeparateMixedIndexes.json"
 
   @SmokeTest
+  @CmdHolding
   Scenario: Separate created with CMD holding
     When click on "sourceCombineString"
     And click on "targetString" holding cmd button
@@ -111,9 +124,27 @@ Feature: atlasmap is able to separate input to multiple fields
     And click on "targetShort" holding cmd button
     And click on "targetDouble" holding cmd button
 
-    Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.xml"
+    Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.json"
 
+  @SeparateDragAndDrop
+  @DragAndDrop
+  Scenario: Separate created with CMD holding using drag'n'drop
+    When click on "targetString" holding cmd button
+    And click on "targetAnotherString" holding cmd button
 
+    And drag "targetAnotherString" and drop on "sourceCombineString"
+
+    And set source data
+      | sourceCombineString |
+      | foo bar             |
+
+    And set expected data
+      | targetString | targetAnotherString |
+      | foo          | bar                 |
+
+    Then save and verify mapping as "ComplexSeparateSpaceDragNDrop.json"
+
+  @gaps
   Scenario: Separate with Gaps
     When click on "sourceCombineString"
 
@@ -137,5 +168,5 @@ Feature: atlasmap is able to separate input to multiple fields
       | targetInteger | targetFloat | targetLong | targetDouble |
       | 2             | 4           | 6          | 8            |
 
-    Then save and verify mapping as "ComplexSeparateCMD.xml"
+    Then save and verify mapping as "ComplexSeparateCMD.json"
 

@@ -24,6 +24,7 @@ import io.atlasmap.qe.resources.ResourcesGenerator;
 /**
  * Created by mmelko on 15/11/2017.
  */
+
 public class MappingValidator {
     private static final Logger LOG = LogManager.getLogger(MappingValidator.class);
     public static final String SOURCE_MAP = "SOURCE_MAP";
@@ -226,7 +227,7 @@ public class MappingValidator {
         sourceMap.put("sourceJson", ResourcesGenerator.getJsonInstance());
         sourceMap.put("sourceArrays", ResourcesGenerator.getJsonArrays());
         sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
-        sourceMap.put("sourceXmlSchema", ResourcesGenerator.getXmlSchemaInstance(null));
+        sourceMap.put("sourceXMLSchema", ResourcesGenerator.getXmlSchemaInstance(null));
         sourceMap.put("sourceJsonArray", ResourcesGenerator.getRootJsonArray());
     }
 

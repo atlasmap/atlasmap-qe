@@ -16,7 +16,7 @@
    And set "Bar" value in source's "sourceAnotherString"
 
    And Add StringObject to expected map with "Foo", "Bar" values
-   Then save and verify mapping with multiple objects as "complex1.xml"
+   Then save and verify mapping with multiple objects as "complex1.json"
 
 
 
@@ -36,4 +36,4 @@
    And set "1_field2" value in target's "targetAnotherString"
 
 
-   Then save and verify mapping with multiple objects as "complex2.xml"
+   Then save and verify mapping with multiple objects as "complex2.json"

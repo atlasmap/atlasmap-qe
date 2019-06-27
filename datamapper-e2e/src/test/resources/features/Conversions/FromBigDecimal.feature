@@ -6,7 +6,7 @@ Feature: conversion from LONG
     Given atlasmap is clean
     And atlasmap contains TestClass
 
-  Scenario: Conversions from LONG to all types and warning checks
+  Scenario: Conversions from BIG_DECIMAL to all types and warning checks
     Given browser is opened
     And internal mapping is set to "true"
 
@@ -15,16 +15,18 @@ Feature: conversion from LONG
     And check if "out of range exceptions" warning from "DECIMAL" to "INTEGER" is displayed
 
     When set mapping to "targetLong" from "sourceBigDecimal"
-    Then check if no warnings are displayed
+    Then check if "numeric format exceptions" warning from "DECIMAL" to "LONG" is not displayed
+    And check if "out of range exceptions" warning from "DECIMAL" to "LONG" is displayed
 
     When set mapping to "targetString" from "sourceBigDecimal"
     Then check if no warnings are displayed
 
     When set mapping to "targetDouble" from "sourceBigDecimal"
-    Then check if no warnings are displayed
+    Then check if "numeric format exceptions" warning from "DECIMAL" to "DOUBLE" is not displayed
+    And check if "out of range exceptions" warning from "DECIMAL" to "DOUBLE" is displayed
 
     When set mapping to "targetFloat" from "sourceBigDecimal"
-    Then check if no warnings are displayed
+    And check if "out of range exceptions" warning from "DECIMAL" to "FLOAT" is displayed
 
     When  set mapping to "targetBoolean" from "sourceBigDecimal"
     Then check if no warnings are displayed
@@ -47,5 +49,5 @@ Feature: conversion from LONG
 #    Then check if "numeric format exceptions" warning from "DECIMAL" to "BYTE" is not displayed
 #    And check if "out of range exceptions" warning from "DECIMAL" to "BYTE" is displayed
 
-    And save mapping as "fromBigDecimal.xml"
-    And verify "fromBigDecimal.xml"
+    And save mapping as "fromBigDecimal.json"
+    And verify "fromBigDecimal.json"

@@ -1,12 +1,12 @@
 package io.atlasmap.qe.test.atlas.steps;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
 import java.util.function.Consumer;
 
-import io.atlasmap.qe.test.atlas.CucumberTest;
 import org.junit.Assert;
 
 import org.openqa.selenium.OutputType;

@@ -89,9 +89,9 @@ Feature: Map from constant and properties
     When set "String" constant with "Units" value
     And set "Property" property of "Float" type and "1234.567" value
 
-    And add mapping from "Units" to "targetString"
-    And add "Property" to combine
+    And add mapping from "Property" to "targetString"
+    And add "Units" to combine
     Then save and verify "CombineConstantAndProperty.json" with
-      | sourceString | targetString    |
-      | nothing      | 1234.567 Units|
+      | sourceString | targetString   |
+      | nothing      | 1234.567 Units |
 

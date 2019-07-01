@@ -15,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
@@ -23,11 +25,6 @@ import com.codeborne.selenide.WebDriverRunner;
 
 import io.atlasmap.qe.test.atlas.steps.CucumberGlue;
 import io.atlasmap.qe.test.atlas.utils.Constants;
-
-
-
-
-
 
 public class AtlasmapPage {
 
@@ -40,7 +37,7 @@ public class AtlasmapPage {
 
         open(Constants.UI_INDEX_PATH);
         $(".pficon.pficon-export.link").waitUntil(appear, 15000);
-        $(".fa.fa-plus-square").waitUntil(appear, 15000);
+        $(".fa.fa-plus.link").waitUntil(appear, 15000);
     }
 
     public void clickOn(String elementID) {
@@ -50,10 +47,6 @@ public class AtlasmapPage {
     public void toggleConditionalMapping() {
         $(By.xpath("/html/body/div[2]/atlasmap-dev-root/" +
                 "data-mapper-example-host/data-mapper/div/div/div[4]/toolbar/div/div/i[1]")).click();
-    }
-
-    public void clickOnXpath(String xpath) {
-        $(By.xpath(xpath)).click();
     }
 
     public boolean checkWarning(String exceptionType, String fromType, String toType) {
@@ -139,6 +132,19 @@ public class AtlasmapPage {
         e.sendKeys(newValue);
         //  Thread.sleep(15000);
         $(By.id(inputId)).parent().$$("h5").filter(Condition.text(newValue)).get(0).click();
+    }
+
+    public void clickOnValueFromPicker(String pickerClass, String value) {
+        SelenideElement pickerValue = $(By.className(pickerClass)).$$("div").filter(text(value)).get(0);
+
+        pickerValue.hover();
+
+        // wait until tooltip disappears
+        WebDriverWait wait = new WebDriverWait(WebDriverRunner.getWebDriver(), 5);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, '" + pickerClass +
+                "')]/../bs-tooltip-container")));
+
+        pickerValue.click();
     }
 
     public void addToConditionalMapping(String condition) {

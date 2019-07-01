@@ -1,6 +1,7 @@
 package io.atlasmap.qe.test.atlas.steps;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
@@ -79,8 +80,7 @@ public class UISteps extends CucumberGlue {
     public void setMappingConditionByAutoCompletion(String condition) {
         setMappingConditionTo(condition, s-> {
             atlasmapPage.addToConditionalMapping("@" + s);
-            atlasmapPage.clickOnXpath("/html/body/div[2]/atlasmap-dev-root/data-mapper-example-host/data-mapper/" +
-                    "div/div/div[4]/toolbar/div/div/div[1]/expression/div[2]/div[1]");
+            atlasmapPage.clickOnValueFromPicker("conditional-expr-picker", s);
         });
     }
 
@@ -356,7 +356,7 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.clickOnLinkByClass(".fa.fa-table.link");
     }
 
-    @Then("^check that row number \"([^\"]*)\" contains \"([^\"]*)\" as sources, \"([^\"]*)\" as taget and \"([^\"]*)\" as type$")
+    @Then("^check that row number \"([^\"]*)\" contains \"([^\"]*)\" as sources, \"([^\"]*)\" as target and \"([^\"]*)\" as type$")
     public void checkThatRowNumberContainsAsSourcesAsTagetAndAsType(int number, String sources, String targets, String mappingType) {
         assertThat(atlasmapPage.getLabelFromMappingTable(number,"type")).isEqualToIgnoringCase(mappingType);
         assertThat(atlasmapPage.getLabelFromMappingTable(number,"sources")).isEqualToIgnoringCase(sources);

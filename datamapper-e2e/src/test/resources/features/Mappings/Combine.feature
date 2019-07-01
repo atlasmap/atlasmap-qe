@@ -10,8 +10,8 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 
 
   Scenario: Simple combine workflow, executed from Mapping Details window
-    When click on "sourceAnotherString"
-    And for "input-source-" id input set "sourceString"
+    When click on "sourceString"
+    And for "input-source-" id input set "sourceAnotherString"
     And click on "targetCombineString"
 
     And set source data
@@ -25,15 +25,15 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 
 
   Scenario: Mixed types combine , executed from Mapping Details window
-    When click on "sourceDate"
+    When click on "sourceString"
     And for "input-target-" id input set "targetCombineString"
-    And add "/sourceDouble" to combine
-    And add "/sourceShort" to combine
-    And add "/sourceLong" to combine
-    And add "/sourceFloat" to combine
-    And add "/sourceInteger" to combine
     And add "/sourceChar" to combine
-    And add "/sourceString" to combine
+    And add "/sourceInteger" to combine
+    And add "/sourceFloat" to combine
+    And add "/sourceLong" to combine
+    And add "/sourceShort" to combine
+    And add "/sourceDouble" to combine
+    And add "/sourceDate" to combine
 
    # And add click "Add Transformation" link
   #  And select "Prepend" transformation
@@ -80,18 +80,18 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     When select "Underscore [_]" separator
     Then save and verify combine mapping with "_" separator as "ComplexCombinePipe.json"
 
-
+  @MixedIndexes
   Scenario: Mixed types combine with mixed indexes , executed from Mapping Details window
-    When click on "sourceDate"
+    When click on "sourceString"
     And for "input-target-" id input set "/targetCombineString"
 
-    And add "/sourceChar" to combine
-    And add "/sourceShort" to combine
-    And add "/sourceLong" to combine
-    And add "/sourceFloat" to combine
-    And add "/sourceInteger" to combine
     And add "/sourceDouble" to combine
-    And add "/sourceString" to combine
+    And add "/sourceInteger" to combine
+    And add "/sourceFloat" to combine
+    And add "/sourceLong" to combine
+    And add "/sourceShort" to combine
+    And add "/sourceChar" to combine
+    And add "/sourceDate" to combine
 
     And for "input-source-sourceShort" id input with "6" set "3"
     And for "input-source-sourceLong" id input with "6" set "4"

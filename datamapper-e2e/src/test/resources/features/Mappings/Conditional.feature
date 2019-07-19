@@ -31,7 +31,7 @@ Feature: conditional mappings
       | if(ISEMPTY(@{sourceString}), @{sourceInteger}, @{sourceShort} )                  | targetInteger | 1           |
       | if(!ISEMPTY(@{sourceString}), @{sourceShort}, @{sourceLong} )                    | targetString  | 2           |
       | if( @{sourceBigDecimal} < @{sourceBigInteger} , @{sourceLong}, @{sourceDouble} ) | targetString  | 4.0         |
-      | if( @{sourceFloat} > @{sourceBigInteger} , @{sourceLong}, @{sourceBigDecimal} )  | targetString  | 4.0         |
+      | if( @{sourceFloat} > @{sourceBigInteger} , @{sourceLong}, @{sourceBigDecimal} )  | targetString  | 12345       |
 
   Scenario: basic conditional mapping by auto completion
     When click on "targetInteger"
@@ -69,18 +69,18 @@ Feature: conditional mappings
 
     #real value comes from real executed mapping
     Examples:
-      | expression                                                                                          | value | realValue        |
-      | if(ISEMPTY(@{sourceJsonInteger}), @{sourceJsonString}, @{sourceJsonDouble} )                        | 2     | 40.0             |
+      | expression                                                                         | value | realValue        |
+      | if(ISEMPTY(@{sourceJsonInteger}), @{sourceJsonString}, @{sourceJsonDouble} )       | 2     | 40.0             |
         # doesn't work
-      #| if(ISEMPTY(@{sourceJsonInteger}), @{sourceJsonString}+@{sourceJsonDouble},@{sourceJsonInteger} + 2) | 200   | dsf              |
-      | if(LT(@{sourceJsonInteger},-10), @{sourceJsonString}, @{sourceJsonDouble} )                         | 2     | 40.0             |
-      | if(LT(@{sourceJsonInteger},140), @{sourceJsonString}, @{sourceJsonDouble} )                         | TesT  | sourceJsonString |
-      | if(@{sourceJsonInteger} > 50, @{sourceJsonString}, @{sourceJsonDouble} )                            | TesT  | 40.0             |
-      | if(@{sourceJsonInteger} > 140, @{sourceJsonString}, @{sourceJsonDouble} )                           | 2     | 40.0             |
-      | if(@{sourceJsonInteger} < -10, @{sourceJsonString}, @{sourceJsonDouble} )                           | 2     | 40.0             |
-      | if(@{sourceJsonInteger} < 140, TOLOWER(@{sourceJsonString}), @{sourceJsonDouble} )                  | test  | sourcejsonstring |
+      | if(ISEMPTY(@{sourceJsonInteger}), @{sourceJsonString}+@{sourceJsonDouble},@{sourceJsonInteger} + 2) | 102   | 12              |
+      | if(LT(@{sourceJsonInteger},-10), @{sourceJsonString}, @{sourceJsonDouble} )        | 2     | 40.0             |
+      | if(LT(@{sourceJsonInteger},140), @{sourceJsonString}, @{sourceJsonDouble} )        | TesT  | sourceJsonString |
+      | if(@{sourceJsonInteger} > 50, @{sourceJsonString}, @{sourceJsonDouble} )           | TesT  | 40.0             |
+      | if(@{sourceJsonInteger} > 140, @{sourceJsonString}, @{sourceJsonDouble} )          | 2     | 40.0             |
+      | if(@{sourceJsonInteger} < -10, @{sourceJsonString}, @{sourceJsonDouble} )          | 2     | 40.0             |
+      | if(@{sourceJsonInteger} < 140, TOLOWER(@{sourceJsonString}), @{sourceJsonDouble} ) | test  | sourcejsonstring |
       #doesn't work due to bug
-      #| if(@{sourceJsonInteger} > 140, @{sourceJsonString}+@{sourceJsonDouble}, @{sourceJsonInteger} + 2  ) | 4     | 33               |
+      | if(@{sourceJsonInteger} > 140, @{sourceJsonString}+@{sourceJsonDouble}, @{sourceJsonInteger} + 2  ) | 102     | 12              |
 
 
   @ConditionalJsonMath

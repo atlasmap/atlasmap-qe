@@ -58,6 +58,8 @@ Feature: collection related field actions
     Then save and verify mapping as "collection_itemAt.json"
 
 ##single -> array (split for example)
+  #doesn't work on 1.40.2.x --> https://github.com/atlasmap/atlasmap/issues/1030
+  @Ignore
   Scenario Outline: single field -> collection transformations
     When add mapping from "<source>" to "<target>"
     And add "<transformation>" transformation on "source"

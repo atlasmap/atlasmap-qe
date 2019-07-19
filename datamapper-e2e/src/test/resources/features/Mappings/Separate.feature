@@ -126,6 +126,7 @@ Feature: atlasmap is able to separate input to multiple fields
 
     Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.json"
 
+  @Ignore
   @SeparateDragAndDrop
   @DragAndDrop
   Scenario: Separate created with CMD holding using drag'n'drop

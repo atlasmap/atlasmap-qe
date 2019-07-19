@@ -25,7 +25,7 @@ Feature: Simple mappings creation and test framework verification
 
     When delete current mapping
     And sleep for "1000"
-    
+     And click on "sourceInteger"
     Then save "mappingsTable3" verify negative with
       | sourceString | targetAnotherString |
       | source       | source |

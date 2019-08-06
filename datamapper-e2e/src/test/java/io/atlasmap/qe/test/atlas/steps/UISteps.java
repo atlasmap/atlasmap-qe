@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import cucumber.api.PendingException;
 import org.junit.Assert;
 
 import org.openqa.selenium.OutputType;
@@ -78,7 +79,7 @@ public class UISteps extends CucumberGlue {
 
     @And("^set mapping condition to \"([^\"]*)\" by auto completion$")
     public void setMappingConditionByAutoCompletion(String condition) {
-        setMappingConditionTo(condition, s-> {
+        setMappingConditionTo(condition, s -> {
             atlasmapPage.addToConditionalMapping("@" + s);
             atlasmapPage.clickOnValueFromPicker("conditional-expr-picker", s);
         });
@@ -86,7 +87,7 @@ public class UISteps extends CucumberGlue {
 
     private void setMappingConditionTo(String condition, Consumer<String> method) {
         atlasmapPage.toggleConditionalMapping();
-        for (String s: condition.split("((?<=@\\{\\w{0,100}\\})|(?=@\\{\\w{0,100}\\}))")) {
+        for (String s : condition.split("((?<=@\\{\\w{0,100}\\})|(?=@\\{\\w{0,100}\\}))")) {
             if (s.startsWith("@")) {
                 method.accept(s.replaceAll("[@{}]", ""));
             } else {
@@ -98,7 +99,7 @@ public class UISteps extends CucumberGlue {
     @Then("^check if \"([^\"]*)\" warning from \"([^\"]*)\" to \"([^\"]*)\" is displayed$")
     public void checkIfFromToDisplayed(String exceptionType, String from, String to) {
         //TODO fix this
-      //  Assert.assertTrue(this.atlasmapPage.checkWarning(exceptionType, from, to));
+        //  Assert.assertTrue(this.atlasmapPage.checkWarning(exceptionType, from, to));
     }
 
     @And("^check if warning contains \"([^\"]*)\" message$")
@@ -152,7 +153,7 @@ public class UISteps extends CucumberGlue {
 
     @And("^add \"([^\"]*)\" to combine$")
     public void addToCombine(String field) throws Throwable {
-        forIdInputSet("input-source-", field);
+        this.atlasmapPage.addToMapping(field, true);
     }
 
     @When("^select \"([^\"]*)\" separator$")
@@ -169,7 +170,7 @@ public class UISteps extends CucumberGlue {
     @And("^add \"([^\"]*)\" to separate$")
     public void addToSeparate(String field) throws Throwable {
         forIdInputSet("input-target-", field);
-        atlasmapPage.verifyThatIpnutExist("input-target-"+field);
+        atlasmapPage.verifyThatIpnutExist("input-target-" + field);
     }
 
     @When("^select \"([^\"]*)\" number transformation$")
@@ -205,10 +206,8 @@ public class UISteps extends CucumberGlue {
     @And("^add mapping from \"([^\"]*)\" to \"([^\"]*)\"$")
     public void addMappingFromTo(String from, String to) throws Throwable {
         atlasmapPage.clickOnLinkByClass(".fa.fa-plus.link");
-        forIdInputSet("input-source-", from);
-        forIdInputSet("input-target-", to);
-
-        //  Utils.waitAndVerifyMappingIsWritten(from,to);
+        atlasmapPage.addToMapping(from, true);
+        atlasmapPage.addToMapping(to, false);
     }
 
     @And("^add click \"([^\"]*)\" link$")
@@ -286,7 +285,7 @@ public class UISteps extends CucumberGlue {
 
     @Then("^verify preview of \"([^\"]*)\" transformation from \"([^\"]*)\" with value \"([^\"]*)\" is transformed to \"([^\"]*)\" in \"([^\"]*)\"$")
     public void verifyPreviewOfTransformationFromWithValueIsTransformedToIn(String transformation, String sourceField, String sourceValue, String targetValue, String targetField) {
-        this.atlasmapPage.addTransformationToTargetOrSource(transformation,true);
+        this.atlasmapPage.addTransformationToTargetOrSource(transformation, true);
         this.atlasmapPage.setInputValueForFieldPreview(sourceField, sourceValue);
         this.atlasmapPage.setInputValueForFieldPreview(sourceField, sourceValue);
         this.atlasmapPage.clickOn(targetField);
@@ -326,7 +325,7 @@ public class UISteps extends CucumberGlue {
     }
 
     @When("^set \"([^\"]*)\" property of \"([^\"]*)\" type and \"([^\"]*)\" value$")
-    public void setPropertyWithTypeAndValue(String name, String type, String value)  {
+    public void setPropertyWithTypeAndValue(String name, String type, String value) {
         atlasmapPage.addProperty(type, name, value);
     }
 
@@ -345,10 +344,10 @@ public class UISteps extends CucumberGlue {
     @And("^set from \"([^\"]*)\" to \"([^\"]*)\" units on \"([^\"]*)\"$")
     public void setFromToUnitsOn(String from, String to, String sourceTarget) {
         final boolean isSource = sourceTarget.equals("source");
-        atlasmapPage.selectOptionOnIndex(from,1,isSource);
-        atlasmapPage.selectOptionOnIndex(to,2,isSource);
+        atlasmapPage.selectOptionOnIndex(from, 1, isSource);
+        atlasmapPage.selectOptionOnIndex(to, 2, isSource);
 
-//       --
+
     }
 
     @And("^reveal mapping table$")
@@ -358,9 +357,9 @@ public class UISteps extends CucumberGlue {
 
     @Then("^check that row number \"([^\"]*)\" contains \"([^\"]*)\" as sources, \"([^\"]*)\" as target and \"([^\"]*)\" as type$")
     public void checkThatRowNumberContainsAsSourcesAsTagetAndAsType(int number, String sources, String targets, String mappingType) {
-        assertThat(atlasmapPage.getLabelFromMappingTable(number,"type")).isEqualToIgnoringCase(mappingType);
-        assertThat(atlasmapPage.getLabelFromMappingTable(number,"sources")).isEqualToIgnoringCase(sources);
-        assertThat(atlasmapPage.getLabelFromMappingTable(number,"targets")).isEqualToIgnoringCase(targets);
+        assertThat(atlasmapPage.getLabelFromMappingTable(number, "type")).isEqualToIgnoringCase(mappingType);
+        assertThat(atlasmapPage.getLabelFromMappingTable(number, "sources")).isEqualToIgnoringCase(sources);
+        assertThat(atlasmapPage.getLabelFromMappingTable(number, "targets")).isEqualToIgnoringCase(targets);
 
     }
 
@@ -372,9 +371,9 @@ public class UISteps extends CucumberGlue {
     @Then("^check that on \"([^\"]*)\" row number is for \"([^\"]*)\" source value displayed \"([^\"]*)\" target preview$")
     public void checkThatOnRowNumberIsForSourceValueSDisplayedTargetPreview(int index, String source, String target) throws Throwable {
         atlasmapPage.clickOnRowInMappingTable(index);
-        atlasmapPage.setPreviewValueInTable(index,"sources",source.split(";"));
+        atlasmapPage.setPreviewValueInTable(index, "sources", source.split(";"));
         atlasmapPage.clickOnRowInMappingTable(index);
-        final String preview = atlasmapPage.getPreviewValueInTable(index,"targets");
+        final String preview = atlasmapPage.getPreviewValueInTable(index, "targets");
         assertThat(preview).isEqualTo(target);
 
     }
@@ -382,5 +381,15 @@ public class UISteps extends CucumberGlue {
     @And("^open all subfolders$")
     public void openAllSubfolders() {
         atlasmapPage.openAllSubfolders();
+    }
+
+    @And("^set \"([^\"]*)\" as \"([^\"]*)\"$")
+    public void setAs(String field, String src) throws Throwable {
+        this.atlasmapPage.addToMapping(field,src.equals("source"));
+    }
+
+    @And("^delete \"([^\"]*)\" on \"([^\"]*)\"$")
+    public void deleteOn(String field, String src) {
+        this.atlasmapPage.deleteFromMapping(field, src.equals("source"));
     }
 }

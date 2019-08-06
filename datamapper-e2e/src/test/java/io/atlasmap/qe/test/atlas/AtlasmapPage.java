@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -132,6 +133,24 @@ public class AtlasmapPage {
         e.sendKeys(newValue);
         //  Thread.sleep(15000);
         $(By.id(inputId)).parent().$$("h5").filter(Condition.text(newValue)).get(0).click();
+    }
+
+    public void addToMapping(String value,boolean isSource) throws InterruptedException {
+        List<SelenideElement> elements = $$(By.cssSelector("input[id =\"source\""));
+        SelenideElement element;
+        if(!isSource && elements.size()>1) {
+            element = elements.get(1);
+        } else {
+            element = elements.get(0);
+        }
+
+        element.clear();
+        element.scrollIntoView(true);
+        Thread.sleep(200);
+        element.sendKeys(value);
+        //  Thread.sleep(15000);
+
+        element.parent().$$("span").filter(Condition.text(value)).get(0).click();
     }
 
     public void clickOnValueFromPicker(String pickerClass, String value) {
@@ -297,17 +316,27 @@ public class AtlasmapPage {
     }
 
     public void addTransformationToTargetOrSource(String transformation, boolean isSource) {
-        SelenideElement e = $(By.cssSelector(String.format("simple-mapping[ng-reflect-is-source=\"%s\"]", isSource))).waitUntil(visible, 5000);
+        final String cssSelector = String.format("mapping-field-container[ng-reflect-is-source=\"%s\"]", isSource);
+        SelenideElement e = $(By.cssSelector(cssSelector)).waitUntil(visible, 5000);
 
         System.out.println(e.toString());
         SelenideElement link = e.$$(By.tagName("label")).filter(text("Add Transformation")).first();
         System.out.println(link);
         link.click();
-        e.$(By.tagName("select")).selectOption(transformation);
+
+        List<SelenideElement> selects = e.$$(By.tagName("select"));
+        if(selects.size()>1) {
+            //in this case is first separator
+            selects.get(1).selectOption(transformation);
+        }
+        else {
+            selects.get(0).selectOption(transformation);
+        }
+
     }
 
     public void selectOptionOnIndex(String option, int index, boolean isSource) {
-        SelenideElement e = $(By.xpath("//simple-mapping[@ng-reflect-is-source=\"" + isSource + "\"]")).waitUntil(visible, 5000);
+        SelenideElement e = $(By.xpath("//mapping-field-action[@ng-reflect-is-source=\"" + isSource + "\"]")).waitUntil(visible, 5000);
         e.$$(By.tagName("select")).get(index).selectOption(option);
 
     }
@@ -374,5 +403,11 @@ public class AtlasmapPage {
         subfolders.forEach(sf -> {
             sf.click();
         });
+    }
+
+    public void deleteFromMapping(String field, boolean source) {
+        final String cssSelector = String.format("mapping-field-detail[ng-reflect-is-source=\"%s\"]", source);
+        SelenideElement fieldDetail = $(cssSelector).shouldHave(text(field));
+        fieldDetail.$(".pficon.pficon-delete.link").click();
     }
 }

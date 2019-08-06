@@ -38,7 +38,7 @@ Feature: collection related field actions
       | Maximum        | 3                                                               | targetShort   | <>/arrayNumber  |
 
 
-  @TestCon
+
   Scenario Outline: <transformation> with input
     When add mapping from "<source>" to "<target>"
     And add "<transformation>" transformation on "source"
@@ -57,6 +57,7 @@ Feature: collection related field actions
     And set "6" value in target's "targetString"
     Then save and verify mapping as "collection_itemAt.json"
 
+
 ##single -> array (split for example)
   Scenario Outline: single field -> collection transformations
     When add mapping from "<source>" to "<target>"
@@ -69,6 +70,7 @@ Feature: collection related field actions
       | transformation | source       | target    | value     | input           | input-value | expectedValue   |
       | Split          | sourceString | /strings  | 1,2,3,4,5 | input-delimiter | ,           | [1, 2, 3, 4, 5] |
       | Split          | sourceString | /integers | 1,2,3,4,5 | input-delimiter | ,           | [1, 2, 3, 4, 5] |
+
 
 
   Scenario Outline: simple  between collections
@@ -86,6 +88,7 @@ Feature: collection related field actions
       | Index Of        | /strings | /floats   | input-string | t           | [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]                                                                         | source        |
   #TODO investigate Contains, Equals, length etc
 #      | Contains         | /strings| /strings | input-value | 2           | [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0] |
+
 
 
   Scenario Outline: transformations between collections

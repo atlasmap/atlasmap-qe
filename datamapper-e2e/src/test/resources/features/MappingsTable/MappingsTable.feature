@@ -40,7 +40,7 @@ Feature: mappings table
     Then check that row number "0" contains "/sourceInteger" as sources, "/targetInteger" as target and "One to One" as type
 
     When click on "0" index of table
-    And for "input-source-" id input set "/sourceFloat"
+    And  set "/sourceFloat" as "source"
     Then check that row number "0" contains "/sourceInteger,/sourceFloat" as sources, "/targetInteger" as target and "Many to One (Space [ ])" as type
 
   @debug

@@ -11,7 +11,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 
   Scenario: Simple combine workflow, executed from Mapping Details window
     When click on "sourceString"
-    And for "input-source-" id input set "sourceAnotherString"
+    And  set "sourceAnotherString" as "source"
     And click on "targetCombineString"
 
     And set source data
@@ -26,7 +26,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 
   Scenario: Mixed types combine , executed from Mapping Details window
     When click on "sourceString"
-    And for "input-target-" id input set "targetCombineString"
+    And  set "targetCombineString" as "target"
     And add "/sourceChar" to combine
     And add "/sourceInteger" to combine
     And add "/sourceFloat" to combine
@@ -83,7 +83,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
   @MixedIndexes
   Scenario: Mixed types combine with mixed indexes , executed from Mapping Details window
     When click on "sourceString"
-    And for "input-target-" id input set "/targetCombineString"
+    And  set "/targetCombineString" as "target"
 
     And add "/sourceDouble" to combine
     And add "/sourceInteger" to combine
@@ -93,9 +93,9 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     And add "/sourceChar" to combine
     And add "/sourceDate" to combine
 
-    And for "input-source-sourceShort" id input with "6" set "3"
-    And for "input-source-sourceLong" id input with "6" set "4"
-    And for "input-source-sourceFloat" id input with "6" set "5"
+    And change index of "sourceShort" to "3" on "source"
+    And change index of "sourceLong" to "4" on "source"
+    And change index of "sourceFloat" to "5" on "source"
 
 
 
@@ -129,10 +129,10 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 #    And add "/sourceDate" to combine
 #
 #
-#    #And for "input-source-sourceShort" id input with "6" set "3"
+#    #And change index of "sourceShort" to "3"
 #    And drag "input-source-sourceShort" and drop on "input-source-sourceInteger"
-#   # And for "input-source-sourceLong" id input with "6" set "4"
-#   # And for "input-source-sourceFloat" id input with "6" set "5"
+#   # And change index of "sourceLong" to "4"
+#   # And change index of "sourceFloat" to "5"
 
 
 #
@@ -166,7 +166,8 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 
     Then save and verify combine mapping with " " separator as "ComplexCombineCMD.json"
 
-  @DragAndDrop
+  @DragAndDropCombine
+  @Ignore
   Scenario: Simple combine with holding CMD/control button using drag'n'drop
     When click on "sourceString" holding cmd button
     And click on "sourceChar" holding cmd button
@@ -189,10 +190,10 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     And click on "sourceDouble" holding cmd button
     And click on "targetCombineString"
 
-    And for "input-source-sourceDouble" id input with "4" set "8"
-    And for "input-source-sourceLong" id input with "3" set "6"
-    And for "input-source-sourceFloat" id input with "2" set "4"
-    And for "input-source-sourceInteger" id input with "1" set "2"
+    And change index of "sourceDouble" to "8" on "source"
+    And change index of "sourceLong" to "6" on "source"
+    And change index of "sourceFloat" to "4" on "source"
+    And change index of "sourceInteger" to "2" on "source"
 
     And select "Colon [:]" separator
     And set source data
@@ -201,5 +202,5 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     And set expected data
       | targetCombineString |
       | :2::4.0::6::8.0     |
-    And sleep for "30000"
+   # And sleep for "3000000"
     Then save and verify mapping as "ComplexCombineGaps.json"

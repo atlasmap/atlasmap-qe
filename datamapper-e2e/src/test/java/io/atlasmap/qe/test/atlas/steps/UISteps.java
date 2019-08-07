@@ -7,7 +7,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import cucumber.api.PendingException;
 import org.junit.Assert;
 
 import org.openqa.selenium.OutputType;
@@ -169,8 +168,8 @@ public class UISteps extends CucumberGlue {
 
     @And("^add \"([^\"]*)\" to separate$")
     public void addToSeparate(String field) throws Throwable {
-        forIdInputSet("input-target-", field);
-        atlasmapPage.verifyThatIpnutExist("input-target-" + field);
+        atlasmapPage.addToMapping(field,false);
+        //atlasmapPage.verifyThatIpnutExist("input-target-" + field);
     }
 
     @When("^select \"([^\"]*)\" number transformation$")
@@ -385,11 +384,16 @@ public class UISteps extends CucumberGlue {
 
     @And("^set \"([^\"]*)\" as \"([^\"]*)\"$")
     public void setAs(String field, String src) throws Throwable {
-        this.atlasmapPage.addToMapping(field,src.equals("source"));
+        this.atlasmapPage.addToMapping(field,"source".equals(src));
     }
 
     @And("^delete \"([^\"]*)\" on \"([^\"]*)\"$")
     public void deleteOn(String field, String src) {
-        this.atlasmapPage.deleteFromMapping(field, src.equals("source"));
+        this.atlasmapPage.deleteFromMapping(field, "source".equals(src));
+    }
+
+    @And("^change index of \"([^\"]*)\" to \"([^\"]*)\" on \"([^\"]*)\"$")
+    public void changeIndexOfToOn(String field, int value, String src) throws Throwable {
+        this.atlasmapPage.changeIndexValue(field, value, "source".equals(src));
     }
 }

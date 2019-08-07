@@ -9,8 +9,8 @@ Feature: conversion from string
     And internal mapping is set to "true"
     And set mapping from "sourceString" to "targetString"
 #
+  @SimpleStringTransformations
   Scenario Outline: Simple string transformations:
-    When add transformation on "<source/target>"
     Then verify in "<transformation>" on "<source/target>" transformation that  "<source>" is transformed to "<target>"
 
     Examples:

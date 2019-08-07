@@ -92,11 +92,11 @@ public class AtlasmapPage {
     }
 
     public void clickOnButtonByText(String elementName) {
-        $$(By.tagName("button")).filter(Condition.text(elementName)).get(0).shouldBe(visible).click();
+        $$(By.tagName("button")).filter(text(elementName)).get(0).shouldBe(visible).click();
     }
 
     public void clickOnElementByText(String elementName, String text) {
-        $$(By.tagName(elementName)).filter(Condition.text(text)).get(0).shouldBe(visible).click();
+        $$(By.tagName(elementName)).filter(text(text)).get(0).shouldBe(visible).click();
     }
 
     public void selectTransformation(String transformation, String defaultValue) {
@@ -132,7 +132,7 @@ public class AtlasmapPage {
         Thread.sleep(500);
         e.sendKeys(newValue);
         //  Thread.sleep(15000);
-        $(By.id(inputId)).parent().$$("h5").filter(Condition.text(newValue)).get(0).click();
+        $(By.id(inputId)).parent().$$("h5").filter(text(newValue)).get(0).click();
     }
 
     public void addToMapping(String value,boolean isSource) throws InterruptedException {
@@ -150,7 +150,7 @@ public class AtlasmapPage {
         element.sendKeys(value);
         //  Thread.sleep(15000);
 
-        element.parent().$$("span").filter(Condition.text(value)).get(0).click();
+        element.parent().$$("span").filter(text(value)).get(0).click();
     }
 
     public void clickOnValueFromPicker(String pickerClass, String value) {
@@ -303,7 +303,7 @@ public class AtlasmapPage {
         SelenideElement select = $(By.tagName("select")).shouldHave(Condition.value("String"));
         // System.out.println(select.toString());
         select.selectOption(type);
-        $$(By.tagName("button")).findBy(Condition.text("Save")).click();
+        $$(By.tagName("button")).findBy(text("Save")).click();
     }
 
     public void addProperty(String type, String name, String value) {
@@ -312,7 +312,7 @@ public class AtlasmapPage {
         $(By.id("name")).waitUntil(visible, Constants.WAIT_TIMEOUT).sendKeys(name);
         $(By.id("value")).waitUntil(visible, Constants.WAIT_TIMEOUT).sendKeys(value);
         $(By.tagName("select")).shouldHave(Condition.value("String")).selectOption(type);
-        $$(By.tagName("button")).findBy(Condition.text("Save")).click();
+        $$(By.tagName("button")).findBy(text("Save")).click();
     }
 
     public void addTransformationToTargetOrSource(String transformation, boolean isSource) {
@@ -409,5 +409,11 @@ public class AtlasmapPage {
         final String cssSelector = String.format("mapping-field-detail[ng-reflect-is-source=\"%s\"]", source);
         SelenideElement fieldDetail = $(cssSelector).shouldHave(text(field));
         fieldDetail.$(".pficon.pficon-delete.link").click();
+    }
+
+    public void changeIndexValue(String field, int value, boolean source) {
+        final String cssSelector = String.format("mapping-field-detail[ng-reflect-is-source=\"%s\"]", source);
+        SelenideElement fieldDetail = $$(cssSelector).filter(text(field)).first();
+        fieldDetail.$(".index-value").$(By.tagName("input")).setValue(value+"");
     }
 }

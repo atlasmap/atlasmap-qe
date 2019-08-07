@@ -12,6 +12,7 @@ Feature: collection related field actions
 
 
 #    Done Collection -> single
+  @Ignore
   Scenario Outline: <transformation>
     When add mapping from "<source>" to "<target>"
     And add "<transformation>" transformation on "source"
@@ -38,7 +39,6 @@ Feature: collection related field actions
       | Maximum        | 3                                                               | targetShort   | <>/arrayNumber  |
 
 
-
   Scenario Outline: <transformation> with input
     When add mapping from "<source>" to "<target>"
     And add "<transformation>" transformation on "source"
@@ -58,6 +58,7 @@ Feature: collection related field actions
     Then save and verify mapping as "collection_itemAt.json"
 
 
+  @Ignore
 ##single -> array (split for example)
   Scenario Outline: single field -> collection transformations
     When add mapping from "<source>" to "<target>"
@@ -72,7 +73,6 @@ Feature: collection related field actions
       | Split          | sourceString | /integers | 1,2,3,4,5 | input-delimiter | ,           | [1, 2, 3, 4, 5] |
 
 
-
   Scenario Outline: simple  between collections
     When add mapping from "<from>" to "<to>"
     And add "<transformation>" transformation on "<source/target>"
@@ -85,7 +85,7 @@ Feature: collection related field actions
       | Prepend        | /strings | /strings  | input-string | blah        | [blahString1, blahString2, blahString3, blahString4, blahString5, blahString6, blahString7, blahString8, blahString9] | target        |
       | Append         | /floats  | /strings  | input-string | ->          | [1.0->, 2.0->, 3.0->, 4.0->, 5.0->, 6.0->, 7.0->, 8.0->, 9.0->]                                                       | target        |
       | Replace First  | /strings | /integers | input-match  | String      | [1, 2, 3, 4, 5, 6, 7, 8, 9]                                                                                           | source        |
-      | Index Of        | /strings | /floats   | input-string | t           | [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]                                                                         | source        |
+      | Index Of       | /strings | /floats   | input-string | t           | [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]                                                                         | source        |
   #TODO investigate Contains, Equals, length etc
 #      | Contains         | /strings| /strings | input-value | 2           | [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0] |
 

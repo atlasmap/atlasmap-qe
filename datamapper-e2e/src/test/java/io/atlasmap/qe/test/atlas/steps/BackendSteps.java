@@ -2,13 +2,13 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.NotFoundException;
 
-import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -23,12 +23,17 @@ import io.atlasmap.qe.test.StringObject;
 import io.atlasmap.qe.test.TargetListsClass;
 import io.atlasmap.qe.test.TargetMappingTestClass;
 import io.atlasmap.qe.test.atlas.utils.Utils;
+import io.cucumber.datatable.DataTable;
 
 public class BackendSteps extends CucumberGlue {
 
     @Given("^atlasmap is clean$")
-    public void atlasmapIsClean() throws Exception {
-        Utils.cleanMappingFolder();
+    public void atlasmapIsClean() {
+        try {
+            Utils.cleanMappingFolder();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         validator = new MappingValidator();
     }
 
@@ -54,7 +59,7 @@ public class BackendSteps extends CucumberGlue {
     @When("^set source data$")
     public void setsSourceData(DataTable sourceMappingData) throws Throwable {
         //SourceMappingTestClass source = new SourceMappingTestClass();
-        for (Map<String, String> source : sourceMappingData.asMaps(String.class, String.class)) {
+        for (Map<String, String> source : sourceMappingData.asMaps()) {
             for (String field : source.keySet()) {
                 this.validator.setSourceValue(field, source.get(field));
             }
@@ -63,7 +68,7 @@ public class BackendSteps extends CucumberGlue {
 
     @And("^set expected data$")
     public void setsExpectedData(DataTable targetMappingData) throws Throwable {
-        for (Map<String, String> source : targetMappingData.asMaps(String.class, String.class)) {
+        for (Map<String, String> source : targetMappingData.asMaps()) {
             for (String field : source.keySet()) {
 
                 if (field.contains("Char")) {
@@ -81,9 +86,9 @@ public class BackendSteps extends CucumberGlue {
     }
 
     @And("^internal mapping is set to \"([^\"]*)\"$")
-    public void internalMappingIsSetTo(boolean arg0) throws Throwable {
+    public void internalMappingIsSetTo(String mapping) throws Throwable {
         // Write code here that turns the phrase above into concrete actions
-        this.internalMapping = arg0;
+        this.internalMapping = "true".equals(mapping);
     }
 
     @And("^verify if \"([^\"]*)\" is not \"([^\"]*)\" in \"([^\"]*)\"$")
@@ -122,10 +127,10 @@ public class BackendSteps extends CucumberGlue {
     private void verifyMultipleValues(String mapping, DataTable testValues, Boolean checkIfTrue) throws Exception {
         userSavesMappingAs(mapping);
 
-        String sourceField = testValues.getPickleRows().get(0).getCells().get(0).getValue();
-        String targetField = testValues.getPickleRows().get(0).getCells().get(1).getValue();
+        String sourceField = testValues.row(0).get(0);
+        String targetField = testValues.row(0).get(1);
 
-        for (Map<String, String> data : testValues.asMaps(String.class, String.class)) {
+        for (Map<String, String> data : testValues.asMaps()) {
             this.validator.setSourceValue(sourceField, data.get(sourceField));
             this.validator.setTargetValue(targetField, data.get(targetField));
             assertThat(this.validator.verifyMapping(checkIfTrue)).isEqualTo(checkIfTrue);
@@ -323,11 +328,11 @@ public class BackendSteps extends CucumberGlue {
         userSavesMappingAs(path);
         String result = (String) validator.processMapping(expected);
          System.out.println(result);
-        for (String value : values.asList(String.class)) {
+         values.asList().forEach( value -> {
             LOG.info("Checking " + value);
             LOG.info ("result, {}, value: {}",result,value);
             assertThat(result).contains(value);
-        }
+        });
     }
 
     @Then("^save and verify collections mappings in \"([^\"]*)\" \"([^\"]*)\" value is presented in \"([^\"]*)\" collection$")

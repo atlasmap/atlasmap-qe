@@ -150,7 +150,8 @@ public class AtlasmapPage {
         element.sendKeys(value);
         //  Thread.sleep(15000);
 
-        element.parent().$$("span").filter(text(value)).get(0).click();
+        //element.parent().$$("span").filter(text(value)).get(0).click();
+        element.parent().$$("span").get(0).click();
     }
 
     public void clickOnValueFromPicker(String pickerClass, String value) {

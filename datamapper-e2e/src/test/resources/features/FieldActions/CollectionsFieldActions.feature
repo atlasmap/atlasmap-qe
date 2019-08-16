@@ -13,7 +13,7 @@ Feature: collection related field actions
 
 #    Done Collection -> single
   @Ignore
-  Scenario Outline: <transformation>
+  Scenario Outline: Collection -> simgle mapping with <transformation> transformation
     When add mapping from "<source>" to "<target>"
     And add "<transformation>" transformation on "source"
     And set "<value>" value in target's "<target>"

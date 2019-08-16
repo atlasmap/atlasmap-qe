@@ -1,7 +1,7 @@
 @Mappings
 @CollectionMappings
 
-Feature: flat mappings between Collections ..
+Feature: Mappings of collections
 
   Background:  Given atlasmap contains TestClass
     And atlasmap is clean
@@ -25,21 +25,20 @@ Feature: flat mappings between Collections ..
     And set "999" value in source's "sourceString"
     Then save and verify that "listOfIntegers" contains "999" as "repetitive3.json"
 
-  Scenario: Mapping  collections of primitives
+  Scenario: Integers to Strings
     When click on "listOfIntegers"
     And set "targetSmallMappingTestClass/listOfStrings" as "target"
-
     And Init smallMappingTestClass and add to source map
     Then save and verify that "listOfStrings" contains "listOfIntegers" as "repetitive4.json"
 
 
-  Scenario: Mapping set to list
+  Scenario: Mapping set to list of Strings
     When click on "set"
     And  set "targetSmallMappingTestClass/listOfStrings" as "target"
     And Init smallMappingTestClass and add to source map
     Then save and verify that "listOfStrings" contains "set" as "repetitive5.json"
     
-  Scenario: Mapping array to list
+  Scenario: Mapping array to list of Strings
     When click on "array"
     And  set "targetSmallMappingTestClass/listOfStrings" as "target"
     And Init smallMappingTestClass and add to source map
@@ -47,7 +46,7 @@ Feature: flat mappings between Collections ..
 
 
     @SmokeTest
-  Scenario: mapping between root json arrays
+  Scenario: mapping between  json arrays on root level
     When add mapping from "/<>/arrayString" to "/<>/arrayAnotherString"
     And add mapping from "/<>/arrayAnotherString" to "/<>/arrayString"
     Then save and verify rootArrayMappings mapping as "rootArrayMappings.json"

@@ -1,6 +1,6 @@
 @FieldActions
 @NumberFieldActions
-Feature: number related field actions
+Feature: number related transformations
 
   Background:
     Given atlasmap is clean
@@ -9,7 +9,7 @@ Feature: number related field actions
     And internal mapping is set to "false"
     And set mapping from "sourceDouble" to "targetDouble"
 
-  Scenario Outline: Simple number transformations
+  Scenario Outline: Simple number transformations: <transformation> on <source/target>
     When add "<transformation>" transformation on "<source/target>"
     Then save and verify "<transformation>.json" with
       | sourceDouble | targetDouble |
@@ -47,7 +47,7 @@ Feature: number related field actions
 #      | 212121       | 5           |
 
   @UnitConversions
-  Scenario Outline: unit conversions
+  Scenario Outline: unit conversions: <from> to <to>
     When add "<transformation>" transformation on "<source/target>"
     And set from "<from>" to "<to>" units on "<source/target>"
    # And

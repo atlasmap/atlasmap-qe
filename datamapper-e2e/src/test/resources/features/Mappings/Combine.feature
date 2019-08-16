@@ -24,7 +24,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     Then  save and verify mapping as "SimpleCombine.json"
 
 
-  Scenario: Mixed types combine , executed from Mapping Details window
+  Scenario: Combine of various types fields, executed from Mapping Details window
     When click on "sourceString"
     And  set "targetCombineString" as "target"
     And add "/sourceChar" to combine
@@ -81,7 +81,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     Then save and verify combine mapping with "_" separator as "ComplexCombinePipe.json"
 
   @MixedIndexes
-  Scenario: Mixed types combine with mixed indexes , executed from Mapping Details window
+  Scenario: Combine of various types with mixed indexes, executed from Mapping Details window
     When click on "sourceString"
     And  set "/targetCombineString" as "target"
 
@@ -183,7 +183,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     Then save and verify combine mapping with " " separator as "ComplexCombineCMDDragNDrop.json"
 
   @gaps
-  Scenario: Gaps testing
+  Scenario: Combine with gaps
     And click on "sourceInteger" holding cmd button
     And click on "sourceFloat" holding cmd button
     And click on "sourceLong" holding cmd button
@@ -202,5 +202,4 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     And set expected data
       | targetCombineString |
       | :2::4.0::6::8.0     |
-   # And sleep for "3000000"
     Then save and verify mapping as "ComplexCombineGaps.json"

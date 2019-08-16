@@ -11,7 +11,7 @@ Feature: conditional mappings
     And open all subfolders
 
   @smoke
-  Scenario Outline: basic conditional mapping by Control key
+  Scenario Outline: basic conditional mapping by Control key with <expression>
     When click on "<target>"
     And set mapping condition to "<expression>" by Control key
 
@@ -52,7 +52,7 @@ Feature: conditional mappings
   @SmokeTest
   @ConditionalJson
   @MappingsPreview
-  Scenario Outline: basic conditional mapping by Control key on Json
+  Scenario Outline: basic conditional mapping by Control key on Json objects with expressions <expression>
     When click on "targetJsonString"
     And set mapping condition to "<expression>" by auto completion
     And Show mapping preview
@@ -84,7 +84,7 @@ Feature: conditional mappings
 
 
   @ConditionalJsonMath
-  Scenario Outline: basic conditional mapping by Control key on Json
+  Scenario Outline: Conditional mapping with mathematical expressions: <expression>
     When click on "targetJsonString"
     And set mapping condition to "<expression>" by Control key
     And Show mapping preview

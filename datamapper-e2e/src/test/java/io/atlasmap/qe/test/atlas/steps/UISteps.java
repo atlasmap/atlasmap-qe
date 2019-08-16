@@ -15,13 +15,14 @@ import org.openqa.selenium.WebDriverException;
 
 import com.codeborne.selenide.WebDriverRunner;
 
-import cucumber.api.DataTable;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+
+import io.cucumber.datatable.DataTable;
 
 public class UISteps extends CucumberGlue {
     private static String previousSelected = "";
@@ -243,7 +244,7 @@ public class UISteps extends CucumberGlue {
 
     @And("^set preview data$")
     public void setPreviewData(DataTable values) {
-        for (Map<String, String> data : values.asMaps(String.class, String.class)) {
+        for (Map<String, String> data : values.asMaps()) {
             for (String key : data.keySet()) {
 //                try {
 //               //     Thread.sleep(1000);
@@ -268,7 +269,7 @@ public class UISteps extends CucumberGlue {
 
     @Then("^verify preview data$")
     public void verifyPreviewData(DataTable values) {
-        for (Map<String, String> data : values.asMaps(String.class, String.class)) {
+        for (Map<String, String> data : values.asMaps()) {
             for (String key : data.keySet()) {
                 final String value = data.get(key);
                 String val = this.atlasmapPage.getFieldPreviewValue(key);

@@ -9,7 +9,7 @@
 
  #  Scenario: multiple source to single target
 
-   Scenario: single source to multiple targets
+   Scenario: Single source to multiple targets
    When set mapping from "sourceString" to "firstName"
    And set mapping from "sourceAnotherString" to "lastName"
    And set "Foo" value in source's "sourceString"
@@ -20,7 +20,7 @@
 
 
 
-    Scenario: multiple source to multiple targets
+    Scenario: Multiple sources to multiple targets
    When set mapping from "sourceString" to "firstName"
    And set mapping from "sourceAnotherString" to "lastName"
 

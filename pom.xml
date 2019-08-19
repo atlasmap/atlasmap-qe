@@ -7,7 +7,7 @@
     <groupId>io.syndesis.qe</groupId>
     <artifactId>atlasmap-qe</artifactId>
     <packaging>pom</packaging>
-    <version>1.39.0-SNAPSHOT</version>
+    <version>1.42.0-SNAPSHOT</version>
     <modules>
         <module>test-resources</module>
         <module>mapping-validator</module>
@@ -15,7 +15,7 @@
     </modules>
     <properties>
         <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
-        <atlasmap.version>1.41.0-SNAPSHOT</atlasmap.version>
+        <atlasmap.version>1.42.0-SNAPSHOT</atlasmap.version>
         <atlasmap.ui.version>^1.41.0-SNAPSHOT</atlasmap.ui.version>
         <junit.version>4.12</junit.version>
         <spring-boot.version>1.5.12.RELEASE</spring-boot.version>
@@ -23,12 +23,13 @@
         <selenium.version>3.13.0</selenium.version>
         <node.version>v8.11.4</node.version>
         <yarn.version>v1.9.4</yarn.version>
-        <cucumber.version>2.1.0</cucumber.version>
+        <cucumber.version>4.7.1</cucumber.version>
         <log4j.version>2.9.1</log4j.version>
         <httpcomponents.version>4.5.3</httpcomponents.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <fuse.version>7.1.0.fuse-710019-redhat-00002</fuse.version>
+        <lombok.version>1.18.6</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -46,6 +47,11 @@
                 <version>${fuse.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

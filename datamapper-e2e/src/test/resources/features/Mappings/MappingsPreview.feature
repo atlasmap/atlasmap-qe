@@ -66,7 +66,7 @@ Feature: Atlasmap is able to create preview
 #  #TODO investigate DATE conversions
 #  #TODO different formating of number fields
 #
-  Scenario Outline: conversion fromto primitive types
+  Scenario Outline: conversion from <source> to primitive types
     When set "9" value in source's "sourceString"
     And set mapping to "targetInteger" from "<source>"
     And set mapping to "targetString" from "<source>"
@@ -94,7 +94,7 @@ Feature: Atlasmap is able to create preview
 
 
     @debug
-  Scenario: Examples of string transfomation
+  Scenario: String transfomation from preview
     When set mapping from "sourceString" to "targetString"
   #  And add click "Add Transformation" link
     Then verify preview of "Capitalize" transformation from "sourceString" with value "foo" is transformed to "Foo" in "targetString"

@@ -19,7 +19,7 @@ Feature: Date related field actions
 #    And set "1" value in target's "targetInteger"
 #    Then save and verify mapping as "dayOfYear.json"
 
-  Scenario Outline: simple date transformations
+  Scenario Outline: simple date transformation: <transformation> on <source/target>
     When add mapping from "<source>" to "targetDate"
     And add "<transformation>" transformation on "<source/target>"
     And for "<input>" input set "<inputValue>"

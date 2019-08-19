@@ -75,6 +75,7 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
       | <targetXmlString>XmlString</targetXmlString> | <targetXmlInteger>300</ | <targetXmlDouble>500.0</targetXmlDouble> | <targetXmlFloat>100.1</ |
 
   @SmokeTest
+  @XmlToJava
   Scenario: mapping from Java to XML
 
     When add mapping from "sourceInteger" to "/TargetXmlMappingTestClass/targetXmlInteger"

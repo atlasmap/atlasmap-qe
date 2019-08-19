@@ -8,12 +8,13 @@ Feature: atlasmap is able to separate input to multiple fields
     And browser is opened
     And internal mapping is set to "false"
 
+  @SmokeTest
   @SimpleSeparate
   Scenario: Simple separate workflow, executed from Mapping Details window
     When click on "sourceCombineString"
 
-    And for "input-target-" id input set "targetString"
-    And for "input-target-" id input set "targetAnotherString"
+    And  set "targetString" as "target"
+    And  set "targetAnotherString" as "target"
 
     And set "foo bar" value in source's "sourceCombineString"
     And set "foo" value in target's "targetString"
@@ -24,7 +25,7 @@ Feature: atlasmap is able to separate input to multiple fields
   @SeparateWithAllSeparators
   Scenario: Mixed types separate , executed from Mapping Details window
     When click on "sourceCombineString"
-#    And for "input-target-" id input set "targetString"
+#    And change index of "" id input set "targetString"
 #
 #    And add "targetChar" to separate
 #    And add "targetInteger" to separate
@@ -86,7 +87,7 @@ Feature: atlasmap is able to separate input to multiple fields
   @MixedIndexes
   Scenario: Mixed types separate, with mixed indexes executed from Mapping Details window
     When click on "sourceCombineString"
-    And for "input-target-" id input set "targetString"
+    And set "targetString" as "target"
 
     And add "targetChar" to separate
     And add "targetInteger" to separate
@@ -95,13 +96,13 @@ Feature: atlasmap is able to separate input to multiple fields
     And add "targetShort" to separate
     And add "targetDouble" to separate
 
-    And for "input-target-targetChar" id input with "2" set "7"
+    And change index of "targetChar" to "7" on "target"
     #necessary
     And sleep for "1000"
-    And for "input-target-targetInteger" id input with "2" set "6"
-    And for "input-target-targetFloat" id input with "2" set "5"
-    And for "input-target-targetLong" id input with "2" set "4"
-    And for "input-target-targetShort" id input with "2" set "3"
+    And change index of "targetInteger" to "6" on "target"
+    And change index of "targetFloat" to "5" on "target"
+    And change index of "targetLong" to "4" on "target"
+    And change index of "targetShort" to "3" on "target"
 
     And set expected data
       | targetString | targetChar | targetInteger | targetFloat | targetLong | targetShort | targetDouble |
@@ -156,10 +157,10 @@ Feature: atlasmap is able to separate input to multiple fields
 
     When select "Colon [:]" separator
 
-    And for "input-target-targetDouble" id input with "4" set "8"
-    And for "input-target-targetLong" id input with "3" set "6"
-    And for "input-target-targetFloat" id input with "2" set "4"
-    And for "input-target-targetInteger" id input with "1" set "2"
+    And change index of "targetDouble" to "8" on "target"
+    And change index of "targetLong" to "6" on "target"
+    And change index of "targetFloat" to "4" on "target"
+    And change index of "targetInteger" to "2" on "target"
 
     And set source data
       | sourceCombineString |

@@ -10,14 +10,17 @@ Feature: Simple mappings creation and test framework verification
     And open mapping details window
 
   Scenario: Create modify and delete mapping from table
-    And for "input-target-" id input set "targetString"
-    And for "input-source-" id input set "sourceString"
+    And set "sourceString" as "source"
+    And set "targetString" as "target"
+
 
     Then save and verify "mappingsTable" with
       | sourceString | targetString |
       | source       | source       |
-
-    And for "input-target-targetString" id input set "targetAnotherString"
+#fixme
+   # And sleep for "30000000"
+    And delete "targetString" on "target"
+    And set "targetAnotherString" as "target"
 
     Then save and verify "mappingsTable2" with
       | sourceString | targetAnotherString |

@@ -9,8 +9,8 @@ Feature: conversion from string
     And internal mapping is set to "true"
     And set mapping from "sourceString" to "targetString"
 #
-  Scenario Outline: Simple string transformations:
-    When add transformation on "<source/target>"
+  @SimpleStringTransformations
+  Scenario Outline: Simple string transformations: <transformation> on <source/target>
     Then verify in "<transformation>" on "<source/target>" transformation that  "<source>" is transformed to "<target>"
 
     Examples:
@@ -61,7 +61,7 @@ Feature: conversion from string
 #  # PAD STRING LEFT
 #  # PAD STRING LEFT
   @StringFieldActionsWithInputs
-  Scenario Outline: with inputs
+  Scenario Outline: transformations with inputs: <transformation> on <source/target>
     When add "<transformation>" transformation on "<source/target>"
     And for "<input-1>" input set "<input-1-value>"
     And for "<input-2>" input set "<input-2-value>"

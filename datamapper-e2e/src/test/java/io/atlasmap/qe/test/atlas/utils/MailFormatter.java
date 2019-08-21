@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cucumber.api.Result;
+import cucumber.api.Result.Type;
 import cucumber.api.TestCase;
 import cucumber.api.event.EventListener;
 import cucumber.api.event.EventPublisher;
@@ -33,119 +34,139 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-    @Slf4j
-    public class MailFormatter implements EventListener {
 
-        private static final Pattern SUSTAINER_PATTERN = Pattern.compile(".*@sustainer: ([a-zA-Z@.]+)");
+@Slf4j
+public class MailFormatter implements EventListener {
 
-        private final String path;
+    private static final Pattern SUSTAINER_PATTERN = Pattern.compile(".*@sustainer: ([a-zA-Z@.]+)");
 
-        private ObjectMapper mapper = new ObjectMapper();
+    private final String path;
 
-        private Map<String, String> sustainers = new HashMap<>();
-        private Map<String, Feature> features = new HashMap<>();
-        private Set<String> recipients = new HashSet<>();
-        private List<ScenarioResult> results = new ArrayList<>();
+    private ObjectMapper mapper = new ObjectMapper();
 
-        public MailFormatter(String path) {
-            this.path = path;
-        }
+    private Map<String, String> sustainers = new HashMap<>();
+    private Map<String, Feature> features = new HashMap<>();
+    private Set<String> recipients = new HashSet<>();
+    private List<ScenarioResult> results = new ArrayList<>();
+    private int passed, failed, skipped, total = 0;
 
-        @Override
-        public void setEventPublisher(EventPublisher publisher) {
-            publisher.registerHandlerFor(TestSourceRead.class, this::onTestSourceRead);
-            publisher.registerHandlerFor(TestCaseFinished.class, this::onTestCaseFinished);
-            publisher.registerHandlerFor(TestRunFinished.class, this::onTestRunFinished);
+    public MailFormatter(String path) {
+        this.path = path;
+    }
+
+    @Override
+    public void setEventPublisher(EventPublisher publisher) {
+        publisher.registerHandlerFor(TestSourceRead.class, this::onTestSourceRead);
+        publisher.registerHandlerFor(TestCaseFinished.class, this::onTestCaseFinished);
+        publisher.registerHandlerFor(TestRunFinished.class, this::onTestRunFinished);
         //    publisher.registerHandlerFor(EmbedEvent.class, this::onEmbed);
-        }
+    }
 
-        private void onTestSourceRead(TestSourceRead t) {
-            GherkinDocument doc = parseGherkinSource(t.source);
-            if (doc != null) {
-                features.put(t.uri, doc.getFeature());
-                for (Comment c : doc.getComments()) {
-                    Matcher matcher = SUSTAINER_PATTERN.matcher(c.getText());
-                    if (matcher.matches()) {
-                        sustainers.put(t.uri, matcher.group(1));
-                    }
+    private void onTestSourceRead(TestSourceRead t) {
+        GherkinDocument doc = parseGherkinSource(t.source);
+        if (doc != null) {
+            features.put(t.uri, doc.getFeature());
+            for (Comment c : doc.getComments()) {
+                Matcher matcher = SUSTAINER_PATTERN.matcher(c.getText());
+                if (matcher.matches()) {
+                    sustainers.put(t.uri, matcher.group(1));
                 }
-            }
-        }
-
-        private void onTestCaseFinished(TestCaseFinished t) {
-            String uri = t.getTestCase().getUri();
-            results.add(
-                    new ScenarioResult(
-                            features.get(uri), t.getTestCase(), t.result.getStatus())
-            );
-            if (!t.result.getStatus().equals(Result.Type.PASSED) && sustainers.get(uri) != null) {
-                recipients.add(sustainers.get(uri));
-            }
-        }
-
-        private void onTestRunFinished(TestRunFinished t) {
-            new File(path).mkdirs();
-            try (FileWriter out = new FileWriter(new File(path, "report.html"))) {
-                out.write(String.join(
-                        "<br/>\n",
-                        results.stream().map(ScenarioResult::toString).collect(Collectors.toList())
-                        )
-                );
-            } catch (IOException e) {
-                log.error("Error writing mail report file", e);
-            }
-            try (FileWriter out = new FileWriter(new File(path, "mail-recipients"))) {
-                out.write(String.join("\n", recipients) + "\n");
-            } catch (IOException e) {
-                log.error("Error writing mail recipients file", e);
-            }
-        }
-
-        private GherkinDocument parseGherkinSource(String source) {
-            Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
-            try {
-                return parser.parse(source);
-            } catch (ParserException e) {
-                log.error("Error parsing gherkin source", e);
-            }
-            return null;
-        }
-
-        @Data
-        @RequiredArgsConstructor
-        private static class ScenarioResult {
-            private final Feature feature;
-            private final TestCase testCase;
-            private final Result.Type result;
-           // private final String sustainer;
-
-            public String toString() {
-                // TODO: consider using a templating engine for this
-                StringBuilder sb = new StringBuilder();
-                sb
-                        .append(feature.getName())
-                        .append(" | ")
-                        .append(testCase.getName())
-                        .append(" | ");
-
-                if (result.equals(Result.Type.PASSED)) {
-                    sb
-                            .append("<font color=\"green\">")
-                            .append(result)
-                            .append("</font>");
-                } else if (result.equals(Result.Type.SKIPPED)) {
-                    sb
-                            .append("<font color=\"yellow\">")
-                            .append(result)
-                            .append("</font>");
-                } else {
-                    sb
-                            .append("<font color=\"red\"><b>")
-                            .append(result)
-                            .append("</b></font>");
-                }
-
-                return sb.toString();
             }
         }
     }
+
+    private void onTestCaseFinished(TestCaseFinished t) {
+        String uri = t.getTestCase().getUri();
+        total++;
+        switch (t.result.getStatus()) {
+            case PASSED:
+                passed++;
+                break;
+            case FAILED:
+                failed++;
+                break;
+            case SKIPPED:
+                skipped++;
+                break;
+        }
+        ;
+        results.add(
+                new ScenarioResult(
+                        features.get(uri), t.getTestCase(), t.result.getStatus())
+        );
+        if (!t.result.getStatus().equals(Type.PASSED) && sustainers.get(uri) != null) {
+            recipients.add(sustainers.get(uri));
+        }
+    }
+
+    private void onTestRunFinished(TestRunFinished t) {
+        new File(path).mkdirs();
+        try (FileWriter out = new FileWriter(new File(path, "report.html"))) {
+            out.write("<h2>Atlasmap qe E2E test resluts</h2>" +
+                    String.format("PASSED %d / %d<br/>\n", passed, total) +
+                    String.format("Failed %d / %d<br/>\n", failed, total));
+
+            out.write(String.join(
+                    "<br/>\n",
+                    results.stream().map(ScenarioResult::toString).collect(Collectors.toList())
+                    )
+            );
+        } catch (IOException e) {
+            log.error("Error writing mail report file", e);
+        }
+        try (FileWriter out = new FileWriter(new File(path, "mail-recipients"))) {
+            out.write(String.join("\n", recipients) + "\n");
+        } catch (IOException e) {
+            log.error("Error writing mail recipients file", e);
+        }
+    }
+
+    private GherkinDocument parseGherkinSource(String source) {
+        Parser<GherkinDocument> parser = new Parser<>(new AstBuilder());
+        try {
+            return parser.parse(source);
+        } catch (ParserException e) {
+            log.error("Error parsing gherkin source", e);
+        }
+        return null;
+    }
+
+    @Data
+    @RequiredArgsConstructor
+    private static class ScenarioResult {
+        private final Feature feature;
+        private final TestCase testCase;
+        private final Result.Type result;
+        // private final String sustainer;
+
+        public String toString() {
+            // TODO: consider using a templating engine for this
+            StringBuilder sb = new StringBuilder();
+
+            sb
+                    .append(feature.getName())
+                    .append(" | ")
+                    .append(testCase.getName())
+                    .append(" | ");
+
+            if (result.equals(Result.Type.PASSED)) {
+                sb
+                        .append("<font color=\"green\">")
+                        .append(result)
+                        .append("</font>");
+            } else if (result.equals(Result.Type.SKIPPED)) {
+                sb
+                        .append("<font color=\"yellow\">")
+                        .append(result)
+                        .append("</font>");
+            } else {
+                sb
+                        .append("<font color=\"red\"><b>")
+                        .append(result)
+                        .append("</b></font>");
+            }
+
+            return sb.toString();
+        }
+    }
+}

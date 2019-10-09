@@ -64,7 +64,8 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
       | XmlString    | 300           | 500          | 100.1       |
 
     Then save and verify mapping as "flatXmlToJava.json"
-    @SmokeTest
+
+  @SmokeTest
   Scenario:  mapping from XML to XML
     When add mapping from "/SourceXmlInstance/sourceXmlInteger" to "/TargetXmlMappingTestClass/targetXmlInteger"
     And add mapping from "/SourceXmlInstance/sourceXmlString" to "/TargetXmlMappingTestClass/targetXmlString"
@@ -87,6 +88,7 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
       | <targetXmlString>sourceString</targetXmlString> | <targetXmlInteger>1 | <targetXmlDouble>5.0</targetXmlDouble> |  |
 
   @SmokeTest
+  @XmlToJson
   Scenario: mapping from XML to JSON
     When add mapping from "/SourceXmlMappingSchema/sourceXmlInteger" to "targetJsonInteger"
     And add mapping from "/SourceXmlMappingSchema/sourceXmlString" to "targetJsonString"
@@ -95,6 +97,7 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
     Then save mapping as "flatJavaToJSon.json" and verify "targetJson" with
       | "targetJsonInteger":300 | "targetJsonString":"XmlString" |
 
+  @JsonToXml
   Scenario: mapping from JSON to XML
     When add mapping from "sourceJsonInteger" to "/TargetXmlMappingTestClass/targetXmlInteger"
     And add mapping from "sourceJsonString" to "/TargetXmlMappingTestClass/targetXmlString"

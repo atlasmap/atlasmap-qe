@@ -363,6 +363,7 @@ public class BackendSteps extends CucumberGlue {
 
         assertThat(integers.size()).isGreaterThan(0);
         assertThat(strings.size()).isGreaterThan(0);
+
         tlc.getObjects().forEach(s -> {
             System.out.println(s.toString());
             assertThat(integers).contains( Integer.parseInt(s.getFirstName()));
@@ -375,6 +376,7 @@ public class BackendSteps extends CucumberGlue {
         userSavesMappingAs(mapping);
         final List<StringObject> targetObjects = ((TargetListsClass) validator.processSingleObjectMapping(ResourcesGenerator.getJsonArrays(),"sourceArrays", TargetListsClass.class.getName())).getObjects();
         final List jsonObjects = ResourcesGenerator.getJsonArrays("jsonObjects");
+
         for(int i=0;i<targetObjects.size();i++) {
             assertThat(targetObjects.get(i).getFirstName()).isEqualTo(((StringObject)jsonObjects.get(i)).getFirstName());
             assertThat(targetObjects.get(i).getLastName()).isEqualTo(((StringObject)jsonObjects.get(i)).getLastName());
@@ -395,10 +397,10 @@ public class BackendSteps extends CucumberGlue {
         SourceListsClass slc = new SourceListsClass();
         String output = (String) validator.processSingleObjectMapping(new SourceListsClass(),SourceListsClass.class.getName(),"targetJsonArray");
         System.out.println("++++>"+output);
-        for(int i : slc.getIntegers()) {
-            assertThat(output).contains("\"arrayNumber\":"+i);
-            assertThat(output).contains("\"arrayString\":\"String"+i+"\"");
-        }
 
+        slc.getIntegers().forEach(i-> {
+              assertThat(output).contains("\"arrayNumber\":"+i);
+              assertThat(output).contains("\"arrayString\":\"String"+i+"\"");
+        });
     }
 }

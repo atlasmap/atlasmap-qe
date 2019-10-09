@@ -23,7 +23,7 @@ Feature: atlasmap is able to combine multiple inputs into one filed
       | foo bar             |
     Then  save and verify mapping as "SimpleCombine.json"
 
-
+@Test
   Scenario: Combine of various types fields, executed from Mapping Details window
     When click on "sourceString"
     And  set "targetCombineString" as "target"

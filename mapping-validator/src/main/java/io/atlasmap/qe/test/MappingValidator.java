@@ -1,6 +1,7 @@
 package io.atlasmap.qe.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -11,9 +12,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.atlasmap.AtlasComponent;
 import org.apache.camel.component.mock.MockEndpoint;
-
 import org.apache.camel.impl.DefaultCamelContext;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,29 +40,25 @@ public class MappingValidator {
         target = new TargetMappingTestClass();
         expectedMap = new HashMap<>();
         sourceMap = new HashMap<>();
-        try {
-            initValidator();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        initValidator();
     }
 
-    public TargetMappingTestClass processMapping(SourceMappingTestClass input) throws Exception {
+    public TargetMappingTestClass processMapping(SourceMappingTestClass input)  {
         sourceMap = new HashMap<>();
         sourceMap.put(input.getClass().getName(), input);
         Map<String, Object> targetMap = processMappingInputMap(sourceMap);
         return (TargetMappingTestClass) targetMap.get("io.atlasmap.qe.test.TargetMappingTestClass");
     }
 
-    public TargetMappingTestClass processMapping() throws Exception {
+    public TargetMappingTestClass processMapping()  {
         return processMapping(this.source);
     }
 
-    public Object processSingleObjectMapping(Object input, String expected) throws Exception {
+    public Object processSingleObjectMapping(Object input, String expected)  {
         return processSingleObjectMapping(input,input.getClass().getName(),expected);
     }
 
-    public Object processSingleObjectMapping(Object input,String inputName, String expected) throws Exception {
+    public Object processSingleObjectMapping(Object input,String inputName, String expected)  {
         Map<String, Object> sourceMap = new HashMap<>();
         sourceMap.put(inputName, input);
         Map<String, Object> processed = processMappingInputMap(sourceMap);
@@ -71,47 +66,59 @@ public class MappingValidator {
         return processed.get(expected);
     }
 
-    public Object processMapping(String expected) throws Exception {
-        sourceMap.put(source.getClass().getName(), source);
+    public Object processMapping(String expected)  {
+     //   sourceMap.put(source.getClass().getName(), source);
         Map<String, Object> processed = processMappingInputMap(sourceMap);
         return processed.get(expected);
     }
 
-    public Map<String, Object> processMappingInputMap(Map<String, Object> input) throws Exception {
+    public Map<String, Object> processMappingInputMap(Map<String, Object> input) {
+//        input.forEach((String s,Object o) ->
+//            System.out.println(s+ "---> "+o.toString()));
         CamelContext context = new DefaultCamelContext();
         context.addComponent("atlas", new AtlasComponent());
-        context.addRoutes(new RouteBuilder() {
-                              public void configure() {
-                                  from("direct:start").to("atlas:" + mappingLocation).to("mock:result");
+        try {
+            context.addRoutes(new RouteBuilder() {
+                                  public void configure() {
+                                      from("direct:start").to("atlas:" + mappingLocation).to("mock:result");
+                                  }
                               }
-                          }
-        );
+            );
+            MockEndpoint resultEndpoint = context.getEndpoint("mock:result", MockEndpoint.class);
+            ProducerTemplate template = context.createProducerTemplate();
+            context.start();
 
-        MockEndpoint resultEndpoint = context.getEndpoint("mock:result", MockEndpoint.class);
-        ProducerTemplate template = context.createProducerTemplate();
-        context.start();
-
-        template.sendBody("direct:start", input);
-        Map<String, Object> targetMap = resultEndpoint.getExchanges().get(0).getIn().getBody( Map.class);
-        context.stop();
-
-        return targetMap;
+            template.sendBody("direct:start", input);
+            Map<String,Object> targetMap = resultEndpoint.getExchanges().get(0).getIn().getBody( Map.class);
+            context.stop();
+                    targetMap.forEach((String s,Object o) ->
+                        System.out.println(s+" "+ (o==null?"null":o.toString())));
+            return targetMap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+        return null;
     }
 
-    public boolean verifyMapping(SourceMappingTestClass source, TargetMappingTestClass target, boolean equals) throws Exception {
+    public boolean verifyMapping(SourceMappingTestClass source, TargetMappingTestClass target, boolean equals)  {
         this.sourceMap.put(source.getClass().getName(), source);
         TargetMappingTestClass processedTarget = (TargetMappingTestClass) processMapping(TargetMappingTestClass.class.getName());
         LOG.info("cleaning");
 
+
+        if (processedTarget == null) {
+            LOG.error("TARGET IS NULL!!!!!!!!!!!!");
+        }
         this.target = new TargetMappingTestClass();
         this.source = new SourceMappingTestClass();
         if (equals) {
-            assertThat(target).isEqualTo(processedTarget);
+            assertThat(processedTarget).isEqualTo(target);
         }
         return target.equals(processedTarget);
     }
 
-    public boolean verifyMultiObjectMapping() throws Exception {
+    public boolean verifyMultiObjectMapping()  {
         this.sourceMap.put(this.source.getClass().getName(), this.source);
         this.expectedMap.put(this.target.getClass().getName(), this.target);
         final boolean res = verifyMultiObjectMapping(this.sourceMap);
@@ -120,13 +127,13 @@ public class MappingValidator {
         return res;
     }
 
-    public boolean verifyMultiObjectMapping(Map<String, Object> input) throws Exception {
+    public boolean verifyMultiObjectMapping(Map<String, Object> input)  {
         final Boolean res = verifyMappingInputExpected(input, this.expectedMap);
         clear();
         return res;
     }
 
-    public boolean verifyMappingInputExpected(Map<String, Object> input, Map<String, Object> expected) throws Exception {
+    public boolean verifyMappingInputExpected(Map<String, Object> input, Map<String, Object> expected)  {
         Map<String, Object> processed = processMappingInputMap(input);
         assertThat(processed.size()).isGreaterThan(0);
         if (processed.isEmpty()) {
@@ -141,15 +148,15 @@ public class MappingValidator {
     }
 
 
-    public boolean verifyMapping() throws Exception {
+    public boolean verifyMapping()  {
         return this.verifyMapping(this.source, this.target, true);
     }
 
-    public boolean verifyMapping(boolean check) throws Exception {
+    public boolean verifyMapping(boolean check)  {
         return this.verifyMapping(this.source, this.target, check);
     }
 
-    public boolean verifyMapping(TargetMappingTestClass target) throws Exception {
+    public boolean verifyMapping(TargetMappingTestClass target)  {
         return this.verifyMapping(this.source, this.target, true);
     }
 
@@ -219,11 +226,15 @@ public class MappingValidator {
         this.target = new TargetMappingTestClass();
     }
 
-    public void initValidator() throws ParseException {
+    public void initValidator() {
         sourceMap.put(source.getClass().getName(), source);
         sourceMap.put(SourceListsClass.class.getName(), new SourceListsClass());
         sourceMap.put(SmallMappingTestClass.class.getName(), new SmallMappingTestClass());
-        sourceMap.put(DatesObject.class.getName(), new DatesObject("22-12-2012"));
+        try {
+            sourceMap.put(DatesObject.class.getName(), new DatesObject("22-12-2012"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         sourceMap.put("sourceJson", ResourcesGenerator.getJsonInstance());
         sourceMap.put("sourceArrays", ResourcesGenerator.getJsonArrays());
         sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());

@@ -84,7 +84,7 @@ Feature: atlasmap is able to separate input to multiple fields
     Then save and verify separate mapping with "_" separator as "ComplexSeparatePipe.json"
 ##
 
-  @MixedIndexes
+  @MixedIndexesSeparate
   Scenario: Mixed types separate, with mixed indexes executed from Mapping Details window
     When click on "sourceCombineString"
     And set "targetString" as "target"
@@ -93,8 +93,8 @@ Feature: atlasmap is able to separate input to multiple fields
     And add "targetInteger" to separate
     And add "targetFloat" to separate
     And add "targetLong" to separate
-    And add "targetShort" to separate
-    And add "targetDouble" to separate
+    And click on "targetShort" holding cmd button
+    And click on "targetDouble" holding cmd button
 
     And change index of "targetChar" to "7" on "target"
     #necessary

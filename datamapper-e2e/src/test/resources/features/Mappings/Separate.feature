@@ -130,6 +130,7 @@ Feature: atlasmap is able to separate input to multiple fields
 
   @SeparateDragAndDrop
   @DragAndDrop
+  @Ignore
   Scenario: Separate created with CMD holding using drag'n'drop
     When click on "targetString" holding cmd button
     And click on "targetAnotherString" holding cmd button

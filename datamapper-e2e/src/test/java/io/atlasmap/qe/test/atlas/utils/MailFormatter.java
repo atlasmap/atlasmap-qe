@@ -48,7 +48,7 @@ public class MailFormatter implements EventListener {
     private Map<String, Feature> features = new HashMap<>();
     private Set<String> recipients = new HashSet<>();
     private List<ScenarioResult> results = new ArrayList<>();
-    private int passed, failed, skipped, total = 0;
+    private int passed, failed, total = 0;
 
     public MailFormatter(String path) {
         this.path = path;
@@ -85,8 +85,7 @@ public class MailFormatter implements EventListener {
             case FAILED:
                 failed++;
                 break;
-            case SKIPPED:
-                skipped++;
+            default:
                 break;
         }
         ;

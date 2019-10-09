@@ -27,8 +27,8 @@ Feature: Atlasmap is able to create preview
     Then verify that "targetCombineString" contains "1-2.0-3"
 
     #Test change of indexes
-    When for "input-source-sourceInteger" id input with "1" set "3"
-    And for "input-source-sourceString" id input with "2" set "5"
+    When change index of "sourceInteger" to "3" on "source"
+    And change index of "sourceString" to "5" on "source"
     Then verify that "targetCombineString" contains "2.0-1---3"
 
     #Test change od input data
@@ -52,8 +52,8 @@ Feature: Atlasmap is able to create preview
       | targetInteger | targetLong | targetString |
       | 1             | 2          | 3            |
 
-    When for "input-target-targetInteger" id input with "1" set "3"
-    And for "input-target-targetString" id input with "2" set "3"
+    When change index of "targetInteger" to "3" on "target"
+    And change index of "targetString" to "3" on "target"
     And set "2-1-3" for "sourceCombineString" field
     And select "Dash [-]" separator
 
@@ -86,7 +86,7 @@ Feature: Atlasmap is able to create preview
       | sourceInteger |
       | sourceShort   |
       | sourceChar    |
-      | sourceByte    |
+   #   | sourceByte    |
       | sourceDouble  |
       | sourceLong    |
       | sourceBoolean |

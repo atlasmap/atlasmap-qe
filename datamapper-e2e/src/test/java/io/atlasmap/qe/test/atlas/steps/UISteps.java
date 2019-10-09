@@ -276,6 +276,9 @@ public class UISteps extends CucumberGlue {
                 Assert.assertEquals(value, val);
             }
         }
+//            data.keySet().stream()
+//                    .map(k -> this.atlasmapPage.getFieldPreviewValue(data.get(k)))
+//                    .fo
     }
 
     @And("^set \"([^\"]*)\" for \"([^\"]*)\" field$")
@@ -396,5 +399,11 @@ public class UISteps extends CucumberGlue {
     @And("^change index of \"([^\"]*)\" to \"([^\"]*)\" on \"([^\"]*)\"$")
     public void changeIndexOfToOn(String field, int value, String src) throws Throwable {
         this.atlasmapPage.changeIndexValue(field, value, "source".equals(src));
+    }
+
+    @And("add {string} collection transformation")
+    public void addCollectionTransformationOn(String transformation) {
+        atlasmapPage.addCollectionTransformation(transformation);
+
     }
 }

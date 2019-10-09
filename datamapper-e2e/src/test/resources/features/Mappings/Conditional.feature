@@ -14,28 +14,35 @@ Feature: conditional mappings
   Scenario Outline: basic conditional mapping by Control key with <expression>
     When click on "<target>"
     And set mapping condition to "<expression>" by Control key
+    And Show mapping preview
 
+    And click on "<target>"
     And set source data
       | sourceString |
       |              |
+
 
     And set expected data
       | <target>      |
       | <targetValue> |
 
-    And save mapping as "conditional_ctrl.xml"
-    And verify "conditional_ctrl.xml"
+    And sleep for "500"
+    And save mapping as "conditional_ctrl.json"
+    And verify "conditional_ctrl.json"
 
     Examples:
       | expression                                                                       | target        | targetValue |
-      | if(ISEMPTY(@{sourceString}), @{sourceInteger}, @{sourceShort} )                  | targetInteger | 1           |
-      | if(!ISEMPTY(@{sourceString}), @{sourceShort}, @{sourceLong} )                    | targetString  | 2           |
+      | if(ISEMPTY(@{sourceString}), @{sourceInteger}, @{sourceShort})                  | targetInteger | 1           |
+      | if(!ISEMPTY(@{sourceString}), @{sourceShort}, @{sourceLong})                    | targetString  | 2           |
       | if( @{sourceBigDecimal} < @{sourceBigInteger} , @{sourceLong}, @{sourceDouble} ) | targetString  | 4.0         |
       | if( @{sourceFloat} > @{sourceBigInteger} , @{sourceLong}, @{sourceBigDecimal} )  | targetString  | 12345       |
 
   Scenario: basic conditional mapping by auto completion
     When click on "targetInteger"
     And set mapping condition to "if(ISEMPTY(@{sourceString}), @{sourceInteger}, @{sourceShort} )" by auto completion
+
+    And Show mapping preview
+    And click on "targetInteger"
 
     And set source data
       | sourceString | sourceInteger | sourceShort |
@@ -45,8 +52,9 @@ Feature: conditional mappings
       | targetInteger |
       | 1             |
 
-    And save mapping as "conditional_auto_completion.xml"
-    And verify "conditional_auto_completion.xml"
+    And sleep for "30000"
+    And save mapping as "conditional_auto_completion.json"
+    And verify "conditional_auto_completion.json"
 
 
   @SmokeTest

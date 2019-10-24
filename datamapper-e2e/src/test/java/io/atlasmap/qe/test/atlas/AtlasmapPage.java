@@ -80,7 +80,7 @@ public class AtlasmapPage {
 
     public boolean checkDangerWarningContainMessage(String containsMessage) {
         LOG.debug("looking ...");
-        // FIXME $(".alert-danger").shouldBe(Condition.appears);
+        $(".alert-danger").shouldBe(Condition.appears);
         for (String s : $$(".alert-danger").texts()) {
             if (s.contains(containsMessage)) {
                 return true;

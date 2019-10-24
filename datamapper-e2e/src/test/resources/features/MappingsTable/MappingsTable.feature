@@ -22,7 +22,6 @@ Feature: mappings table
   @TableCombine
   Scenario: check combine mapping in table and check if table is filled properly
     When add mapping from "sourceInteger" to "targetString"
-    And add select "Combine" action
     And add "sourceFloat" to combine
     And add "sourceString" to combine
     Then check that row number "0" contains "/sourceInteger,/sourceFloat,/sourceString" as sources, "/targetString" as target and "Many to One (Concatenate)" as type
@@ -30,7 +29,6 @@ Feature: mappings table
   @TableSplit
   Scenario: check separate mapping in table and check if table is filled properly
     When add mapping from "sourceCombineString" to "targetString"
-    And add select "Separate" action
     And add "targetInteger" to separate
     And add "targetFloat" to separate
     Then check that row number "0" contains "/sourceCombineString" as sources, "/targetString,/targetInteger,/targetFloat" as target and "One to Many (Split)" as type

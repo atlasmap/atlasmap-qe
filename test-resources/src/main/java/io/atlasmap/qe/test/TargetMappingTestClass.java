@@ -233,6 +233,7 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
             }
             case "targetEnum": {
                 this.setTargetEnum(SimpleEnum.valueOf(value.toString()));
+                break;
             }
         }
     }

@@ -53,12 +53,6 @@ public class UISteps extends CucumberGlue {
         }
     }
 
-    @When("^click on mapping to \"([^\"]*)\" from \"([^\"]*)\"$")
-    public void userClickOnMappingToFrom(String target, String source) {
-        this.atlasmapPage.clickOn(target);
-        this.atlasmapPage.clickOn(source);
-    }
-
     @Then("^browser is opened$")
     public void userOpensBrowser() throws Exception {
         atlasmapPage.openBrowser();

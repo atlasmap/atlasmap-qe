@@ -101,7 +101,7 @@ public class MailFormatter implements EventListener {
     private void onTestRunFinished(TestRunFinished t) {
         new File(path).mkdirs();
         try (FileWriter out = new FileWriter(new File(path, "report.html"))) {
-            out.write("<h2>Atlasmap qe E2E test resluts</h2>" +
+            out.write("<h2>Atlasmap QE E2E test results</h2>" +
                     String.format("PASSED %d / %d<br/>\n", passed, total) +
                     String.format("Failed %d / %d<br/>\n", failed, total));
 

@@ -29,6 +29,7 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
     private char sourceChar;
     private BigInteger sourceBigInteger;
     private SmallMappingTestClass smallMappingTestClass;
+    private SimpleEnum sourceEnum;
 
 
     public BigDecimal getSourceBigDecimal() {
@@ -60,7 +61,7 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
         }
         this.sourceAnotherString = "sourceAnotherString";
         this.sourceBoolean = true;
-
+        this.sourceEnum = SimpleEnum.VALUE1;
     }
 
     @Override
@@ -77,7 +78,8 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
                 " | sourceBoolean=" + sourceBoolean +
                 " | sourceShort=" + sourceShort +
                 " | sourceByte=" + sourceByte +
-                " |sourceChar=" + sourceChar +
+                " | sourceChar=" + sourceChar +
+                " | sourceEnum=" + sourceEnum +
                 '}';
     }
 
@@ -193,6 +195,14 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
         this.sourceBigInteger = sourceBigInteger;
     }
 
+    public SimpleEnum getSourceEnum() {
+        return sourceEnum;
+    }
+
+    public void setSourceEnum(SimpleEnum sourceEnum) {
+        this.sourceEnum = sourceEnum;
+    }
+
     @Override
     public void setAndConvertValue(String field, Object value) throws ParseException {
 
@@ -261,6 +271,11 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
             }
             case "sourceAnotherString": {
                 this.setSourceAnotherString(value.toString());
+                break;
+            }
+            case "sourceEnum": {
+                this.setSourceEnum(SimpleEnum.valueOf(value.toString()));
+                break;
             }
         }
     }
@@ -296,6 +311,8 @@ public class SourceMappingTestClass implements Serializable, MappingTestClassCon
                 return isSourceBoolean();
             case "sourceAnotherString":
                 return getSourceAnotherString();
+            case "sourceEnum":
+                return getSourceEnum();
         }
         return null;
     }

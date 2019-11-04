@@ -31,6 +31,7 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
     private BigDecimal targetBigDecimal;
     private SmallMappingTestClass targetSmallMappingTestClass;
     private DatesObject dateObjectVariable;
+    private SimpleEnum targetEnum;
 
     public DatesObject getDateObjectVariable() {
         return dateObjectVariable;
@@ -53,6 +54,7 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
         this.targetShort = 1;
         this.targetByte = Byte.MIN_VALUE;
         this.targetChar = 'x';
+        this.targetEnum = SimpleEnum.VALUE2;
         try {
             this.dateObjectVariable = new DatesObject("01-01-1989");
         } catch (ParseException e) {
@@ -82,8 +84,8 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                 Objects.equals(targetString, that.targetString) &&
                 Objects.equals(targetCombineString, that.targetCombineString) &&
                 Objects.equals(sdf.format(targetDate), sdf.format(that.targetDate)) &&
-                Objects.equals(targetAnotherString, that.targetAnotherString)
-                &&
+                Objects.equals(targetAnotherString, that.targetAnotherString) &&
+                Objects.equals(targetEnum, that.targetEnum) &&
                 Objects.equals(targetSmallMappingTestClass, that.targetSmallMappingTestClass);
     }
 
@@ -102,6 +104,7 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                 "| targetShort=" + targetShort +
                 "| targetByte=" + targetByte +
                 "| targetChar=" + targetChar +
+                "| targetEnum=" + targetEnum +
                 "| targetMappingTestClass=" + targetSmallMappingTestClass +
                 '}';
     }
@@ -226,6 +229,11 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
             }
             case "targetAnotherString": {
                 this.setTargetAnotherString(value.toString());
+                break;
+            }
+            case "targetEnum": {
+                this.setTargetEnum(SimpleEnum.valueOf(value.toString()));
+                break;
             }
         }
     }
@@ -261,6 +269,8 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
                 return isTargetBoolean();
             case "targetAnotherString":
                 return getTargetAnotherString();
+            case "targetEnum":
+                return getTargetEnum();
         }
         return null;
     }
@@ -383,5 +393,13 @@ public class TargetMappingTestClass implements MappingTestClassConverter, Serial
 
     public void setTargetSmallMappingTestClass(SmallMappingTestClass targetSmallMappingTestClass) {
         this.targetSmallMappingTestClass = targetSmallMappingTestClass;
+    }
+
+    public SimpleEnum getTargetEnum() {
+        return targetEnum;
+    }
+
+    public void setTargetEnum(SimpleEnum targetEnum) {
+        this.targetEnum = targetEnum;
     }
 }

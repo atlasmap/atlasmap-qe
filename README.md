@@ -19,7 +19,7 @@ E2E tests of standalone _AtlasMap_ based on _Selenide_ and _Cucumber_ framework.
     * add `-Dselenide.holdBrowserOpen=true` if you want to keep browser opened after tests
     * add `-Dcucumber.options='--tags @SmokeTest'` if you want to run only tests tagged with `@SmokeTest`
 
-## How it works?
+## How does it work?
 1. _maven-dependency-plugin_ downloads _JAR_ with standalone _AtlasMap_
 2. _process-exec-maven-plugin_ runs the _JAR_
 3. Tests initialization:

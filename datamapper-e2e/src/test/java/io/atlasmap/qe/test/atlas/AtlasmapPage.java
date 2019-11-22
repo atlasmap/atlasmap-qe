@@ -49,8 +49,8 @@ public class AtlasmapPage {
     }
 
     public void toggleConditionalMapping() {
-        $(By.xpath("/html/body/div[2]/atlasmap-dev-root/" +
-            "data-mapper-example-host/data-mapper/div/div/div[4]/toolbar/div/div/i[1]")).click();
+        $(By.xpath("/html/body/div[2]/atlasmap-dev-root/data-mapper-example-host/data-mapper/div/div/div[4]/toolbar/" +
+            "div/div/div[1]/i")).click();
     }
 
     public boolean checkWarning(String exceptionType, String fromType, String toType) {

@@ -45,7 +45,8 @@ public class ResourcesGenerator {
     }
 
     public static String getXMLInstance() {
-        return "<sourceMappingTestClass>\n" +
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" +
+                "<SourceXmlInstance>\n" +
                 "    <sourceXmlBoolean>true</sourceXmlBoolean>\n" +
                 "    <sourceXmlByte>A</sourceXmlByte>\n" +
                 "    <sourceXmlChar>A</sourceXmlChar>\n" +
@@ -56,7 +57,7 @@ public class ResourcesGenerator {
                 "    <sourceXmlLong>400</sourceXmlLong>\n" +
                 "    <sourceXmlShort>500</sourceXmlShort>\n" +
                 "    <sourceXmlString>XmlString</sourceXmlString>\n" +
-                "</sourceMappingTestClass>";
+                "</SourceXmlInstance>";
     }
 
     public static String getXmlSchemaInstance(Class c) {

@@ -49,8 +49,8 @@ public class AtlasmapPage {
     }
 
     public void toggleConditionalMapping() {
-        $(By.xpath("/html/body/div[2]/atlasmap-dev-root/" +
-            "data-mapper-example-host/data-mapper/div/div/div[4]/toolbar/div/div/i[1]")).click();
+        $(By.xpath("/html/body/div[2]/atlasmap-dev-root/data-mapper-example-host/data-mapper/div/div/div[4]/toolbar/" +
+            "div/div/div[1]/i")).click();
     }
 
     public boolean checkWarning(String exceptionType, String fromType, String toType) {
@@ -142,23 +142,14 @@ public class AtlasmapPage {
     }
 
     public void addToMapping(String value, boolean isSource) throws InterruptedException {
-        List<SelenideElement> elements = $$(By.cssSelector("input[id =\"source\""));
-        SelenideElement element;
-        if (!isSource && elements.size() > 1) {
-            element = elements.get(1);
-        } else {
-            element = elements.get(0);
-        }
-
-        element.clear();
-        element.scrollIntoView(true);
-        Thread.sleep(200);
-        element.sendKeys(value);
-        //  Thread.sleep(15000);
-
-        //element.parent().$$("span").filter(text(value)).get(0).click();
-        SelenideElement e = $("typeahead-container").waitUntil(visible,5000);
-        e.$(By.tagName("a")).shouldBe(visible).click();
+        final String cssSelector = String.format("mapping-field-container[ng-reflect-is-source=\"%s\"]", isSource);
+        SelenideElement container = $(By.cssSelector(cssSelector)).waitUntil(visible, 5000);
+        SelenideElement input = container.$(By.id("source"));
+        input.clear();
+        input.scrollIntoView(true);
+        Thread.sleep(500);
+        input.sendKeys(value);
+        input.parent().$$(By.tagName("a")).filter(text(value)).get(0).click();
     }
 
     public void clickOnValueFromPicker(String pickerClass, String value) {

@@ -27,12 +27,11 @@ Feature: Simple mappings creation and test framework verification
       | source       | source              |
 
     When delete current mapping
-    And click on "sourceString"
 
     Then save and verify "mappingsTable3" with
       | sourceString | targetAnotherString |
-      | source       | source              |
-  
+      | source       | targetAnotherString |
+
 
 
 #  Scenario: Mappings

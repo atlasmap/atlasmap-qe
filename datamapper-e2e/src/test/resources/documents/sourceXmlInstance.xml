@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<sourceXmlInstance>
+<SourceXmlInstance>
     <sourceXmlBoolean>true</sourceXmlBoolean>
     <sourceXmlByte>A</sourceXmlByte>
     <sourceXmlChar>A</sourceXmlChar>
@@ -10,4 +10,4 @@
     <sourceXmlLong>400</sourceXmlLong>
     <sourceXmlShort>500</sourceXmlShort>
     <sourceXmlString>XmlString</sourceXmlString>
-</sourceXmlInstance>
+</SourceXmlInstance>

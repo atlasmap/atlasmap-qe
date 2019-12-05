@@ -1,32 +1,27 @@
 package io.atlasmap.qe.test.atlas;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.codeborne.selenide.WebDriverRunner;
-
 import cucumber.api.event.EventHandler;
+import cucumber.api.event.EventListener;
 import cucumber.api.event.EventPublisher;
 import cucumber.api.event.TestRunFinished;
 import cucumber.api.event.TestRunStarted;
-import cucumber.api.formatter.Formatter;
 
 /**
  * Loads test resources into AtlasMap.
  * It is plugin for {@link CucumberTest} runner.
  * @author Ondřej Kuhejda
  */
-public class AtlasmapInit implements Formatter {
-    private static final Logger LOG = LogManager.getLogger(AtlasmapInit.class);
+public class AtlasmapInit implements EventListener {
 
     // directory with test-resources JAR
     private static final String TARGET_FOLDER = System.getProperty("user.dir") + "/../test-resources/target/";
@@ -83,9 +78,6 @@ public class AtlasmapInit implements Formatter {
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJsonArray.json");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJson.schema.json");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
-
-        // FIXME: last document must be imported twice because of bug in AtlasMap
-        page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
     });
 
     /**
@@ -99,11 +91,8 @@ public class AtlasmapInit implements Formatter {
      * @param pageConsumer that will be executed inside web browser on {@link AtlasmapInit#atlasMapPage}.
      */
     private void runOnPage(Consumer<AtlasmapPage> pageConsumer) {
-        atlasMapPage.openBrowser();
 
         pageConsumer.accept(atlasMapPage);
-
-        WebDriverRunner.closeWebDriver();
     }
 
     /**

@@ -1,19 +1,22 @@
 package io.atlasmap.qe.test;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import io.atlasmap.qe.resources.ResourcesGenerator;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by mmelko on 30/10/2017.
  */
+@Slf4j
 public class MappingTest {
 
     private String mappingPath;

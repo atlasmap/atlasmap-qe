@@ -10,3 +10,4 @@
 **/package-lock.json
 **/.vscode
 datamapper-e2e/drivers/
+test.properties

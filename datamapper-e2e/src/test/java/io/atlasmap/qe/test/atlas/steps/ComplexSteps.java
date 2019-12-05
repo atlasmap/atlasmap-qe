@@ -2,14 +2,22 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import org.junit.Assert;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import io.atlasmap.qe.test.MappingValidator;
 import io.atlasmap.qe.test.TargetMappingTestClass;
+import io.atlasmap.qe.test.atlas.AtlasmapPage;
 
+public class ComplexSteps {
 
-public class ComplexSteps extends CucumberGlue {
+    @Autowired
+    private MappingValidator validator;
+
+    private AtlasmapPage atlasmapPage = new AtlasmapPage();
 
     private static UISteps uiSteps = new UISteps();
     private static BackendSteps backendSteps = new BackendSteps();

@@ -2,18 +2,18 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.openqa.selenium.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.NotFoundException;
-
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
 import io.atlasmap.qe.resources.ResourcesGenerator;
 import io.atlasmap.qe.test.DatesObject;
 import io.atlasmap.qe.test.MappingValidator;
@@ -24,8 +24,13 @@ import io.atlasmap.qe.test.TargetListsClass;
 import io.atlasmap.qe.test.TargetMappingTestClass;
 import io.atlasmap.qe.test.atlas.utils.Utils;
 import io.cucumber.datatable.DataTable;
+import lombok.extern.slf4j.Slf4j;
 
-public class BackendSteps extends CucumberGlue {
+@Slf4j
+public class BackendSteps {
+
+    @Autowired
+    private MappingValidator validator;
 
     @Given("^atlasmap is clean$")
     public void atlasmapIsClean() {
@@ -34,13 +39,6 @@ public class BackendSteps extends CucumberGlue {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        validator = new MappingValidator();
-    }
-
-    @Given("^atlasmap contains TestClass$")
-    public void atlasmapContainsTestClass() throws Exception {
-        String resp = Utils.requestClass(atlasmapPage.TEST_CLASS);
-        assertThat(resp).contains(atlasmapPage.TEST_CLASS);
     }
 
     @Then("^save mapping as \"([^\"]*)\"$")
@@ -78,17 +76,6 @@ public class BackendSteps extends CucumberGlue {
                 }
             }
         }
-    }
-
-    @And("^internal mapping is skipped$")
-    public void internalMappingIsSkipped() throws Throwable {
-        this.internalMapping = false;
-    }
-
-    @And("^internal mapping is set to \"([^\"]*)\"$")
-    public void internalMappingIsSetTo(String mapping) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        this.internalMapping = "true".equals(mapping);
     }
 
     @And("^verify if \"([^\"]*)\" is not \"([^\"]*)\" in \"([^\"]*)\"$")
@@ -329,8 +316,8 @@ public class BackendSteps extends CucumberGlue {
         String result = (String) validator.processMapping(expected);
          System.out.println(result);
          values.asList().forEach( value -> {
-            LOG.info("Checking " + value);
-            LOG.info ("result, {}, value: {}",result,value);
+            log.info("Checking " + value);
+            log.info ("result, {}, value: {}",result,value);
             assertThat(result).contains(value);
         });
     }

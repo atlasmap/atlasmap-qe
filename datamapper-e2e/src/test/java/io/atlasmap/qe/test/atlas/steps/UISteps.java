@@ -1,33 +1,42 @@
 package io.atlasmap.qe.test.atlas.steps;
 
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Map;
-import java.util.function.Consumer;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 import org.junit.Assert;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriverException;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.codeborne.selenide.WebDriverRunner;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
+import io.atlasmap.qe.test.MappingValidator;
+import io.atlasmap.qe.test.atlas.AtlasmapPage;
+import io.atlasmap.qe.test.atlas.utils.Utils;
 import io.cucumber.datatable.DataTable;
+import lombok.extern.slf4j.Slf4j;
 
-public class UISteps extends CucumberGlue {
+@Slf4j
+public class UISteps {
     private static String previousSelected = "";
 
     private Scenario myScenario;
+    private AtlasmapPage atlasmapPage = new AtlasmapPage();
+    private static boolean internalMapping = true;
+
+    @Autowired
+    private MappingValidator validator;
 
     @Before()
     public void embedScreenshotStep(Scenario scenario) {
@@ -41,7 +50,12 @@ public class UISteps extends CucumberGlue {
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
-        WebDriverRunner.closeWebDriver();
+    }
+
+    @Given("^atlasmap contains TestClass$")
+    public void atlasmapContainsTestClass() throws Exception {
+        String resp = Utils.requestClass(atlasmapPage.TEST_CLASS);
+        assertThat(resp).contains(atlasmapPage.TEST_CLASS);
     }
 
     @When("^set mapping from \"([^\"]*)\" to \"([^\"]*)\"$")
@@ -55,16 +69,27 @@ public class UISteps extends CucumberGlue {
 
     @Then("^browser is opened$")
     public void userOpensBrowser() throws Exception {
-        atlasmapPage.openBrowser();
+        atlasmapPage.refreshPage();
     }
 
     @And("^set mapping to \"([^\"]*)\" from \"([^\"]*)\"$")
     public void userSetsMappingToFrom(String target, String source) throws Throwable {
         this.atlasmapPage.clickOn(target);
         this.atlasmapPage.clickOn(source);
-        if (this.internalMapping) {
+        if (internalMapping) {
             this.validator.map(source, target);
         }
+    }
+
+    @And("^internal mapping is skipped$")
+    public void internalMappingIsSkipped() throws Throwable {
+        internalMapping = false;
+    }
+
+    @And("^internal mapping is set to \"([^\"]*)\"$")
+    public void internalMappingIsSetTo(String mapping) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        internalMapping = "true".equals(mapping);
     }
 
     @And("^set mapping condition to \"([^\"]*)\" by Control key$")

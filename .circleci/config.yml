@@ -56,9 +56,13 @@ jobs:
           paths:
             - ~/.m2
       - run:
+          name: Download drivers
+            ./mvnw clean install -DskipTests -Pdownload-drivers
+            command: |
+      - run:
           name: Execute tests
           command: |
-            ./mvnw test -Dselenide.headless=true -Dselenide.browser-size=1920x1080 -Dselenide.browser=Chrome -Dwebdriver.chrome.driver=/home/circleci/project/datamapper-e2e/drivers/chromedriver-linux-64bit  -Dui.path=http://127.0.0.1:8585/ -Dcucumber.options='--tags @SmokeTest' -P atlasmap-build
+            ./mvnw test -Dselenide.headless=true -Datlasmap.config.ui.browser=chrome -Dui.url=http://127.0.0.1:8585/ -Dcucumber.options='--tags @SmokeTest' -P atlasmap-build
       - run:
           name: Store Cucumber report
           when: always
@@ -72,5 +76,3 @@ jobs:
           key: atlasmap-e2e-qe-mvn-{{ checksum "pom.xml" }}
           paths:
             - ~/.m2
-
-

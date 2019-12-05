@@ -6,12 +6,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.open;
-
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -21,25 +15,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 
-import io.atlasmap.qe.test.atlas.steps.CucumberGlue;
-import io.atlasmap.qe.test.atlas.utils.Constants;
+import java.util.List;
 
+import io.atlasmap.qe.test.atlas.utils.TestConfiguration;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AtlasmapPage {
 
     public static final String TEST_CLASS = "SourceMappingTestClass";
-    private static final Logger LOG = LogManager.getLogger(AtlasmapPage.class);
 
-    public void openBrowser() {
-        System.setProperty("window-size", "1920,1080");
-        System.setProperty("selenide.chrome.switches", "--disable-web-security");
-
-        open(Constants.UI_INDEX_PATH);
+    public void refreshPage() {
+        Selenide.refresh();
         $(".pficon.pficon-export.link").waitUntil(appear, 15000);
         $(".fa.fa-plus.link").waitUntil(appear, 15000);
     }
@@ -54,7 +45,7 @@ public class AtlasmapPage {
     }
 
     public boolean checkWarning(String exceptionType, String fromType, String toType) {
-        LOG.debug("looking ...");
+        log.debug("looking ...");
 
         $("*[ class=\"alert alert-danger alert-dismissable\"").shouldBe(Condition.appears);
         List<SelenideElement> se = $$(".modal-message");
@@ -68,7 +59,7 @@ public class AtlasmapPage {
     }
 
     public boolean checkWarningContainMessage(String containsMessage) {
-        LOG.debug("looking ...");
+        log.debug("looking ...");
         $(".alert-warn").shouldBe(Condition.appears);
         for (String s : $$(".alert-warn").texts()) {
             if (s.contains(containsMessage)) {
@@ -79,7 +70,7 @@ public class AtlasmapPage {
     }
 
     public boolean checkDangerWarningContainMessage(String containsMessage) {
-        LOG.debug("looking ...");
+        log.debug("looking ...");
         $(".alert-danger").shouldBe(Condition.appears);
         for (String s : $$(".alert-danger").texts()) {
             if (s.contains(containsMessage)) {
@@ -90,7 +81,7 @@ public class AtlasmapPage {
     }
 
     public void checkWarnings() {
-        LOG.debug("looking ...");
+        log.debug("looking ...");
         $(".alert-warn").shouldNot(Condition.appears);
     }
 
@@ -151,6 +142,7 @@ public class AtlasmapPage {
         input.sendKeys(value);
         input.parent().$$(By.tagName("a")).filter(text(value)).get(0).click();
     }
+
 
     public void clickOnValueFromPicker(String pickerClass, String value) {
         SelenideElement pickerValue = $(By.className(pickerClass)).$$("div").filter(text(value)).get(0);
@@ -218,7 +210,7 @@ public class AtlasmapPage {
         setInputValueByClass("form-control", className);
         clickOnButtonByText("OK");
         $(By.id(className)).waitUntil(appear, 15000);
-        LOG.info("Class successfully enabled: " + className);
+        log.info("Class successfully enabled: " + className);
     }
 
     public void enableSourceDocument(String path) {
@@ -236,7 +228,7 @@ public class AtlasmapPage {
      */
     private void checkIfDocumentAppeared(String path) {
         $(By.id(path.substring(path.lastIndexOf("/") + 1).split("\\.")[0])).waitUntil(appear, 15000);
-        LOG.info("File successfully imported: " + path);
+        log.info("File successfully imported: " + path);
     }
 
     public void clickOnWhileHolding(String id, String cmd) {
@@ -244,7 +236,7 @@ public class AtlasmapPage {
         SelenideElement e = $(By.id(id)).shouldBe(visible);
         Keys k = Keys.LEFT_CONTROL;
 
-        if (CucumberGlue.isMac) {
+        if (System.getProperty("os.name").toLowerCase().indexOf("mac") >=0) {
             k = Keys.COMMAND;
         }
 
@@ -298,7 +290,7 @@ public class AtlasmapPage {
     public void addConstant(String type, String value) {
         SelenideElement e = $(By.id("Constants"));
         e.$(".fa.fa-plus.link").click();
-        SelenideElement textInput = $(By.id("name")).waitUntil(visible, Constants.WAIT_TIMEOUT);
+        SelenideElement textInput = $(By.id("name")).waitUntil(visible, TestConfiguration.getWaitTimeout());
         textInput.sendKeys(value);
         SelenideElement select = $(By.tagName("select")).shouldHave(Condition.value("String"));
         // System.out.println(select.toString());
@@ -309,8 +301,8 @@ public class AtlasmapPage {
     public void addProperty(String type, String name, String value) {
         SelenideElement e = $(By.id("Properties"));
         e.$(".fa.fa-plus.link").click();
-        $(By.id("name")).waitUntil(visible, Constants.WAIT_TIMEOUT).sendKeys(name);
-        $(By.id("value")).waitUntil(visible, Constants.WAIT_TIMEOUT).sendKeys(value);
+        $(By.id("name")).waitUntil(visible, TestConfiguration.getWaitTimeout()).sendKeys(name);
+        $(By.id("value")).waitUntil(visible, TestConfiguration.getWaitTimeout()).sendKeys(value);
         $(By.tagName("select")).shouldHave(Condition.value("String")).selectOption(type);
         $$(By.tagName("button")).findBy(text("Save")).click();
     }

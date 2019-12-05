@@ -1,11 +1,5 @@
 package io.atlasmap.qe.test.atlas.utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Comparator;
-import java.util.Optional;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
@@ -15,12 +9,18 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.io.Files;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.Optional;
+
 /**
  * Created by mmelko on 16/11/2017.
  */
 public class Utils {
 
-    private static final String JAVA_SERVICE = Constants.BACKEND_URL + "/v2/atlas/java/";
+    private static final String JAVA_SERVICE = TestConfiguration.getBackendUrl() + "/v2/atlas/java/";
     private static final Logger LOG = LogManager.getLogger(Utils.class);
 
     // directory with AtlasMap mappings
@@ -49,7 +49,7 @@ public class Utils {
         Optional<File> oldMapping = FileUtils.listFiles(mappings, new WildcardFileFilter("*.json"), TrueFileFilter.TRUE)
                 .stream().max(Comparator.comparingLong(File::lastModified));
 
-        File newMapping = new File(System.getProperty("user.dir") + "/" + Constants.MAPPINGS_PATH + "/" + newName);
+        File newMapping = new File(System.getProperty("user.dir") + "/" + TestConfiguration.getMappingsPath() + "/" + newName);
 
         newMapping.getParentFile().mkdirs();
         newMapping.createNewFile();

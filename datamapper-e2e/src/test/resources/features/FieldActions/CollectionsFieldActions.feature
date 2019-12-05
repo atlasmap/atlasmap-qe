@@ -14,7 +14,7 @@ Feature: collection related field actions
 #    Done Collection -> single
 
   @CollectionTest
-  Scenario Outline: Collection -> simgle mapping with <transformation> transformation
+  Scenario Outline: Collection -> simple mapping with <transformation> transformation
     When add mapping from "<source>" to "<target>"
     And add "<transformation>" collection transformation
     And set "<value>" value in target's "<target>"

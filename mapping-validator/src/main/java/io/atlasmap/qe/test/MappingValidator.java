@@ -3,10 +3,6 @@ package io.atlasmap.qe.test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.camel.CamelContext;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
@@ -15,15 +11,18 @@ import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Component;
+
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.atlasmap.qe.resources.ResourcesGenerator;
-
-
 
 /**
  * Created by mmelko on 15/11/2017.
  */
-
+@Component
 public class MappingValidator {
     private static final Logger LOG = LogManager.getLogger(MappingValidator.class);
     public static final String SOURCE_MAP = "SOURCE_MAP";

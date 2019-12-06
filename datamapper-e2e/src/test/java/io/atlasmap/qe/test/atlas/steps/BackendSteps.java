@@ -39,6 +39,7 @@ public class BackendSteps {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        validator.initializeValues();
     }
 
     @Then("^save mapping as \"([^\"]*)\"$")

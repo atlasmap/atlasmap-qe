@@ -35,6 +35,10 @@ public class MappingValidator {
     private Map<String, Object> sourceMap;
 
     public MappingValidator() {
+        initializeValues();
+    }
+
+    public void initializeValues() {
         source = new SourceMappingTestClass();
         target = new TargetMappingTestClass();
         expectedMap = new HashMap<>();

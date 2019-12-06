@@ -96,6 +96,7 @@ public class CustomWebDriverProvider implements WebDriverProvider {
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", preferences);
         options.addArguments("--no-sandbox");
+        options.setHeadless(TestConfiguration.getSelenideHeadless());
 
         /* this version of constructor is deprecated :( how can we add those DesiredCapabilities? it is not used for now
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
@@ -141,6 +142,7 @@ public class CustomWebDriverProvider implements WebDriverProvider {
         firefoxOptions.addPreference("extensions.update.autoUpdateDefault", false);
         firefoxOptions.addPreference("extensions.logging.enabled", false);
         firefoxOptions.addPreference("lightweightThemes.update.enabled", false);
+        firefoxOptions.setHeadless(TestConfiguration.getSelenideHeadless());
 
         return new FirefoxDriver(firefoxOptions);
     }

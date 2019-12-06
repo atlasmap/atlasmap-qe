@@ -25,6 +25,8 @@ public class TestConfiguration {
 
     public static final String ATLASMAP_UI_BROWSER = "atlasmap.config.ui.browser";
 
+    public static final String SELENIDE_HEADLESS = "selenide.headless";
+
     private static final TestConfiguration INSTANCE = new TestConfiguration();
 
     private final Properties properties = new Properties();
@@ -76,6 +78,8 @@ public class TestConfiguration {
     public static long getWaitTimeout() {
         return Long.parseLong(get().readValue(WAIT_TIMEOUT, "5000"));
     }
+
+    public static boolean getSelenideHeadless() { return Boolean.parseBoolean(get().readValue(SELENIDE_HEADLESS, "false")); }
 
     public static int getConfigTimeout() {
         return Integer.parseInt(get().readValue(TESTSUITE_TIMEOUT, "10"));

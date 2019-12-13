@@ -9,7 +9,6 @@ import org.junit.Assert;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriverException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -21,22 +20,18 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import io.atlasmap.qe.test.MappingValidator;
 import io.atlasmap.qe.test.atlas.AtlasmapPage;
 import io.atlasmap.qe.test.atlas.utils.Utils;
 import io.cucumber.datatable.DataTable;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class UISteps {
+public class UISteps extends CucumberGlue {
     private static String previousSelected = "";
 
     private Scenario myScenario;
     private AtlasmapPage atlasmapPage = new AtlasmapPage();
     private static boolean internalMapping = true;
-
-    @Autowired
-    private MappingValidator validator;
 
     @Before()
     public void embedScreenshotStep(Scenario scenario) {

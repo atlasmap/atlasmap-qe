@@ -90,10 +90,10 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
   @SmokeTest
   @XmlToJson
   Scenario: mapping from XML to JSON
-    When add mapping from "/SourceXmlMappingSchema/sourceXmlInteger" to "targetJsonInteger"
-    And add mapping from "/SourceXmlMappingSchema/sourceXmlString" to "targetJsonString"
-    And add mapping from "/SourceXmlMappingSchema/sourceXmlShort" to "targetJsonFloat"
-    And add mapping from "/SourceXmlMappingSchema/sourceXmlDouble" to "targetJsonDouble"
+    When add mapping from "/SourceXmlMappingSchema/sourceXMLInteger" to "targetJsonInteger"
+    And add mapping from "/SourceXmlMappingSchema/sourceXMLString" to "targetJsonString"
+    And add mapping from "/SourceXmlMappingSchema/sourceXMLShort" to "targetJsonFloat"
+    And add mapping from "/SourceXmlMappingSchema/sourceXMLDouble" to "targetJsonDouble"
     Then save mapping as "flatJavaToJSon.json" and verify "targetJson" with
       | "targetJsonInteger":300 | "targetJsonString":"XmlString" |
 

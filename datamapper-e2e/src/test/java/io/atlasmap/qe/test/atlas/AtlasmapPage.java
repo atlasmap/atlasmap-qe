@@ -3,6 +3,7 @@ package io.atlasmap.qe.test.atlas;
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.textCaseSensitive;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -140,7 +141,7 @@ public class AtlasmapPage {
         input.scrollIntoView(true);
         Thread.sleep(500);
         input.sendKeys(value);
-        input.parent().$$(By.tagName("a")).filter(text(value)).get(0).click();
+        input.parent().$$(By.tagName("a")).filter(textCaseSensitive(value)).get(0).click();
     }
 
 

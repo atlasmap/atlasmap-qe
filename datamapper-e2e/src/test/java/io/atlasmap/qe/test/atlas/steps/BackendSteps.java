@@ -3,7 +3,6 @@ package io.atlasmap.qe.test.atlas.steps;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.openqa.selenium.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -16,7 +15,6 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.atlasmap.qe.resources.ResourcesGenerator;
 import io.atlasmap.qe.test.DatesObject;
-import io.atlasmap.qe.test.MappingValidator;
 import io.atlasmap.qe.test.SmallMappingTestClass;
 import io.atlasmap.qe.test.SourceListsClass;
 import io.atlasmap.qe.test.StringObject;
@@ -27,10 +25,7 @@ import io.cucumber.datatable.DataTable;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class BackendSteps {
-
-    @Autowired
-    private MappingValidator validator;
+public class BackendSteps extends CucumberGlue {
 
     @Given("^atlasmap is clean$")
     public void atlasmapIsClean() {

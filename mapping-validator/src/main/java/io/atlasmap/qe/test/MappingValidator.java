@@ -11,7 +11,6 @@ import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -22,7 +21,6 @@ import io.atlasmap.qe.resources.ResourcesGenerator;
 /**
  * Created by mmelko on 15/11/2017.
  */
-@Component
 public class MappingValidator {
     private static final Logger LOG = LogManager.getLogger(MappingValidator.class);
     public static final String SOURCE_MAP = "SOURCE_MAP";

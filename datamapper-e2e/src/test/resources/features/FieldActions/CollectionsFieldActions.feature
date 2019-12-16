@@ -82,7 +82,7 @@ Feature: collection related field actions
   Scenario: item at transformation
     When set mapping from "integers" to "targetString"
     When add "Item At" collection transformation
-    And for "input-index" input set "5"
+    And set "Index" for transformation to "5"
     And set "6" value in target's "targetString"
     Then save and verify mapping as "collection_itemAt.json"
 
@@ -104,16 +104,16 @@ Feature: collection related field actions
   Scenario Outline: simple  between collections
     When add mapping from "<from>" to "<to>"
     And add "<transformation>" transformation on "<source/target>"
-    And for "<input>" input set "<input-value>"
+    And set "<input-field>" for transformation to "<input-value>"
     And sleep for "2000"
     Then save and verify collections mappings in "<transformation>Collection.json" "<expectedValue>" value is presented in "<to>" collection
 
     Examples:
-      | transformation | from     | to        | input        | input-value | expectedValue                                                                                                         | source/target |
-      | Prepend        | /strings | /strings  | input-string | blah        | [blahString1, blahString2, blahString3, blahString4, blahString5, blahString6, blahString7, blahString8, blahString9] | target        |
-      | Append         | /floats  | /strings  | input-string | ->          | [1.0->, 2.0->, 3.0->, 4.0->, 5.0->, 6.0->, 7.0->, 8.0->, 9.0->]                                                       | target        |
-      | Replace First  | /strings | /integers | input-match  | String      | [1, 2, 3, 4, 5, 6, 7, 8, 9]                                                                                           | source        |
-      | Index Of       | /strings | /floats   | input-string | t           | [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]                                                                         | source        |
+      | transformation | from     | to        | input-field | input-value | expectedValue                                                                                                         | source/target |
+      | Prepend        | /strings | /strings  | String      | blah        | [blahString1, blahString2, blahString3, blahString4, blahString5, blahString6, blahString7, blahString8, blahString9] | target        |
+      | Append         | /floats  | /strings  | String      | ->          | [1.0->, 2.0->, 3.0->, 4.0->, 5.0->, 6.0->, 7.0->, 8.0->, 9.0->]                                                       | target        |
+      | Replace First  | /strings | /integers | Match       | String      | [1, 2, 3, 4, 5, 6, 7, 8, 9]                                                                                           | source        |
+      | Index Of       | /strings | /floats   | String      | t           | [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]                                                                         | source        |
   #TODO investigate Contains, Equals, length etc
      # | Contains       | /strings | /strings  | input-value  | 2           | [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]                                                                         | source        |
 

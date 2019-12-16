@@ -22,17 +22,17 @@ Feature: Date related field actions
   Scenario Outline: simple date transformation: <transformation> on <source/target>
     When add mapping from "<source>" to "targetDate"
     And add "<transformation>" transformation on "<source/target>"
-    And for "<input>" input set "<inputValue>"
+    And set "<input>" for transformation to "<input-value>"
     And set "<targetValue>" value in target's "targetDate"
     And init DateObject "21-12-2012"
     Then save and verify mapping as "<transformation>.json"
 
     #Add seconds not present currently
     Examples:
-      | transformation | source         | input         | inputValue | targetValue      | source/target |
-      | Add Days        | sourceDate     | input-days    | 5          | 1970-01-06-00:00 | source        |
-     # | Add Seconds     | sourceDate     | input-seconds | 86400      | 1970-01-02-00:00 | target        |
-      | Add Days        | /localDateTime | input-days    | 5          | 2012-12-26-00:00 | source        |
- #     | Add Seconds     | /localDateTime | input-seconds | 86400      | 2012-12-22-00:00 | target        |
-      | Add Days        | /timestamp     | input-days    | 5          | 2012-12-26-00:00 | source        |
-  #    | Add Seconds     | /timestamp     | input-seconds | 86400      | 2012-12-22-00:00 | target        |
+      | transformation | source          | input | input-value | targetValue      | source/target |
+      | Add Days        | sourceDate     | Days  | 5           | 1970-01-06-00:00 | source        |
+      | Add Days        | /localDateTime | Days  | 5           | 2012-12-26-00:00 | source        |
+      | Add Days        | /timestamp     | Days  | 5           | 2012-12-26-00:00 | source        |
+  #   | Add Seconds     | /localDateTime | input-seconds | 86400      | 2012-12-22-00:00 | target        |
+  #   | Add Seconds     | sourceDate     | input-seconds | 86400      | 1970-01-02-00:00 | target        |
+  #   | Add Seconds     | /timestamp     | input-seconds | 86400      | 2012-12-22-00:00 | target        |

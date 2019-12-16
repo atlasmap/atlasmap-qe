@@ -54,10 +54,10 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
     Then save and verify mapping as "flatXmlToJava.json"
 
   Scenario: mapping from XML schema to Java
-    When add mapping from "/SourceXmlMappingSchema/sourceXmlInteger" to "targetInteger"
-    And add mapping from "/SourceXmlMappingSchema/sourceXmlString" to "targetString"
-    And add mapping from "/SourceXmlMappingSchema/sourceXmlShort" to "targetDouble"
-    And add mapping from "/SourceXmlMappingSchema/sourceXmlDouble" to "targetFloat"
+    When add mapping from "/SourceXmlMappingSchema/sourceXMLInteger" to "targetInteger"
+    And add mapping from "/SourceXmlMappingSchema/sourceXMLString" to "targetString"
+    And add mapping from "/SourceXmlMappingSchema/sourceXMLShort" to "targetDouble"
+    And add mapping from "/SourceXmlMappingSchema/sourceXMLDouble" to "targetFloat"
 
     And set expected data
       | targetString | targetInteger | targetDouble | targetFloat |

@@ -63,45 +63,46 @@ Feature: conversion from string
   @StringFieldActionsWithInputs
   Scenario Outline: transformations with inputs: <transformation> on <source/target>
     When add "<transformation>" transformation on "<source/target>"
-    And for "<input-1>" input set "<input-1-value>"
-    And for "<input-2>" input set "<input-2-value>"
+    And set "<input-1>" for transformation to "<input-1-value>"
+    And set "<input-2>" for transformation to "<input-2-value>"
     Then save and verify "<transformation>.json" with
       | sourceString | targetString |
       | <source>     | <target>     |
 
     Examples:
-      | source/target | transformation   | input-1            | input-1-value | input-2          | input-2-value | source                       | target              |
-      | target        | Append           | input-string       | bar           | N/A              | N/A           | FOO                          | FOObar              |
-      | target        | Pad String Left  | input-padCharacter | -             | input-padCount   | 3             | FooBar                       | ---FooBar           |
-      | source        | Pad String Left  | input-padCharacter | -             | input-padCount   | 3             | FooBar                       | ---FooBar           |
-      | target        | Pad String Left  | input-padCharacter | -             | input-padCount   | 0             | FooBar                       | FooBar              |
-      | source        | Pad String Left  | input-padCharacter | -             | input-padCount   | 0             | FooBar                       | FooBar              |
-      | target        | Pad String Right | input-padCharacter | -             | input-padCount   | 3             | FooBar                       | FooBar---           |
-      | source        | Pad String Right | input-padCharacter | -             | input-padCount   | 3             | FooBar                       | FooBar---           |
-      | target        | Prepend          | input-string       | bar           | N/A              | N/A           | FOO                          | barFOO              |
-      | source        | Prepend          | input-string       | bar           | N/A              | N/A           | FOO                          | barFOO              |
-      | source        | Prepend          | input-string       | bar           | N/A              | N/A           |                              | bar                 |
-      | target        | Replace All      | input-match        | DASH          | input-newString  | -             | ThisDASHisDASHtestDASHstring | This-is-test-string |
-      | source        | Replace All      | input-match        | DASH          | input-newString  | -             | ThisDASHisDASHtestDASHstring | This-is-test-string |
-      | target        | Replace First    | input-match        | DASH          | input-newString  | -             | FooDASHBarDASHFoo            | Foo-BarDASHFoo      |
-      | source        | Replace First    | input-match        | DASH          | input-newString  | -             | FooDASHBarDASHFoo            | Foo-BarDASHFoo      |
-      | target        | Sub String       | input-endIndex     | 4             | input-startIndex | 1             | FFoobarff                    | Foo                 |
-      | source        | Sub String       | input-endIndex     | 4             | input-startIndex | 1             | FFoobarff                    | Foo                 |
+      | source/target | transformation   | input-1       | input-1-value | input-2     | input-2-value | source                       | target              |
+      | target        | Append           | String        | bar           | N/A         | N/A           | FOO                          | FOObar              |
+      | target        | Pad String Left  | Pad Character | -             | Pad Count   | 3             | FooBar                       | ---FooBar           |
+      | source        | Pad String Left  | Pad Character | -             | Pad Count   | 3             | FooBar                       | ---FooBar           |
+      | target        | Pad String Left  | Pad Character | -             | Pad Count   | 0             | FooBar                       | FooBar              |
+      | source        | Pad String Left  | Pad Character | -             | Pad Count   | 0             | FooBar                       | FooBar              |
+      | target        | Pad String Right | Pad Character | -             | Pad Count   | 3             | FooBar                       | FooBar---           |
+      | source        | Pad String Right | Pad Character | -             | Pad Count   | 3             | FooBar                       | FooBar---           |
+      | target        | Prepend          | String        | bar           | N/A         | N/A           | FOO                          | barFOO              |
+      | source        | Prepend          | String        | bar           | N/A         | N/A           | FOO                          | barFOO              |
+      | source        | Prepend          | String        | bar           | N/A         | N/A           |                              | bar                 |
+      | target        | Replace All      | Match         | DASH          | New String  | -             | ThisDASHisDASHtestDASHstring | This-is-test-string |
+      | source        | Replace All      | Match         | DASH          | New String  | -             | ThisDASHisDASHtestDASHstring | This-is-test-string |
+      | target        | Replace First    | Match         | DASH          | New String  | -             | FooDASHBarDASHFoo            | Foo-BarDASHFoo      |
+      | source        | Replace First    | Match         | DASH          | New String  | -             | FooDASHBarDASHFoo            | Foo-BarDASHFoo      |
+      | target        | Sub String       | End Index     | 4             | Start Index | 1             | FFoobarff                    | Foo                 |
+      | source        | Sub String       | End Index     | 4             | Start Index | 1             | FFoobarff                    | Foo                 |
+
 
   Scenario: Substring after from input string
     When add "Sub String After" transformation on "target"
-    And for "input-endIndex" input set "5"
-    And for "input-startIndex" input set "0"
-    And for "input-match" input set "middle"
+    And set "End Index" for transformation to "5"
+    And set "Start Index" for transformation to "0"
+    And set "Match" for transformation to "middle"
     Then save and verify "SubstringAfter.json" with
       | sourceString          | targetString |
       | fooleftmiddlerightbar | right        |
 
   Scenario: Substring before
     And add "Sub String Before" transformation on "source"
-    And for "input-endIndex" input set "6"
-    And for "input-startIndex" input set "3"
-    And for "input-match" input set "blah"
+    And set "End Index" for transformation to "6"
+    And set "Start Index" for transformation to "3"
+    And set "Match" for transformation to "blah"
     Then save and verify "SubstringBefore.json" with
       | sourceString | targetString |
       | foobarblah   | bar          |

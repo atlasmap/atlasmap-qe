@@ -142,20 +142,6 @@ public class UISteps extends CucumberGlue {
         this.atlasmapPage.clickOnButtonByText(arg0);
     }
 
-    @And("select {string} transformation")
-    public void selectTransformation(String arg0) throws Throwable {
-        this.atlasmapPage.selectTransformation(arg0, "Append");
-        Thread.sleep(1000);
-
-    }
-
-    @And("for {string} input set {string}")
-    public void putValueIn(String inputSelector, String inputValue) throws Throwable {
-        if (!inputSelector.contains("N/A") && !inputValue.contains("N/A")) {
-            this.atlasmapPage.setInputValueByClass(inputSelector, inputValue);
-        }
-    }
-
     @When("click on {string}")
     public void clickOn(String arg0) throws Throwable {
         this.atlasmapPage.clickOn(arg0);
@@ -176,12 +162,6 @@ public class UISteps extends CucumberGlue {
         this.atlasmapPage.addToMapping(field, true);
     }
 
-    @When("select {string} separator")
-    public void selectSeparator(String separator) throws Throwable {
-        this.atlasmapPage.selectSeparator(separator);
-        Thread.sleep(1000);
-    }
-
     @And("for {string} input with {string} set {string}")
     public void forInputWithSet(String id, String def, String value) throws Throwable {
         this.atlasmapPage.setInputValueByClassAndDefaultValue(id, def, value);
@@ -191,12 +171,6 @@ public class UISteps extends CucumberGlue {
     public void addToSeparate(String field) throws Throwable {
         atlasmapPage.addToMapping(field,false);
         //atlasmapPage.verifyThatIpnutExist("input-target-" + field);
-    }
-
-    @When("select {string} number transformation")
-    public void selectNumberTransformation(String arg0) {
-        atlasmapPage.selectTransformation(arg0, "AbsoluteValue");
-
     }
 
     @And("open mapping details window")
@@ -216,11 +190,6 @@ public class UISteps extends CucumberGlue {
     @And("reveal mapping details")
     public void revealMappingDetails() {
         atlasmapPage.clickOnLinkByClass(".fa.fa-edit.link");
-    }
-
-    @When("change transformation from {string} to {string}")
-    public void changeTransformationFromTo(String defaultValue, String newValue) {
-        this.atlasmapPage.selectTransformation(newValue, defaultValue);
     }
 
     @And("add mapping from {string} to {string}")
@@ -306,27 +275,10 @@ public class UISteps extends CucumberGlue {
         this.atlasmapPage.setInputValueForFieldPreview(field, value);
     }
 
-    @Then("verify preview of {string} transformation from {string} with value {string} is transformed to {string} in {string}")
-    public void verifyPreviewOfTransformationFromWithValueIsTransformedToIn(String transformation, String sourceField, String sourceValue, String targetValue, String targetField) {
-        this.atlasmapPage.addTransformationToTargetOrSource(transformation, true);
-        this.atlasmapPage.setInputValueForFieldPreview(sourceField, sourceValue);
-        this.atlasmapPage.setInputValueForFieldPreview(sourceField, sourceValue);
-        this.atlasmapPage.clickOn(targetField);
-        String preview = this.atlasmapPage.getFieldPreviewValue(targetField);
-        Assert.assertEquals(targetValue, preview);
-
-    }
-
     @And("check if danger warning contains {string} message")
     public void checkIfDangerWarningContainsMessage(String message) {
         Assert.assertTrue(this.atlasmapPage.checkDangerWarningContainMessage(message));
     }
-
-    @And("add transformation on target")
-    public void addTransformationOnTarget() {
-        this.atlasmapPage.clickOnTargets(".fa.fa-long-arrow-right");
-    }
-
 
     @Then("take a screenshot")
     public void takeAscreenshot() {
@@ -350,27 +302,6 @@ public class UISteps extends CucumberGlue {
     @When("set {string} property of {string} type and {string} value")
     public void setPropertyWithTypeAndValue(String name, String type, String value) {
         atlasmapPage.addProperty(type, name, value);
-    }
-
-    @When("add transformation on {string}")
-    public void addTransformationOn(String sourceTarget) {
-        final boolean isSource = sourceTarget.equals("source");
-        atlasmapPage.addTransformationToTargetOrSource("Capitalize", isSource);
-    }
-
-    @When("add {string} transformation on {string}")
-    public void addTransformationOn(String transformation, String sourceTarget) {
-        final boolean isSource = sourceTarget.equals("source");
-        atlasmapPage.addTransformationToTargetOrSource(transformation, isSource);
-    }
-
-    @And("set from {string} to {string} units on {string}")
-    public void setFromToUnitsOn(String from, String to, String sourceTarget) {
-        final boolean isSource = sourceTarget.equals("source");
-        atlasmapPage.selectOptionOnIndex(from, 1, isSource);
-        atlasmapPage.selectOptionOnIndex(to, 2, isSource);
-
-
     }
 
     @And("reveal mapping table")
@@ -419,11 +350,5 @@ public class UISteps extends CucumberGlue {
     @And("change index of {string} to \"{int}\" on {string}")
     public void changeIndexOfToOn(String field, int value, String src) throws Throwable {
         this.atlasmapPage.changeIndexValue(field, value, "source".equals(src));
-    }
-
-    @And("add {string} collection transformation")
-    public void addCollectionTransformationOn(String transformation) {
-        atlasmapPage.addCollectionTransformation(transformation);
-
     }
 }

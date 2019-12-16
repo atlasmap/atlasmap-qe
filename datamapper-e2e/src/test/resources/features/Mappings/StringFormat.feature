@@ -15,7 +15,7 @@ Feature: atlasmap is able to combine multiple inputs into one formatted string
     And click on "<source2>" holding cmd button
     And click on "targetCombineString"
     And add "Format" collection transformation
-    And for "input-template" input set "<template>"
+    And set "Template" for transformation to "<template>"
 
     And set source data
       | <source1>      | <source2>      |
@@ -47,7 +47,7 @@ Feature: atlasmap is able to combine multiple inputs into one formatted string
     And click on "sourceInteger" holding cmd button
     And click on "targetCombineString"
     And add "Format" collection transformation
-    And for "input-template" input set "%s %s %d"
+    And set "Template" for transformation to "%s %s %d"
 
     And set source data
       | sourceString   | sourceAnotherString | sourceInteger |

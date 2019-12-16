@@ -12,12 +12,12 @@ public class ComplexSteps extends CucumberGlue {
 
     private AtlasmapPage atlasmapPage = new AtlasmapPage();
 
-    private static UISteps uiSteps = new UISteps();
+    private static TransformationSteps transformationSteps = new TransformationSteps();
     private static BackendSteps backendSteps = new BackendSteps();
 
     @When("verify in {string} transformation that  {string} is transformed to {string}")
     public void verifyInTransformationThatIsTransformedTo(String transformation, String input, String output) throws Throwable {
-        uiSteps.selectTransformation(transformation);
+        transformationSteps.selectTransformation(transformation);
         this.validator.setSourceValue("sourceString", input);
         this.validator.setTargetValue("targetString", output);
         if ("Normalize".equals(transformation)) {
@@ -53,7 +53,7 @@ public class ComplexSteps extends CucumberGlue {
 
     @Then("verify in {string} on {string} transformation that  {string} is transformed to {string}")
     public void verifyInOnTransformationThatIsTransformedTo(String transformation, String source, String input, String output) throws Throwable {
-        uiSteps.addTransformationOn(transformation,source);
+        transformationSteps.addTransformationOn(transformation,source);
         this.validator.setSourceValue("sourceString", input);
         this.validator.setTargetValue("targetString", output);
         if ("Normalize".equals(transformation)) {

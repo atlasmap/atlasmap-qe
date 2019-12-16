@@ -108,8 +108,8 @@ Feature: Mappings of collections
     And click on "value"
     And  set "/targetSmallMappingTestClass/listOfIntegers" as "target"
     And add "Replace First" transformation on "source"
-    And for "input-match" input set "v"
-    And for "input-newString" input set ""
+    And set "Match" for transformation to "v"
+    And set "New String" for transformation to ""
     And Init smallMappingTestClass and add to source map
     Then save and verify that "listOfStrings" contains "listOfIntegers" as "repetitive12.json"
     Then save and verify that "listOfIntegers" contains "listOfIntegers" as "repetitive12.json"

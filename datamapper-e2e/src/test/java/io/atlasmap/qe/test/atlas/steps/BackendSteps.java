@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BackendSteps extends CucumberGlue {
 
-    @Given("^atlasmap is clean$")
+    @Given("atlasmap is clean")
     public void atlasmapIsClean() {
         try {
             Utils.cleanMappingFolder();
@@ -37,20 +37,20 @@ public class BackendSteps extends CucumberGlue {
         validator.initializeValues();
     }
 
-    @Then("^save mapping as \"([^\"]*)\"$")
+    @Then("save mapping as {string}")
     public void userSavesMappingAs(String arg1) throws Exception {
         Thread.sleep(1000);
         String mappingLocation = Utils.moveMapping(arg1);
         validator.setMappingLocation(arg1);
     }
 
-    @And("^verify \"([^\"]*)\"$")
+    @And("verify {string}")
     public void verify(String arg0) throws Throwable {
         assertThat(validator.verifyMapping()).isTrue();
 
     }
 
-    @When("^set source data$")
+    @When("set source data")
     public void setsSourceData(DataTable sourceMappingData) throws Throwable {
         //SourceMappingTestClass source = new SourceMappingTestClass();
         for (Map<String, String> source : sourceMappingData.asMaps()) {
@@ -60,7 +60,7 @@ public class BackendSteps extends CucumberGlue {
         }
     }
 
-    @And("^set expected data$")
+    @And("set expected data")
     public void setsExpectedData(DataTable targetMappingData) throws Throwable {
         for (Map<String, String> source : targetMappingData.asMaps()) {
             for (String field : source.keySet()) {
@@ -74,7 +74,7 @@ public class BackendSteps extends CucumberGlue {
         }
     }
 
-    @And("^verify if \"([^\"]*)\" is not \"([^\"]*)\" in \"([^\"]*)\"$")
+    @And("verify if {string} is not {string} in {string}")
     public void verifyIfIsNotIn(String field, String value, String path) throws Throwable { //
         // Assert.assertTrue(validator.verifyMapping());
         TargetMappingTestClass processed = this.validator.processMapping();
@@ -82,18 +82,18 @@ public class BackendSteps extends CucumberGlue {
 
     }
 
-    @Then("^save and verify mapping as \"([^\"]*)\"$")
+    @Then("save and verify mapping as {string}")
     public void saveAndVerifyMappingAs(String arg0) throws Throwable {
         userSavesMappingAs(arg0);
         assertThat(validator.verifyMapping()).isTrue();
     }
 
-    @And("^set \"([^\"]*)\" value in source's \"([^\"]*)\"$")
+    @And("set {string} value in source's {string}")
     public void setValueInSource(String value, String field) throws Throwable {
         this.validator.setSourceValue(field, value);
     }
 
-    @And("^set \"([^\"]*)\" value in target's \"([^\"]*)\"$")
+    @And("set {string} value in target's {string}")
     public void setValueInTarget(String value, String field) throws Throwable {
         if (field.contains("Char")) {
             this.validator.setTargetValue(field, value.charAt(0));
@@ -102,7 +102,7 @@ public class BackendSteps extends CucumberGlue {
         }
     }
 
-    @And("^save and verify \"([^\"]*)\" with$")
+    @And("save and verify {string} with")
     public void verifyValuesPositive(String mapping, DataTable testValues) throws Exception {
         verifyMultipleValues(mapping, testValues, true);
     }
@@ -120,19 +120,19 @@ public class BackendSteps extends CucumberGlue {
         }
     }
 
-    @And("^sleep for \"([^\"]*)\"$")
+    @And("sleep for \"{int}\"")
     public void sleepFor(int arg0) throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         Thread.sleep(arg0);
     }
 
-    @Then("^save \"([^\"]*)\" verify negative with$")
+    @Then("save {string} verify negative with")
     public void saveVerifyNegativeWith(String mapping, DataTable testValues) throws Throwable {
         verifyMultipleValues(mapping, testValues, false);
     }
 
 
-    @And("^Add StringObject to expected map with \"([^\"]*)\", \"([^\"]*)\" values$")
+    @And("Add StringObject to expected map with {string}, {string} values")
     public void addStringObjectToExpedtedMapWithAndValues(String arg0, String arg1) throws Throwable {
         StringObject so = new StringObject();
         so.setFirstName(arg0);
@@ -141,19 +141,19 @@ public class BackendSteps extends CucumberGlue {
         validator.getExpectedMap().put(so.getClass().getName(), so);
     }
 
-    @Then("^save and verify mapping with multiple objects as \"([^\"]*)\"$")
+    @Then("save and verify mapping with multiple objects as {string}")
     public void saveAndVerifyMappingWithMultipleObjectsAs(String arg0) throws Throwable {
         userSavesMappingAs(arg0);
         assertThat(validator.verifyMultiObjectMapping()).isTrue();
     }
 
-    @And("^Init smallMappingTestClass and add to source map$")
+    @And("Init smallMappingTestClass and add to source map")
     public void initSmallMappingTestClassAndAddToSourceMap() throws Throwable {
         final SmallMappingTestClass s = new SmallMappingTestClass();
         validator.addSource(s.getClass().getName(), s);
     }
 
-    @Then("^save and verify repeating mapping of ListClasses as \"([^\"]*)\"$")
+    @Then("save and verify repeating mapping of ListClasses as {string}")
     public void saveAndVerifyMappingOfListClassesAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
 
@@ -169,7 +169,7 @@ public class BackendSteps extends CucumberGlue {
         }
     }
 
-    @And("^init DateObject \"([^\"]*)\"$")
+    @And("init DateObject {string}")
     public void initDateObject(String date) throws Throwable {
         DatesObject d = new DatesObject(date);
         // System.out.println(d.toString());
@@ -179,7 +179,7 @@ public class BackendSteps extends CucumberGlue {
 
     }
 
-    @Then("^save and verify mapping from \"([^\"]*)\" to datetypes as \"([^\"]*)\"$")
+    @Then("save and verify mapping from {string} to datetypes as {string}")
     public void saveAndVerifyMappingFromToDatetypesAs(String source, String mapping) throws Throwable {
         //   Thread.sleep(00);
         userSavesMappingAs(mapping);
@@ -201,7 +201,7 @@ public class BackendSteps extends CucumberGlue {
        assertThat(validator.verifyMultiObjectMapping()).isTrue();
     }
 
-    @Then("^save and verify datetypes mapping as \"([^\"]*)\" and skip sql formats$")
+    @Then("save and verify datetypes mapping as {string} and skip sql formats")
     public void saveAndVerifyDatetypesMappingAsAndSkipSqlFormats(String mapping) throws Throwable {
         //   Thread.sleep(500);
         userSavesMappingAs(mapping);
@@ -222,7 +222,7 @@ public class BackendSteps extends CucumberGlue {
         assertThat(validator.verifyMultiObjectMapping()).isTrue();
     }
 
-    @Then("^save and verify combine mapping with \"([^\"]*)\" separator as \"([^\"]*)\"$")
+    @Then("save and verify combine mapping with {string} separator as {string}")
     public void saveAndVerifyCombineMappingWithSeparatorAs(String separator, String mapping) throws Throwable {
         validator.getSource().setSourceChar('1');
         validator.getSource().setSourceInteger(2);
@@ -238,7 +238,7 @@ public class BackendSteps extends CucumberGlue {
 
     }
 
-    @Then("^save and verify separate mapping with \"([^\"]*)\" separator as \"([^\"]*)\"$")
+    @Then("save and verify separate mapping with {string} separator as {string}")
     public void saveAndVerifySeparateMappingWithSeparatorAs(String separator, String mapping) throws Throwable {
         validator.getSource().setSourceCombineString(String.format("numbers:%1$sA%1$s2%1$s3.0%1$s4%1$s5%1$s6.0", separator));
 
@@ -253,13 +253,13 @@ public class BackendSteps extends CucumberGlue {
         assertThat(validator.verifyMapping()).isTrue();
     }
 
-    @And("^init SourceListClass and add in sourceMap$")
+    @And("init SourceListClass and add in sourceMap")
     public void initSourceListClassAndAddInSourceMap() {
         final SourceListsClass src = new SourceListsClass();
         validator.addSource(src.getClass().getName(), src);
     }
 
-    @Then("^save and verify that \"([^\"]*)\" contains \"([^\"]*)\" as \"([^\"]*)\"$")
+    @Then("save and verify that {string} contains {string} as {string}")
     public void saveAndVerifyThatContainsAs(String array, String var, String path) throws Throwable {
         userSavesMappingAs(path);
         TargetMappingTestClass target = (TargetMappingTestClass) validator.processMapping(TargetMappingTestClass.class.getName());
@@ -292,7 +292,7 @@ public class BackendSteps extends CucumberGlue {
         }
     }
 
-    @Then("^save and verify repeating mapping of collections to object as \"([^\"]*)\"$")
+    @Then("save and verify repeating mapping of collections to object as {string}")
     public void saveAndVerifyRepeatingMappingOfCollectionsToObjectAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
 
@@ -306,7 +306,7 @@ public class BackendSteps extends CucumberGlue {
     }
 
 
-    @Then("^save mapping as \"([^\"]*)\" and verify \"([^\"]*)\" with$")
+    @Then("save mapping as {string} and verify {string} with")
     public void saveAndVerifyMappingXmlJsonAsWith(String path, String expected, DataTable values) throws Throwable {
         userSavesMappingAs(path);
         String result = (String) validator.processMapping(expected);
@@ -318,7 +318,7 @@ public class BackendSteps extends CucumberGlue {
         });
     }
 
-    @Then("^save and verify collections mappings in \"([^\"]*)\" \"([^\"]*)\" value is presented in \"([^\"]*)\" collection$")
+    @Then("save and verify collections mappings in {string} {string} value is presented in {string} collection")
     public void saveAndVerifyCollectionsMappingsInValueIsPresentedInCollection(String mapping, String value, String collection) throws Exception {
         userSavesMappingAs(mapping);
 
@@ -336,7 +336,7 @@ public class BackendSteps extends CucumberGlue {
         }
     }
 
-    @Then("^save and verify repeating mapping of json collections to object as \"([^\"]*)\"$")
+    @Then("save and verify repeating mapping of json collections to object as {string}")
     public void saveAndVerifyRepeatingMappingOfJsonCollectionsToObjectAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
 
@@ -354,7 +354,7 @@ public class BackendSteps extends CucumberGlue {
         });
     }
 
-    @Then("^save and verify repeating mapping of json object to object as \"([^\"]*)\"$")
+    @Then("save and verify repeating mapping of json object to object as {string}")
     public void saveAndVerifyRepeatingMappingOfJsonObjectToObjectAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
         final List<StringObject> targetObjects = ((TargetListsClass) validator.processSingleObjectMapping(ResourcesGenerator.getJsonArrays(),"sourceArrays", TargetListsClass.class.getName())).getObjects();
@@ -366,7 +366,7 @@ public class BackendSteps extends CucumberGlue {
         }
     }
 
-    @Then("^save and verify rootArrayMappings mapping as \"([^\"]*)\"$")
+    @Then("save and verify rootArrayMappings mapping as {string}")
     public void saveAndVerifyRootArrayMappingsMappingAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
         String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getRootJsonArray(),"sourceJsonArray","targetJsonArray");
@@ -374,7 +374,7 @@ public class BackendSteps extends CucumberGlue {
         assertThat(output).contains("{\"arrayAnotherString\":\"1\",\"arrayString\":\"another-string\"},{\"arrayAnotherString\":\"2\",\"arrayString\":\"another-string\"},{\"arrayAnotherString\":\"3\",\"arrayString\":\"another-string\"}");
     }
 
-    @Then("^save and verify mapping from java collections to root array \"([^\"]*)\"$")
+    @Then("save and verify mapping from java collections to root array {string}")
     public void saveAndVerifyMappingFromJavaCollectionsToRootArray(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
         SourceListsClass slc = new SourceListsClass();

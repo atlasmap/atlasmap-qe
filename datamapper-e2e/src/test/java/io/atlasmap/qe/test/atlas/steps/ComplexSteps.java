@@ -15,7 +15,7 @@ public class ComplexSteps extends CucumberGlue {
     private static UISteps uiSteps = new UISteps();
     private static BackendSteps backendSteps = new BackendSteps();
 
-    @When("^verify in \"([^\"]*)\" transformation that  \"([^\"]*)\" is transformed to \"([^\"]*)\"$")
+    @When("verify in {string} transformation that  {string} is transformed to {string}")
     public void verifyInTransformationThatIsTransformedTo(String transformation, String input, String output) throws Throwable {
         uiSteps.selectTransformation(transformation);
         this.validator.setSourceValue("sourceString", input);
@@ -27,7 +27,7 @@ public class ComplexSteps extends CucumberGlue {
         backendSteps.verify(transformation + ".json");
     }
 
-    @And("^verify conversion from \"([^\"]*)\" in preview$")
+    @And("verify conversion from {string} in preview")
     public void verifyConversionFromInPreview(String field) throws Exception {
         final String[] targetFields = {"targetInteger", "targetBoolean", "targetByte", "targetChar",
                 "targetDouble", "targetFloat", "targetLong", "targetShort",
@@ -51,7 +51,7 @@ public class ComplexSteps extends CucumberGlue {
         }
     }
 
-    @Then("^verify in \"([^\"]*)\" on \"([^\"]*)\" transformation that  \"([^\"]*)\" is transformed to \"([^\"]*)\"$")
+    @Then("verify in {string} on {string} transformation that  {string} is transformed to {string}")
     public void verifyInOnTransformationThatIsTransformedTo(String transformation, String source, String input, String output) throws Throwable {
         uiSteps.addTransformationOn(transformation,source);
         this.validator.setSourceValue("sourceString", input);

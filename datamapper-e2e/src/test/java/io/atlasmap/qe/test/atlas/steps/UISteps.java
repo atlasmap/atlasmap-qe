@@ -105,6 +105,17 @@ public class UISteps extends CucumberGlue {
         });
     }
 
+    @And("set mapping condition to {string} by selecting sources")
+    public void setMappingConditionBySelectingSources(String condition) {
+        setMappingConditionTo(condition, s -> {
+            try {
+                atlasmapPage.addToMapping(s, true);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     private void setMappingConditionTo(String condition, Consumer<String> method) {
         atlasmapPage.toggleConditionalMapping();
         for (String s : condition.split("((?<=@\\{\\w{0,100}\\})|(?=@\\{\\w{0,100}\\}))")) {

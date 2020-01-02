@@ -39,7 +39,7 @@ Feature: conditional mappings
 
   Scenario: basic conditional mapping by auto completion
     When click on "targetInteger"
-    And set mapping condition to "if(ISEMPTY(@{sourceString}), @{sourceInteger}, @{sourceShort} )" by auto completion
+    And set mapping condition to "if(ISEMPTY(@{sourceString}), @{sourceInteger}, @{sourceShort} )" by selecting sources
 
     And Show mapping preview
     And click on "targetInteger"
@@ -62,7 +62,7 @@ Feature: conditional mappings
   @MappingsPreview
   Scenario Outline: basic conditional mapping by Control key on Json objects with expressions <expression>
     When click on "targetJsonString"
-    And set mapping condition to "<expression>" by auto completion
+    And set mapping condition to "<expression>" by selecting sources
     And Show mapping preview
     And set preview data
       | sourceJsonInteger | sourceJsonString | sourceJsonDouble |

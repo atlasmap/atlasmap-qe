@@ -141,6 +141,8 @@ public class AtlasmapPage {
         input.scrollIntoView(true);
         Thread.sleep(500);
         input.sendKeys(value);
+        Thread.sleep(500);
+        input.hover();
         input.parent().$$(By.tagName("a")).filter(textCaseSensitive(value)).get(0).click();
     }
 

@@ -2,6 +2,7 @@ package io.atlasmap.qe.test;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -104,4 +105,17 @@ public class SourceListsClass {
         this.array = array;
     }
 
+    @Override
+    public String toString() {
+        return "SourceListsClass{" +
+            "strings=" + strings +
+            ", integers=" + integers +
+            ", doubles=" + doubles +
+            ", floats=" + floats +
+            ", objects=" + objects +
+            ", map=" + map +
+            ", set=" + set +
+            ", array=" + Arrays.toString(array) +
+            '}';
+    }
 }

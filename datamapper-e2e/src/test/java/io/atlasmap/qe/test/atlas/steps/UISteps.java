@@ -348,6 +348,16 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.openAllSubfolders();
     }
 
+    @And("open data bucket {string}")
+    public void openDataBucket(String bucket) {
+        atlasmapPage.openBucket(bucket);
+    }
+
+    @And("open all data buckets named {string}")
+    public void openAllDataBuckets(String bucket) {
+        atlasmapPage.openAllBucketsWithName(bucket);
+    }
+
     @And("set {string} as {string}")
     public void setAs(String field, String src) throws Throwable {
         this.atlasmapPage.addToMapping(field,"source".equals(src));

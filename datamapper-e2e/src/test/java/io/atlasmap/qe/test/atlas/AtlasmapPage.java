@@ -377,10 +377,22 @@ public class AtlasmapPage {
     }
 
     public void openAllSubfolders() {
-        List<SelenideElement> subfolders = $$(By.className("parentFolder")).shouldHave(CollectionCondition.sizeGreaterThan(0));
+        List<SelenideElement> subfolders = $$(By.className("fa-angle-right")).shouldHave(CollectionCondition.sizeGreaterThan(0));
         subfolders.forEach(sf -> {
             sf.click();
         });
+    }
+
+    public void openBucket(String bucketName) {
+        SelenideElement bucket = $(By.id(bucketName)).shouldBe(visible);
+        bucket.click();
+    }
+
+    public void openAllBucketsWithName(String bucketName) {
+        List<SelenideElement> buckets = $$(By.id(bucketName)).shouldHave(CollectionCondition.sizeGreaterThan(0));
+        for(int i = 0; i < buckets.size(); i++) {
+            buckets.get(i).click();
+        }
     }
 
     public void deleteFromMapping(String field, boolean source) {
@@ -413,7 +425,7 @@ public class AtlasmapPage {
         }
         List<SelenideElement> selects = e.$$(By.tagName("select"));
         if (selects.size() > 1 && !isCollection) {
-          selects.get(1).selectOption(transformation);
+            selects.get(1).selectOption(transformation);
         } else {
             selects.get(0).selectOption(transformation);
         }

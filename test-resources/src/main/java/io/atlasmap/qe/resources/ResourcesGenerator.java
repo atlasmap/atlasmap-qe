@@ -57,7 +57,55 @@ public class ResourcesGenerator {
                 "    <sourceXmlLong>400</sourceXmlLong>\n" +
                 "    <sourceXmlShort>500</sourceXmlShort>\n" +
                 "    <sourceXmlString>XmlString</sourceXmlString>\n" +
-                "</SourceXmlInstance>";
+                "    <sourceFirstArray>\n" +
+                "        <value>xmlFirstArrayValue0</value>\n" +
+                "        <sourceSecondArray>\n" +
+                "            <value>xmlSecondArrayValue0-0</value>\n" +
+                "            <sourceThirdArray>\n" +
+                "                <value>xmlThirdArrayValue0-0-0</value>\n" +
+                "            </sourceThirdArray>\n" +
+                "            <sourceThirdArray>\n" +
+                "                <value>xmlThirdArrayValue0-0-1</value>\n" +
+                "            </sourceThirdArray>\n" +
+                "        </sourceSecondArray>\n" +
+                "        <sourceSecondArray>\n" +
+                "            <value>xmlSecondArrayValue0-1</value>\n" +
+                "            <sourceThirdArray>\n" +
+                "                <value>xmlThirdArrayValue0-1-0</value>\n" +
+                "            </sourceThirdArray>\n" +
+                "            <sourceThirdArray>\n" +
+                "                <value>xmlThirdArrayValue0-1-1</value>\n" +
+                "            </sourceThirdArray>\n" +
+                "            <sourceThirdArray>\n" +
+                "                <value>xmlThirdArrayValue0-1-2</value>\n" +
+                "            </sourceThirdArray>\n" +
+                "        </sourceSecondArray>\n" +
+                "    </sourceFirstArray>\n" +
+                "    <sourceFirstArray>\n" +
+                "        <value>xmlFirstArrayValue1</value>\n" +
+                "        <sourceSecondArray>\n" +
+                "            <value>xmlSecondArrayValue1-0</value>\n" +
+                "            <sourceThirdArray>\n" +
+                "                <value>xmlThirdArrayValue1-0-0</value>\n" +
+                "            </sourceThirdArray>\n" +
+                "            <sourceThirdArray>\n" +
+                "                <value>xmlThirdArrayValue1-0-1</value>\n" +
+                "            </sourceThirdArray>\n" +
+                "            <sourceThirdArray>\n" +
+                "                <value>xmlThirdArrayValue1-0-2</value>\n" +
+                "            </sourceThirdArray>\n" +
+                "        </sourceSecondArray>\n" +
+                "        <sourceSecondArray>\n" +
+                "            <value>xmlSecondArrayValue1-1</value>\n" +
+                "            <sourceThirdArray>\n" +
+                "                <value>xmlThirdArrayValue1-1-0</value>\n" +
+                "            </sourceThirdArray>\n" +
+                "            <sourceThirdArray>\n" +
+                "                <value>xmlThirdArrayValue1-1-1</value>\n" +
+                "            </sourceThirdArray>\n" +
+                "        </sourceSecondArray>\n" +
+                "    </sourceFirstArray>\n" +
+                "</SourceXmlInstance>\n";
     }
 
     public static String getXmlSchemaInstance(Class c) {
@@ -91,8 +139,70 @@ public class ResourcesGenerator {
                 "            {\"key\":7,\"value\":\"v7\"},\n" +
                 "            {\"key\":8,\"value\":\"v8\"},\n" +
                 "            {\"key\":9,\"value\":\"v9\"}\n" +
-                "        ]\n" +
-                "    }";
+                "        ],\n" +
+                "  \"sourceJsonNestedArray\": [\n" +
+                "    {\n" +
+                "      \"value\": \"jsonFirstArrayValue0\",\n" +
+                "      \"secondArray\": [\n" +
+                "        {\n" +
+                "          \"value\": \"jsonSecondArrayValue0-0\",\n" +
+                "          \"thirdArray\": [\n" +
+                "            {\n" +
+                "              \"value\": \"jsonThirdArrayValue0-0-0\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "              \"value\": \"jsonThirdArrayValue0-0-1\"\n" +
+                "            }\n" +
+                "          ]\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"value\": \"jsonSecondArrayValue0-1\",\n" +
+                "          \"thirdArray\": [\n" +
+                "            {\n" +
+                "              \"value\": \"jsonThirdArrayValue0-1-0\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "              \"value\": \"jsonThirdArrayValue0-1-1\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "              \"value\": \"jsonThirdArrayValue0-1-2\"\n" +
+                "            }\n" +
+                "          ]\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"value\": \"jsonFirstArrayValue1\",\n" +
+                "      \"secondArray\": [\n" +
+                "        {\n" +
+                "          \"value\": \"jsonSecondArrayValue1-0\",\n" +
+                "          \"thirdArray\": [\n" +
+                "            {\n" +
+                "              \"value\": \"jsonThirdArrayValue1-0-0\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "              \"value\": \"jsonThirdArrayValue1-0-1\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "              \"value\": \"jsonThirdArrayValue1-0-2\"\n" +
+                "            }\n" +
+                "          ]\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"value\": \"jsonSecondArrayValue1-1\",\n" +
+                "          \"thirdArray\": [\n" +
+                "            {\n" +
+                "              \"value\": \"jsonThirdArrayValue1-1-0\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "              \"value\": \"jsonThirdArrayValue1-1-1\"\n" +
+                "            }\n" +
+                "          ]\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
     }
 
     public static String getRootJsonArray() {

@@ -1,6 +1,9 @@
 package io.atlasmap.qe.test.atlas.steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+
+import org.junit.Assert;
 
 import org.openqa.selenium.NotFoundException;
 
@@ -17,9 +20,11 @@ import io.atlasmap.qe.resources.ResourcesGenerator;
 import io.atlasmap.qe.test.DatesObject;
 import io.atlasmap.qe.test.SmallMappingTestClass;
 import io.atlasmap.qe.test.SourceListsClass;
+import io.atlasmap.qe.test.SourceNestedCollectionClass;
 import io.atlasmap.qe.test.StringObject;
 import io.atlasmap.qe.test.TargetListsClass;
 import io.atlasmap.qe.test.TargetMappingTestClass;
+import io.atlasmap.qe.test.TargetNestedCollectionClass;
 import io.atlasmap.qe.test.atlas.utils.Utils;
 import io.cucumber.datatable.DataTable;
 import lombok.extern.slf4j.Slf4j;
@@ -231,8 +236,6 @@ public class BackendSteps extends CucumberGlue {
         validator.getSource().setSourceShort((short) 5);
         validator.getSource().setSourceDouble(6);
 
-        validator.getTarget().setTargetCombineString(String.format("sourceString%1$s1%1$s2%1$s3.0%1$s4%1$s5%1$s6.0%1$s1970-01-01T00:00:00Z", separator));
-        //validator.getTarget().setTargetCombineString(String.format("Combined: sourceString%1$s1%1$s2%1$s3.0%1$s4%1$s5%1$s6.0%1$s1970-01-01T00:00:00Z",separator));
         userSavesMappingAs(mapping);
         assertThat(validator.verifyMapping()).isTrue();
 
@@ -305,15 +308,14 @@ public class BackendSteps extends CucumberGlue {
         });
     }
 
-
     @Then("save mapping as {string} and verify {string} with")
     public void saveAndVerifyMappingXmlJsonAsWith(String path, String expected, DataTable values) throws Throwable {
         userSavesMappingAs(path);
         String result = (String) validator.processMapping(expected);
-         System.out.println(result);
-         values.asList().forEach( value -> {
+        System.out.println(result);
+        values.asList().forEach(value -> {
             log.info("Checking " + value);
-            log.info ("result, {}, value: {}",result,value);
+            log.info("result, {}, value: {}", result, value);
             assertThat(result).contains(value);
         });
     }
@@ -340,7 +342,8 @@ public class BackendSteps extends CucumberGlue {
     public void saveAndVerifyRepeatingMappingOfJsonCollectionsToObjectAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
 
-        TargetListsClass tlc = (TargetListsClass) validator.processSingleObjectMapping(ResourcesGenerator.getJsonArrays(),"sourceArrays", TargetListsClass.class.getName());
+        TargetListsClass tlc = (TargetListsClass) validator
+            .processSingleObjectMapping(ResourcesGenerator.getJsonArrays(), "sourceArrays", TargetListsClass.class.getName());
         final List<Object> integers = ResourcesGenerator.getJsonArrays("jsonIntegers");
         final List<Object> strings = ResourcesGenerator.getJsonArrays("jsonStrings");
 
@@ -369,21 +372,120 @@ public class BackendSteps extends CucumberGlue {
     @Then("save and verify rootArrayMappings mapping as {string}")
     public void saveAndVerifyRootArrayMappingsMappingAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
-        String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getRootJsonArray(),"sourceJsonArray","targetJsonArray");
-        System.out.println("++++>"+output);
-        assertThat(output).contains("{\"arrayAnotherString\":\"1\",\"arrayString\":\"another-string\"},{\"arrayAnotherString\":\"2\",\"arrayString\":\"another-string\"},{\"arrayAnotherString\":\"3\",\"arrayString\":\"another-string\"}");
+        String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getRootJsonArray(), "sourceJsonArray", "targetJsonArray");
+        System.out.println("++++>" + output);
+        assertThat(output).contains(
+            "{\"arrayAnotherString\":\"1\",\"arrayString\":\"another-string\"},{\"arrayAnotherString\":\"2\",\"arrayString\":\"another-string\"}," +
+                "{\"arrayAnotherString\":\"3\",\"arrayString\":\"another-string\"}");
     }
 
     @Then("save and verify mapping from java collections to root array {string}")
     public void saveAndVerifyMappingFromJavaCollectionsToRootArray(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
         SourceListsClass slc = new SourceListsClass();
-        String output = (String) validator.processSingleObjectMapping(new SourceListsClass(),SourceListsClass.class.getName(),"targetJsonArray");
-        System.out.println("++++>"+output);
+        String output = (String) validator.processSingleObjectMapping(new SourceListsClass(), SourceListsClass.class.getName(), "targetJsonArray");
+        System.out.println("++++>" + output);
 
-        slc.getIntegers().forEach(i-> {
-              assertThat(output).contains("\"arrayNumber\":"+i);
-              assertThat(output).contains("\"arrayString\":\"String"+i+"\"");
+        slc.getIntegers().forEach(i -> {
+            assertThat(output).contains("\"arrayNumber\":" + i);
+            assertThat(output).contains("\"arrayString\":\"String" + i + "\"");
         });
+    }
+
+    @Then("save and verify mapping from nested {string} collection to {string} as {string}")
+    public void saveAndVerifyMappingFromNestedJsonToRootArray(String sourceType, String targetType, String mapping)
+        throws Throwable {
+        String source;
+        String target = null;
+        Object output = null;
+        userSavesMappingAs(mapping);
+
+        switch (targetType) {
+            case "json":
+                target = "targetArrays";
+                break;
+            case "java":
+                target = TargetNestedCollectionClass.class.getName();
+                break;
+            case "xml":
+                target = "targetXMLInstance";
+                break;
+            default:
+                fail("unknown target type: " + targetType);
+        }
+
+        switch (sourceType) {
+            case "json":
+                source = "sourceArrays";
+                output = validator.processSingleObjectMapping(ResourcesGenerator.getJsonArrays(), source, target);
+                break;
+            case "java":
+                source = SourceNestedCollectionClass.class.getName();
+                output = validator.processSingleObjectMapping(new SourceNestedCollectionClass(), source, target);
+                break;
+            case "xml":
+                source = "sourceXmlInstance";
+                output = validator.processSingleObjectMapping(ResourcesGenerator.getXMLInstance(), source, target);
+                break;
+            default:
+                fail("unknown source type: " + sourceType);
+        }
+
+        Assert.assertTrue(validateNestedResponse(targetType, sourceType, output));
+    }
+
+    private boolean validateNestedResponse(String targetType, String sourceType, Object responseOriginal) {
+        boolean responseMatch = false;
+        switch (targetType) {
+            case "json":
+                responseMatch = validateNestedJsonResponse(sourceType, (String) responseOriginal);
+                break;
+            case "java":
+                responseMatch = validateNestedJavaResponse(sourceType, (TargetNestedCollectionClass) responseOriginal);
+                break;
+            case "xml":
+                responseMatch = validateNestedXmlResponse(sourceType, (String) responseOriginal);
+                break;
+            default:
+                fail("unknown source type: " + sourceType);
+        }
+        return responseMatch;
+    }
+
+    private boolean validateNestedJsonResponse(String sourceType, String jsonResponseOriginal) {
+
+        String jsonResponsePrototype = "[{\"secondArray\":[{\"thirdArray\":[{\"value\":\"xxxxThirdArrayValue0-0-0\"}," +
+            "{\"value\":\"xxxxThirdArrayValue0-0-1\"}],\"value\":\"xxxxSecondArrayValue0-0\"}," +
+            "{\"thirdArray\":[{\"value\":\"xxxxThirdArrayValue0-1-0\"},{\"value\":\"xxxxThirdArrayValue0-1-1\"}," +
+            "{\"value\":\"xxxxThirdArrayValue0-1-2\"}],\"value\":\"xxxxSecondArrayValue0-1\"}],\"value\":\"xxxxFirstArrayValue0\"}," +
+            "{\"secondArray\":[{\"thirdArray\":[{\"value\":\"xxxxThirdArrayValue1-0-0\"},{\"value\":\"xxxxThirdArrayValue1-0-1\"}," +
+            "{\"value\":\"xxxxThirdArrayValue1-0-2\"}],\"value\":\"xxxxSecondArrayValue1-0\"}," +
+            "{\"thirdArray\":[{\"value\":\"xxxxThirdArrayValue1-1-0\"},{\"value\":\"xxxxThirdArrayValue1-1-1\"}]," +
+            "\"value\":\"xxxxSecondArrayValue1-1\"}],\"value\":\"xxxxFirstArrayValue1\"}]";
+
+        return jsonResponseOriginal.contains(jsonResponsePrototype.replaceAll("xxxx", sourceType));
+    }
+
+    private boolean validateNestedJavaResponse(String sourceType, TargetNestedCollectionClass javaResponseOriginal) {
+        TargetNestedCollectionClass result = new TargetNestedCollectionClass(sourceType);
+        return result.equals(javaResponseOriginal);
+    }
+
+    private boolean validateNestedXmlResponse(String sourceType, String xmlResponseOriginal) {
+
+        String xmlResponsePrototype =
+            "<TargetXmlInstance><targetFirstArray><targetSecondArray><targetThirdArray><value>xxxxThirdArrayValue0-0-0</value></targetThirdArray" +
+                "><targetThirdArray><value>xxxxThirdArrayValue0-0-1</value></targetThirdArray><value>xxxxSecondArrayValue0-0</value" +
+                "></targetSecondArray><targetSecondArray><targetThirdArray><value>xxxxThirdArrayValue0-1-0</value></targetThirdArray" +
+                "><targetThirdArray><value>xxxxThirdArrayValue0-1-1</value></targetThirdArray><targetThirdArray><value>xxxxThirdArrayValue0-1-2" +
+                "</value></targetThirdArray><value>xxxxSecondArrayValue0-1</value></targetSecondArray><value>xxxxFirstArrayValue0</value" +
+                "></targetFirstArray><targetFirstArray><targetSecondArray><targetThirdArray><value>xxxxThirdArrayValue1-0-0</value" +
+                "></targetThirdArray><targetThirdArray><value>xxxxThirdArrayValue1-0-1</value></targetThirdArray><targetThirdArray><value" +
+                ">xxxxThirdArrayValue1-0-2</value></targetThirdArray><value>xxxxSecondArrayValue1-0</value></targetSecondArray><targetSecondArray" +
+                "><targetThirdArray><value>xxxxThirdArrayValue1-1-0</value></targetThirdArray><targetThirdArray><value>xxxxThirdArrayValue1-1-1" +
+                "</value></targetThirdArray><value>xxxxSecondArrayValue1-1</value></targetSecondArray><value>xxxxFirstArrayValue1</value" +
+                "></targetFirstArray></TargetXmlInstance>";
+
+        return xmlResponseOriginal.contains(xmlResponsePrototype.replaceAll("xxxx", sourceType));
     }
 }

@@ -64,5 +64,67 @@
       "key": 9,
       "value": "json9"
     }
+  ],
+  "targetJsonNestedArray": [
+    {
+      "value": "jsonFirstArrayValue0",
+      "secondArray": [
+        {
+          "value": "jsonSecondArrayValue0-0",
+          "thirdArray": [
+            {
+              "value": "jsonThirdArrayValue0-0-0"
+            },
+            {
+              "value": "jsonThirdArrayValue0-0-1"
+            }
+          ]
+        },
+        {
+          "value": "jsonSecondArrayValue0-1",
+          "thirdArray": [
+            {
+              "value": "jsonThirdArrayValue0-1-0"
+            },
+            {
+              "value": "jsonThirdArrayValue0-1-1"
+            },
+            {
+              "value": "jsonThirdArrayValue0-1-2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "value": "jsonFirstArrayValue1",
+      "secondArray": [
+        {
+          "value": "jsonSecondArrayValue1-0",
+          "thirdArray": [
+            {
+              "value": "jsonThirdArrayValue1-0-0"
+            },
+            {
+              "value": "jsonThirdArrayValue1-0-1"
+            },
+            {
+              "value": "jsonThirdArrayValue1-0-2"
+            }
+          ]
+        },
+        {
+          "value": "jsonSecondArrayValue1-1",
+          "thirdArray": [
+            {
+              "value": "jsonThirdArrayValue1-1-0"
+            },
+            {
+              "value": "jsonThirdArrayValue1-1-1"
+            }
+          ]
+        }
+      ]
+    }
   ]
 }

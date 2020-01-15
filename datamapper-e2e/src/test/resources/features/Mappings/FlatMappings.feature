@@ -85,7 +85,7 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
     And add mapping from "sourceDouble" to "/TargetXmlMappingTestClass/targetXmlFloat"
 
     Then save mapping as "flatJavaToXmlSchema.json" and verify "targetXMLSchema" with
-      | <targetXmlString>sourceString</targetXmlString> | <targetXmlInteger>1 | <targetXmlDouble>5.0</targetXmlDouble> |  |
+      | <targetXmlString>sourceString</targetXmlString> | <targetXmlInteger>1 | <targetXmlDouble>5.0</targetXmlDouble> | <targetXmlFloat>4.0</targetXmlFloat>  |
 
   @SmokeTest
   @XmlToJson

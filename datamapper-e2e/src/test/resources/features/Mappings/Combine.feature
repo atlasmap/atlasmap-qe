@@ -157,6 +157,9 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     And click on "sourceShort" holding cmd button
     And click on "sourceDouble" holding cmd button
     And click on "sourceDate" holding cmd button
+    And set expected data
+      | targetCombineString |
+      | sourceString 1 2 3.0 4 5 6.0 1970-01-01T00:00:00Z |
 
     And click on "targetCombineString"
 

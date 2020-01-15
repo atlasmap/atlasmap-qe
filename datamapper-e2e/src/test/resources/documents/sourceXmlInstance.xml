@@ -10,4 +10,52 @@
     <sourceXmlLong>400</sourceXmlLong>
     <sourceXmlShort>500</sourceXmlShort>
     <sourceXmlString>XmlString</sourceXmlString>
+    <sourceFirstArray>
+        <value>xmlFirstArrayValue0</value>
+        <sourceSecondArray>
+            <value>xmlSecondArrayValue0-0</value>
+            <sourceThirdArray>
+                <value>xmlThirdArrayValue0-0-0</value>
+            </sourceThirdArray>
+            <sourceThirdArray>
+                <value>xmlThirdArrayValue0-0-1</value>
+            </sourceThirdArray>
+        </sourceSecondArray>
+        <sourceSecondArray>
+            <value>xmlSecondArrayValue0-1</value>
+            <sourceThirdArray>
+                <value>xmlThirdArrayValue0-1-0</value>
+            </sourceThirdArray>
+            <sourceThirdArray>
+                <value>xmlThirdArrayValue0-1-1</value>
+            </sourceThirdArray>
+            <sourceThirdArray>
+                <value>xmlThirdArrayValue0-1-2</value>
+            </sourceThirdArray>
+        </sourceSecondArray>
+    </sourceFirstArray>
+    <sourceFirstArray>
+        <value>xmlFirstArrayValue1</value>
+        <sourceSecondArray>
+            <value>xmlSecondArrayValue1-0</value>
+            <sourceThirdArray>
+                <value>xmlThirdArrayValue1-0-0</value>
+            </sourceThirdArray>
+            <sourceThirdArray>
+                <value>xmlThirdArrayValue1-0-1</value>
+            </sourceThirdArray>
+            <sourceThirdArray>
+                <value>xmlThirdArrayValue1-0-2</value>
+            </sourceThirdArray>
+        </sourceSecondArray>
+        <sourceSecondArray>
+            <value>xmlSecondArrayValue1-1</value>
+            <sourceThirdArray>
+                <value>xmlThirdArrayValue1-1-0</value>
+            </sourceThirdArray>
+            <sourceThirdArray>
+                <value>xmlThirdArrayValue1-1-1</value>
+            </sourceThirdArray>
+        </sourceSecondArray>
+    </sourceFirstArray>
 </SourceXmlInstance>

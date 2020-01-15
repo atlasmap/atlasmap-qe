@@ -60,11 +60,13 @@ public class AtlasmapInit implements EventListener {
         page.enableSourceClass("io.atlasmap.qe.test.DatesObject");
         page.enableSourceClass("io.atlasmap.qe.test.SourceListsClass");
         page.enableSourceClass("io.atlasmap.qe.test.SmallMappingTestClass");
+        page.enableSourceClass("io.atlasmap.qe.test.SourceNestedCollectionClass");
 
         // Target classes:
         page.enableTargetClass("io.atlasmap.qe.test.TargetMappingTestClass");
         page.enableTargetClass("io.atlasmap.qe.test.StringObject");
         page.enableTargetClass("io.atlasmap.qe.test.TargetListsClass");
+        page.enableTargetClass("io.atlasmap.qe.test.TargetNestedCollectionClass");
 
         // Source documents:
         page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceArrays.json");
@@ -78,6 +80,7 @@ public class AtlasmapInit implements EventListener {
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJsonArray.json");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJson.schema.json");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
+        page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLInstance.xml");
     });
 
     /**

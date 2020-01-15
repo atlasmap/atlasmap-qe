@@ -231,6 +231,7 @@ public class MappingValidator {
         sourceMap.put(source.getClass().getName(), source);
         sourceMap.put(SourceListsClass.class.getName(), new SourceListsClass());
         sourceMap.put(SmallMappingTestClass.class.getName(), new SmallMappingTestClass());
+        sourceMap.put(SourceNestedCollectionClass.class.getName(), new SourceNestedCollectionClass());
         try {
             sourceMap.put(DatesObject.class.getName(), new DatesObject("22-12-2012"));
         } catch (ParseException e) {

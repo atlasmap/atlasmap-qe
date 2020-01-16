@@ -392,8 +392,33 @@ public class BackendSteps extends CucumberGlue {
         });
     }
 
+    @Then("save and verify mapping from nested {string} collection level {string} to first level collection as {string}")
+    public void saveAndVerifyMappingFromNestedCollectionToFirstLevelArray(String sourceType, String level, String mapping) throws Throwable {
+        userSavesMappingAs(mapping);
+        String source;
+        String output = null;
+
+        switch (sourceType) {
+            case "json":
+                source = "sourceArrays";
+                 output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getJsonArrays(), source, "targetArrays");
+                break;
+            case "java":
+                source = SourceNestedCollectionClass.class.getName();
+                output = (String) validator.processSingleObjectMapping(new SourceNestedCollectionClass(), source, "targetArrays");
+                break;
+            case "xml":
+                source = "sourceXmlInstance";
+                output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getXMLInstance(), source, "targetArrays");
+                break;
+            default:
+                fail("unknown source type: " + sourceType);
+        }
+        Assert.assertTrue(validateFirstLevelJsonCollectionResponse(sourceType, Integer.valueOf(level), output));
+    }
+
     @Then("save and verify mapping from nested {string} collection to {string} as {string}")
-    public void saveAndVerifyMappingFromNestedJsonToRootArray(String sourceType, String targetType, String mapping)
+    public void saveAndVerifyMappingsBetweenNestedCollections(String sourceType, String targetType, String mapping)
         throws Throwable {
         String source;
         String target = null;
@@ -488,4 +513,21 @@ public class BackendSteps extends CucumberGlue {
 
         return xmlResponseOriginal.contains(xmlResponsePrototype.replaceAll("xxxx", sourceType));
     }
+
+    private boolean validateFirstLevelJsonCollectionResponse(String sourceType, int level, String jsonResponseOriginal) {
+
+        String jsonResponsePrototypeLevel3 = "{\"jsonStrings\":[\"xxxxThirdArrayValue0-0-0\",\"xxxxThirdArrayValue0-0-1\",\"xxxxThirdArrayValue0-1-0\"," +
+            "\"xxxxThirdArrayValue0-1-1\",\"xxxxThirdArrayValue0-1-2\",\"xxxxThirdArrayValue1-0-0\",\"xxxxThirdArrayValue1-0-1\"," +
+            "\"xxxxThirdArrayValue1-0-2\",\"xxxxThirdArrayValue1-1-0\",\"xxxxThirdArrayValue1-1-1\"]}";
+
+        String jsonResponsePrototypeLevel2 = "{\"jsonStrings\":[\"xxxxSecondArrayValue0-0\",\"xxxxSecondArrayValue0-1\"," +
+            "\"xxxxSecondArrayValue1-0\",\"xxxxSecondArrayValue1-1\"]}";
+
+        if(level == 2) {
+            return jsonResponseOriginal.contains(jsonResponsePrototypeLevel2.replaceAll("xxxx", sourceType));
+        } else {
+            return jsonResponseOriginal.contains(jsonResponsePrototypeLevel3.replaceAll("xxxx", sourceType));
+        }
+    }
+
 }

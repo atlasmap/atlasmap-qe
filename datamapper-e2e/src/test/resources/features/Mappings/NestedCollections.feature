@@ -47,7 +47,19 @@ Feature: Mappings of nested collections
       | java    | /rootArray[]                          | /nestedArray[]/nestedArray[]/nestedField       | /nestedArray[]/nestedField  | /nestedField |
       | xml     | /SourceXmlInstance/sourceFirstArray<> | /sourceSecondArray<>/sourceThirdArray<>/value  | /sourceSecondArray<>/value  | /value       |
 
-#  Scenario: unable to map from 1,2 - to 3. 2 to 2 and so on...
-#  Scenario: able to map from all types from 2nd and 3rt level - to 1st level
 
-#  Scenario: transformation of nested collections
+  # https://issues.redhat.com/browse/ENTESB-12396
+  # scenario C4
+  Scenario Outline: Mapping from 2nd and 3rd level of nested collection to non-nested
+    When add mapping from "<root><element>" to "/jsonStrings<>"
+    Then save and verify mapping from nested "<from>" collection level "<lvl>" to first level collection as "nested<from>level<lvl>toFirstLevelCollection.json"
+
+    Examples:
+      | from    | root                                  | lvl | element                                        |
+      | json    | /sourceJsonNestedArray<>              | 3   | /secondArray<>/thirdArray<>/value              |
+      | java    | /rootArray[]                          | 3   | /nestedArray[]/nestedArray[]/nestedField       |
+      | xml     | /SourceXmlInstance/sourceFirstArray<> | 3   | /sourceSecondArray<>/sourceThirdArray<>/value  |
+      | json    | /sourceJsonNestedArray<>              | 2   | /secondArray<>/value                           |
+      | java    | /rootArray[]                          | 2   | /nestedArray[]/nestedField                     |
+      | xml     | /SourceXmlInstance/sourceFirstArray<> | 2   | /sourceSecondArray<>/value                     |
+

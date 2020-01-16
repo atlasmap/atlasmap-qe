@@ -31,7 +31,6 @@ Feature: Simple mappings creation and test framework verification
     Then save mapping as "simpleMapping2.json"
     And verify "simpleMapping2.json"
 
-
   Scenario: Setting source and target data for verification.
     Given browser is opened
     When set source data

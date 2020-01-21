@@ -227,8 +227,11 @@ public class BackendSteps extends CucumberGlue {
         assertThat(validator.verifyMultiObjectMapping()).isTrue();
     }
 
-    @Then("save and verify combine mapping with {string} separator as {string}")
+    @Then("^save and verify combine mapping with \"([^\"]*)\" separator as \"([^\"]*)\"$")
     public void saveAndVerifyCombineMappingWithSeparatorAs(String separator, String mapping) throws Throwable {
+        validator.getTarget().setTargetCombineString(String.format("numbers:%1$s1%1$s2%1$s3.0%1$s4%1$s5%1$s6.0%1$s1970-01-01T00:00:00Z", separator));
+
+        validator.getSource().setSourceString("numbers:");
         validator.getSource().setSourceChar('1');
         validator.getSource().setSourceInteger(2);
         validator.getSource().setSourceFloat(3);

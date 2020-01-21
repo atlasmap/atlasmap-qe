@@ -142,7 +142,7 @@ public class AtlasmapPage {
         Thread.sleep(500);
         input.sendKeys(value);
         Thread.sleep(500);
-        input.hover();
+        input.sendKeys(Keys.DOWN);
         input.parent().$$(By.tagName("a")).filter(textCaseSensitive(value)).get(0).click();
     }
 

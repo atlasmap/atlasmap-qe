@@ -25,6 +25,8 @@ public class TestConfiguration {
 
     public static final String ATLASMAP_UI_BROWSER = "atlasmap.config.ui.browser";
 
+    public static final String MAPPINGS_ROOT_DIRECTORY = "atlasmap.mappings.root.directory";
+
     public static final String SELENIDE_HEADLESS = "selenide.headless";
 
     private static final TestConfiguration INSTANCE = new TestConfiguration();
@@ -83,6 +85,10 @@ public class TestConfiguration {
 
     public static int getConfigTimeout() {
         return Integer.parseInt(get().readValue(TESTSUITE_TIMEOUT, "10"));
+    }
+
+    public static String getMappingsRootDirectory() {
+        return get().readValue(MAPPINGS_ROOT_DIRECTORY, System.getProperty("user.dir") + "/target/target/mappings/");
     }
 
     public static String syndesisBrowser() {

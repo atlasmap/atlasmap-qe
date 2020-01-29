@@ -136,7 +136,7 @@ public class AtlasmapPage {
     public void addToMapping(String value, boolean isSource) throws InterruptedException {
         final String cssSelector = String.format("mapping-field-container[ng-reflect-is-source=\"%s\"]", isSource);
         SelenideElement container = $(By.cssSelector(cssSelector)).waitUntil(visible, 5000);
-        SelenideElement input = container.$(By.id("source"));
+        SelenideElement input = container.$(By.id("input-".concat(isSource ? "source" : "target")));
         input.clear();
         input.scrollIntoView(true);
         Thread.sleep(500);
@@ -145,7 +145,6 @@ public class AtlasmapPage {
         input.sendKeys(Keys.DOWN);
         input.parent().$$(By.tagName("a")).filter(textCaseSensitive(value)).get(0).click();
     }
-
 
     public void clickOnValueFromPicker(String pickerClass, String value) {
         SelenideElement pickerValue = $(By.className(pickerClass)).$$("div").filter(text(value)).get(0);
@@ -239,7 +238,7 @@ public class AtlasmapPage {
         SelenideElement e = $(By.id(id)).shouldBe(visible);
         Keys k = Keys.LEFT_CONTROL;
 
-        if (System.getProperty("os.name").toLowerCase().indexOf("mac") >=0) {
+        if (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0) {
             k = Keys.COMMAND;
         }
 
@@ -311,7 +310,7 @@ public class AtlasmapPage {
     }
 
     public void addTransformationToTargetOrSource(String transformation, boolean isSource) {
-        addTransformationOnField(transformation,isSource,false);
+        addTransformationOnField(transformation, isSource, false);
     }
 
     public void selectOptionOnIndex(String option, int index, boolean isSource) {
@@ -390,7 +389,7 @@ public class AtlasmapPage {
 
     public void openAllBucketsWithName(String bucketName) {
         List<SelenideElement> buckets = $$(By.id(bucketName)).shouldHave(CollectionCondition.sizeGreaterThan(0));
-        for(int i = 0; i < buckets.size(); i++) {
+        for (int i = 0; i < buckets.size(); i++) {
             buckets.get(i).click();
         }
     }
@@ -408,18 +407,18 @@ public class AtlasmapPage {
     }
 
     public void addCollectionTransformation(String transformation) {
-        addTransformationOnField(transformation,true,true);
+        addTransformationOnField(transformation, true, true);
     }
 
-    private void addTransformationOnField(String transformation,boolean isSource, boolean isCollection) {
+    private void addTransformationOnField(String transformation, boolean isSource, boolean isCollection) {
         final String cssSelector = String.format("mapping-field-container[ng-reflect-is-source=\"%s\"]", isSource);
         SelenideElement e = $(By.cssSelector(cssSelector)).waitUntil(visible, 5000);
 
-        if(!isCollection) {
+        if (!isCollection) {
             log.debug(e.toString());
             SelenideElement link = e.$$(By.tagName("label")).filter(text("Add Transformation")).first();
             log.debug(link.toString());
-            if(e.$$(By.tagName("select")).size()<1) {
+            if (e.$$(By.tagName("select")).size() < 1) {
                 link.click();
             }
         }

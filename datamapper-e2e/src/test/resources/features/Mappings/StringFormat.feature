@@ -37,7 +37,7 @@ Feature: atlasmap is able to combine multiple inputs into one formatted string
       | 5 | sourceString | foo           | sourceAnotherString | bar          | !%-5s!%5s! | !foo  !  bar! |
       | 6 | sourceString | foo           | sourceInteger       | -42          | %b%(d      | true(42)      |
       | 7 | sourceByte   | 19            | sourceFloat         | 3.1415926535 | %o %05.2f  | 23 03.14      |
-      | 8 | sourceDate   | 1997-03-15-03 | sourceChar          | c            | %ta %c     | Sat c         |
+      | 8 | sourceDate   | 1997-03-15-06 | sourceChar          | c            | %ta %c     | Sat c         |
       | 9 | sourceDate   | 1997-03-15-03 | sourceInteger       | 61           | %tB %x     | March 3d      |
 
   @SmokeTest

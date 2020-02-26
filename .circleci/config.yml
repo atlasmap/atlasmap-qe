@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Build atlasmap runtime
           command: |
-           cd atlasmap && ./mvnw clean install -DskipTests
+           cd atlasmap && ./mvnw clean install
       - run:
           name: build tests
           command: |

@@ -118,7 +118,7 @@ public class UISteps extends CucumberGlue {
 
     private void setMappingConditionTo(String condition, Consumer<String> method) {
         atlasmapPage.toggleConditionalMapping();
-        for (String s : condition.split("((?<=@\\{\\w{0,100}\\})|(?=@\\{\\w{0,100}\\}))")) {
+        for (String s : condition.split("((?<=@\\{[a-zA-Z/<>',]{0,100}\\})|(?=@\\{[a-zA-Z/<>]{0,100}|''\\}))")) {
             if (s.startsWith("@")) {
                 method.accept(s.replaceAll("[@{}]", ""));
             } else {

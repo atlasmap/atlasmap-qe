@@ -5,7 +5,7 @@
 # https://issues.redhat.com/browse/ENTESB-12394
 # reproducer for: https://issues.redhat.com/browse/ENTESB-12698
 
-Feature: conditional mappings
+Feature: collections expressions mappings
 
   Background:
     Given atlasmap is clean
@@ -16,7 +16,7 @@ Feature: conditional mappings
 
 
   @CollectionExpression
-  Scenario Outline: collections expression mapping by auto completion <expression>
+  Scenario Outline: collections expression mapping by selecting sources <expression>
     When click on "<target>"
     And set mapping condition to "<expression>" by selecting sources
     And click on "<target>"
@@ -50,7 +50,7 @@ Feature: conditional mappings
       | Concatenate(',',@{/sourceJsonNestedArray<>/secondArray<>/value}) | targetString  | jsonSecondArrayValue0-0,jsonSecondArrayValue0-1,jsonSecondArrayValue1-0,jsonSecondArrayValue1-1 |
 
   @CollectionsFieldActions
-  Scenario Outline: basic collection fields actions in expressions
+  Scenario Outline: basic collection fields actions with nested collections in expressions
     When click on "<target>"
     And set mapping condition to "<expression>" by selecting sources
     And click on "<target>"

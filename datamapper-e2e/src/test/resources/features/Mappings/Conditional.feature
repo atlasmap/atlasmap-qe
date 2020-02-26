@@ -32,8 +32,8 @@ Feature: conditional mappings
 
     Examples:
       | expression                                                                       | target        | targetValue |
-      | if(ISEMPTY(@{sourceString}), @{sourceInteger}, @{sourceShort})                  | targetInteger | 1           |
-      | if(!ISEMPTY(@{sourceString}), @{sourceShort}, @{sourceLong})                    | targetString  | 2           |
+      | if(ISEMPTY(@{sourceString}), @{sourceInteger}, @{sourceShort})                   | targetInteger | 1           |
+      | if(!ISEMPTY(@{sourceString}), @{sourceShort}, @{sourceLong})                     | targetString  | 2           |
       | if( @{sourceBigDecimal} < @{sourceBigInteger} , @{sourceLong}, @{sourceDouble} ) | targetString  | 4.0         |
       | if( @{sourceFloat} > @{sourceBigInteger} , @{sourceLong}, @{sourceBigDecimal} )  | targetString  | 12345       |
 

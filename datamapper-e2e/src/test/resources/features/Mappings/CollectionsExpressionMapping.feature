@@ -39,7 +39,7 @@ Feature: collections expressions mappings
       | Minimum(@{integers})            | targetShort   | 1                                                                       |
       | Maximum(@{integers})            | targetShort   | 9                                                                       |
       | Concatenate(',',@{strings})     | targetString  | String1,String2,String3,String4,String5,String6,String7,String8,String9 |
-      | Concatenate(',',@{arrayString}) | JsonFirstArrayValue0,JsonFirstArrayValue1  | 1,2,3                                                                   |
+      | Concatenate(',',@{arrayString}) | targetString  | 1,2,3                                                                   |
       | Average(@{<>/arrayNumber})      | targetDouble  | 2                                                                       |
       | Add(@{<>/arrayNumber})          | targetFloat   | 6                                                                       |
       | Multiply(@{<>/arrayNumber})     | targetLong    | 6                                                                       |

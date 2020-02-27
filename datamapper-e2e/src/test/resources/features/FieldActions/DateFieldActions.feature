@@ -7,18 +7,28 @@ Feature: Date related field actions
     And atlasmap contains TestClass
     And browser is opened
     And internal mapping is set to "false"
-#  CURRENTLY NOT USED IN ATLASMAP
-#  Scenario: Day of week transformation
-#    When set mapping from "sourceDate" to "targetInteger"
-#    And add click "Add Transformation" link
-#    And change transformation from "AbsoluteValue" to "DayOfWeek"
-#    And set "4" value in target's "targetInteger"
-#    Then save and verify mapping as "dayOfWeek.json"
-#
-#    When change transformation from "DayOfWeek" to "DayOfYear"
-#    And set "1" value in target's "targetInteger"
-#    Then save and verify mapping as "dayOfYear.json"
 
+  @SimpleDateDayValue
+  Scenario Outline: <transformation> transformation
+    When set mapping from "<source>" to "targetInteger"
+    And add "<transformation>" transformation on "source"
+    And set "<targetValue>" value in target's "targetInteger"
+    And init DateObject "21-12-2012"
+    Then save and verify mapping as "<transformation>.json"
+
+    Examples:
+      | transformation | source        | targetValue  |
+      | Day Of Week    | sourceDate    | 4            |
+      | Day Of Week    | localDateTime | 5            |
+      | Day Of Week    | timestamp     | 5            |
+      | Day Of Month   | sourceDate    | 1            |
+      | Day Of Month   | localDateTime | 21           |
+      | Day Of Month   | timestamp     | 21           |
+      | Day Of Year    | sourceDate    | 1            |
+      | Day Of Year    | localDateTime | 356          |
+      | Day Of Year    | timestamp     | 356          |
+
+  @SimpleDateTransformation
   Scenario Outline: simple date transformation: <transformation> on <source/target>
     When add mapping from "<source>" to "targetDate"
     And add "<transformation>" transformation on "<source/target>"
@@ -27,12 +37,11 @@ Feature: Date related field actions
     And init DateObject "21-12-2012"
     Then save and verify mapping as "<transformation>.json"
 
-    #Add seconds not present currently
     Examples:
-      | transformation | source          | input | input-value | targetValue      | source/target |
-      | Add Days        | sourceDate     | Days  | 5           | 1970-01-06-00:00 | source        |
-      | Add Days        | /localDateTime | Days  | 5           | 2012-12-26-00:00 | source        |
-      | Add Days        | /timestamp     | Days  | 5           | 2012-12-26-00:00 | source        |
-  #   | Add Seconds     | /localDateTime | input-seconds | 86400      | 2012-12-22-00:00 | target        |
-  #   | Add Seconds     | sourceDate     | input-seconds | 86400      | 1970-01-02-00:00 | target        |
-  #   | Add Seconds     | /timestamp     | input-seconds | 86400      | 2012-12-22-00:00 | target        |
+      | transformation | source         | input   | input-value | targetValue      | source/target |
+      | Add Days       | sourceDate     | Days    | 5           | 1970-01-06-00:00 | source        |
+      | Add Days       | /localDateTime | Days    | 5           | 2012-12-26-00:00 | source        |
+      | Add Days       | /timestamp     | Days    | 5           | 2012-12-26-00:00 | source        |
+      | Add Secons     | /localDateTime | Seconds | 86400       | 2012-12-22-00:00 | source        |
+      | Add Seconds    | sourceDate     | Seconds | 86400       | 1970-01-02-00:00 | source        |
+      | Add Seconds    | /timestamp     | Seconds | 86400       | 2012-12-22-00:00 | source        |

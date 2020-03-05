@@ -13,7 +13,7 @@ Feature: Date related field actions
     When set mapping from "<source>" to "targetInteger"
     And add "<transformation>" transformation on "source"
     And set "<targetValue>" value in target's "targetInteger"
-    And init DateObject "21-12-2012"
+    And init DateObject "21-12-2012-06:00"
     Then save and verify mapping as "<transformation>.json"
 
     Examples:
@@ -42,6 +42,6 @@ Feature: Date related field actions
       | Add Days       | sourceDate     | Days    | 5           | 1970-01-06-00:00 | source        |
       | Add Days       | /localDateTime | Days    | 5           | 2012-12-26-00:00 | source        |
       | Add Days       | /timestamp     | Days    | 5           | 2012-12-26-00:00 | source        |
-      | Add Secons     | /localDateTime | Seconds | 86400       | 2012-12-22-00:00 | source        |
+      | Add Seconds    | /localDateTime | Seconds | 86400       | 2012-12-22-00:00 | source        |
       | Add Seconds    | sourceDate     | Seconds | 86400       | 1970-01-02-00:00 | source        |
       | Add Seconds    | /timestamp     | Seconds | 86400       | 2012-12-22-00:00 | source        |

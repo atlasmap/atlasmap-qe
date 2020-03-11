@@ -9,6 +9,7 @@ Feature: number related transformations
     And internal mapping is set to "false"
     And set mapping from "sourceDouble" to "targetDouble"
 
+  @NumberFieldActionsBasic
   Scenario Outline: Simple number transformations: <transformation> on <source/target>
     When add "<transformation>" transformation on "<source/target>"
     Then save and verify "<transformation>.json" with
@@ -25,26 +26,21 @@ Feature: number related transformations
       | Ceiling        | 5.2    | 6.0    | target        |
       | Floor          | 5.2    | 5.0    | source        |
       | Floor          | 4.9    | 4.0    | target        |
+      | Is Null        | 0      | 1      | source        |
+      | Length         | 100.0  | 5      | source        |
 
-#  Scenario: Index of
-#    When set mapping from "sourceString" to "targetFloat"
-#    When add "IndexOf" transformation on "source"
-#    And for "input-string" input set "1"
-#
-#    Then save and verify "IndexOf.json" with
-#      | sourceString | targetFloat |
-#      | 654321       | 5           |
-#
-#      #changed 10.12
-#  Scenario: Last Index of
-#
-#    When set mapping from "sourceString" to "targetFloat"
-#    When add "LastIndexOf" transformation on "source"
-#    And for "input-string" input set "1"
-#
-#    Then save and verify "Distance.json" with
-#      | sourceString | targetFloat |
-#      | 212121       | 5           |
+  @NumberFieldActionsWithInputs
+  Scenario Outline: transformations with inputs: <transformation> on <source/target>
+    When add "<transformation>" transformation on "<source/target>"
+    And set "<input-1>" for transformation to "<input-1-value>"
+    Then save and verify "<transformation>.json" with
+      | sourceDouble | targetDouble |
+      | <source>     | <target>     |
+
+    Examples:
+      | source/target | transformation   | input-1       | input-1-value | source | target |
+      | source        | Equals           | Value         | 100.0         | 100.0  | 1.0    |
+      | source        | Equals           | Value         | 100.0         | 99.0   | 0.0    |
 
   @UnitConversions
   Scenario Outline: unit conversions: <from> to <to>

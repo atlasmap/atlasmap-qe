@@ -93,6 +93,9 @@ public class TransformationSteps extends CucumberGlue {
             case "Seconds":
                 this.atlasmapPage.setInputValueByClass("input-seconds", value);
                 break;
+            case "Value":
+                this.atlasmapPage.setInputValueByClass("input-value", value);
+                break;
             default:
                 throw new IllegalStateException("Unsupported field for transformation: " + field);
         }

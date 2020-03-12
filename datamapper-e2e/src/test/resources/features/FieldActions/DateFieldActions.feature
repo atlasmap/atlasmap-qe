@@ -13,18 +13,21 @@ Feature: Date related field actions
     When set mapping from "<source>" to "targetInteger"
     And add "<transformation>" transformation on "source"
     And set "<targetValue>" value in target's "targetInteger"
-    And init DateObject "21-12-2012-06:00"
+    And set source data
+      | <source>      |
+      | 2012-12-21-06 |
+
     Then save and verify mapping as "<transformation>.json"
 
     Examples:
       | transformation | source        | targetValue  |
-      | Day Of Week    | sourceDate    | 4            |
+      | Day Of Week    | sourceDate    | 5            |
       | Day Of Week    | localDateTime | 5            |
       | Day Of Week    | timestamp     | 5            |
-      | Day Of Month   | sourceDate    | 1            |
+      | Day Of Month   | sourceDate    | 21           |
       | Day Of Month   | localDateTime | 21           |
       | Day Of Month   | timestamp     | 21           |
-      | Day Of Year    | sourceDate    | 1            |
+      | Day Of Year    | sourceDate    | 356          |
       | Day Of Year    | localDateTime | 356          |
       | Day Of Year    | timestamp     | 356          |
 

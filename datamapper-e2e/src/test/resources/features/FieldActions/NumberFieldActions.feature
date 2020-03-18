@@ -26,7 +26,7 @@ Feature: number related transformations
       | Ceiling        | 5.2    | 6.0    | target        |
       | Floor          | 5.2    | 5.0    | source        |
       | Floor          | 4.9    | 4.0    | target        |
-      | Is Null        | 0      | 1      | source        |
+      | Is Null        | 0.0    | 0.0    | source        |
       | Length         | 100.0  | 5      | source        |
 
   @NumberFieldActionsWithInputs

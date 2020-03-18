@@ -31,7 +31,6 @@ Feature: conversion from string
       | Separate By Dash       | this:is_foo=bar+expression | this-is-foo-bar-expression | target        |
       | Separate By Underscore | this:is_foo=bar+expression | this_is_foo_bar_expression | source        |
       | Separate By Underscore | this:is_foo=bar+expression | this_is_foo_bar_expression | target        |
-      | Ends With              | foo                        | Foo                        | source        |
       | Length                 | foobar                     | 6                          | source        |
       | Is Null                | foobar                     | false                      | source        |
 
@@ -95,6 +94,8 @@ Feature: conversion from string
       | source        | Last Index Of    | String        | foo           | N/A         | N/A           | barbarbar                    | -1                  |
       | source        | Starts With      | String        | foo           | N/A         | N/A           | foobar                       | true                |
       | source        | Starts With      | String        | bar           | N/A         | N/A           | foobar                       | false               |
+      | source        | Ends With        | String        | foo           | N/A         | N/A           | foobar                       | false               |
+      | source        | Ends With        | String        | bar           | N/A         | N/A           | foobar                       | true               |
 
   Scenario: Substring after from input string
     When add "Sub String After" transformation on "target"

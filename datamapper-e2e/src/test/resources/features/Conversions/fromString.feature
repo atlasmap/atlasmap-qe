@@ -16,25 +16,33 @@ Feature: conversion from string
       | 2            |
 
     When set mapping to "targetInteger" from "sourceString"
-    Then check if "numeric format exceptions" warning from "STRING" to "INTEGER" is displayed
-    And check if "out of range exceptions" warning from "STRING" to "INTEGER" is displayed
+    And check if warnings from "STRING" to "INTEGER" are displayed with messages
+      | out of range exceptions    |
+      | fractional part to be lost |
+      | numeric format exceptions  |
 
     When set mapping to "targetLong" from "sourceString"
-    Then check if "numeric format exceptions" warning from "STRING" to "LONG" is displayed
-    And check if "out of range exceptions" warning from "STRING" to "LONG" is displayed
+    And check if warnings from "STRING" to "LONG" are displayed with messages
+      | out of range exceptions    |
+      | fractional part to be lost |
+      | numeric format exceptions  |
 
     When set mapping to "targetDouble" from "sourceString"
-    Then check if "numeric format exceptions" warning from "STRING" to "DOUBLE" is displayed
-    And check if "out of range exceptions" warning from "STRING" to "DOUBLE" is displayed
+    And check if warnings from "STRING" to "DOUBLE" are displayed with messages
+      | out of range exceptions    |
+      | numeric format exceptions  |
 
     When set mapping to "targetFloat" from "sourceString"
-    Then check if "numeric format exceptions" warning from "STRING" to "FLOAT" is displayed
-    And check if "out of range exceptions" warning from "STRING" to "FLOAT" is displayed
+    And check if warnings from "STRING" to "FLOAT" are displayed with messages
+      | out of range exceptions    |
+      | numeric format exceptions  |
+
 
     When set mapping to "targetShort" from "sourceString"
-    Then check if "numeric format exceptions" warning from "STRING" to "SHORT" is displayed
-    And check if "out of range exceptions" warning from "STRING" to "SHORT" is displayed
-
+    And check if warnings from "STRING" to "SHORT" are displayed with messages
+      | out of range exceptions    |
+      | fractional part to be lost |
+      | numeric format exceptions  |
 
     When set mapping to "targetBigDecimal" from "sourceString"
     Then check if "numeric format exceptions" warning from "STRING" to "DECIMAL" is displayed

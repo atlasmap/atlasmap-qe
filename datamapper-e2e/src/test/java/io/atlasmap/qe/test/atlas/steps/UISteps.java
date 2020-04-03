@@ -10,6 +10,9 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriverException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -127,10 +130,16 @@ public class UISteps extends CucumberGlue {
         }
     }
 
+    @Then("check if warnings from {string} to {string} are displayed with messages")
+    public void checkIfMultipleWarningsFromToDisplayed(String from, String to, DataTable sourceMappingData) {
+        List<String> source = new ArrayList<>(sourceMappingData.asList());
+        Assert.assertTrue(this.atlasmapPage.checkMultipleWarnings(source, from, to));
+    }
+
     @Then("check if {string} warning from {string} to {string} is displayed")
     public void checkIfFromToDisplayed(String exceptionType, String from, String to) {
-        //TODO fix this
-        //  Assert.assertTrue(this.atlasmapPage.checkWarning(exceptionType, from, to));
+        List<String> source = new ArrayList<>(Arrays.asList(exceptionType));
+        Assert.assertTrue(this.atlasmapPage.checkMultipleWarnings(source, from, to));
     }
 
     @And("check if warning contains {string} message")
@@ -180,7 +189,7 @@ public class UISteps extends CucumberGlue {
 
     @And("add {string} to separate")
     public void addToSeparate(String field) throws Throwable {
-        atlasmapPage.addToMapping(field,false);
+        atlasmapPage.addToMapping(field, false);
         //atlasmapPage.verifyThatIpnutExist("input-target-" + field);
     }
 
@@ -246,17 +255,10 @@ public class UISteps extends CucumberGlue {
     public void setPreviewData(DataTable values) {
         for (Map<String, String> data : values.asMaps()) {
             for (String key : data.keySet()) {
-//                try {
-//               //     Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
                 final String value = data.get(key);
                 System.out.println(key + " " + value);
                 this.atlasmapPage.setInputValueForFieldPreview(key, value);
-
             }
-
         }
     }
 
@@ -264,7 +266,6 @@ public class UISteps extends CucumberGlue {
     public void verifyThatContains(String field, String v) {
         String value = this.atlasmapPage.getFieldPreviewValue(field);
         Assert.assertEquals(v, value);
-
     }
 
     @Then("verify preview data")
@@ -276,9 +277,6 @@ public class UISteps extends CucumberGlue {
                 Assert.assertEquals(value, val);
             }
         }
-//            data.keySet().stream()
-//                    .map(k -> this.atlasmapPage.getFieldPreviewValue(data.get(k)))
-//                    .fo
     }
 
     @And("set {string} for {string} field")
@@ -325,7 +323,6 @@ public class UISteps extends CucumberGlue {
         assertThat(atlasmapPage.getLabelFromMappingTable(number, "type")).isEqualToIgnoringCase(mappingType);
         assertThat(atlasmapPage.getLabelFromMappingTable(number, "sources")).isEqualToIgnoringCase(sources);
         assertThat(atlasmapPage.getLabelFromMappingTable(number, "targets")).isEqualToIgnoringCase(targets);
-
     }
 
     @And("click on \"{int}\" index of table")
@@ -340,7 +337,6 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.clickOnRowInMappingTable(index);
         final String preview = atlasmapPage.getPreviewValueInTable(index, "targets");
         assertThat(preview).isEqualTo(target);
-
     }
 
     @And("open all subfolders")
@@ -360,7 +356,7 @@ public class UISteps extends CucumberGlue {
 
     @And("set {string} as {string}")
     public void setAs(String field, String src) throws Throwable {
-        this.atlasmapPage.addToMapping(field,"source".equals(src));
+        this.atlasmapPage.addToMapping(field, "source".equals(src));
     }
 
     @And("delete {string} on {string}")

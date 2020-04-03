@@ -8,6 +8,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -21,6 +22,7 @@ import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import io.atlasmap.qe.test.atlas.utils.TestConfiguration;
 import lombok.extern.slf4j.Slf4j;
@@ -45,18 +47,35 @@ public class AtlasmapPage {
             "div/div/div[1]/i")).click();
     }
 
-    public boolean checkWarning(String exceptionType, String fromType, String toType) {
-        log.debug("looking ...");
+    public boolean checkMultipleWarnings(List<String> sourceMappingData, String fromType, String toType) {
+        $(By.className("DataMapperErrorComponent")).click();
+        List<String> texts = $(By.tagName("modal-error-detail")).shouldBe(Condition.appears).$$(".alert.alert-danger.alert-dismissable").texts();
+        List<String> updatedSourceMappingData = sourceMappingData.stream().map(s -> "Conversion from '" + fromType + "' to '" + toType + "' can cause " + s).collect(
+            Collectors.toList());
 
-        $("*[ class=\"alert alert-danger alert-dismissable\"").shouldBe(Condition.appears);
-        List<SelenideElement> se = $$(".modal-message");
-        // LOG.info();
-        for (String s : $$(".modal-message").texts()) {
-            if (s.equals("Conversion from '" + fromType + "' to '" + toType + "' can cause " + exceptionType)) {
-                return true;
+        closeWarningsModal();
+
+        return CollectionUtils.isEqualCollection(texts, updatedSourceMappingData);
+    }
+
+    public boolean checkWarning(String exceptionType, String fromType, String toType) {
+        boolean containsWaringMesage = false;
+        $(By.className("DataMapperErrorComponent")).click();
+        List<SelenideElement> se = $(By.tagName("modal-error-detail")).shouldBe(Condition.appears).$$(".alert.alert-danger.alert-dismissable");
+
+        for (SelenideElement s : se) {
+            if (s.text().equals("Conversion from '" + fromType + "' to '" + toType + "' can cause " + exceptionType)) {
+                containsWaringMesage = true;
+                break;
             }
         }
-        return false;
+        closeWarningsModal();
+
+        return containsWaringMesage;
+    }
+
+    private void closeWarningsModal() {
+        $(By.xpath("//span[@class='pficon pficon-close']")).click();
     }
 
     public boolean checkWarningContainMessage(String containsMessage) {

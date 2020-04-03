@@ -16,14 +16,18 @@ Feature: conversion from LONG
 
     When set mapping to "targetLong" from "sourceBigDecimal"
     Then check if "numeric format exceptions" warning from "DECIMAL" to "LONG" is not displayed
-    And check if "out of range exceptions" warning from "DECIMAL" to "LONG" is displayed
+    And check if warnings from "DECIMAL" to "LONG" are displayed with messages
+      | out of range exceptions    |
+      | fractional part to be lost |
 
     When set mapping to "targetString" from "sourceBigDecimal"
     Then check if no warnings are displayed
 
     When set mapping to "targetDouble" from "sourceBigDecimal"
     Then check if "numeric format exceptions" warning from "DECIMAL" to "DOUBLE" is not displayed
-    And check if "out of range exceptions" warning from "DECIMAL" to "DOUBLE" is displayed
+    And check if warnings from "DECIMAL" to "DOUBLE" are displayed with messages
+      | out of range exceptions    |
+      | fractional part to be lost |
 
     When set mapping to "targetFloat" from "sourceBigDecimal"
     And check if "out of range exceptions" warning from "DECIMAL" to "FLOAT" is displayed
@@ -39,11 +43,15 @@ Feature: conversion from LONG
 
     When set mapping to "targetShort" from "sourceBigDecimal"
     Then check if "numeric format exceptions" warning from "DECIMAL" to "SHORT" is not displayed
-    And check if "out of range exceptions" warning from "DECIMAL" to "SHORT" is displayed
+    And check if warnings from "DECIMAL" to "SHORT" are displayed with messages
+      | out of range exceptions    |
+      | fractional part to be lost |
 
     When set mapping to "targetChar" from "sourceBigDecimal"
     Then check if "numeric format exceptions" warning from "DECIMAL" to "CHAR" is not displayed
-    And check if "out of range exceptions" warning from "DECIMAL" to "CHAR" is displayed
+    And check if warnings from "DECIMAL" to "CHAR" are displayed with messages
+      | out of range exceptions    |
+      | fractional part to be lost |
 
 #    When set mapping to "targetByte" from "sourceBigDecimal"
 #    Then check if "numeric format exceptions" warning from "DECIMAL" to "BYTE" is not displayed

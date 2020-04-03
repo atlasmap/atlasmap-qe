@@ -12,7 +12,9 @@ Feature: conversion from LONG
 
     When set mapping to "targetInteger" from "sourceDouble"
     Then check if "numeric format exceptions" warning from "DOUBLE" to "INTEGER" is not displayed
-    And check if "out of range exceptions" warning from "DOUBLE" to "INTEGER" is displayed
+    And check if warnings from "DOUBLE" to "INTEGER" are displayed with messages
+      | out of range exceptions    |
+      | fractional part to be lost |
 
     When set mapping to "targetString" from "sourceDouble"
     Then check if no warnings are displayed
@@ -44,11 +46,15 @@ Feature: conversion from LONG
 
     When set mapping to "targetChar" from "sourceDouble"
     Then check if "numeric format exceptions" warning from "DOUBLE" to "CHAR" is not displayed
-    And check if "out of range exceptions" warning from "DOUBLE" to "CHAR" is displayed
+    And check if warnings from "DOUBLE" to "CHAR" are displayed with messages
+      | out of range exceptions    |
+      | fractional part to be lost |
 
     When set mapping to "targetByte" from "sourceDouble"
     Then check if "numeric format exceptions" warning from "DOUBLE" to "BYTE" is not displayed
-    And check if "out of range exceptions" warning from "DOUBLE" to "BYTE" is displayed
+    And check if warnings from "DOUBLE" to "BYTE" are displayed with messages
+      | out of range exceptions    |
+      | fractional part to be lost |
 
     And save mapping as "fromDouble.json"
     And verify "fromDouble.json"

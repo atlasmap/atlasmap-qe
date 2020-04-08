@@ -12,10 +12,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 import io.atlasmap.qe.resources.ResourcesGenerator;
 import io.atlasmap.qe.test.DatesObject;
 import io.atlasmap.qe.test.SmallMappingTestClass;
@@ -27,6 +23,10 @@ import io.atlasmap.qe.test.TargetMappingTestClass;
 import io.atlasmap.qe.test.TargetNestedCollectionClass;
 import io.atlasmap.qe.test.atlas.utils.Utils;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -398,17 +398,37 @@ public class BackendSteps extends CucumberGlue {
     @Then("save and verify mapping from nested {string} collection level {string} to first level collection as {string}")
     public void saveAndVerifyMappingFromNestedCollectionToFirstLevelArray(String sourceType, String level, String mapping) throws Throwable {
         userSavesMappingAs(mapping);
-        String source;
+        String output = getTargetType(sourceType);
+        Assert.assertTrue(validateFirstLevelJsonCollectionResponse(sourceType, Integer.valueOf(level), output));
+    }
+
+    @Then("save and verify asymetric nested collection from third level {string} to second level xml collection as {string}")
+    public void saveAndVerifyAsymetricNestedCollectionToSecondLevelMapping(String sourceType, String mapping) throws Throwable {
+        userSavesMappingAs(mapping);
+        String output = getTargetType(sourceType);
+        Assert.assertTrue(validateAsymetricSecondToThirdLevelXmlCollectionResponse(sourceType, output));
+    }
+
+    @Then("save and verify asymetric nested collection from second level {string} to third level json collection as {string}")
+    public void saveAndVerifyAsymetricNestedCollectionToThirdLevelMapping(String sourceType, String mapping) throws Throwable {
+        userSavesMappingAs(mapping);
+        String output = getTargetType(sourceType);
+        Assert.assertTrue(validateAsymetricThirdToSecondLevelJsonCollectionResponse(sourceType, output));
+    }
+
+    private String getTargetType(String sourceType) {
+
         String output = null;
+        String source;
 
         switch (sourceType) {
             case "json":
                 source = "sourceArrays";
-                 output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getJsonArrays(), source, "targetArrays");
+                output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getJsonArrays(), source, "targetArrays");
                 break;
             case "java":
                 source = SourceNestedCollectionClass.class.getName();
-                output = (String) validator.processSingleObjectMapping(new SourceNestedCollectionClass(), source, "targetArrays");
+                output =(String) validator.processSingleObjectMapping(new SourceNestedCollectionClass(), source, "targetArrays");
                 break;
             case "xml":
                 source = "sourceXmlInstance";
@@ -417,7 +437,7 @@ public class BackendSteps extends CucumberGlue {
             default:
                 fail("unknown source type: " + sourceType);
         }
-        Assert.assertTrue(validateFirstLevelJsonCollectionResponse(sourceType, Integer.valueOf(level), output));
+        return output;
     }
 
     @Then("save and verify mapping from nested {string} collection to {string} as {string}")
@@ -533,4 +553,21 @@ public class BackendSteps extends CucumberGlue {
         }
     }
 
+    private boolean validateAsymetricThirdToSecondLevelJsonCollectionResponse(String sourceType, String jsonResponseOriginal) {
+        String jsonResponsePrototypeLevel2 = "        {\"targetJsonNestedArray\":[{\"secondArray\":[{\"value\":\"xxxxThirdArrayValue0-0-0\"}," +
+            "{\"value\":\"xxxxThirdArrayValue0-0-1\"},{\"value\":\"xxxxThirdArrayValue0-1-0\"},{\"value\":\"xxxxThirdArrayValue0-1-1\"}," +
+            "{\"value\":\"xxxxThirdArrayValue0-1-2\"}]},{\"secondArray\":[{\"value\":\"xxxxThirdArrayValue1-0-0\"}," +
+            "{\"value\":\"xxxxThirdArrayValue1-0-1\"},{\"value\":\"xxxxThirdArrayValue1-0-2\"},{\"value\":\"xxxxThirdArrayValue1-1-0\"}," +
+            "{\"value\":\"xxxxThirdArrayValue1-1-1\"}]}]}";
+        return jsonResponseOriginal.contains(jsonResponsePrototypeLevel2.replaceAll("xxxx", sourceType));
+    }
+
+    private boolean validateAsymetricSecondToThirdLevelXmlCollectionResponse(String sourceType, String jsonResponseOriginal) {
+        String jsonResponsePrototypeLevel2 = "<?xml version=\"1.0\" encoding=\"UTF-8\" " +
+            "standalone=\"no\"?><TargetXmlInstance><targetFirstArray><targetSecondArray><targetThirdArray><value>xxxxSecondArrayValue0-0</value" +
+            "></targetThirdArray><targetThirdArray><value>xxxxSecondArrayValue0-1</value></targetThirdArray></targetSecondArray><targetSecondArray" +
+            "><targetThirdArray><value>xxxxSecondArrayValue1-0</value></targetThirdArray><targetThirdArray><value>xxxxSecondArrayValue1-1</value" +
+            "></targetThirdArray></targetSecondArray></targetFirstArray></TargetXmlInstance>";
+        return jsonResponseOriginal.contains(jsonResponsePrototypeLevel2.replaceAll("xxxx", sourceType));
+    }
 }

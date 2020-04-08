@@ -6,9 +6,9 @@ import org.junit.runner.RunWith;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 
-import cucumber.api.CucumberOptions;
-import cucumber.api.junit.Cucumber;
 import io.atlasmap.qe.test.atlas.utils.TestConfiguration;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(

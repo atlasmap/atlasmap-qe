@@ -58,6 +58,19 @@ public class AtlasmapPage {
         return CollectionUtils.isEqualCollection(texts, updatedSourceMappingData);
     }
 
+    public boolean checkAsymmetricMappingWarning(int sourceLevel, int targetLevel) {
+        $(By.className("DataMapperErrorComponent")).click();
+        String warningText = $(By.tagName("modal-error-detail")).shouldBe(Condition.appears).$(".alert.alert-danger.alert-dismissable").text();
+        closeWarningsModal();
+        if(sourceLevel > targetLevel) {
+            String sourceLowerMessage =  "has " + targetLevel + " collection(s) on the path, whereas source has " + sourceLevel;
+            return  warningText.contains(sourceLowerMessage);
+        } else {
+            String sourceHigherMessage = "since target has " + targetLevel + " collections on the path, whereas source has " + sourceLevel + ".";
+            return warningText.contains(sourceHigherMessage);
+        }
+    }
+
     public boolean checkWarning(String exceptionType, String fromType, String toType) {
         boolean containsWaringMesage = false;
         $(By.className("DataMapperErrorComponent")).click();

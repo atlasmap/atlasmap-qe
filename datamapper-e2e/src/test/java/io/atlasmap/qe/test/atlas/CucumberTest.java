@@ -14,7 +14,7 @@ import io.atlasmap.qe.test.atlas.utils.TestConfiguration;
 @CucumberOptions(
     features = "src/test/resources/features",
     glue = "io.atlasmap.qe.test.atlas.steps",
-    plugin = {//"io.atlasmap.qe.test.atlas.AtlasmapInit",
+    plugin = {"io.atlasmap.qe.test.atlas.AtlasmapInit",
         "pretty",
         "html:target/cucumber/cucumber-html",
         "junit:target/cucumber/cucumber-junit.xml",

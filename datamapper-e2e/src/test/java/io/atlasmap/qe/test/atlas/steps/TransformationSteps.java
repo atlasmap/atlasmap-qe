@@ -2,10 +2,10 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import org.junit.Assert;
 
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import io.atlasmap.qe.test.atlas.AtlasmapPage;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 
 public class TransformationSteps extends CucumberGlue {
     private AtlasmapPage atlasmapPage = new AtlasmapPage();
@@ -51,6 +51,7 @@ public class TransformationSteps extends CucumberGlue {
 
     /**
      * Sets data required for transformation.
+     *
      * @param field required by transformation
      * @param value of field
      */
@@ -114,7 +115,8 @@ public class TransformationSteps extends CucumberGlue {
     }
 
     @Then("verify preview of {string} transformation from {string} with value {string} is transformed to {string} in {string}")
-    public void verifyPreviewOfTransformationFromWithValueIsTransformedToIn(String transformation, String sourceField, String sourceValue, String targetValue, String targetField) {
+    public void verifyPreviewOfTransformationFromWithValueIsTransformedToIn(String transformation, String sourceField, String sourceValue,
+        String targetValue, String targetField) {
         this.atlasmapPage.addTransformationToTargetOrSource(transformation, true);
         this.atlasmapPage.setInputValueForFieldPreview(sourceField, sourceValue);
         this.atlasmapPage.setInputValueForFieldPreview(sourceField, sourceValue);

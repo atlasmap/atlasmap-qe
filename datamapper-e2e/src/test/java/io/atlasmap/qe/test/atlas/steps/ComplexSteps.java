@@ -2,11 +2,11 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import org.junit.Assert;
 
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import io.atlasmap.qe.test.TargetMappingTestClass;
 import io.atlasmap.qe.test.atlas.AtlasmapPage;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 
 public class ComplexSteps extends CucumberGlue {
 
@@ -30,8 +30,8 @@ public class ComplexSteps extends CucumberGlue {
     @And("verify conversion from {string} in preview")
     public void verifyConversionFromInPreview(String field) throws Exception {
         final String[] targetFields = {"targetInteger", "targetBoolean", "targetByte", "targetChar",
-                "targetDouble", "targetFloat", "targetLong", "targetShort",
-                "targetString"};
+            "targetDouble", "targetFloat", "targetLong", "targetShort",
+            "targetString"};
 
         String s = this.validator.getSourceValue(field).toString();
         this.atlasmapPage.setInputValueForFieldPreview(field, s);
@@ -53,7 +53,7 @@ public class ComplexSteps extends CucumberGlue {
 
     @Then("verify in {string} on {string} transformation that  {string} is transformed to {string}")
     public void verifyInOnTransformationThatIsTransformedTo(String transformation, String source, String input, String output) throws Throwable {
-        transformationSteps.addTransformationOn(transformation,source);
+        transformationSteps.addTransformationOn(transformation, source);
         this.validator.setSourceValue("sourceString", input);
         this.validator.setTargetValue("targetString", output);
         if ("Normalize".equals(transformation)) {

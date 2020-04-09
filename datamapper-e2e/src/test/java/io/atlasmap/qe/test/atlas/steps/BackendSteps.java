@@ -12,6 +12,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import io.atlasmap.qe.resources.ResourcesGenerator;
 import io.atlasmap.qe.test.DatesObject;
 import io.atlasmap.qe.test.SmallMappingTestClass;
@@ -23,10 +27,6 @@ import io.atlasmap.qe.test.TargetMappingTestClass;
 import io.atlasmap.qe.test.TargetNestedCollectionClass;
 import io.atlasmap.qe.test.atlas.utils.Utils;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -52,7 +52,6 @@ public class BackendSteps extends CucumberGlue {
     @And("verify {string}")
     public void verify(String arg0) throws Throwable {
         assertThat(validator.verifyMapping()).isTrue();
-
     }
 
     @When("set source data")
@@ -84,7 +83,6 @@ public class BackendSteps extends CucumberGlue {
         // Assert.assertTrue(validator.verifyMapping());
         TargetMappingTestClass processed = this.validator.processMapping();
         assertThat(processed.getValue(field)).isNotEqualTo(value);
-
     }
 
     @Then("save and verify mapping as {string}")
@@ -135,7 +133,6 @@ public class BackendSteps extends CucumberGlue {
     public void saveVerifyNegativeWith(String mapping, DataTable testValues) throws Throwable {
         verifyMultipleValues(mapping, testValues, false);
     }
-
 
     @And("Add StringObject to expected map with {string}, {string} values")
     public void addStringObjectToExpedtedMapWithAndValues(String arg0, String arg1) throws Throwable {
@@ -192,18 +189,18 @@ public class BackendSteps extends CucumberGlue {
         DatesObject d = t.getDateObjectVariable();
         DatesObject sourceDate = (DatesObject) this.validator.getSource(DatesObject.class.getName());
 
-       assertThat(sourceDate.getStandardJavaDate()).isEqualTo(d.getStandardJavaDate());
-       assertThat(sourceDate.getCalendar().getTimeInMillis()).isEqualTo(d.getCalendar().getTimeInMillis());
-       assertThat(sourceDate.getLocalDate()).isEqualTo(d.getLocalDate());
-       assertThat(sourceDate.getLocalDateTime()).isEqualTo(d.getLocalDateTime());
-       assertThat(sourceDate.getLocalTime()).isEqualTo(d.getLocalTime());
-       assertThat(sourceDate.getTime()).isEqualTo(d.getTime());
-       assertThat(sourceDate.getTimestamp()).isEqualTo(d.getTimestamp());
-       assertThat(sourceDate.getZonedDateTime()).isEqualTo(d.getZonedDateTime());
-       assertThat(sourceDate.getSqlDate().toString()).isEqualTo(d.getSqlDate().toString());
-       assertThat(sourceDate.getGregorianCalendar()).isEqualTo(d.getGregorianCalendar());
+        assertThat(sourceDate.getStandardJavaDate()).isEqualTo(d.getStandardJavaDate());
+        assertThat(sourceDate.getCalendar().getTimeInMillis()).isEqualTo(d.getCalendar().getTimeInMillis());
+        assertThat(sourceDate.getLocalDate()).isEqualTo(d.getLocalDate());
+        assertThat(sourceDate.getLocalDateTime()).isEqualTo(d.getLocalDateTime());
+        assertThat(sourceDate.getLocalTime()).isEqualTo(d.getLocalTime());
+        assertThat(sourceDate.getTime()).isEqualTo(d.getTime());
+        assertThat(sourceDate.getTimestamp()).isEqualTo(d.getTimestamp());
+        assertThat(sourceDate.getZonedDateTime()).isEqualTo(d.getZonedDateTime());
+        assertThat(sourceDate.getSqlDate().toString()).isEqualTo(d.getSqlDate().toString());
+        assertThat(sourceDate.getGregorianCalendar()).isEqualTo(d.getGregorianCalendar());
 
-       assertThat(validator.verifyMultiObjectMapping()).isTrue();
+        assertThat(validator.verifyMultiObjectMapping()).isTrue();
     }
 
     @Then("save and verify datetypes mapping as {string} and skip sql formats")
@@ -214,16 +211,15 @@ public class BackendSteps extends CucumberGlue {
         DatesObject d = t.getDateObjectVariable();
         DatesObject sourceDate = (DatesObject) this.validator.getSource(DatesObject.class.getName());
 
-
         if (!mapping.contains("Time")) {
-           assertThat(sourceDate.getLocalDate()).isEqualTo( d.getLocalDate());
-           assertThat(sourceDate.getStandardJavaDate()).isEqualTo( d.getStandardJavaDate());
-           assertThat(sourceDate.getCalendar().getTime()).isEqualTo(d.getCalendar().getTime());
+            assertThat(sourceDate.getLocalDate()).isEqualTo(d.getLocalDate());
+            assertThat(sourceDate.getStandardJavaDate()).isEqualTo(d.getStandardJavaDate());
+            assertThat(sourceDate.getCalendar().getTime()).isEqualTo(d.getCalendar().getTime());
         }
-       assertThat(sourceDate.getLocalDateTime()).isEqualTo( d.getLocalDateTime());
-       assertThat(sourceDate.getLocalTime()).isEqualTo( d.getLocalTime());
-       assertThat(sourceDate.getZonedDateTime()).isEqualTo( d.getZonedDateTime());
-       assertThat(sourceDate.getGregorianCalendar()).isEqualTo(d.getGregorianCalendar());
+        assertThat(sourceDate.getLocalDateTime()).isEqualTo(d.getLocalDateTime());
+        assertThat(sourceDate.getLocalTime()).isEqualTo(d.getLocalTime());
+        assertThat(sourceDate.getZonedDateTime()).isEqualTo(d.getZonedDateTime());
+        assertThat(sourceDate.getGregorianCalendar()).isEqualTo(d.getGregorianCalendar());
         assertThat(validator.verifyMultiObjectMapping()).isTrue();
     }
 
@@ -241,7 +237,6 @@ public class BackendSteps extends CucumberGlue {
 
         userSavesMappingAs(mapping);
         assertThat(validator.verifyMapping()).isTrue();
-
     }
 
     @Then("save and verify separate mapping with {string} separator as {string}")
@@ -281,7 +276,8 @@ public class BackendSteps extends CucumberGlue {
             } else if (var.contains("set")) {
                 assertThat(target.getTargetSmallMappingTestClass().getListOfStrings()).containsAll((new SourceListsClass()).getSet());
             } else if (var.contains("array")) {
-                assertThat(target.getTargetSmallMappingTestClass().getListOfStrings()).containsAll(Arrays.asList((new SourceListsClass()).getArray()));
+                assertThat(target.getTargetSmallMappingTestClass().getListOfStrings())
+                    .containsAll(Arrays.asList((new SourceListsClass()).getArray()));
             }
         } else if ("listOfIntegers".equals(array)) {
             final List integers = target.getTargetSmallMappingTestClass().getListOfIntegers();
@@ -289,8 +285,7 @@ public class BackendSteps extends CucumberGlue {
                 integers.forEach(i -> {
                     ResourcesGenerator.getJsonArrays("jsonIntegers").contains(i);
                 });
-            }
-            else {
+            } else {
                 assertThat(integers).contains(Integer.valueOf(var));
             }
         } else {
@@ -306,7 +301,7 @@ public class BackendSteps extends CucumberGlue {
         TargetListsClass tlc = (TargetListsClass) validator.processSingleObjectMapping(slc, TargetListsClass.class.getName());
         tlc.getObjects().forEach(s -> {
             System.out.println(s.toString());
-            assertThat(slc.getSet()).contains( s.getFirstName());
+            assertThat(slc.getSet()).contains(s.getFirstName());
             assertThat(slc.getStrings()).contains(s.getLastName());
         });
     }
@@ -355,7 +350,7 @@ public class BackendSteps extends CucumberGlue {
 
         tlc.getObjects().forEach(s -> {
             System.out.println(s.toString());
-            assertThat(integers).contains( Integer.parseInt(s.getFirstName()));
+            assertThat(integers).contains(Integer.parseInt(s.getFirstName()));
             assertThat(strings).contains(s.getLastName());
         });
     }
@@ -363,12 +358,13 @@ public class BackendSteps extends CucumberGlue {
     @Then("save and verify repeating mapping of json object to object as {string}")
     public void saveAndVerifyRepeatingMappingOfJsonObjectToObjectAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
-        final List<StringObject> targetObjects = ((TargetListsClass) validator.processSingleObjectMapping(ResourcesGenerator.getJsonArrays(),"sourceArrays", TargetListsClass.class.getName())).getObjects();
+        final List<StringObject> targetObjects = ((TargetListsClass) validator
+            .processSingleObjectMapping(ResourcesGenerator.getJsonArrays(), "sourceArrays", TargetListsClass.class.getName())).getObjects();
         final List jsonObjects = ResourcesGenerator.getJsonArrays("jsonObjects");
 
-        for(int i=0;i<targetObjects.size();i++) {
-            assertThat(targetObjects.get(i).getFirstName()).isEqualTo(((StringObject)jsonObjects.get(i)).getFirstName());
-            assertThat(targetObjects.get(i).getLastName()).isEqualTo(((StringObject)jsonObjects.get(i)).getLastName());
+        for (int i = 0; i < targetObjects.size(); i++) {
+            assertThat(targetObjects.get(i).getFirstName()).isEqualTo(((StringObject) jsonObjects.get(i)).getFirstName());
+            assertThat(targetObjects.get(i).getLastName()).isEqualTo(((StringObject) jsonObjects.get(i)).getLastName());
         }
     }
 
@@ -428,7 +424,7 @@ public class BackendSteps extends CucumberGlue {
                 break;
             case "java":
                 source = SourceNestedCollectionClass.class.getName();
-                output =(String) validator.processSingleObjectMapping(new SourceNestedCollectionClass(), source, "targetArrays");
+                output = (String) validator.processSingleObjectMapping(new SourceNestedCollectionClass(), source, "targetArrays");
                 break;
             case "xml":
                 source = "sourceXmlInstance";
@@ -539,14 +535,15 @@ public class BackendSteps extends CucumberGlue {
 
     private boolean validateFirstLevelJsonCollectionResponse(String sourceType, int level, String jsonResponseOriginal) {
 
-        String jsonResponsePrototypeLevel3 = "{\"jsonStrings\":[\"xxxxThirdArrayValue0-0-0\",\"xxxxThirdArrayValue0-0-1\",\"xxxxThirdArrayValue0-1-0\"," +
-            "\"xxxxThirdArrayValue0-1-1\",\"xxxxThirdArrayValue0-1-2\",\"xxxxThirdArrayValue1-0-0\",\"xxxxThirdArrayValue1-0-1\"," +
-            "\"xxxxThirdArrayValue1-0-2\",\"xxxxThirdArrayValue1-1-0\",\"xxxxThirdArrayValue1-1-1\"]}";
+        String jsonResponsePrototypeLevel3 =
+            "{\"jsonStrings\":[\"xxxxThirdArrayValue0-0-0\",\"xxxxThirdArrayValue0-0-1\",\"xxxxThirdArrayValue0-1-0\"," +
+                "\"xxxxThirdArrayValue0-1-1\",\"xxxxThirdArrayValue0-1-2\",\"xxxxThirdArrayValue1-0-0\",\"xxxxThirdArrayValue1-0-1\"," +
+                "\"xxxxThirdArrayValue1-0-2\",\"xxxxThirdArrayValue1-1-0\",\"xxxxThirdArrayValue1-1-1\"]}";
 
         String jsonResponsePrototypeLevel2 = "{\"jsonStrings\":[\"xxxxSecondArrayValue0-0\",\"xxxxSecondArrayValue0-1\"," +
             "\"xxxxSecondArrayValue1-0\",\"xxxxSecondArrayValue1-1\"]}";
 
-        if(level == 2) {
+        if (level == 2) {
             return jsonResponseOriginal.contains(jsonResponsePrototypeLevel2.replaceAll("xxxx", sourceType));
         } else {
             return jsonResponseOriginal.contains(jsonResponsePrototypeLevel3.replaceAll("xxxx", sourceType));

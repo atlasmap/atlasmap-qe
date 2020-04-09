@@ -4,9 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -18,14 +16,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import io.atlasmap.qe.test.atlas.AtlasmapPage;
 import io.atlasmap.qe.test.atlas.utils.Utils;
 import io.cucumber.core.api.Scenario;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

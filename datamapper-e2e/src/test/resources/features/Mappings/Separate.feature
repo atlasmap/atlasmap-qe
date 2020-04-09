@@ -11,7 +11,8 @@ Feature: atlasmap is able to separate input to multiple fields
   @SmokeTest
   @SimpleSeparate
   Scenario: Simple separate workflow, executed from Mapping Details window
-    When click on "sourceCombineString"
+
+    And click on create new mapping from source "sourceCombineString"
 
     And  set "targetString" as "target"
     And  set "targetAnotherString" as "target"
@@ -24,7 +25,7 @@ Feature: atlasmap is able to separate input to multiple fields
 
   @SeparateWithAllSeparators
   Scenario: Mixed types separate , executed from Mapping Details window
-    When click on "sourceCombineString"
+    And click on create new mapping from source "sourceCombineString"
 #    And change index of "" id input set "targetString"
 #
 #    And add "targetChar" to separate
@@ -34,13 +35,13 @@ Feature: atlasmap is able to separate input to multiple fields
 #    And add "targetShort" to separate
 #    And add "targetDouble" to separate
 
-    And click on "targetString" holding cmd button
-    And click on "targetChar" holding cmd button
-    And click on "targetInteger" holding cmd button
-    And click on "targetFloat" holding cmd button
-    And click on "targetLong" holding cmd button
-    And click on "targetShort" holding cmd button
-    And click on "targetDouble" holding cmd button
+    And add target "targetString" to active mapping
+    And add target "targetChar" to active mapping
+    And add target "targetInteger" to active mapping
+    And add target "targetFloat" to active mapping
+    And add target "targetLong" to active mapping
+    And add target "targetShort" to active mapping
+    And add target "targetDouble" to active mapping
 
    # And sleep for "30000"
     And take a screenshot
@@ -86,15 +87,16 @@ Feature: atlasmap is able to separate input to multiple fields
 
   @MixedIndexesSeparate
   Scenario: Mixed types separate, with mixed indexes executed from Mapping Details window
-    When click on "sourceCombineString"
+    And click on create new mapping from source "sourceCombineString"
+
     And set "targetString" as "target"
 
     And add "targetChar" to separate
     And add "targetInteger" to separate
     And add "targetFloat" to separate
     And add "targetLong" to separate
-    And click on "targetShort" holding cmd button
-    And click on "targetDouble" holding cmd button
+    And add target "targetShort" to active mapping
+    And add target "targetDouble" to active mapping
 
     And change index of "targetChar" to "7" on "target"
     #necessary
@@ -115,46 +117,45 @@ Feature: atlasmap is able to separate input to multiple fields
     Then save and verify mapping as "ComplexSeparateMixedIndexes.json"
 
   @SmokeTest
-  @CmdHolding
-  Scenario: Separate created with CMD holding
-    When click on "sourceCombineString"
-    And click on "targetString" holding cmd button
-    And click on "targetChar" holding cmd button
-    And click on "targetInteger" holding cmd button
-    And click on "targetFloat" holding cmd button
-    And click on "targetLong" holding cmd button
-    And click on "targetShort" holding cmd button
-    And click on "targetDouble" holding cmd button
+  Scenario: Separate created
+    And click on create new mapping from source "sourceCombineString"
+    And add target "targetString" to active mapping
+    And add target "targetChar" to active mapping
+    And add target "targetInteger" to active mapping
+    And add target "targetFloat" to active mapping
+    And add target "targetLong" to active mapping
+    And add target "targetShort" to active mapping
+    And add target "targetDouble" to active mapping
 
     Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.json"
 
-  @SeparateDragAndDrop
-  @DragAndDrop
-  @Ignore
-  Scenario: Separate created with CMD holding using drag'n'drop
-    When click on "targetString" holding cmd button
-    And click on "targetAnotherString" holding cmd button
-
-    And drag "targetAnotherString" and drop on "sourceCombineString"
-
-    And set source data
-      | sourceCombineString |
-      | foo bar             |
-
-    And set expected data
-      | targetString | targetAnotherString |
-      | foo          | bar                 |
-
-    Then save and verify mapping as "ComplexSeparateSpaceDragNDrop.json"
+#  @SeparateDragAndDrop
+#  @DragAndDrop
+#  @Ignore
+#  Scenario: Separate created with CMD holding using drag'n'drop
+#    When click on "targetString" holding cmd button
+#    And click on "targetAnotherString" holding cmd button
+#
+#    And drag "targetAnotherString" and drop on "sourceCombineString"
+#
+#    And set source data
+#      | sourceCombineString |
+#      | foo bar             |
+#
+#    And set expected data
+#      | targetString | targetAnotherString |
+#      | foo          | bar                 |
+#
+#    Then save and verify mapping as "ComplexSeparateSpaceDragNDrop.json"
 
   @gaps
   Scenario: Separate with Gaps
-    When click on "sourceCombineString"
+    And click on create new mapping from source "sourceCombineString"
 
-    And click on "targetInteger" holding cmd button
-    And click on "targetFloat" holding cmd button
-    And click on "targetLong" holding cmd button
-    And click on "targetDouble" holding cmd button
+    And add target "targetInteger" to active mapping
+    And add target "targetFloat" to active mapping
+    And add target "targetLong" to active mapping
+    And add target "targetDouble" to active mapping
 
     When select "Colon [:]" separator
 

@@ -30,7 +30,9 @@ atlasmap.config.ui.browser=chrome
     * add `-Dselenide.headless=true` if you want to run tests in the background
     * add `-Dselenide.holdBrowserOpen=true` if you want to keep browser opened after tests
     * add `-Dcucumber.options='--tags @SmokeTest'` if you want to run only tests tagged with `@SmokeTest`
-    * add `atlasmap.mappings.root.directory=${mappings_home_dir}` in case you want explicitly specify the mappings root directory, in case it's not inside the test suite - this is set as default
+    * add `-Datlasmap.mappings.root.directory=${mappings_home_dir}` in case you want explicitly specify the mappings root directory, in case it's not inside the test suite - this is set as default
+    * add `-Datlasmap.fast.init=true` in case you want to setup the tests using
+       * add `-Datlasmap.adm.resource=${adm_file_path}` in case you want to specify specify the adm file to be used (default is set for _test-resources/src/main/resources/atlasmap-qe.adm_)
 
 ## How does it work?
 1. _maven-dependency-plugin_ downloads _JAR_ with standalone _AtlasMap_

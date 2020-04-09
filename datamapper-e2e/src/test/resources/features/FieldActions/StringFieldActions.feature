@@ -7,7 +7,7 @@ Feature: conversion from string
     And atlasmap contains TestClass
     And browser is opened
     And internal mapping is set to "true"
-    And set mapping from "sourceString" to "targetString"
+    And add mapping from "sourceString" to "targetString"
 #
   @SimpleStringTransformations
   Scenario Outline: Simple string transformations: <transformation> on <source/target>
@@ -97,6 +97,7 @@ Feature: conversion from string
       | source        | Ends With        | String        | foo           | N/A         | N/A           | foobar                       | false               |
       | source        | Ends With        | String        | bar           | N/A         | N/A           | foobar                       | true               |
 
+  @SubstringAfter
   Scenario: Substring after from input string
     When add "Sub String After" transformation on "target"
     And set "End Index" for transformation to "5"
@@ -106,6 +107,7 @@ Feature: conversion from string
       | sourceString          | targetString |
       | fooleftmiddlerightbar | right        |
 
+  @SubstringBefore
   Scenario: Substring before
     And add "Sub String Before" transformation on "source"
     And set "End Index" for transformation to "6"

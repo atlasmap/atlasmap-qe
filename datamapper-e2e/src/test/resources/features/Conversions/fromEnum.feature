@@ -23,29 +23,24 @@ Feature: conversion from enum
     Then save and verify mapping as "enumToEnum.json"
 
   Scenario: Conversions from Enum to all types and warning checks
-    # mapping to sourceEnum
-    When set mapping to "sourceEnum" from "targetInteger"
+    When set mapping to "targetInteger" from "sourceEnum"
     Then check if danger warning contains "The field 'targetInteger' cannot be selected, only Enumeration fields are valid for this mapping." message
 
-    When set mapping to "sourceEnum" from "targetLong"
+    When set mapping to "targetLong" from "sourceEnum"
     Then check if danger warning contains "The field 'targetLong' cannot be selected, only Enumeration fields are valid for this mapping." message
 
-    When set mapping to "sourceEnum" from "targetDouble"
+    When set mapping to "targetDouble" from "sourceEnum"
     Then check if danger warning contains "The field 'targetDouble' cannot be selected, only Enumeration fields are valid for this mapping." message
 
-    When set mapping to "sourceEnum" from "targetFloat"
+    When set mapping to "targetFloat" from "sourceEnum"
     Then check if danger warning contains "The field 'targetFloat' cannot be selected, only Enumeration fields are valid for this mapping." message
 
-    When set mapping to "sourceEnum" from "targetShort"
+    When set mapping to "targetShort" from "sourceEnum"
     Then check if danger warning contains "The field 'targetShort' cannot be selected, only Enumeration fields are valid for this mapping." message
 
-    When set mapping to "sourceEnum" from "targetBigDecimal"
+    When set mapping to "targetBigDecimal" from "sourceEnum"
     Then check if danger warning contains "The field 'targetBigDecimal' cannot be selected, only Enumeration fields are valid for this mapping." message
 
-    When set mapping to "sourceEnum" from "targetString"
-    Then check if danger warning contains "The field 'targetString' cannot be selected, only Enumeration fields are valid for this mapping." message
-
-    # mapping from sourceEnum
     When set mapping to "targetString" from "sourceEnum"
     Then check if danger warning contains "The field 'targetString' cannot be selected, only Enumeration fields are valid for this mapping." message
 

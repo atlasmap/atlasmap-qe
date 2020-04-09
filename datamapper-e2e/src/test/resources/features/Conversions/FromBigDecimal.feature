@@ -32,13 +32,13 @@ Feature: conversion from LONG
     When set mapping to "targetFloat" from "sourceBigDecimal"
     And check if "out of range exceptions" warning from "DECIMAL" to "FLOAT" is displayed
 
-    When  set mapping to "targetBoolean" from "sourceBigDecimal"
+    When set mapping to "targetBoolean" from "sourceBigDecimal"
     Then check if no warnings are displayed
 
     When set mapping to "targetBigDecimal" from "sourceBigDecimal"
     Then check if no warnings are displayed
 
-    When  set mapping to "targetBigInteger" from "sourceBigDecimal"
+    When set mapping to "targetBigInteger" from "sourceBigDecimal"
     Then check if no warnings are displayed
 
     When set mapping to "targetShort" from "sourceBigDecimal"

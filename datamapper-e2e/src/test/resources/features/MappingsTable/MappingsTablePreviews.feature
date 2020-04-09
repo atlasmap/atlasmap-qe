@@ -1,3 +1,5 @@
+@ENTESB
+# Blocked by: https://issues.redhat.com/browse/ENTESB-13648
 @MappingPreviews
 @MappingsTablePreviews
 Feature: mappings table

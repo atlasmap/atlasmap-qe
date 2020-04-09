@@ -23,6 +23,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.atlasmap.qe.test.atlas.AtlasmapPage;
+import io.atlasmap.qe.test.atlas.utils.HoverAction;
 import io.atlasmap.qe.test.atlas.utils.Utils;
 import io.cucumber.core.api.Scenario;
 import io.cucumber.datatable.DataTable;
@@ -30,7 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class UISteps extends CucumberGlue {
-    private static String previousSelected = "";
 
     private Scenario myScenario;
     private AtlasmapPage atlasmapPage = new AtlasmapPage();
@@ -56,43 +56,20 @@ public class UISteps extends CucumberGlue {
         assertThat(resp).contains(atlasmapPage.TEST_CLASS);
     }
 
-    @When("set mapping from {string} to {string}")
-    public void userSsetsMappingFromTo(String source, String target) throws Exception {
-        this.atlasmapPage.clickOn(source);
-        this.atlasmapPage.clickOn(target);
-        if (internalMapping) {
-            this.validator.map(source, target);
-        }
-    }
-
     @Then("browser is opened")
     public void userOpensBrowser() throws Exception {
         atlasmapPage.refreshPage();
     }
 
-    @And("set mapping to {string} from {string}")
-    public void userSetsMappingToFrom(String target, String source) throws Throwable {
-        this.atlasmapPage.clickOn(target);
-        this.atlasmapPage.clickOn(source);
-        if (internalMapping) {
-            this.validator.map(source, target);
-        }
-    }
-
     @And("internal mapping is skipped")
-    public void internalMappingIsSkipped() throws Throwable {
+    public void internalMappingIsSkipped() {
         internalMapping = false;
     }
 
     @And("internal mapping is set to {string}")
-    public void internalMappingIsSetTo(String mapping) throws Throwable {
+    public void internalMappingIsSetTo(String mapping) {
         // Write code here that turns the phrase above into concrete actions
         internalMapping = "true".equals(mapping);
-    }
-
-    @And("set mapping condition to {string} by Control key")
-    public void setMappingConditionByCtrl(String condition) {
-        setMappingConditionTo(condition, this::clickOnHoldingCmdButton);
     }
 
     @And("set mapping condition to {string} by drag and drop")
@@ -104,18 +81,14 @@ public class UISteps extends CucumberGlue {
     public void setMappingConditionByAutoCompletion(String condition) {
         setMappingConditionTo(condition, s -> {
             atlasmapPage.addToConditionalMapping("@" + s);
-            atlasmapPage.clickOnValueFromPicker("conditional-expr-picker", s);
+            atlasmapPage.clickOnValueFromPicker(s);
         });
     }
 
     @And("set mapping condition to {string} by selecting sources")
     public void setMappingConditionBySelectingSources(String condition) {
         setMappingConditionTo(condition, s -> {
-            try {
-                atlasmapPage.addToMapping(s, true);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            atlasmapPage.addToMappingUsingMappingDetails(s, true);
         });
     }
 
@@ -162,54 +135,19 @@ public class UISteps extends CucumberGlue {
         this.atlasmapPage.checkWarnings();
     }
 
-    @And("add click {string} button")
-    public void addClickButton(String arg0) throws Throwable {
-        this.atlasmapPage.clickOnButtonByText(arg0);
-    }
-
-    @When("click on {string}")
-    public void clickOn(String arg0) throws Throwable {
-        this.atlasmapPage.clickOn(arg0);
-    }
-
-    @And("add select {string} action")
-    public void addSelectAction(String action) throws Throwable {
-        this.atlasmapPage.selectAction(action);
-    }
-
-    @And("for {string} id input set {string}")
-    public void forIdInputSet(String id, String value) throws Throwable {
-        this.atlasmapPage.setInputValueById(id, value);
-    }
-
     @And("add {string} to combine")
     public void addToCombine(String field) throws Throwable {
-        this.atlasmapPage.addToMapping(field, true);
-    }
-
-    @And("for {string} input with {string} set {string}")
-    public void forInputWithSet(String id, String def, String value) throws Throwable {
-        this.atlasmapPage.setInputValueByClassAndDefaultValue(id, def, value);
+        this.atlasmapPage.addToMappingUsingFieldPanel(field, true);
     }
 
     @And("add {string} to separate")
     public void addToSeparate(String field) throws Throwable {
-        atlasmapPage.addToMapping(field, false);
-        //atlasmapPage.verifyThatIpnutExist("input-target-" + field);
-    }
-
-    @And("open mapping details window")
-    public void openMappingDetailsWindow() {
-        atlasmapPage.openMappingDetails();
+        atlasmapPage.addToMappingUsingFieldPanel(field, false);
     }
 
     @When("delete current mapping")
     public void deleteCurrentMapping() {
-        try {
-            atlasmapPage.deleteCurrent();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        atlasmapPage.deleteCurrentMapping();
     }
 
     @And("reveal mapping details")
@@ -219,9 +157,20 @@ public class UISteps extends CucumberGlue {
 
     @And("add mapping from {string} to {string}")
     public void addMappingFromTo(String from, String to) throws Throwable {
-        atlasmapPage.clickOnLinkByClass(".fa.fa-plus.link");
-        atlasmapPage.addToMapping(from, true);
-        atlasmapPage.addToMapping(to, false);
+        atlasmapPage.createNewMapping(from, "source");
+        atlasmapPage.addToMappingUsingFieldPanel(to, false);
+        if (internalMapping) {
+            this.validator.map(from, to);
+        }
+    }
+
+    @And("set mapping from {string} to {string}")
+    public void setMappingFromTo(String from, String to) throws Throwable {
+        atlasmapPage.createNewMapping(from, "source");
+        atlasmapPage.addToMappingUsingFieldPanel(to, false);
+        if (internalMapping) {
+            this.validator.map(from, to);
+        }
     }
 
     @And("add click {string} link")
@@ -229,19 +178,9 @@ public class UISteps extends CucumberGlue {
         this.atlasmapPage.clickOnLinkByClass(".fa.fa-long-arrow-right");
     }
 
-    @And("for {string} id input with {string} set {string}")
-    public void forIdInputWithSet(String id, String def, String value) {
-        this.atlasmapPage.setInputValueByIdAndDefaultValue(id, def, value);
-    }
-
     @When("change select from {string} to {string}")
     public void changeSelectFromTo(String from, String to) {
         this.atlasmapPage.changeSelectValue(from, to);
-    }
-
-    @When("click on {string} holding cmd button")
-    public void clickOnHoldingCmdButton(String id) {
-        this.atlasmapPage.clickOnWhileHolding(id, "cmd");
     }
 
     @And("drag {string} and drop on {string}")
@@ -251,9 +190,7 @@ public class UISteps extends CucumberGlue {
 
     @And("Show mapping preview")
     public void showMappingPreview() {
-
-        this.atlasmapPage.clickOnLinkByClass(".fa.fa-cog.link");
-        this.atlasmapPage.clickOnElementByText("a", "Show Mapping Preview ");
+        this.atlasmapPage.clickOnLinkByDataTestId("show-hide-mapping-preview-button");
     }
 
     @And("set preview data")
@@ -261,7 +198,7 @@ public class UISteps extends CucumberGlue {
         for (Map<String, String> data : values.asMaps()) {
             for (String key : data.keySet()) {
                 final String value = data.get(key);
-                System.out.println(key + " " + value);
+                log.info(key + " " + value);
                 this.atlasmapPage.setInputValueForFieldPreview(key, value);
             }
         }
@@ -349,11 +286,6 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.openAllSubfolders();
     }
 
-    @And("open data bucket {string}")
-    public void openDataBucket(String bucket) {
-        atlasmapPage.openBucket(bucket);
-    }
-
     @And("open all data buckets named {string}")
     public void openAllDataBuckets(String bucket) {
         atlasmapPage.openAllBucketsWithName(bucket);
@@ -361,7 +293,7 @@ public class UISteps extends CucumberGlue {
 
     @And("set {string} as {string}")
     public void setAs(String field, String src) throws Throwable {
-        this.atlasmapPage.addToMapping(field, "source".equals(src));
+        this.atlasmapPage.addToMappingUsingFieldPanel(field, "source".equals(src));
     }
 
     @And("delete {string} on {string}")
@@ -372,5 +304,68 @@ public class UISteps extends CucumberGlue {
     @And("change index of {string} to \"{int}\" on {string}")
     public void changeIndexOfToOn(String field, int value, String src) throws Throwable {
         this.atlasmapPage.changeIndexValue(field, value, "source".equals(src));
+    }
+
+    @When("init mapping from {string} to {string}")
+    public void initMappingFromTo(String target, String source) {
+
+        this.atlasmapPage.dragNDrop(source, target);
+        //TODO: drag the source to target - will initialize the mapping
+    }
+
+    @And("show mapping details of fiels {string}")
+    public void setMappingNrAsActive(String mappingNr) {
+        //TODO
+    }
+
+    @And("click on create new mapping")
+    public void clickOnCreateNewMapping() {
+        this.atlasmapPage.clickOnLinkByDataTestId("add-new-mapping-button");
+    }
+
+    @And("add source {string} to active mapping")
+    public void addSourceToActiveMapping(String mappingField) {
+        this.atlasmapPage.addToMappingUsingFieldPanel(mappingField, true);
+    }
+
+    @And("add target {string} to active mapping")
+    public void addTargetToActiveMapping(String mappingField) {
+        this.atlasmapPage.addToMappingUsingFieldPanel(mappingField, false);
+    }
+
+    @When("connect field {string} to active mapping")
+    public void connectFieldToActiveMapping(String source) {
+        this.atlasmapPage.addToMappingUsingFieldPanel(source, true);
+    }
+
+    @And("set mapping to {string} from {string}")
+    public void userSetsMappingToFrom(String target, String source) throws Throwable {
+        this.atlasmapPage.createNewMapping(source, "source");
+        this.atlasmapPage.addToMappingUsingFieldPanel(target, false);
+        if (internalMapping) {
+            this.validator.map(source, target);
+        }
+    }
+
+    @And("click on create new mapping from source {string}")
+    public void clickOnCreateNewMappingFromSource(String mappingField) {
+
+        atlasmapPage.createNewMapping(mappingField, "source");
+    }
+
+    @And("click on create new mapping from target {string}")
+    public void clickOnCreateNewMappingFrom(String mappingField) {
+
+        atlasmapPage.createNewMapping(mappingField, "target");
+    }
+
+    @And("click show target mapping for {string}")
+    public void clickShowTargetMapping(String mappingField) {
+        atlasmapPage.hoverAndSelectOperation(mappingField, HoverAction.SHOW_MAPPING_DETAILS, "target");
+    }
+
+    @And("click show source mapping for {string}")
+    public void clickShowSourceMapping(String mappingField) {
+        atlasmapPage.hoverAndSelectOperation(mappingField, HoverAction.SHOW_MAPPING_DETAILS, "source");
     }
 }

@@ -9,7 +9,7 @@ Feature: Mappings of collections
     And browser is opened
 
   Scenario: List<String> to String
-    When set mapping from "listOfStrings" to "targetString"
+    When add mapping from "listOfStrings" to "targetString"
     And Init smallMappingTestClass and add to source map
     And set "1_0 1_1 1_2 1_3 1_4 1_5 1_6 1_7 1_8 1_9" value in target's "targetString"
     Then save and verify mapping with multiple objects as "repetitive1.json"
@@ -26,87 +26,70 @@ Feature: Mappings of collections
     Then save and verify that "listOfIntegers" contains "999" as "repetitive3.json"
 
   Scenario: Integers to Strings
-    When click on "listOfIntegers"
-    And set "targetSmallMappingTestClass/listOfStrings" as "target"
+    When add mapping from "listOfIntegers" to "/targetSmallMappingTestClass/listOfStrings"
     And Init smallMappingTestClass and add to source map
     Then save and verify that "listOfStrings" contains "listOfIntegers" as "repetitive4.json"
 
-
   Scenario: Mapping set to list of Strings
-    When click on "set"
-    And  set "targetSmallMappingTestClass/listOfStrings" as "target"
+    When add mapping from "set" to "/targetSmallMappingTestClass/listOfStrings"
     And Init smallMappingTestClass and add to source map
     Then save and verify that "listOfStrings" contains "set" as "repetitive5.json"
 
   Scenario: Mapping array to list of Strings
-    When click on "array"
-    And  set "targetSmallMappingTestClass/listOfStrings" as "target"
+    When add mapping from "array" to "/targetSmallMappingTestClass/listOfStrings"
     And Init smallMappingTestClass and add to source map
     Then save and verify that "listOfStrings" contains "array" as "repetitive6.json"
 
 
   @SmokeTest
   Scenario: mapping between  json arrays on root level
-    When add mapping from "/<>/arrayString" to "/<>/arrayAnotherString"
-    And add mapping from "/<>/arrayAnotherString" to "/<>/arrayString"
+    And open all subfolders
+    When add mapping from "/arrayString" to "/arrayAnotherString"
+    And add mapping from "/arrayAnotherString" to "/arrayString"
     Then save and verify rootArrayMappings mapping as "rootArrayMappings.json"
 
   Scenario: mapping from arrays to root json array
-    When add mapping from "/integers" to "/<>/arrayNumber"
-    And add mapping from "/strings" to "/<>/arrayString"
+    And open all subfolders
+    When add mapping from "/integers" to "/arrayNumber"
+    And add mapping from "/strings" to "/arrayString"
     Then save and verify mapping from java collections to root array "toRootArrayMappings.json"
-
 
   @SmokeTest
   Scenario: verify List<Object> to List<Object> mapping
-    When click on "objects"
-    And click on "firstName"
-    And  set "/objects<>/lastName" as "target"
-    And click on "lastName"
-    And  set "/objects<>/firstName" as "target"
+    #TODO: this doesn't work correctly - the nested with same name as already existing element
+    When add mapping from "/objects/firstName" to "/objects/lastName"
+    When add mapping from "/objects/lastName" to "/objects/firstName"
     And Init smallMappingTestClass and add to source map
     Then save and verify repeating mapping of ListClasses as "repetitive7.json"
 
   Scenario: map list and set to List<Object> mapping
-    When click on "strings"
-    And  set "/objects<>/lastName" as "target"
-    And click on "set"
-    And  set "/objects<>/firstName" as "target"
+    When add mapping from "strings" to "/objects/lastName"
+    When add mapping from "set" to "/objects/firstName"
     And Init smallMappingTestClass and add to source map
     Then save and verify repeating mapping of collections to object as "repetitive8.json"
 
-
   @SmokeTest
   Scenario: map from json arrays to java array of object
-    When click on "jsonStrings"
-    And  set "/objects<>/lastName" as "target"
-    And click on "jsonIntegers"
-    And  set "/objects<>/firstName" as "target"
+    When add mapping from "jsonStrings" to "/objects/lastName"
+    When add mapping from "jsonIntegers" to "/objects/firstName"
     And Init smallMappingTestClass and add to source map
     Then save and verify repeating mapping of json collections to object as "repetitive9.json"
 
   Scenario: map from json array of objects to java array of objects
-    When click on "jsonObjects"
-    When click on "key"
-    And  set "/objects<>/firstName" as "target"
-    And click on "value"
-    And  set "/objects<>/lastName" as "target"
+    When add mapping from "/jsonObjects/key" to "/objects/firstName"
+    When add mapping from "/jsonObjects/value" to "/objects/lastName"
     And Init smallMappingTestClass and add to source map
     Then save and verify repeating mapping of json object to object as "repetitive10.json"
 
     @primitives
   Scenario: Mapping  collections of primitives
-    When click on "jsonIntegers"
-    And  set "targetSmallMappingTestClass/listOfStrings" as "target"
+    When add mapping from "jsonIntegers" to "/targetSmallMappingTestClass/listOfStrings"
     And Init smallMappingTestClass and add to source map
     Then save and verify that "listOfStrings" contains "listOfIntegers" as "repetitive11.json"
 
   Scenario: map from json array of objects to java array of objects
-    When click on "jsonObjects"
-    When click on "key"
-    And  set "/targetSmallMappingTestClass/listOfStrings" as "target"
-    And click on "value"
-    And  set "/targetSmallMappingTestClass/listOfIntegers" as "target"
+    When add mapping from "/jsonObjects/key" to "/targetSmallMappingTestClass/listOfStrings"
+    When add mapping from "/jsonObjects/value" to "/targetSmallMappingTestClass/listOfIntegers"
     And add "Replace First" transformation on "source"
     And set "Match" for transformation to "v"
     And set "New String" for transformation to ""

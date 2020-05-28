@@ -10,7 +10,7 @@ Feature: Date related field actions
 
   @SimpleDateDayValue
   Scenario Outline: <transformation> transformation
-    When set mapping from "<source>" to "targetInteger"
+    When add mapping from "<source>" to "targetInteger"
     And add "<transformation>" transformation on "source"
     And set "<targetValue>" value in target's "targetInteger"
     And set source data

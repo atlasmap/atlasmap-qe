@@ -15,10 +15,13 @@ import cucumber.api.event.EventListener;
 import cucumber.api.event.EventPublisher;
 import cucumber.api.event.TestRunFinished;
 import cucumber.api.event.TestRunStarted;
+import io.atlasmap.qe.test.atlas.utils.TestConfiguration;
+import io.atlasmap.qe.test.atlas.utils.Utils;
 
 /**
  * Loads test resources into AtlasMap.
  * It is plugin for {@link CucumberTest} runner.
+ *
  * @author Ondřej Kuhejda
  */
 public class AtlasmapInit implements EventListener {
@@ -42,7 +45,7 @@ public class AtlasmapInit implements EventListener {
 
         // Finds file from target folder that was last modified and that ends with ".jar".
         Optional<File> jarFile = FileUtils.listFiles(new File(TARGET_FOLDER), new WildcardFileFilter("*.jar"), TrueFileFilter.TRUE)
-                .stream().max(Comparator.comparingLong(File::lastModified));
+            .stream().max(Comparator.comparingLong(File::lastModified));
 
         // Imports JAR file.
         if (jarFile.isPresent()) {
@@ -81,8 +84,26 @@ public class AtlasmapInit implements EventListener {
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJson.schema.json");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLInstance.xml");
+        try {
+            Utils.backupAdmFile();
+        } catch (IOException e) {
+            throw new IllegalStateException("Error when backing up initial ADM file.", e);
+        }
     });
 
+    private EventHandler<TestRunStarted> setupFast = event -> runOnPage((page) -> {
+        page.resetAll();
+
+        File admFile = new File(TestConfiguration.getAdmFile());
+
+        // Imports ADM file.
+        try {
+            page.importJAR(admFile.getCanonicalPath());
+            Utils.backupAdmFile();
+        } catch (IOException e) {
+            throw new IllegalStateException("Error when getting canonical path of ADM file.", e);
+        }
+    });
     /**
      * {@link EventHandler} that is started after all tests.
      * Resets all data in AtlasMap.
@@ -91,6 +112,7 @@ public class AtlasmapInit implements EventListener {
 
     /**
      * Opens browser and executes steps defined in {@code pageConsumer}.
+     *
      * @param pageConsumer that will be executed inside web browser on {@link AtlasmapInit#atlasMapPage}.
      */
     private void runOnPage(Consumer<AtlasmapPage> pageConsumer) {
@@ -100,11 +122,18 @@ public class AtlasmapInit implements EventListener {
 
     /**
      * Registers handlers for {@link TestRunStarted} and {@link TestRunFinished}.
+     *
      * @param eventPublisher that handles registration.
      */
     @Override
     public void setEventPublisher(EventPublisher eventPublisher) {
-        eventPublisher.registerHandlerFor(TestRunStarted.class, setup);
-        eventPublisher.registerHandlerFor(TestRunFinished.class, teardown);
+
+        if (TestConfiguration.getFastInit()) {
+            eventPublisher.registerHandlerFor(TestRunStarted.class, setupFast);
+            eventPublisher.registerHandlerFor(TestRunFinished.class, teardown);
+        } else {
+            eventPublisher.registerHandlerFor(TestRunStarted.class, setup);
+            eventPublisher.registerHandlerFor(TestRunFinished.class, teardown);
+        }
     }
 }

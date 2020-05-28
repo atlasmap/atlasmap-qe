@@ -10,41 +10,50 @@ Feature: collection related field actions
     And internal mapping is set to "false"
     And init SourceListClass and add in sourceMap
 
-
 #    Done Collection -> single
-
   @CollectionTest
   Scenario Outline: Collection -> simple mapping with <transformation> transformation
     When add mapping from "<source>" to "<target>"
     And add "<transformation>" collection transformation
     And set "<value>" value in target's "<target>"
-    #And sleep for "3000"
+    And sleep for "2000"
     Then save and verify mapping as "collection_<transformation>.json"
 
     Examples:
-      | transformation | value                                                                   | target        | source         |
-      | Average        | 5                                                                       | targetDouble  | /integers      |
-      | Add            | 45                                                                      | targetFloat   | /integers      |
-      | Multiply       | 362880                                                                  | targetLong    | /integers      |
-      | Subtract       | -43                                                                     | targetInteger | /integers      |
-      | Divide         | 2.7557319223985893E-6                                                   | targetDouble  | /integers      |
-      | Minimum        | 1                                                                       | targetShort   | /integers      |
-      | Maximum        | 9                                                                       | targetShort   | /integers      |
-      | Concatenate    | String1 String2 String3 String4 String5 String6 String7 String8 String9 | targetString  | /strings       |
-      | Concatenate    | 1 2 3                                                                   | targetString  | /arrayString   |
-      | Average        | 2                                                                       | targetDouble  | <>/arrayNumber |
-      | Add            | 6                                                                       | targetFloat   | <>/arrayNumber |
-      | Multiply       | 6                                                                       | targetLong    | <>/arrayNumber |
-      | Subtract       | -4                                                                      | targetInteger | <>/arrayNumber |
-      | Divide         | 0.16666666666666666                                                     | targetDouble  | <>/arrayNumber |
-      | Minimum        | 1                                                                       | targetShort   | <>/arrayNumber |
-      | Maximum        | 3                                                                       | targetShort   | <>/arrayNumber |
+      | transformation | value                                                                   | target        | source        |
+      | Average        | 5                                                                       | targetDouble  | integers      |
+      | Add            | 45                                                                      | targetFloat   | integers      |
+      | Multiply       | 362880                                                                  | targetLong    | integers      |
+      | Subtract       | -43                                                                     | targetInteger | integers      |
+      | Divide         | 2.7557319223985893E-6                                                   | targetDouble  | integers      |
+      | Minimum        | 1                                                                       | targetShort   | integers      |
+      | Maximum        | 9                                                                       | targetShort   | integers      |
+      | Concatenate    | String1 String2 String3 String4 String5 String6 String7 String8 String9 | targetString  | strings       |
+
+  @CollectionTestNested
+  Scenario Outline: Collection -> simple mapping with <transformation> transformation
+    And open all subfolders
+    When add mapping from "<source>" to "<target>"
+    And add "<transformation>" collection transformation
+    And set "<value>" value in target's "<target>"
+    Then save and verify mapping as "collection_nested_<transformation>.json"
+
+    Examples:
+      | transformation | value                                                                   | target        | source       |
+      | Concatenate    | 1 2 3                                                                   | targetString  | /arrayString |
+      | Average        | 2                                                                       | targetDouble  | /arrayNumber |
+      | Add            | 6                                                                       | targetFloat   | /arrayNumber |
+      | Multiply       | 6                                                                       | targetLong    | /arrayNumber |
+      | Subtract       | -4                                                                      | targetInteger | /arrayNumber |
+      | Divide         | 0.16666666666666666                                                     | targetDouble  | /arrayNumber |
+      | Minimum        | 1                                                                       | targetShort   | /arrayNumber |
+      | Maximum        | 3                                                                       | targetShort   | /arrayNumber |
 
 
   @MultipleSelectionTest
-  Scenario Outline: Cmultiple selection mapping with <transformation> transformation
-    When click on "sourceInteger"
-    And  set "<target>" as "target"
+  Scenario Outline: Multiple selection mapping with <transformation> transformation
+    And click on create new mapping from source "sourceInteger"
+    And set "<target>" as "target"
 
     And add "/sourceDouble" to combine
     And add "/sourceFloat" to combine
@@ -68,6 +77,7 @@ Feature: collection related field actions
 
   @Concatenate
   Scenario Outline: <transformation> with input
+    And open all subfolders
     When add mapping from "<source>" to "<target>"
     And add "<transformation>" collection transformation
     And set "<value>" value in target's "<target>"
@@ -76,18 +86,18 @@ Feature: collection related field actions
 
     Examples:
       | transformation | delimiter | value | target       | source          |
-      | Concatenate    | Colon [:] | 1:2:3 | targetString | /<>/arrayString |
+      | Concatenate    | Colon [:] | 1:2:3 | targetString | /arrayString |
 
   @ItemAt
   Scenario: item at transformation
-    When set mapping from "integers" to "targetString"
-    When add "Item At" collection transformation
+    When add mapping from "integers" to "targetString"
+    When add "ItemAt" collection transformation
     And set "Index" for transformation to "5"
     And set "6" value in target's "targetString"
     Then save and verify mapping as "collection_itemAt.json"
 
-
 ##single -> array (split for example)
+  @SingleFieldToCollectionTransform
   Scenario Outline: single field -> collection transformations
     When add mapping from "<source>" to "<target>"
     And add "<transformation>" collection transformation
@@ -100,7 +110,7 @@ Feature: collection related field actions
       | Split          | sourceString | /strings  | 1:2:3:4:5 | Colon [:] | [1, 2, 3, 4, 5] |
       | Split          | sourceString | /integers | 1:2:3:4:5 | Colon [:] | [1, 2, 3, 4, 5] |
 
-
+  @SimpleCollectionTransform
   Scenario Outline: simple  between collections
     When add mapping from "<from>" to "<to>"
     And add "<transformation>" transformation on "<source/target>"
@@ -121,8 +131,8 @@ Feature: collection related field actions
   @collectionTransformations
   Scenario Outline: transformations between collections
     When add mapping from "<source>" to "/<target>"
-    When add "<transformation>" transformation on "<source/target>"
-    And set from "<from>" to "<to>" units on "<source/target>"
+    And add "<transformation>" transformation on "<source/target>"
+    And set from "<from>" to "<to>" units
     Then save and verify collections mappings in "<transformation><from><to>.json" "<expected>" value is presented in "<target>" collection
 
     Examples:

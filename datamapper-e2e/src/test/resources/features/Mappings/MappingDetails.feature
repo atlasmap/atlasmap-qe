@@ -1,5 +1,7 @@
 @Mappings
 @MappingDetails
+@ENTESB
+# blocked by: https://issues.redhat.com/browse/ENTESB-13932
 Feature: Simple mappings creation and test framework verification
 
   Background:
@@ -7,12 +9,11 @@ Feature: Simple mappings creation and test framework verification
     And atlasmap is clean
     And internal mapping is set to "true"
     And browser is opened
-    And open mapping details window
 
   @CreateModifyDelete
   Scenario: Create modify and delete mapping from table
-    And set "sourceString" as "source"
-    And set "targetString" as "target"
+
+    When set mapping from "sourceString" to "targetString"
 
 
     Then save and verify "mappingsTable" with
@@ -20,7 +21,7 @@ Feature: Simple mappings creation and test framework verification
       | source       | source       |
 
     And delete "targetString" on "target"
-    And set "targetAnotherString" as "target"
+    When set mapping to "targetAnotherString" from "sourceString"
 
     Then save and verify "mappingsTable2" with
       | sourceString | targetAnotherString |

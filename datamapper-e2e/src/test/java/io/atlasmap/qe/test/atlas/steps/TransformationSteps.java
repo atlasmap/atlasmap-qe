@@ -6,20 +6,14 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.atlasmap.qe.test.atlas.AtlasmapPage;
+import io.atlasmap.qe.test.atlas.utils.Utils;
 
 public class TransformationSteps extends CucumberGlue {
     private AtlasmapPage atlasmapPage = new AtlasmapPage();
 
-    @When("add transformation on {string}")
-    public void addTransformationOn(String sourceTarget) {
-        final boolean isSource = sourceTarget.equals("source");
-        atlasmapPage.addTransformationToTargetOrSource("Capitalize", isSource);
-    }
-
     @When("add {string} transformation on {string}")
     public void addTransformationOn(String transformation, String sourceTarget) {
-        final boolean isSource = sourceTarget.equals("source");
-        atlasmapPage.addTransformationToTargetOrSource(transformation, isSource);
+        atlasmapPage.addTransformationToTargetOrSource(transformation, sourceTarget.equals("source") ? true : false);
     }
 
     @And("add transformation on target")
@@ -29,13 +23,13 @@ public class TransformationSteps extends CucumberGlue {
 
     @And("add {string} collection transformation")
     public void addCollectionTransformationOn(String transformation) {
-        atlasmapPage.addCollectionTransformation(transformation);
+        atlasmapPage.addCollectionTransformationOnField(transformation);
     }
 
     @And("select {string} transformation")
-    public void selectTransformation(String arg0) throws Throwable {
+    public void selectTransformation(String arg0) {
         this.atlasmapPage.selectTransformation(arg0, "Append");
-        Thread.sleep(1000);
+        Utils.sleep(1000);
     }
 
     @When("select {string} number transformation")
@@ -44,9 +38,9 @@ public class TransformationSteps extends CucumberGlue {
     }
 
     @When("select {string} separator")
-    public void selectSeparator(String separator) throws Throwable {
+    public void selectSeparator(String separator) {
         this.atlasmapPage.selectSeparator(separator);
-        Thread.sleep(1000);
+        Utils.sleep(1000);
     }
 
     /**
@@ -62,40 +56,40 @@ public class TransformationSteps extends CucumberGlue {
         }
         switch (field) {
             case "Index":
-                this.atlasmapPage.setInputValueByClass("input-index", value);
+                this.atlasmapPage.setInputValueByDataTestid("insert-transformation-parameter-index-input-field", value);
                 break;
             case "String":
-                this.atlasmapPage.setInputValueByClass("input-string", value);
+                this.atlasmapPage.setInputValueByDataTestid("insert-transformation-parameter-string-input-field", value);
                 break;
             case "Match":
-                this.atlasmapPage.setInputValueByClass("input-match", value);
+                this.atlasmapPage.setInputValueByDataTestid("insert-transformation-parameter-match-input-field", value);
                 break;
             case "New String":
-                this.atlasmapPage.setInputValueByClass("input-newString", value);
+                this.atlasmapPage.setInputValueByDataTestid("insert-transformation-parameter-newString-input-field", value);
                 break;
             case "Start Index":
-                this.atlasmapPage.setInputValueByClass("input-startIndex", value);
+                this.atlasmapPage.setInputValueByDataTestid("insert-transformation-parameter-startIndex-input-field", value);
                 break;
             case "End Index":
-                this.atlasmapPage.setInputValueByClass("input-endIndex", value);
+                this.atlasmapPage.setInputValueByDataTestid("insert-transformation-parameter-endIndex-input-field", value);
                 break;
             case "Pad Character":
-                this.atlasmapPage.setInputValueByClass("input-padCharacter", value);
+                this.atlasmapPage.setInputValueByDataTestid("insert-transformation-parameter-padCharacter-input-field", value);
                 break;
             case "Pad Count":
-                this.atlasmapPage.setInputValueByClass("input-padCount", value);
+                this.atlasmapPage.setInputValueByDataTestid("insert-transformation-parameter-padCount-input-field", value);
                 break;
             case "Template":
-                this.atlasmapPage.setInputValueByClass("input-template", value);
+                this.atlasmapPage.setInputValueByDataTestid("insert-transformation-parameter-template-input-field", value);
                 break;
             case "Days":
-                this.atlasmapPage.setInputValueByClass("input-days", value);
+                this.atlasmapPage.setInputValueByDataTestid("insert-transformation-parameter-days-input-field", value);
                 break;
             case "Seconds":
-                this.atlasmapPage.setInputValueByClass("input-seconds", value);
+                this.atlasmapPage.setInputValueByDataTestid("insert-transformation-parameter-seconds-input-field", value);
                 break;
             case "Value":
-                this.atlasmapPage.setInputValueByClass("input-value", value);
+                this.atlasmapPage.setInputValueByDataTestid("insert-transformation-parameter-value-input-field", value);
                 break;
             default:
                 throw new IllegalStateException("Unsupported field for transformation: " + field);
@@ -107,20 +101,19 @@ public class TransformationSteps extends CucumberGlue {
         this.atlasmapPage.selectTransformation(newValue, defaultValue);
     }
 
-    @And("set from {string} to {string} units on {string}")
-    public void setFromToUnitsOn(String from, String to, String sourceTarget) {
-        final boolean isSource = sourceTarget.equals("source");
-        atlasmapPage.selectOptionOnIndex(from, 1, isSource);
-        atlasmapPage.selectOptionOnIndex(to, 2, isSource);
+    @And("set from {string} to {string} units")
+    public void setFromToUnitsOn(String from, String to) {
+        atlasmapPage.selectUnitFromOption(from);
+        atlasmapPage.selectUnitToOption(to);
     }
 
     @Then("verify preview of {string} transformation from {string} with value {string} is transformed to {string} in {string}")
     public void verifyPreviewOfTransformationFromWithValueIsTransformedToIn(String transformation, String sourceField, String sourceValue,
-        String targetValue, String targetField) {
+        String targetValue, String targetField) throws InterruptedException {
         this.atlasmapPage.addTransformationToTargetOrSource(transformation, true);
         this.atlasmapPage.setInputValueForFieldPreview(sourceField, sourceValue);
         this.atlasmapPage.setInputValueForFieldPreview(sourceField, sourceValue);
-        this.atlasmapPage.clickOn(targetField);
+        Utils.sleep(1000);
         String preview = this.atlasmapPage.getFieldPreviewValue(targetField);
         Assert.assertEquals(targetValue, preview);
     }

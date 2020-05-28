@@ -25,7 +25,7 @@ Feature: conversions from BYTE to all supported types
     When set mapping to "targetFloat" from "sourceByte"
     Then check if no warnings are displayed
 
-    When  set mapping to "targetBoolean" from "sourceByte"
+    When set mapping to "targetBoolean" from "sourceByte"
     Then check if no warnings are displayed
 
     When set mapping to "targetShort" from "sourceByte"

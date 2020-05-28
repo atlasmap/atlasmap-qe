@@ -9,11 +9,12 @@ Feature: atlasmap is able to combine multiple inputs into one formatted string
     And browser is opened
     And internal mapping is set to "false"
 
-
   Scenario Outline: String formatting of <source1> and <source2>
-    When click on "<source1>" holding cmd button
-    And click on "<source2>" holding cmd button
-    And click on "targetCombineString"
+
+    And click on create new mapping from target "targetCombineString"
+    And add source "<source1>" to active mapping
+    And add source "<source2>" to active mapping
+
     And add "Format" collection transformation
     And set "Template" for transformation to "<template>"
 
@@ -42,10 +43,11 @@ Feature: atlasmap is able to combine multiple inputs into one formatted string
 
   @SmokeTest
   Scenario: String formatting of three fields
-    When click on "sourceString" holding cmd button
-    And click on "sourceAnotherString" holding cmd button
-    And click on "sourceInteger" holding cmd button
-    And click on "targetCombineString"
+    And click on create new mapping from target "targetCombineString"
+    When add source "sourceString" to active mapping
+    When add source "sourceAnotherString" to active mapping
+    When add source "sourceInteger" to active mapping
+
     And add "Format" collection transformation
     And set "Template" for transformation to "%s %s %d"
 

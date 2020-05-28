@@ -2,8 +2,7 @@ package io.atlasmap.qe.test.atlas;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.disappear;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.textCaseSensitive;
+import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -11,20 +10,20 @@ import static com.codeborne.selenide.Selenide.$$;
 import org.apache.commons.collections.CollectionUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.WebDriverRunner;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import io.atlasmap.qe.test.atlas.utils.ByUtils;
+import io.atlasmap.qe.test.atlas.utils.HoverAction;
 import io.atlasmap.qe.test.atlas.utils.TestConfiguration;
+import io.atlasmap.qe.test.atlas.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -34,37 +33,37 @@ public class AtlasmapPage {
 
     public void refreshPage() {
         Selenide.refresh();
-        $(".pficon.pficon-export.link").waitUntil(appear, 15000);
-        $(".fa.fa-plus.link").waitUntil(appear, 15000);
-    }
-
-    public void clickOn(String elementID) {
-        $(By.id(elementID)).$("label").click();
+        $(ByUtils.dataTestId("reset-all-button")).waitUntil(appear, 15000);
     }
 
     public void toggleConditionalMapping() {
-        $(By.xpath("/html/body/div[2]/atlasmap-dev-root/data-mapper-example-host/data-mapper/div/div/div[4]/toolbar/" +
-            "div/div/div[1]/i")).click();
+        $(ByUtils.dataTestId("enable-disable-conditional-mapping-expression-button")).click();
     }
 
     public boolean checkMultipleWarnings(List<String> sourceMappingData, String fromType, String toType) {
-        $(By.className("DataMapperErrorComponent")).click();
-        List<String> texts = $(By.tagName("modal-error-detail")).shouldBe(Condition.appears).$$(".alert.alert-danger.alert-dismissable").texts();
-        List<String> updatedSourceMappingData = sourceMappingData.stream().map(s -> "Conversion from '" + fromType + "' to '" + toType + "' can cause " + s).collect(
-            Collectors.toList());
 
-        closeWarningsModal();
+        $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
+
+        List<String> texts = $$(By.className("pf-c-alert__title")).texts();
+        List<String> updatedSourceMappingData =
+            sourceMappingData.stream().map(s -> "Warning alert:\n" +
+                "Conversion from '" + fromType + "' to '" + toType + "' can cause " + s).collect(
+                Collectors.toList());
+
+        for (String s : texts) {
+            log.info(s);
+        }
 
         return CollectionUtils.isEqualCollection(texts, updatedSourceMappingData);
     }
 
     public boolean checkAsymmetricMappingWarning(int sourceLevel, int targetLevel) {
-        $(By.className("DataMapperErrorComponent")).click();
-        String warningText = $(By.tagName("modal-error-detail")).shouldBe(Condition.appears).$(".alert.alert-danger.alert-dismissable").text();
-        closeWarningsModal();
-        if(sourceLevel > targetLevel) {
-            String sourceLowerMessage =  "has " + targetLevel + " collection(s) on the path, whereas source has " + sourceLevel;
-            return  warningText.contains(sourceLowerMessage);
+        $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
+
+        String warningText = $(By.className("pf-c-alert__title")).text();
+        if (sourceLevel > targetLevel) {
+            String sourceLowerMessage = "has " + targetLevel + " collection(s) on the path, whereas source has " + sourceLevel;
+            return warningText.contains(sourceLowerMessage);
         } else {
             String sourceHigherMessage = "since target has " + targetLevel + " collections on the path, whereas source has " + sourceLevel + ".";
             return warningText.contains(sourceHigherMessage);
@@ -73,22 +72,14 @@ public class AtlasmapPage {
 
     public boolean checkWarning(String exceptionType, String fromType, String toType) {
         boolean containsWaringMesage = false;
-        $(By.className("DataMapperErrorComponent")).click();
-        List<SelenideElement> se = $(By.tagName("modal-error-detail")).shouldBe(Condition.appears).$$(".alert.alert-danger.alert-dismissable");
 
-        for (SelenideElement s : se) {
-            if (s.text().equals("Conversion from '" + fromType + "' to '" + toType + "' can cause " + exceptionType)) {
-                containsWaringMesage = true;
-                break;
-            }
+        $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
+        List<String> texts = $$(By.className("pf-c-alert__description")).texts();
+        if (texts.size() == 1) {
+            containsWaringMesage = texts.get(0).equals("Conversion from '" + fromType + "' to '" + toType + "' can cause " + exceptionType);
         }
-        closeWarningsModal();
 
         return containsWaringMesage;
-    }
-
-    private void closeWarningsModal() {
-        $(By.xpath("//span[@class='pficon pficon-close']")).click();
     }
 
     public boolean checkWarningContainMessage(String containsMessage) {
@@ -104,9 +95,9 @@ public class AtlasmapPage {
 
     public boolean checkDangerWarningContainMessage(String containsMessage) {
         log.debug("looking ...");
-        $(".alert-danger").shouldBe(Condition.appears);
-        for (String s : $$(".alert-danger").texts()) {
-            if (s.contains(containsMessage)) {
+        $(".pf-m-danger").shouldBe(Condition.appears);
+        for (String s : $$(".pf-c-alert__title").texts()) {
+            if (s.contains("Danger alert:\n" + containsMessage)) {
                 return true;
             }
         }
@@ -114,16 +105,9 @@ public class AtlasmapPage {
     }
 
     public void checkWarnings() {
+
         log.debug("looking ...");
-        $(".alert-warn").shouldNot(Condition.appears);
-    }
-
-    public void clickOnButtonByText(String elementName) {
-        $$(By.tagName("button")).filter(text(elementName)).get(0).shouldBe(visible).click();
-    }
-
-    public void clickOnElementByText(String elementName, String text) {
-        $$(By.tagName(elementName)).filter(text(text)).get(0).shouldBe(visible).click();
+        $(ByUtils.dataTestId("expand-collapse-Warnings-button")).shouldNot(Condition.appears);
     }
 
     public void selectTransformation(String transformation, String defaultValue) {
@@ -137,74 +121,53 @@ public class AtlasmapPage {
             .selectOption(to);
     }
 
-    public void setInputValueByClass(String inputSelector, String inputValue) {
-        $(By.className(inputSelector)).setValue(inputValue);
+    public void setInputValueByDataTestid(String inputSelector, String inputValue) {
+        $(ByUtils.dataTestId(inputSelector)).shouldBe(visible).setValue(inputValue)
+            .waitUntil(value(inputValue), 5000);
+        Utils.sleep(1000);
     }
 
-    public void setInputValueByIdAndDefaultValue(String inputSelector, String def, String inputValue) {
-        SelenideElement e = $$(By.id(inputSelector)).filter(Condition.value(def)).get(0);
-        e.scrollIntoView(true);
-        e.clear();
-        e.setValue(inputValue);
-        e.waitUntil(Condition.value(inputValue), 1000);
+    /**
+     * Use field panels for searching the field to be mapped
+     *
+     * @param value
+     * @param isSource
+     */
+    public void addToMappingUsingFieldPanel(String value, boolean isSource) {
+        hoverAndSelectOperation(value, HoverAction.CONNECT_TO_SELECTED_MAPPING, isSource ? "source" : "target");
     }
 
-    public void setInputValueByClassAndDefaultValue(String inputSelector, String def, String inputValue) {
-        SelenideElement e = $$(By.className(inputSelector)).filter(Condition.exactValue(def)).get(0);
-        e.clear();
-        e.setValue(inputValue);
-    }
-
-    public void setInputValueById(String inputId, String newValue) throws InterruptedException {
-        SelenideElement e = $(By.id(inputId));
-        e.clear();
-        e.scrollIntoView(true);
-        Thread.sleep(500);
-        e.sendKeys(newValue);
-        //  Thread.sleep(15000);
-        $(By.id(inputId)).parent().$$("h5").filter(text(newValue)).get(0).click();
-    }
-
-    public void addToMapping(String value, boolean isSource) throws InterruptedException {
-        final String cssSelector = String.format("mapping-field-container[ng-reflect-is-source=\"%s\"]", isSource);
-        SelenideElement container = $(By.cssSelector(cssSelector)).waitUntil(visible, 5000);
-        SelenideElement input = container.$(By.id("input-".concat(isSource ? "source" : "target")));
+    /**
+     * Add new source/target field to the mapping using the mapping detail panel field search
+     *
+     * @param value
+     * @param isSource
+     */
+    public void addToMappingUsingMappingDetails(String value, boolean isSource) {
+        final String sourcesTargetsSelector = String.format("mapping-fields-detail-%s-toggle", isSource ? "Sources" : "Targets");
+        SelenideElement sourcesTargetsToggle = $(ByUtils.dataTestId(sourcesTargetsSelector)).waitUntil(visible, 5000);
+        SelenideElement input = sourcesTargetsToggle.$(By.className("pf-c-form-control"));
         input.clear();
-        input.scrollIntoView(true);
-        Thread.sleep(500);
         input.sendKeys(value);
-        Thread.sleep(500);
-        input.sendKeys(Keys.DOWN);
-        input.parent().$$(By.tagName("a")).filter(textCaseSensitive(value)).get(0).click();
+        $(ByUtils.dataTestId("add-field-option-" + value)).click();
     }
 
-    public void clickOnValueFromPicker(String pickerClass, String value) {
-        SelenideElement pickerValue = $(By.className(pickerClass)).$$("div").filter(text(value)).get(0);
+    public void clickOnLinkByDataTestId(String dataTestId) {
+        $(ByUtils.dataTestId(dataTestId)).shouldBe(visible).click();
+    }
 
-        pickerValue.hover();
+    public void clickOnValueFromPicker(String value) {
 
-        // wait until tooltip disappears
-        WebDriverWait wait = new WebDriverWait(WebDriverRunner.getWebDriver(), 5);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class, '" + pickerClass +
-            "')]/../bs-tooltip-container")));
-
-        pickerValue.click();
+        SelenideElement dropdown = $(ByUtils.dataTestId("expression-field-search"));
+        dropdown.$(By.cssSelector(String.format("*[label=\"%s\"]", value))).click();
     }
 
     public void addToConditionalMapping(String condition) {
         $(By.id("expressionMarkup")).sendKeys(condition);
     }
 
-    public void selectAction(String action) {
-        $("#selectAction").selectOption(action);
-    }
-
     public void selectSeparator(String action) {
-        $("#separator").selectOption(action);
-    }
-
-    public void openMappingDetails() {
-        $((".fa.fa-plus.link")).click();
+        $(ByUtils.dataTestId("delimiter")).selectOption(action);
     }
 
     public void clickOnLinkByClass(String classSelector) {
@@ -212,75 +175,64 @@ public class AtlasmapPage {
         $(classSelector).click();
     }
 
-    public void deleteCurrent() throws InterruptedException {
-        $(By.className("fieldMappingDetail")).$(By.cssSelector(".fa.fa-trash.link")).click();
+    public void deleteCurrentMapping() {
 
-        $(By.xpath("//button[text()='Remove ']")).waitUntil(appear, 20000);
-        clickOnButtonByText("Remove");
+        $(ByUtils.dataTestId("remove-current-mapping-button")).shouldBe(visible).click();
+        $(ByUtils.dataTestId("confirmation-dialog-confirm-button"))
+            .waitUntil(visible, TestConfiguration.getWaitTimeout()).click();
     }
 
     public void resetAll() {
-        $(".fa.fa-cog.link").click();
-        clickOnElementByText("label", "Reset All ");
-        clickOnButtonByText("Reset");
+        $(ByUtils.dataTestId("reset-all-button")).shouldBe(visible).click();
+        $(ByUtils.dataTestId("confirmation-dialog-confirm-button"))
+            .waitUntil(visible, TestConfiguration.getWaitTimeout()).click();
     }
 
     public void importJAR(String path) {
-        $(By.id("usermappingsfile")).sendKeys(path);
-        $(By.id("DataMapperLoadingMessage")).waitUntil(disappear, 1000);
+        $(ByUtils.dataTestId("import-mappings-button")).parent().$(By.tagName("input")).sendKeys(path);
+        $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
+        $(By.className("pf-c-spinner__tail-ball")).waitUntil(disappear, 5000);
     }
 
     public void enableSourceClass(String className) {
-        $$(".fa.fa-plus-square").first().click();
+        $(ByUtils.dataTestId("enable-specific-java-classes-Source-button")).shouldBe(visible).click();
         enableClass(className);
     }
 
     public void enableTargetClass(String className) {
-        $$(".fa.fa-plus-square").last().click();
+        $(ByUtils.dataTestId("enable-specific-java-classes-Target-button")).shouldBe(visible).click();
         enableClass(className);
     }
 
     private void enableClass(String className) {
-        setInputValueByClass("form-control", className);
-        clickOnButtonByText("OK");
-        $(By.id(className)).waitUntil(appear, 15000);
+
+        $(ByUtils.dataTestId("class-package-name-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
+            .sendKeys(className);
+        $(ByUtils.dataTestId("collection-type-form-select")).selectOption("None");
+        $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
+
+        $(ByUtils.dataTestId("expand-collapse-" + className + "-button")).waitUntil(visible, 15000);
         log.info("Class successfully enabled: " + className);
     }
 
     public void enableSourceDocument(String path) {
-        $$(By.id("userfile")).first().sendKeys(path);
+        $(ByUtils.dataTestId("import-instance-or-schema-file-Source-button")).parent().$(By.tagName("input"))
+            .sendKeys(path);
         checkIfDocumentAppeared(path);
     }
 
     public void enableTargetDocument(String path) {
-        $$(By.id("userfile")).last().sendKeys(path);
-        checkIfDocumentAppeared(path);
+        $(ByUtils.dataTestId("import-instance-or-schema-file-Target-button")).parent().$(By.tagName("input"))
+            .sendKeys(path);
     }
 
     /**
      * Gets filename from {@code path}. And checks if element with this filename appeared.
      */
     private void checkIfDocumentAppeared(String path) {
-        $(By.id(path.substring(path.lastIndexOf("/") + 1).split("\\.")[0])).waitUntil(appear, 15000);
+        String dataTestid = String.format("expand-collapse-%s-button", path.substring(path.lastIndexOf("/") + 1).split("\\.")[0]);
+        $(ByUtils.dataTestId(dataTestid)).waitUntil(appear, 15000);
         log.info("File successfully imported: " + path);
-    }
-
-    public void clickOnWhileHolding(String id, String cmd) {
-
-        SelenideElement e = $(By.id(id)).shouldBe(visible);
-        Keys k = Keys.LEFT_CONTROL;
-
-        if (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0) {
-            k = Keys.COMMAND;
-        }
-
-        new Actions(WebDriverRunner.getWebDriver())
-            .moveToElement(e)
-            .keyDown(k)
-            .click()
-            .keyUp(k)
-            .build()
-            .perform();
     }
 
     public void dragNDrop(String drag, String drop) {
@@ -289,25 +241,28 @@ public class AtlasmapPage {
     }
 
     public void setInputValueForFieldPreview(String field, String value) {
-        SelenideElement e = $(By.id(field)).$("textarea");
-        e.scrollTo().shouldBe(visible);
-        e.clear();
-        e.sendKeys(value);
-        e.waitUntil(Condition.value(value), 1000);
+
+        final String cssSelector = String.format("*[data-testid^=\"%s\"][data-testid$=\"%s\"]", "input-document-mapping-preview-", field + "-field");
+        SelenideElement pickerValue = $(By.cssSelector(cssSelector));
+        pickerValue.scrollTo().shouldBe(visible);
+
+        pickerValue.clear();
+        pickerValue.sendKeys(value);
+        Utils.sleep(1000);
     }
 
     public String getFieldPreviewValue(String field) {
-        SelenideElement textarea = $(By.id(field)).$("textarea");
+        final String cssSelector =
+            String.format("*[data-testid^=\"%s\"][data-testid$=\"%s\"]", "results-document-mapping-preview-", field + "-field");
+        SelenideElement pickerValue = $(By.cssSelector(cssSelector));
+        pickerValue.scrollTo().shouldBe(visible);
+
         int timeout = 5000;
         do {
-            try {
-                Thread.sleep(200);
-                timeout -= 200;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } while ("".equals(textarea.getValue()) && timeout > 0);
-        return textarea.getValue();
+            Utils.sleep(200);
+            timeout -= 200;
+        } while ("".equals(pickerValue.getValue()) && timeout > 0);
+        return pickerValue.getValue();
     }
 
     public void clickOnTargets(String classSelector) {
@@ -322,32 +277,39 @@ public class AtlasmapPage {
     }
 
     public void addConstant(String type, String value) {
-        SelenideElement e = $(By.id("Constants"));
-        e.$(".fa.fa-plus.link").click();
-        SelenideElement textInput = $(By.id("name")).waitUntil(visible, TestConfiguration.getWaitTimeout());
-        textInput.sendKeys(value);
-        SelenideElement select = $(By.tagName("select")).shouldHave(Condition.value("String"));
-        // System.out.println(select.toString());
-        select.selectOption(type);
-        $$(By.tagName("button")).findBy(text("Save")).click();
+        $(ByUtils.dataTestId("create-constant-button"))
+            .waitUntil(visible, 5000).click();
+
+        $(ByUtils.dataTestId("constant-name-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
+            .sendKeys(value);
+        $(ByUtils.dataTestId("constant-type-form-select")).shouldHave(Condition.value("Boolean"))
+            .selectOption(type);
+        $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
     }
 
     public void addProperty(String type, String name, String value) {
-        SelenideElement e = $(By.id("Properties"));
-        e.$(".fa.fa-plus.link").click();
-        $(By.id("name")).waitUntil(visible, TestConfiguration.getWaitTimeout()).sendKeys(name);
-        $(By.id("value")).waitUntil(visible, TestConfiguration.getWaitTimeout()).sendKeys(value);
-        $(By.tagName("select")).shouldHave(Condition.value("String")).selectOption(type);
-        $$(By.tagName("button")).findBy(text("Save")).click();
+        $(ByUtils.dataTestId("create-property-button"))
+            .waitUntil(visible, 5000).click();
+
+        $(ByUtils.dataTestId("property-name-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
+            .sendKeys(name);
+        $(ByUtils.dataTestId("property-value-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
+            .sendKeys(value);
+        $(ByUtils.dataTestId("property-type-form-select")).shouldHave(Condition.value("Any"))
+            .selectOption(type);
+        $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
     }
 
     public void addTransformationToTargetOrSource(String transformation, boolean isSource) {
-        addTransformationOnField(transformation, isSource, false);
+        addTransformationOnField(transformation, isSource);
     }
 
-    public void selectOptionOnIndex(String option, int index, boolean isSource) {
-        SelenideElement e = $(By.xpath("//mapping-field-action[@ng-reflect-is-source=\"" + isSource + "\"]")).waitUntil(visible, 5000);
-        e.$$(By.tagName("select")).get(index).selectOption(option);
+    public void selectUnitFromOption(String option) {
+        $(ByUtils.dataTestId("fromUnit")).waitUntil(visible, 5000).selectOption(option);
+    }
+
+    public void selectUnitToOption(String option) {
+        $(ByUtils.dataTestId("toUnit")).waitUntil(visible, 5000).selectOption(option);
     }
 
     private SelenideElement getFromMappingTable(int number, String type) {
@@ -403,20 +365,13 @@ public class AtlasmapPage {
         $$(".itemRow").get(index).click();
     }
 
-    public void verifyThatIpnutExist(String id) {
-        $(By.id(id)).should(Condition.exist);
-    }
-
     public void openAllSubfolders() {
-        List<SelenideElement> subfolders = $$(By.className("fa-angle-right")).shouldHave(CollectionCondition.sizeGreaterThan(0));
+        final String cssSelector = String.format("*[data-testid^=\"%s\"][data-testid$=\"%s\"]", "field-group-", "-expanded-false-field");
+        List<SelenideElement> subfolders = $$(By.cssSelector(cssSelector));
+
         subfolders.forEach(sf -> {
             sf.click();
         });
-    }
-
-    public void openBucket(String bucketName) {
-        SelenideElement bucket = $(By.id(bucketName)).shouldBe(visible);
-        bucket.click();
     }
 
     public void openAllBucketsWithName(String bucketName) {
@@ -427,38 +382,115 @@ public class AtlasmapPage {
     }
 
     public void deleteFromMapping(String field, boolean source) {
-        final String cssSelector = String.format("mapping-field-detail[ng-reflect-is-source=\"%s\"]", source);
-        SelenideElement fieldDetail = $(cssSelector).shouldHave(text(field));
-        fieldDetail.$(".pficon.pficon-delete.link").click();
+        hoverAndSelectOperation(field, HoverAction.DISCONNECT_FROM_SELECTED_MAPPING, source ? "source" : "target");
     }
 
     public void changeIndexValue(String field, int value, boolean source) {
-        final String cssSelector = String.format("mapping-field-detail[ng-reflect-is-source=\"%s\"]", source);
-        SelenideElement fieldDetail = $$(cssSelector).filter(text(field)).first();
-        fieldDetail.$(".index-value").$(By.tagName("input")).setValue(value + "");
+        SelenideElement fieldDetail = $(ByUtils.dataTestId("change-" + field + "-input-index")).shouldBe(visible);
+        fieldDetail.sendKeys(Keys.chord(Keys.CONTROL, "a"), "");
+        fieldDetail.sendKeys(value + "");
     }
 
-    public void addCollectionTransformation(String transformation) {
-        addTransformationOnField(transformation, true, true);
+    public void addCollectionTransformationOnField(String transformation) {
+        SelenideElement mappingDetailField = $(ByUtils.dataTestIdStartsWith("user-field-action"));
+        mappingDetailField.selectOption(transformation);
     }
 
-    private void addTransformationOnField(String transformation, boolean isSource, boolean isCollection) {
-        final String cssSelector = String.format("mapping-field-container[ng-reflect-is-source=\"%s\"]", isSource);
-        SelenideElement e = $(By.cssSelector(cssSelector)).waitUntil(visible, 5000);
+    private void addTransformationOnField(String transformation, boolean isSource) {
 
-        if (!isCollection) {
-            log.debug(e.toString());
-            SelenideElement link = e.$$(By.tagName("label")).filter(text("Add Transformation")).first();
-            log.debug(link.toString());
-            if (e.$$(By.tagName("select")).size() < 1) {
-                link.click();
+        final String sourcesTargetsSelector = String.format("mapping-fields-detail-%s-toggle", isSource ? "Sources" : "Targets");
+        SelenideElement sourcesTargetsToggle = $(ByUtils.dataTestId(sourcesTargetsSelector)).waitUntil(visible, 5000);
+        SelenideElement mappingDetailField = sourcesTargetsToggle.$(ByUtils.dataTestIdStartsWith("mapping-field-")).waitUntil(visible, 5000);
+
+        mappingDetailField.$(ByUtils.dataTestIdStartsWith("add-transformation-to-")).sendKeys(Keys.ENTER);
+        mappingDetailField.$$(By.tagName("select")).last().selectOption(transformation);
+        Utils.sleep(2000);
+    }
+
+    /**
+     * unwrap the nested field group specified, in specified column
+     *
+     * @param column
+     * @param nestedFieldGroupName
+     */
+    public void unwrapNestedFieldGroup(SelenideElement column, String nestedFieldGroupName) {
+
+        SelenideElement nestedFieldGroup = column.$(ByUtils.dataTestId("field-group-" + nestedFieldGroupName + "-expanded-false-field"));
+
+        if (nestedFieldGroup.exists()) {
+            nestedFieldGroup.scrollIntoView(true);
+            nestedFieldGroup.click();
+        }
+    }
+
+    /**
+     * Initialize simple mapping from source to target
+     *
+     * @param field
+     */
+    public void createNewMapping(String field, String sourceTarget) {
+        hoverAndSelectOperation(field, HoverAction.CREATE_NEW_MAPPING, sourceTarget);
+        $(By.className("pf-topology-side-bar__body")).waitUntil(visible, 5000);
+    }
+
+    public void hoverAndSelectOperation(String field, HoverAction fieldOperationName, String sourceTarget) {
+        SelenideElement column = $(ByUtils.dataTestId("column-" + sourceTarget + "-area"));
+        String[] fields = parseFieldsName(field);
+        String fieldToSelect = unwrapNestedField(column, fields);
+
+        SelenideElement pickerValue = selectPickerValueWithIndentLevel(column, fields.length, fieldToSelect);
+
+        pickerValue.scrollIntoView(true);
+        pickerValue.click();
+
+        SelenideElement fieldOperation =
+            pickerValue.parent().$(ByUtils.dataTestId(fieldOperationName.label))
+                .waitUntil(visible, 5000);
+        fieldOperation.click();
+    }
+
+    private String[] parseFieldsName(String field) {
+        if (field.startsWith("/")) {
+            field = field.replaceFirst("/", "");
+        }
+
+        String[] fields = field.split("/");
+        return fields;
+    }
+
+    private String unwrapNestedField(SelenideElement column, String[] fields) {
+
+        String fieldToSelect = "";
+
+        if (fields.length > 1) {
+
+            for (int i = 0; i < fields.length; i++) {
+                if (i < fields.length - 1) {
+                    unwrapNestedFieldGroup(column, fields[i]);
+                } else {
+                    fieldToSelect = fields[i];
+                }
             }
-        }
-        List<SelenideElement> selects = e.$$(By.tagName("select"));
-        if (selects.size() > 1 && !isCollection) {
-            selects.get(1).selectOption(transformation);
         } else {
-            selects.get(0).selectOption(transformation);
+            fieldToSelect = fields[0];
         }
+        return fieldToSelect;
+    }
+
+    private SelenideElement selectPickerValueWithIndentLevel(SelenideElement column, int fieldsLength, String fieldToSelect) {
+
+        SelenideElement pickerValue = null;
+        ElementsCollection values = column.$$(ByUtils.dataTestId("document-" + fieldToSelect + "-field"));
+        if (values.size() > 1) {
+            for (SelenideElement s : values) {
+                if (Integer.parseInt(s.parent().parent().parent().getAttribute("aria-level")) == fieldsLength) {
+                    pickerValue = s;
+                }
+            }
+        } else {
+            pickerValue = values.get(0).parent();
+        }
+
+        return pickerValue;
     }
 }

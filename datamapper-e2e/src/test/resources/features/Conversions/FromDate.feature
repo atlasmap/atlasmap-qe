@@ -9,8 +9,7 @@ Feature: Cover all dates conversion
     And browser is opened
 
   Scenario: Conversion from standardJavaDate (DATE_TIME) to al types
-   # When click on "dateObjectVariable"
-    And add mapping from "/standardJavaDate" to "/standardJavaDate"
+    And add mapping from "/standardJavaDate" to "/dateObjectVariable/standardJavaDate"
     And add mapping from "/standardJavaDate" to "/dateObjectVariable/calendar"
     And add mapping from "/standardJavaDate" to "/dateObjectVariable/gregorianCalendar"
     And add mapping from "/standardJavaDate" to "/dateObjectVariable/sqlDate"
@@ -39,10 +38,8 @@ Feature: Cover all dates conversion
     And init DateObject "22-12-2012"
     Then save and verify mapping from "standardJavaDate" to datetypes as "dates_fromxJavaDate.json"
 
-#
   Scenario: Conversion from LocalDateTime (DATE_TIME) to al types
- #   When click on "dateObjectVariable"
-    And add mapping from "/localDateTime" to "/standardJavaDate"
+    And add mapping from "/localDateTime" to "/dateObjectVariable/standardJavaDate"
     And add mapping from "/localDateTime" to "/dateObjectVariable/calendar"
     And add mapping from "/localDateTime" to "/dateObjectVariable/gregorianCalendar"
     And add mapping from "/localDateTime" to "/dateObjectVariable/sqlDate"
@@ -58,8 +55,7 @@ Feature: Cover all dates conversion
     Then save and verify mapping from "localDateTIme" to datetypes as "dates_fromLocalDateTime.json"
 
   Scenario: Conversion from zonedDT  (DATE) to al types
-  #  When click on "dateObjectVariable"
-    And add mapping from "/zonedDateTime" to "/standardJavaDate"
+    And add mapping from "/zonedDateTime" to "/dateObjectVariable/standardJavaDate"
     And add mapping from "/zonedDateTime" to "/dateObjectVariable/sqlDate"
     And add mapping from "/zonedDateTime" to "/dateObjectVariable/localDate"
     And add mapping from "/zonedDateTime" to "/dateObjectVariable/localDateTime"
@@ -74,8 +70,7 @@ Feature: Cover all dates conversion
     Then save and verify mapping from "localDateTIme" to datetypes as "dates_fromLocalDateTime.json"
 
   Scenario: Conversion from timestamp (DATE_TIME) to al types
-   # When click on "dateObjectVariable"
-    And add mapping from "/timestamp" to "/standardJavaDate"
+    And add mapping from "/timestamp" to "/dateObjectVariable/standardJavaDate"
     And add mapping from "/timestamp" to "/dateObjectVariable/sqlDate"
     And add mapping from "/timestamp" to "/dateObjectVariable/localDate"
     And add mapping from "/timestamp" to "/dateObjectVariable/localDateTime"
@@ -90,8 +85,7 @@ Feature: Cover all dates conversion
     Then save and verify mapping from "standardJavaDate" to datetypes as "dates_fromxJavaDate.json"
 
   Scenario: Conversion from calendar (DATE) to al types
-    When click on "dateObjectVariable"
-    And add mapping from "/calendar" to "/standardJavaDate"
+    And add mapping from "/calendar" to "/dateObjectVariable/standardJavaDate"
     And add mapping from "/calendar" to "/dateObjectVariable/sqlDate"
     And add mapping from "/calendar" to "/dateObjectVariable/localDate"
     And add mapping from "/calendar" to "/dateObjectVariable/localDateTime"

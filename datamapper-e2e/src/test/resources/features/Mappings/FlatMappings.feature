@@ -10,10 +10,10 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
 
   @SmokeTest
   Scenario: mapping from JSON to Java
-    When set mapping from "sourceJsonInteger" to "targetInteger"
-    And set mapping from "sourceJsonString" to "targetString"
-    And set mapping from "sourceJsonShort" to "targetDouble"
-    And set mapping from "sourceJsonDouble" to "targetFloat"
+    When add mapping from "sourceJsonInteger" to "targetInteger"
+    And add mapping from "sourceJsonString" to "targetString"
+    And add mapping from "sourceJsonShort" to "targetDouble"
+    And add mapping from "sourceJsonDouble" to "targetFloat"
 
     And set expected data
       | targetString     | targetInteger | targetDouble | targetFloat |
@@ -22,20 +22,20 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
     Then save and verify mapping as "flatJsonToJava.json"
 
   Scenario: mapping from JSON to JSON
-    When set mapping from "sourceJsonInteger" to "targetJsonInteger"
-    And set mapping from "sourceJsonString" to "targetJsonString"
-    And set mapping from "sourceJsonShort" to "targetJsonDouble"
-    And set mapping from "sourceJsonDouble" to "targetJsonFloat"
+    When add mapping from "sourceJsonInteger" to "targetJsonInteger"
+    And add mapping from "sourceJsonString" to "targetJsonString"
+    And add mapping from "sourceJsonShort" to "targetJsonDouble"
+    And add mapping from "sourceJsonDouble" to "targetJsonFloat"
 
     Then save mapping as "flatJavaToJSon.json" and verify "targetJson" with
       | "targetJsonInteger":10 | targetJsonString":"sourceJsonString" |
 
   @SmokeTest
   Scenario: mapping from Java to JSON
-    When set mapping from "sourceInteger" to "targetJsonInteger"
-    And set mapping from "sourceString" to "targetJsonString"
+    When add mapping from "sourceInteger" to "targetJsonInteger"
+    And add mapping from "sourceString" to "targetJsonString"
     And set mapping to "targetJsonDouble" from "sourceInteger"
-    And set mapping from "sourceShort" to "targetJsonFloat"
+    And add mapping from "sourceShort" to "targetJsonFloat"
 
     Then save mapping as "flatJavaToJSon.json" and verify "targetJson" with
       | "targetJsonInteger":1 | "targetJsonDouble":1 |

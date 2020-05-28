@@ -1,5 +1,9 @@
 @Mappings
 @Conditional
+@ENTESB
+  # blocked by: https://issues.redhat.com/browse/ENTESB-13912
+  # blocked by: https://issues.redhat.com/browse/ENTESB-13913
+  # blocked by: https://issues.redhat.com/browse/ENTESB-13900
 
 Feature: conditional mappings
 
@@ -12,15 +16,13 @@ Feature: conditional mappings
 
   @smoke
   Scenario Outline: basic conditional mapping by Control key with <expression>
-    When click on "<target>"
-    And set mapping condition to "<expression>" by Control key
+    When click on create new mapping from target "<target>"
+    And set mapping condition to "<expression>" by auto completion
     And Show mapping preview
 
-    And click on "<target>"
     And set source data
       | sourceString |
       |              |
-
 
     And set expected data
       | <target>      |
@@ -31,18 +33,17 @@ Feature: conditional mappings
     And verify "conditional_ctrl.json"
 
     Examples:
-      | expression                                                                       | target        | targetValue |
-      | if(ISEMPTY(@{sourceString}), @{sourceInteger}, @{sourceShort})                   | targetInteger | 1           |
-      | if(!ISEMPTY(@{sourceString}), @{sourceShort}, @{sourceLong})                     | targetString  | 2           |
-      | if( @{sourceBigDecimal} < @{sourceBigInteger} , @{sourceLong}, @{sourceDouble} ) | targetString  | 4.0         |
-      | if( @{sourceFloat} > @{sourceBigInteger} , @{sourceLong}, @{sourceBigDecimal} )  | targetString  | 12345       |
+      | expression                                                                           | target        | targetValue |
+      | if(ISEMPTY(@{/sourceString}), @{/sourceInteger}, @{/sourceShort})                    | targetInteger | 1           |
+      | if(!ISEMPTY(@{/sourceString}), @{/sourceShort}, @{/sourceLong})                      | targetString  | 2           |
+      | if( @{/sourceBigDecimal} < @{/sourceBigInteger} , @{/sourceLong}, @{/sourceDouble} ) | targetString  | 4.0         |
+      | if( @{/sourceFloat} > @{/sourceBigInteger} , @{/sourceLong}, @{/sourceBigDecimal} )  | targetString  | 12345       |
 
   Scenario: basic conditional mapping by auto completion
-    When click on "targetInteger"
-    And set mapping condition to "if(ISEMPTY(@{sourceString}), @{sourceInteger}, @{sourceShort} )" by selecting sources
+    When click on create new mapping from target "targetInteger"
+    And set mapping condition to "if(ISEMPTY(@{/sourceString}), @{/sourceInteger}, @{/sourceShort} )" by selecting sources
 
     And Show mapping preview
-    And click on "targetInteger"
 
     And set source data
       | sourceString | sourceInteger | sourceShort |
@@ -61,15 +62,14 @@ Feature: conditional mappings
   @ConditionalJson
   @MappingsPreview
   Scenario Outline: basic conditional mapping by Control key on Json objects with expressions <expression>
-    When click on "targetJsonString"
+    When click on create new mapping from target "targetJsonString"
+
     And set mapping condition to "<expression>" by selecting sources
     And Show mapping preview
     And set preview data
       | sourceJsonInteger | sourceJsonString | sourceJsonDouble |
       | 100               | TesT             | 2                |
 
-    #for loosing focus
-    And click on "targetJsonString"
     And verify that "targetJsonString" contains "<value>"
 
     Then save mapping as "ConditionalJSon.json" and verify "targetJson" with
@@ -77,40 +77,41 @@ Feature: conditional mappings
 
     #real value comes from real executed mapping
     Examples:
-      | expression                                                                                          | value | realValue        |
-      | if(ISEMPTY(@{sourceJsonInteger}), @{sourceJsonString}, @{sourceJsonDouble} )                        | 2     | 40.0             |
+      | expression                                                                            | value | realValue        |
+      | if(ISEMPTY(@{/sourceJsonInteger}), @{/sourceJsonString}, @{/sourceJsonDouble} )       | 2     | 40.0             |
         # doesn't work
       #| if(ISEMPTY(@{sourceJsonInteger}), @{sourceJsonString}+@{sourceJsonDouble},@{sourceJsonInteger} + 2) | 200   | dsf              |
-      | if(LT(@{sourceJsonInteger},-10), @{sourceJsonString}, @{sourceJsonDouble} )                         | 2     | 40.0             |
-      | if(LT(@{sourceJsonInteger},140), @{sourceJsonString}, @{sourceJsonDouble} )                         | TesT  | sourceJsonString |
-      | if(@{sourceJsonInteger} > 50, @{sourceJsonString}, @{sourceJsonDouble} )                            | TesT  | 40.0             |
-      | if(@{sourceJsonInteger} > 140, @{sourceJsonString}, @{sourceJsonDouble} )                           | 2     | 40.0             |
-      | if(@{sourceJsonInteger} < -10, @{sourceJsonString}, @{sourceJsonDouble} )                           | 2     | 40.0             |
-      | if(@{sourceJsonInteger} < 140, TOLOWER(@{sourceJsonString}), @{sourceJsonDouble} )                  | test  | sourcejsonstring |
+      | if(LT(@{/sourceJsonInteger},-10), @{/sourceJsonString}, @{/sourceJsonDouble} )        | 2     | 40.0             |
+      | if(LT(@{/sourceJsonInteger},140), @{/sourceJsonString}, @{/sourceJsonDouble} )        | TesT  | sourceJsonString |
+      | if(@{/sourceJsonInteger} > 50, @{/sourceJsonString}, @{/sourceJsonDouble} )           | TesT  | 40.0             |
+      | if(@{/sourceJsonInteger} > 140, @{/sourceJsonString}, @{/sourceJsonDouble} )          | 2     | 40.0             |
+      | if(@{/sourceJsonInteger} < -10, @{/sourceJsonString}, @{/sourceJsonDouble} )          | 2     | 40.0             |
+      | if(@{/sourceJsonInteger} < 140, TOLOWER(@{/sourceJsonString}), @{/sourceJsonDouble} ) | test  | sourcejsonstring |
       #doesn't work due to bug
       #| if(@{sourceJsonInteger} > 140, @{sourceJsonString}+@{sourceJsonDouble}, @{sourceJsonInteger} + 2  ) | 4     | 33               |
 
 
   @ConditionalJsonMath
   Scenario Outline: Conditional mapping with mathematical expressions: <expression>
-    When click on "targetJsonString"
-    And set mapping condition to "<expression>" by Control key
+    When click on create new mapping from target "targetJsonString"
+
+    And set mapping condition to "<expression>" by auto completion
     And Show mapping preview
     And set preview data
       | sourceJsonInteger | sourceJsonDouble |
       | 100               | 2                |
 
     #for loosing focus
-    And click on "targetJsonString"
+#    And click on "targetJsonString"
     And verify that "targetJsonString" contains "<value>"
     Then save mapping as "ConditionalJSon.json" and verify "targetJson" with
       | "targetJsonString":"<realValue>" |
 
     Examples:
-      | expression                                                            | value | realValue           |
-      | @{sourceJsonInteger} + @{sourceJsonDouble}                            | 102   | 50                  |
-      | @{sourceJsonInteger} - @{sourceJsonDouble}                            | 98    | -30                 |
-      | @{sourceJsonInteger} * @{sourceJsonDouble}                            | 200   | 400                 |
-      | @{sourceJsonInteger} / @{sourceJsonDouble}                            | 50.0  | 0.25                |
-      | 2 *  @{sourceJsonInteger} /  ( @{sourceJsonDouble} + 2 ) - 10 * 3 + 4 | 24.0  | -25.523809523809526 |
+      | expression                                                              | value | realValue           |
+      | @{/sourceJsonInteger} + @{/sourceJsonDouble}                            | 102   | 50                  |
+      | @{/sourceJsonInteger} - @{/sourceJsonDouble}                            | 98    | -30                 |
+      | @{/sourceJsonInteger} * @{/sourceJsonDouble}                            | 200   | 400                 |
+      | @{/sourceJsonInteger} / @{/sourceJsonDouble}                            | 50.0  | 0.25                |
+      | 2 *  @{/sourceJsonInteger} /  ( @{/sourceJsonDouble} + 2 ) - 10 * 3 + 4 | 24.0  | -25.523809523809526 |
 

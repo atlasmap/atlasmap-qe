@@ -8,11 +8,11 @@ Feature: atlasmap is able to combine multiple inputs into one filed
     And browser is opened
     And internal mapping is set to "false"
 
-
+  @SimpleCombineWorkflow
   Scenario: Simple combine workflow, executed from Mapping Details window
-    When click on "sourceString"
-    And  set "sourceAnotherString" as "source"
-    And click on "targetCombineString"
+    When add mapping from "sourceString" to "targetCombineString"
+    And add source "sourceAnotherString" to active mapping
+
 
     And set source data
       | sourceString | sourceAnotherString |
@@ -23,17 +23,16 @@ Feature: atlasmap is able to combine multiple inputs into one filed
       | foo bar             |
     Then  save and verify mapping as "SimpleCombine.json"
 
-@Test
+  @Test
   Scenario: Combine of various types fields, executed from Mapping Details window
-    When click on "sourceString"
-    And  set "targetCombineString" as "target"
-    And add "/sourceChar" to combine
-    And add "/sourceInteger" to combine
-    And add "/sourceFloat" to combine
-    And add "/sourceLong" to combine
-    And add "/sourceShort" to combine
-    And add "/sourceDouble" to combine
-    And add "/sourceDate" to combine
+    When add mapping from "sourceString" to "targetCombineString"
+    And add source "/sourceChar" to active mapping
+    And add source "/sourceInteger" to active mapping
+    And add source "/sourceFloat" to active mapping
+    And add source "/sourceLong" to active mapping
+    And add source "/sourceShort" to active mapping
+    And add source "/sourceDouble" to active mapping
+    And add source "/sourceDate" to active mapping
 
    # And add click "Add Transformation" link
   #  And select "Prepend" transformation
@@ -82,16 +81,15 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 
   @MixedIndexes
   Scenario: Combine of various types with mixed indexes, executed from Mapping Details window
-    When click on "sourceString"
-    And  set "/targetCombineString" as "target"
+    When add mapping from "sourceString" to "targetCombineString"
 
-    And add "/sourceDouble" to combine
-    And add "/sourceInteger" to combine
-    And add "/sourceFloat" to combine
-    And add "/sourceLong" to combine
-    And add "/sourceShort" to combine
-    And add "/sourceChar" to combine
-    And add "/sourceDate" to combine
+    And add source "/sourceDouble" to active mapping
+    And add source "/sourceInteger" to active mapping
+    And add source "/sourceFloat" to active mapping
+    And add source "/sourceLong" to active mapping
+    And add source "/sourceShort" to active mapping
+    And add source "/sourceChar" to active mapping
+    And add source "/sourceDate" to active mapping
 
     And change index of "sourceShort" to "3" on "source"
     And change index of "sourceLong" to "4" on "source"
@@ -148,50 +146,30 @@ Feature: atlasmap is able to combine multiple inputs into one filed
 #      | Combined: numbers: 6.0 5 4 3.0 2 1 1970-01-01T00:00:00Z |
 
   @SmokeTest
-  Scenario: Simple combine with holding CMD/control button
-    When click on "sourceString" holding cmd button
-    And click on "sourceChar" holding cmd button
-    And click on "sourceInteger" holding cmd button
-    And click on "sourceFloat" holding cmd button
-    And click on "sourceLong" holding cmd button
-    And click on "sourceShort" holding cmd button
-    And click on "sourceDouble" holding cmd button
-    And click on "sourceDate" holding cmd button
+  Scenario: Simple combine
+    When add mapping from "sourceString" to "targetCombineString"
+
+    And add source "sourceChar" to active mapping
+    And add source "sourceInteger" to active mapping
+    And add source "sourceFloat" to active mapping
+    And add source "sourceLong" to active mapping
+    And add source "sourceShort" to active mapping
+    And add source "sourceDouble" to active mapping
+    And add source "sourceDate" to active mapping
+
     And set expected data
-      | targetCombineString |
+      | targetCombineString                               |
       | sourceString 1 2 3.0 4 5 6.0 1970-01-01T00:00:00Z |
-
-    And click on "targetCombineString"
-
-   # And add click "Add Transformation" link
-#    And select "Prepend" transformation
-#    And for "input-string" input set "Combined: "
 
     Then save and verify combine mapping with " " separator as "ComplexCombineCMD.json"
 
-  @DragAndDropCombine
-  @Ignore
-  Scenario: Simple combine with holding CMD/control button using drag'n'drop
-    When click on "sourceString" holding cmd button
-    And click on "sourceChar" holding cmd button
-    And click on "sourceInteger" holding cmd button
-    And click on "sourceFloat" holding cmd button
-    And click on "sourceLong" holding cmd button
-    And click on "sourceShort" holding cmd button
-    And click on "sourceDouble" holding cmd button
-    And click on "sourceDate" holding cmd button
-
-    And drag "sourceDate" and drop on "targetCombineString"
-
-    Then save and verify combine mapping with " " separator as "ComplexCombineCMDDragNDrop.json"
-
   @gaps
   Scenario: Combine with gaps
-    And click on "sourceInteger" holding cmd button
-    And click on "sourceFloat" holding cmd button
-    And click on "sourceLong" holding cmd button
-    And click on "sourceDouble" holding cmd button
-    And click on "targetCombineString"
+    When add mapping from "sourceInteger" to "targetCombineString"
+
+    And add source "sourceFloat" to active mapping
+    And add source "sourceLong" to active mapping
+    And add source "sourceDouble" to active mapping
 
     And change index of "sourceDouble" to "8" on "source"
     And change index of "sourceLong" to "6" on "source"

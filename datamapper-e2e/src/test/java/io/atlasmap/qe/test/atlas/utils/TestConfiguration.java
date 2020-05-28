@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TestConfiguration {
 
     public static final String MAPPINGS_PATH = "mapping.path";
-    public static final String UI_INDEX_PATH ="ui.url";
+    public static final String UI_INDEX_PATH = "ui.url";
     public static final String BACKEND_URL = "backend.url";
 
     //timeout for open browser etc.
@@ -22,6 +22,10 @@ public class TestConfiguration {
     public static final String TEST_PROPERTIES_FILE = "atlasmap.config.test.properties";
 
     public static final String TESTSUITE_TIMEOUT = "atlasmap.config.timeout";
+
+    public static final String ATLASMAP_SUITE_FAST_INIT = "atlasmap.fast.init";
+
+    public static final String ADM_RESOUCES_FOLDER = "atlasmap.adm.resource";
 
     public static final String ATLASMAP_UI_BROWSER = "atlasmap.config.ui.browser";
 
@@ -81,7 +85,13 @@ public class TestConfiguration {
         return Long.parseLong(get().readValue(WAIT_TIMEOUT, "5000"));
     }
 
-    public static boolean getSelenideHeadless() { return Boolean.parseBoolean(get().readValue(SELENIDE_HEADLESS, "false")); }
+    public static boolean getSelenideHeadless() {
+        return Boolean.parseBoolean(get().readValue(SELENIDE_HEADLESS, "false"));
+    }
+
+    public static boolean getFastInit() {
+        return Boolean.parseBoolean(get().readValue(ATLASMAP_SUITE_FAST_INIT, "false"));
+    }
 
     public static int getConfigTimeout() {
         return Integer.parseInt(get().readValue(TESTSUITE_TIMEOUT, "10"));
@@ -89,6 +99,10 @@ public class TestConfiguration {
 
     public static String getMappingsRootDirectory() {
         return get().readValue(MAPPINGS_ROOT_DIRECTORY, System.getProperty("user.dir") + "/target/target/mappings/");
+    }
+
+    public static String getAdmFile() {
+        return get().readValue(ADM_RESOUCES_FOLDER, System.getProperty("user.dir") + "/../test-resources/src/main/resources/atlasmap-qe.adm");
     }
 
     public static String syndesisBrowser() {

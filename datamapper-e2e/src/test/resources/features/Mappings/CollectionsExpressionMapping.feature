@@ -17,9 +17,9 @@ Feature: collections expressions mappings
 
   @CollectionExpression
   Scenario Outline: collections expression mapping by selecting sources <expression>
-    When click on "<target>"
+    When click on create new mapping from target "<target>"
     And set mapping condition to "<expression>" by selecting sources
-    And click on "<target>"
+#    And click on "<target>"
 
     And set expected data
       | <target>      |
@@ -30,30 +30,30 @@ Feature: collections expressions mappings
     And verify "collection_expression.json"
 
     Examples:
-      | expression                      | target        | targetValue                                                             |
-      | Average(@{integers})            | targetDouble  | 5                                                                       |
-      | Add(@{integers})                | targetFloat   | 45                                                                      |
-      | Multiply(@{integers})           | targetLong    | 362880                                                                  |
-      | Subtract(@{integers})           | targetLong    | -43                                                                     |
-      | Divide(@{integers})             | targetDouble  | 2.7557319223985893E-6                                                   |
-      | Minimum(@{integers})            | targetShort   | 1                                                                       |
-      | Maximum(@{integers})            | targetShort   | 9                                                                       |
-      | Concatenate(',',@{strings})     | targetString  | String1,String2,String3,String4,String5,String6,String7,String8,String9 |
-      | Concatenate(',',@{arrayString}) | targetString  | 1,2,3                                                                   |
-      | Average(@{<>/arrayNumber})      | targetDouble  | 2                                                                       |
-      | Add(@{<>/arrayNumber})          | targetFloat   | 6                                                                       |
-      | Multiply(@{<>/arrayNumber})     | targetLong    | 6                                                                       |
-      | Subtract(@{<>/arrayNumber})     | targetInteger |-4                                                                       |
-      | Divide(@{<>/arrayNumber})       | targetDouble  | 0.16666666666666666                                                     |
-      | Minimum(@{<>/arrayNumber})      | targetShort   | 1                                                                       |
-      | Maximum(@{<>/arrayNumber})      | targetShort   | 3                                                                       |
+      | expression                                                       | target        | targetValue                                                                                     |
+      | Average(@{/integers<>})                                          | targetDouble  | 5                                                                                               |
+      | Add(@{/integers<>})                                              | targetFloat   | 45                                                                                              |
+      | Multiply(@{/integers<>})                                         | targetLong    | 362880                                                                                          |
+      | Subtract(@{/integers<>})                                         | targetLong    | -43                                                                                             |
+      | Divide(@{/integers<>})                                           | targetDouble  | 2.7557319223985893E-6                                                                           |
+      | Minimum(@{/integers<>})                                          | targetShort   | 1                                                                                               |
+      | Maximum(@{/integers<>})                                          | targetShort   | 9                                                                                               |
+      | Concatenate(',',@{/strings<>})                                   | targetString  | String1,String2,String3,String4,String5,String6,String7,String8,String9                         |
+      | Concatenate(',',@{/<>/arrayString})                              | targetString  | 1,2,3                                                                                           |
+      | Average(@{/<>/arrayNumber})                                      | targetDouble  | 2                                                                                               |
+      | Add(@{/<>/arrayNumber})                                          | targetFloat   | 6                                                                                               |
+      | Multiply(@{/<>/arrayNumber})                                     | targetLong    | 6                                                                                               |
+      | Subtract(@{/<>/arrayNumber})                                     | targetInteger | -4                                                                                              |
+      | Divide(@{/<>/arrayNumber})                                       | targetDouble  | 0.16666666666666666                                                                             |
+      | Minimum(@{/<>/arrayNumber})                                      | targetShort   | 1                                                                                               |
+      | Maximum(@{/<>/arrayNumber})                                      | targetShort   | 3                                                                                               |
       | Concatenate(',',@{/sourceJsonNestedArray<>/secondArray<>/value}) | targetString  | jsonSecondArrayValue0-0,jsonSecondArrayValue0-1,jsonSecondArrayValue1-0,jsonSecondArrayValue1-1 |
 
   @CollectionsFieldActions
   Scenario Outline: basic collection fields actions with nested collections in expressions
-    When click on "<target>"
+    When click on create new mapping from target "<target>"
     And set mapping condition to "<expression>" by selecting sources
-    And click on "<target>"
+#    And click on "<target>"
 
     And set expected data
       | <target>      |

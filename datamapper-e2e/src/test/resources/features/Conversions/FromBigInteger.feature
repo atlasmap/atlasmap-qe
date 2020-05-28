@@ -32,7 +32,7 @@ Feature: conversion from LONG
     When set mapping to "targetBigDecimal" from "sourceBigInteger"
     Then check if no warnings are displayed
 
-    When  set mapping to "targetBigInteger" from "sourceBigInteger"
+    When set mapping to "targetBigInteger" from "sourceBigInteger"
     Then check if no warnings are displayed
 
     When set mapping to "targetShort" from "sourceBigInteger"

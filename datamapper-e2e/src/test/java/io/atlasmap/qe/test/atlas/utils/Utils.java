@@ -4,8 +4,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.http.client.fluent.Request;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import com.google.common.io.Files;
 
@@ -15,23 +13,26 @@ import java.io.IOException;
 import java.util.Comparator;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Created by mmelko on 16/11/2017.
  */
+@Slf4j
 public class Utils {
 
     private static final String JAVA_SERVICE = TestConfiguration.getBackendUrl() + "/v2/atlas/java/";
-    private static final Logger LOG = LogManager.getLogger(Utils.class);
 
     public static String requestClass(String className) throws IOException {
         final String requestURL = JAVA_SERVICE + "class?className=" + className;
-        LOG.debug("requesting " + requestURL);
+        log.debug("requesting " + requestURL);
         String resp = Request.Get(requestURL).execute().returnContent().toString();
         return resp;
     }
 
     /**
      * Copies mappings from TestConfiguration.getMappingsRootDirectory() to a new file with {@code newName}.
+     *
      * @param newName of mappings file
      * @return path of the new file
      * @throws IOException if there is a problem with copying or mapping doesn't exist
@@ -44,7 +45,7 @@ public class Utils {
 
         // Finds file from mappings path that was last modified and that ends with ".xml".
         Optional<File> oldMapping = FileUtils.listFiles(mappings, new WildcardFileFilter("*.json"), TrueFileFilter.TRUE)
-                .stream().max(Comparator.comparingLong(File::lastModified));
+            .stream().max(Comparator.comparingLong(File::lastModified));
 
         File newMapping = new File(System.getProperty("user.dir") + "/" + TestConfiguration.getMappingsPath() + "/" + newName);
 
@@ -53,7 +54,7 @@ public class Utils {
 
         if (oldMapping.isPresent()) {
             Files.copy(oldMapping.get(), newMapping);
-            LOG.debug("Mapping copied to " + newMapping.getAbsolutePath() + " from " + oldMapping.get().getAbsolutePath());
+            log.debug("Mapping copied to " + newMapping.getAbsolutePath() + " from " + oldMapping.get().getAbsolutePath());
         } else {
             throw new FileNotFoundException("Mapping is not present in " + TestConfiguration.getMappingsRootDirectory());
         }
@@ -63,20 +64,66 @@ public class Utils {
 
     /**
      * Deletes all mappings from TestConfiguration.getMappingsRootDirectory().
+     *
      * @throws IOException if directory with mappings doesn't exist
      */
-    public static void cleanMappingFolder() throws IOException {
+    public static void deleteMappingsFromFolder() throws IOException {
+        deleteFromMappingsFolder("*.json");
+    }
+
+    public static void restoreAdmFile() throws IOException {
+        deleteFromMappingsFolder("*.gz");
         File mappings = new File(TestConfiguration.getMappingsRootDirectory());
         if (mappings.exists()) {
-            FileUtils.listFiles(mappings, new WildcardFileFilter("*.json"), TrueFileFilter.TRUE).forEach(f -> {
-                if (f.delete()) {
-                    LOG.debug("Mapping deleted: " + f.getAbsolutePath());
-                } else {
-                    LOG.error("Cannot delete mapping: " + f.getAbsolutePath());
+            FileUtils.listFiles(mappings, new WildcardFileFilter("*.gz_backup"), TrueFileFilter.TRUE).forEach(f -> {
+                File newAdmFile = new File(f.getAbsoluteFile().getAbsolutePath().replace("_backup", ""));
+                try {
+                    FileUtils.copyFile(f.getAbsoluteFile(), newAdmFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
         } else {
             throw new FileNotFoundException("Directory with mappings doesn't exist: " + TestConfiguration.getMappingsRootDirectory());
+        }
+    }
+
+    public static void backupAdmFile() throws IOException {
+        File mappings = new File(TestConfiguration.getMappingsRootDirectory());
+        if (mappings.exists()) {
+            FileUtils.listFiles(mappings, new WildcardFileFilter("*.gz"), TrueFileFilter.TRUE).forEach(f -> {
+                File backupAdmFile = new File(f.getAbsoluteFile().getAbsolutePath() + "_backup");
+                try {
+                    FileUtils.copyFile(f.getAbsoluteFile(), backupAdmFile);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        } else {
+            throw new FileNotFoundException("Directory with mappings doesn't exist: " + TestConfiguration.getMappingsRootDirectory());
+        }
+    }
+
+    private static void deleteFromMappingsFolder(String wildcard) throws IOException {
+        File mappings = new File(TestConfiguration.getMappingsRootDirectory());
+        if (mappings.exists()) {
+            FileUtils.listFiles(mappings, new WildcardFileFilter(wildcard), TrueFileFilter.TRUE).forEach(f -> {
+                if (f.delete()) {
+                    log.debug("Deleted from mappings folder: " + f.getAbsolutePath());
+                } else {
+                    log.error("Cannot delete from mappings folder: " + f.getAbsolutePath());
+                }
+            });
+        } else {
+            throw new FileNotFoundException("Directory with mappings doesn't exist: " + TestConfiguration.getMappingsRootDirectory());
+        }
+    }
+
+    public static void sleep(int miliseconds) {
+        try {
+            Thread.sleep(miliseconds);
+        } catch (InterruptedException e) {
+            log.error("Interruption during thread sleep : " + e.getMessage());
         }
     }
 }

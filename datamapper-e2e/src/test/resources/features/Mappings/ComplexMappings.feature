@@ -10,8 +10,8 @@
  #  Scenario: multiple source to single target
 
    Scenario: Single source to multiple targets
-   When set mapping from "sourceString" to "firstName"
-   And set mapping from "sourceAnotherString" to "lastName"
+   When add mapping from "sourceString" to "firstName"
+   And add mapping from "sourceAnotherString" to "lastName"
    And set "Foo" value in source's "sourceString"
    And set "Bar" value in source's "sourceAnotherString"
 
@@ -21,11 +21,11 @@
 
 
     Scenario: Multiple sources to multiple targets
-   When set mapping from "sourceString" to "firstName"
-   And set mapping from "sourceAnotherString" to "lastName"
+   When add mapping from "sourceString" to "firstName"
+   And add mapping from "sourceAnotherString" to "lastName"
 
-   And set mapping from "objectField1" to "targetString"
-   And set mapping from "objectField2" to "targetAnotherString"
+   And add mapping from "objectField1" to "targetString"
+   And add mapping from "objectField2" to "targetAnotherString"
 
    And set "Foo" value in source's "sourceString"
    And set "Bar" value in source's "sourceAnotherString"

@@ -8,18 +8,19 @@ Feature: Atlasmap is able to create preview
     And internal mapping is set to "false"
     And browser is opened
     And Show mapping preview
-#
+
   @CombineGaps
   Scenario: simple Combine with index change
-    When click on "sourceInteger" holding cmd button
-    And click on "sourceFloat" holding cmd button
-    And click on "sourceString" holding cmd button
-    And click on "targetCombineString"
+
+    And click on create new mapping from target "targetCombineString"
+    And add source "sourceInteger" to active mapping
+    And add source "sourceFloat" to active mapping
+    And add source "sourceString" to active mapping
 
     And set preview data
       | sourceInteger | sourceFloat | sourceString |
       | 1             | 2           | 3            |
-    And click on "targetCombineString"
+#    And click on "targetCombineString"
     Then verify that "targetCombineString" contains "1 2.0 3"
 
     #Test separator change
@@ -27,6 +28,7 @@ Feature: Atlasmap is able to create preview
     Then verify that "targetCombineString" contains "1-2.0-3"
 
     #Test change of indexes
+    When click show target mapping for "targetCombineString"
     When change index of "sourceInteger" to "3" on "source"
     And change index of "sourceString" to "5" on "source"
     Then verify that "targetCombineString" contains "2.0-1---3"
@@ -35,19 +37,18 @@ Feature: Atlasmap is able to create preview
     When set preview data
       | sourceInteger | sourceFloat | sourceString |
       | -1000         | 200.547     | Some String  |
-    And click on "targetCombineString"
-    And sleep for "30000"
+    And sleep for "3000"
     Then verify that "targetCombineString" contains "200.547--1000---Some String"
 
-@PreviewSeparate
+  @PreviewSeparate
   Scenario: simple Separate with separator change
-    When click on "sourceCombineString"
-    And click on "targetInteger" holding cmd button
-    And click on "targetLong" holding cmd button
-    And click on "targetString" holding cmd button
+
+    And click on create new mapping from source "sourceCombineString"
+    And add target "targetInteger" to active mapping
+    And add target "targetLong" to active mapping
+    And add target "targetString" to active mapping
 
     And set "1 2 3" for "sourceCombineString" field
-    And click on "targetString"
     Then verify preview data
       | targetInteger | targetLong | targetString |
       | 1             | 2          | 3            |
@@ -66,6 +67,7 @@ Feature: Atlasmap is able to create preview
 #  #TODO investigate DATE conversions
 #  #TODO different formating of number fields
 #
+  @ConvertToPrimitive
   Scenario Outline: conversion from <source> to primitive types
     When set "9" value in source's "sourceString"
     And set mapping to "targetInteger" from "<source>"
@@ -92,10 +94,10 @@ Feature: Atlasmap is able to create preview
       | sourceBoolean |
       | sourceString  |
 
-
-    @debug
+  @StringTransformFromPreview
   Scenario: String transfomation from preview
-    When set mapping from "sourceString" to "targetString"
+
+    When add mapping from "sourceString" to "targetString"
   #  And add click "Add Transformation" link
     Then verify preview of "Capitalize" transformation from "sourceString" with value "foo" is transformed to "Foo" in "targetString"
     Then verify preview of "Lowercase" transformation from "sourceString" with value "fOo" is transformed to "foo" in "targetString"

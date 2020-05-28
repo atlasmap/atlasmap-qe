@@ -39,7 +39,7 @@ Feature: conversions from Char to all supported types
     When set mapping to "targetFloat" from "sourceChar"
     Then check if no warnings are displayed
 
-    When  set mapping to "targetBoolean" from "sourceChar"
+    When set mapping to "targetBoolean" from "sourceChar"
     Then check if no warnings are displayed
 
     When set mapping to "targetShort" from "sourceChar"

@@ -7,7 +7,7 @@ Feature: number related transformations
     And atlasmap contains TestClass
     And browser is opened
     And internal mapping is set to "false"
-    And set mapping from "sourceDouble" to "targetDouble"
+    And add mapping from "sourceDouble" to "targetDouble"
 
   @NumberFieldActionsBasic
   Scenario Outline: Simple number transformations: <transformation> on <source/target>
@@ -45,7 +45,7 @@ Feature: number related transformations
   @UnitConversions
   Scenario Outline: unit conversions: <from> to <to>
     When add "<transformation>" transformation on "<source/target>"
-    And set from "<from>" to "<to>" units on "<source/target>"
+    And set from "<from>" to "<to>" units on
    # And
     Then save and verify "<transformation><from><to>.json" with
       | sourceDouble | targetDouble |

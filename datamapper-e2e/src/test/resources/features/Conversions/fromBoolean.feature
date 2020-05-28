@@ -33,7 +33,7 @@ Feature: conversion from Boolean
     When set mapping to "targetFloat" from "sourceBoolean"
     Then check if no warnings are displayed
 
-    When  set mapping to "targetBoolean" from "sourceBoolean"
+    When set mapping to "targetBoolean" from "sourceBoolean"
     Then check if no warnings are displayed
 
     When set mapping to "targetShort" from "sourceBoolean"

@@ -21,7 +21,7 @@ import io.cucumber.junit.CucumberOptions;
         "json:target/cucumber/cucumber-report.json",
         "io.atlasmap.qe.test.atlas.utils.MailFormatter:target/cucumber/cucumber-mail/"
     },
-    tags = {"not @Ignore", "not @ENTESB"})
+    tags = {"not @Ignore"})
 public class CucumberTest {
 
     @BeforeClass

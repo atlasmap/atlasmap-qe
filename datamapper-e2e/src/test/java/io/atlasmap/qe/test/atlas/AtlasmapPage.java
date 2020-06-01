@@ -33,6 +33,7 @@ public class AtlasmapPage {
 
     public void refreshPage() {
         Selenide.refresh();
+        $(ByUtils.dataTestId("atlasmap-menu-button")).shouldBe(visible).click();
         $(ByUtils.dataTestId("reset-all-button")).waitUntil(appear, 15000);
     }
 
@@ -183,12 +184,20 @@ public class AtlasmapPage {
     }
 
     public void resetAll() {
+        $(ByUtils.dataTestId("atlasmap-menu-button")).shouldBe(visible).click();
         $(ByUtils.dataTestId("reset-all-button")).shouldBe(visible).click();
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button"))
             .waitUntil(visible, TestConfiguration.getWaitTimeout()).click();
     }
 
     public void importJAR(String path) {
+        $(ByUtils.dataTestId("atlasmap-menu-button")).shouldBe(visible).click();
+        $(ByUtils.dataTestId("import-archive-button")).parent().$(By.tagName("input")).sendKeys(path);
+        $(By.className("pf-c-spinner__tail-ball")).waitUntil(disappear, 5000);
+    }
+
+    public void importAdmFile(String path) {
+        $(ByUtils.dataTestId("atlasmap-menu-button")).shouldBe(visible).click();
         $(ByUtils.dataTestId("import-mappings-button")).parent().$(By.tagName("input")).sendKeys(path);
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
         $(By.className("pf-c-spinner__tail-ball")).waitUntil(disappear, 5000);

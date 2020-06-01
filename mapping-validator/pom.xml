@@ -81,6 +81,28 @@
             <groupId>io.atlasmap</groupId>
             <artifactId>camel-atlasmap</artifactId>
             <version>${atlasmap.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.atlasmap</groupId>
+                    <artifactId>atlas-dfdl-module</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.atlasmap</groupId>
+                    <artifactId>atlas-dfdl-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.atlasmap</groupId>
+                    <artifactId>atlas-dfdl-model</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.atlasmap</groupId>
+                    <artifactId>atlas-dfdl-service</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.atlasmap</groupId>
+                    <artifactId>atlas-dfdl-test-model</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

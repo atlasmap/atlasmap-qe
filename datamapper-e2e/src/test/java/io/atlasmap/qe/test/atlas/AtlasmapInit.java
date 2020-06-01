@@ -98,7 +98,7 @@ public class AtlasmapInit implements EventListener {
 
         // Imports ADM file.
         try {
-            page.importJAR(admFile.getCanonicalPath());
+            page.importAdmFile(admFile.getCanonicalPath());
             Utils.backupAdmFile();
         } catch (IOException e) {
             throw new IllegalStateException("Error when getting canonical path of ADM file.", e);

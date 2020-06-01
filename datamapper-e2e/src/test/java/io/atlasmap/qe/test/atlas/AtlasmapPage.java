@@ -33,8 +33,7 @@ public class AtlasmapPage {
 
     public void refreshPage() {
         Selenide.refresh();
-        $(ByUtils.dataTestId("atlasmap-menu-button")).shouldBe(visible).click();
-        $(ByUtils.dataTestId("reset-all-button")).waitUntil(appear, 15000);
+        $(ByUtils.dataTestId("atlasmap-menu-button")).waitUntil(appear, 15000);
     }
 
     public void toggleConditionalMapping() {

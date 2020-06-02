@@ -10,10 +10,8 @@ Feature: Simple mappings creation and test framework verification
   Scenario: Few mapping are created, processed and verified.
     Given browser is opened
 
-    And click on create new mapping from target "targetString"
     And add mapping from "sourceInteger" to "targetString"
 
-    And click on create new mapping from source "sourceDouble"
     And set mapping to "targetCombineString" from "sourceDouble"
     And set mapping to "targetInteger" from "sourceDouble"
     And set mapping to "targetFloat" from "sourceDouble"

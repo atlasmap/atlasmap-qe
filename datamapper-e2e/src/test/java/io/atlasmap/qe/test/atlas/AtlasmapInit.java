@@ -84,6 +84,8 @@ public class AtlasmapInit implements EventListener {
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJson.schema.json");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLInstance.xml");
+        //TODO: find more dynamic way for initialization check
+        Utils.sleep(1000);
         try {
             Utils.backupAdmFile();
         } catch (IOException e) {

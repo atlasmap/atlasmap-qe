@@ -121,7 +121,7 @@ public class UISteps extends CucumberGlue {
     }
 
     @And("check if warning contains {string} message")
-    public void checkIfWarningContainsMessage(String message) throws Throwable {
+    public void checkIfWarningContainsMessage(String message) {
         Assert.assertTrue(this.atlasmapPage.checkWarningContainMessage(message));
     }
 
@@ -136,12 +136,12 @@ public class UISteps extends CucumberGlue {
     }
 
     @And("add {string} to combine")
-    public void addToCombine(String field) throws Throwable {
+    public void addToCombine(String field) {
         this.atlasmapPage.addToMappingUsingFieldPanel(field, true);
     }
 
     @And("add {string} to separate")
-    public void addToSeparate(String field) throws Throwable {
+    public void addToSeparate(String field) {
         atlasmapPage.addToMappingUsingFieldPanel(field, false);
     }
 
@@ -255,9 +255,14 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.addProperty(type, name, value);
     }
 
-    @And("reveal mapping table")
-    public void revealMappingTable() throws Throwable {
-        atlasmapPage.clickOnLinkByClass(".fa.fa-table.link");
+    @And("switch to mapping table view")
+    public void mappingTableView() {
+        atlasmapPage.clickOnLinkByDataTestId("show-hide-mapping-table-button");
+    }
+
+    @And("switch to column mapper view")
+    public void columnMapperView() {
+        atlasmapPage.clickOnLinkByDataTestId("show-column-mapper-button");
     }
 
     @Then("check that row number \"{int}\" contains {string} as sources, {string} as target and {string} as type")
@@ -273,7 +278,7 @@ public class UISteps extends CucumberGlue {
     }
 
     @Then("check that on \"{int}\" row number is for {string} source value displayed {string} target preview")
-    public void checkThatOnRowNumberIsForSourceValueSDisplayedTargetPreview(int index, String source, String target) throws Throwable {
+    public void checkThatOnRowNumberIsForSourceValueSDisplayedTargetPreview(int index, String source, String target) {
         atlasmapPage.clickOnRowInMappingTable(index);
         atlasmapPage.setPreviewValueInTable(index, "sources", source.split(";"));
         atlasmapPage.clickOnRowInMappingTable(index);
@@ -292,8 +297,13 @@ public class UISteps extends CucumberGlue {
     }
 
     @And("set {string} as {string}")
-    public void setAs(String field, String src) throws Throwable {
+    public void setAs(String field, String src) {
         this.atlasmapPage.addToMappingUsingFieldPanel(field, "source".equals(src));
+    }
+
+    @And("add {string} as {string}")
+    public void addToMappingUsingMappingDetail(String field, String src) {
+        this.atlasmapPage.addToMappingUsingMappingDetails(field, "source".equals(src));
     }
 
     @And("delete {string} on {string}")
@@ -302,7 +312,7 @@ public class UISteps extends CucumberGlue {
     }
 
     @And("change index of {string} to \"{int}\" on {string}")
-    public void changeIndexOfToOn(String field, int value, String src) throws Throwable {
+    public void changeIndexOfToOn(String field, int value, String src) {
         this.atlasmapPage.changeIndexValue(field, value, "source".equals(src));
     }
 

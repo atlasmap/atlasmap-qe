@@ -321,34 +321,26 @@ public class AtlasmapPage {
     }
 
     private SelenideElement getFromMappingTable(int number, String type) {
-        SelenideElement row = $$(".itemRow").get(number);
+        SelenideElement table = $(".pf-c-table").$(By.tagName("tbody"));
+        SelenideElement row = table.$$(By.tagName("tr")).get(number);
         String className = "";
         switch (type) {
             case "sources":
-                className = ".sourceFieldNames.fieldNames";
+                className = "Sources";
                 break;
             case "targets":
-                className = ".targetFieldNames.fieldNames";
+                className = "Targets";
                 break;
             case "type":
-                className = ".transition";
+                className = "Types";
         }
-        return row.$(className);
+        return row.$(By.cssSelector(String.format("*[data-label=\"%s\"]", className)));
     }
 
     public String getTextFromMappingTable(int number, String type, String tag) {
         SelenideElement record = getFromMappingTable(number, type);
-        String text = "";
-        for (SelenideElement e : record.$$(By.tagName(tag))) {
-            if (text.toCharArray().length > 0) {
-                text += ",";
-            }
-            if ("label".equals(tag)) {
-                text += e.getText();
-            } else {
-                text += e.getValue();
-            }
-        }
+        String text = record.text();
+        text = text.replaceAll("\n", ",");
 
         return text;
     }
@@ -370,7 +362,9 @@ public class AtlasmapPage {
     }
 
     public void clickOnRowInMappingTable(int index) {
-        $$(".itemRow").get(index).click();
+        SelenideElement table = $(".pf-c-table").$(By.tagName("tbody"));
+        SelenideElement row = table.$$(By.tagName("tr")).get(index).shouldBe(visible);
+        row.$(By.tagName("td")).click();
     }
 
     public void openAllSubfolders() {

@@ -1,9 +1,5 @@
 @Mappings
 @Conditional
-@ENTESB
-  # blocked by: https://issues.redhat.com/browse/ENTESB-13912
-  # blocked by: https://issues.redhat.com/browse/ENTESB-13913
-  # blocked by: https://issues.redhat.com/browse/ENTESB-13900
 
 Feature: conditional mappings
 
@@ -57,7 +53,8 @@ Feature: conditional mappings
     And save mapping as "conditional_auto_completion.json"
     And verify "conditional_auto_completion.json"
 
-
+  @ENTESB
+  # blocked by: https://issues.redhat.com/browse/ENTESB-13996
   @SmokeTest
   @ConditionalJson
   @MappingsPreview
@@ -91,6 +88,8 @@ Feature: conditional mappings
       #| if(@{sourceJsonInteger} > 140, @{sourceJsonString}+@{sourceJsonDouble}, @{sourceJsonInteger} + 2  ) | 4     | 33               |
 
 
+  @ENTESB
+  # blocked by: https://issues.redhat.com/browse/ENTESB-13996
   @ConditionalJsonMath
   Scenario Outline: Conditional mapping with mathematical expressions: <expression>
     When click on create new mapping from target "targetJsonString"

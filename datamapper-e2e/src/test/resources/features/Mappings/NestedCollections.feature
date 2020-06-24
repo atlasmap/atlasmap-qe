@@ -75,6 +75,7 @@ Feature: Mappings of nested collections
     #      - xml, java, json - xml
 
   # https://github.com/atlasmap/atlasmap/pull/1900
+  # Coverage for scenario C6 - https://issues.redhat.com/browse/ENTESB-12399
   @AsymmetricMapping
   Scenario Outline: Asymmetric nested collections support 3rd level to 2nd level
     When add mapping from "<element>" to "/targetJsonNestedArray/secondArray/value"
@@ -88,6 +89,7 @@ Feature: Mappings of nested collections
       | xml  | /SourceXmlInstance/sourceFirstArray/sourceSecondArray/sourceThirdArray/value |
 
   # https://github.com/atlasmap/atlasmap/pull/1900
+  # Coverage for scenario C6 - https://issues.redhat.com/browse/ENTESB-12397
   @AsymmetricMapping
   Scenario Outline: Asymmetric nested collections support 2rd level to 3nd level
     When add mapping from "<element>" to "/TargetXmlInstance/targetFirstArray/targetSecondArray/targetThirdArray/value"

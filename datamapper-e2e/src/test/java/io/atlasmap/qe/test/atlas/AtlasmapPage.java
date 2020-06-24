@@ -349,17 +349,24 @@ public class AtlasmapPage {
         return getTextFromMappingTable(number, type, "label");
     }
 
-    public String getPreviewValueInTable(int number, String type, String... values) {
-        return getTextFromMappingTable(number, type, "textarea");
-    }
-
     public void setPreviewValueInTable(int number, String type, String... values) {
         SelenideElement record = getFromMappingTable(number, type);
-        SelenideElement[] areas = record.$$(By.tagName("textarea")).toArray(new SelenideElement[0]);
+        SelenideElement[] areas = record.$$(ByUtils.dataTestIdStartsWith("input-document-mapping-preview")).toArray(new SelenideElement[0]);
         for (int i = 0; i < areas.length; i++) {
             areas[i].sendKeys(values[i]);
         }
     }
+
+    public String getPreviewValueInTable(int number, String type) {
+        SelenideElement record = getFromMappingTable(number, type);
+        SelenideElement[] areas = record.$$(ByUtils.dataTestIdStartsWith("results-document-mapping-preview")).toArray(new SelenideElement[0]);
+        StringBuilder output = new StringBuilder();
+        for (SelenideElement area: areas) {
+            output.append(area.getAttribute("value") + " ");
+        }
+        return output.toString().trim();
+    }
+
 
     public void clickOnRowInMappingTable(int index) {
         SelenideElement table = $(".pf-c-table").$(By.tagName("tbody"));

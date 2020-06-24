@@ -1,7 +1,5 @@
 @Mappings
 @MappingDetails
-@ENTESB
-# blocked by: https://issues.redhat.com/browse/ENTESB-13932
 Feature: Simple mappings creation and test framework verification
 
   Background:

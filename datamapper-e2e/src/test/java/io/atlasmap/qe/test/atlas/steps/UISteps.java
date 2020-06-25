@@ -164,15 +164,6 @@ public class UISteps extends CucumberGlue {
         }
     }
 
-    @And("set mapping from {string} to {string}")
-    public void setMappingFromTo(String from, String to) throws Throwable {
-        atlasmapPage.createNewMapping(from, "source");
-        atlasmapPage.addToMappingUsingFieldPanel(to, false);
-        if (internalMapping) {
-            this.validator.map(from, to);
-        }
-    }
-
     @And("add click {string} link")
     public void addClickLink(String arg0) {
         this.atlasmapPage.clickOnLinkByClass(".fa.fa-long-arrow-right");

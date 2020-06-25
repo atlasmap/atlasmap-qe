@@ -11,7 +11,7 @@ Feature: Simple mappings creation and test framework verification
   @CreateModifyDelete
   Scenario: Create modify and delete mapping from table
 
-    When set mapping from "sourceString" to "targetString"
+    When add mapping from "sourceString" to "targetString"
 
 
     Then save and verify "mappingsTable" with

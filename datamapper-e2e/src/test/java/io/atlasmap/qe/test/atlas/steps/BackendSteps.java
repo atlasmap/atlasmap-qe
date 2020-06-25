@@ -277,12 +277,20 @@ public class BackendSteps extends CucumberGlue {
             } else if (var.contains("array")) {
                 assertThat(target.getTargetSmallMappingTestClass().getListOfStrings())
                     .containsAll(Arrays.asList((new SourceListsClass()).getArray()));
+            } else if (var.contains("csvStrings")) {
+                strings.forEach(i -> {
+                    ResourcesGenerator.getCsvArrays("csvStrings").contains(i);
+                });
             }
         } else if ("listOfIntegers".equals(array)) {
             final List integers = target.getTargetSmallMappingTestClass().getListOfIntegers();
             if ("listOfIntegers".equals(var)) {
                 integers.forEach(i -> {
                     ResourcesGenerator.getJsonArrays("jsonIntegers").contains(i);
+                });
+            } else if (var.contains("csvIntegers")) {
+                integers.forEach(i -> {
+                    ResourcesGenerator.getCsvArrays("csvIntegers").contains(i);
                 });
             } else {
                 assertThat(integers).contains(Integer.valueOf(var));

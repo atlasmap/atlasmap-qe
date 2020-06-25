@@ -148,7 +148,6 @@ public class MappingValidator {
         return true;
     }
 
-
     public boolean verifyMapping()  {
         return this.verifyMapping(this.source, this.target, true);
     }
@@ -242,6 +241,7 @@ public class MappingValidator {
         sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
         sourceMap.put("sourceXMLSchema", ResourcesGenerator.getXmlSchemaInstance(null));
         sourceMap.put("sourceJsonArray", ResourcesGenerator.getRootJsonArray());
+        sourceMap.put("sourceCsv", ResourcesGenerator.getCsvInstance());
     }
 
     public static void main(String[] args) {

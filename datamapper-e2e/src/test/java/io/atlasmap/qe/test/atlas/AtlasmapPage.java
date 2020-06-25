@@ -353,7 +353,7 @@ public class AtlasmapPage {
         SelenideElement record = getFromMappingTable(number, type);
         SelenideElement[] areas = record.$$(ByUtils.dataTestIdStartsWith("input-document-mapping-preview")).toArray(new SelenideElement[0]);
         for (int i = 0; i < areas.length; i++) {
-            areas[i].sendKeys(values[i]);
+            areas[i].setValue(values[i]).waitUntil(value(values[i]), 3000);
         }
     }
 

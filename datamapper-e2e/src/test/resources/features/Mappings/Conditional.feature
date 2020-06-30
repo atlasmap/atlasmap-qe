@@ -53,6 +53,16 @@ Feature: conditional mappings
     And save mapping as "conditional_auto_completion.json"
     And verify "conditional_auto_completion.json"
 
+  @Conditional
+  @MultipleTargets
+  Scenario: basic warning displayed for multiple targets
+
+    When add mapping from "sourceString" to "targetString"
+    And add target "/targetAnotherString" to active mapping
+    Then click on enable or disable conditional mapping expression button
+
+    Then check if warning for conditional mapping with multiple targets is displayed
+
   @ENTESB
   # blocked by: https://issues.redhat.com/browse/ENTESB-13996
   @SmokeTest

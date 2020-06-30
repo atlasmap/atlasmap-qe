@@ -93,7 +93,7 @@ public class UISteps extends CucumberGlue {
     }
 
     private void setMappingConditionTo(String condition, Consumer<String> method) {
-        atlasmapPage.toggleConditionalMapping();
+        clickAddMappingCondition();
         for (String s : condition.split("((?<=@\\{[a-zA-Z/<>',]{0,100}\\})|(?=@\\{[a-zA-Z/<>]{0,100}|''\\}))")) {
             if (s.startsWith("@")) {
                 method.accept(s.replaceAll("[@{}]", ""));
@@ -101,6 +101,11 @@ public class UISteps extends CucumberGlue {
                 atlasmapPage.addToConditionalMapping(s);
             }
         }
+    }
+
+    @Then("click on enable or disable conditional mapping expression button")
+    public void clickAddMappingCondition() {
+        atlasmapPage.toggleConditionalMapping();
     }
 
     @Then("check if warnings from {string} to {string} are displayed with messages")
@@ -118,6 +123,11 @@ public class UISteps extends CucumberGlue {
     @Then("check if asymmetric mapping warning from {string} level to {string} level is displayed")
     public void checkIfAsymmetricMappingWarningIsDisplayed(String sourceLevel, String targetLevel) {
         Assert.assertTrue(this.atlasmapPage.checkAsymmetricMappingWarning(Integer.parseInt(sourceLevel), Integer.parseInt(targetLevel)));
+    }
+
+    @Then("check if warning for conditional mapping with multiple targets is displayed")
+    public void checkIfAsymmetricMappingWarningIsDisplayed() {
+        Assert.assertTrue(this.atlasmapPage.checkMultipleTargetsWarning());
     }
 
     @And("check if warning contains {string} message")

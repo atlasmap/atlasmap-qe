@@ -57,6 +57,16 @@ public class AtlasmapPage {
         return CollectionUtils.isEqualCollection(texts, updatedSourceMappingData);
     }
 
+    public boolean checkMultipleTargetsWarning() {
+        boolean containsWaringMesage = false;
+        $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
+
+        String warningText = $(By.className("pf-c-alert__title")).text();
+            containsWaringMesage = warningText.contains(
+                    "Cannot establish a conditional mapping expression when multiple target fields are selected. Please select only one target field and try again.");
+        return containsWaringMesage;
+    }
+
     public boolean checkAsymmetricMappingWarning(int sourceLevel, int targetLevel) {
         $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
 
@@ -361,12 +371,11 @@ public class AtlasmapPage {
         SelenideElement record = getFromMappingTable(number, type);
         SelenideElement[] areas = record.$$(ByUtils.dataTestIdStartsWith("results-document-mapping-preview")).toArray(new SelenideElement[0]);
         StringBuilder output = new StringBuilder();
-        for (SelenideElement area: areas) {
+        for (SelenideElement area : areas) {
             output.append(area.getAttribute("value") + " ");
         }
         return output.toString().trim();
     }
-
 
     public void clickOnRowInMappingTable(int index) {
         SelenideElement table = $(".pf-c-table").$(By.tagName("tbody"));

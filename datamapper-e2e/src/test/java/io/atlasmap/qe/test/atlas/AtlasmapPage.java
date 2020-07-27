@@ -224,8 +224,8 @@ public class AtlasmapPage {
 
     private void enableClass(String className) {
 
-        $(ByUtils.dataTestId("class-package-name-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
-            .sendKeys(className);
+        SelenideElement dropdown = $(ByUtils.dataTestId("custom-class-name-form-select")).waitUntil(visible, TestConfiguration.getWaitTimeout());
+        dropdown.selectOption(className);
         $(ByUtils.dataTestId("collection-type-form-select")).selectOption("None");
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
 

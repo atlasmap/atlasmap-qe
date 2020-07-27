@@ -80,7 +80,7 @@ public class BackendSteps extends CucumberGlue {
     }
 
     @And("verify if {string} is not {string} in {string}")
-    public void verifyIfIsNotIn(String field, String value, String path) throws Throwable { //
+    public void verifyIfIsNotIn(String field, String value, String path) { //
         // Assert.assertTrue(validator.verifyMapping());
         TargetMappingTestClass processed = this.validator.processMapping();
         assertThat(processed.getValue(field)).isNotEqualTo(value);
@@ -136,7 +136,7 @@ public class BackendSteps extends CucumberGlue {
     }
 
     @And("Add StringObject to expected map with {string}, {string} values")
-    public void addStringObjectToExpedtedMapWithAndValues(String arg0, String arg1) throws Throwable {
+    public void addStringObjectToExpedtedMapWithAndValues(String arg0, String arg1) {
         StringObject so = new StringObject();
         so.setFirstName(arg0);
         so.setLastName(arg1);
@@ -151,7 +151,7 @@ public class BackendSteps extends CucumberGlue {
     }
 
     @And("Init smallMappingTestClass and add to source map")
-    public void initSmallMappingTestClassAndAddToSourceMap() throws Throwable {
+    public void initSmallMappingTestClassAndAddToSourceMap() {
         final SmallMappingTestClass s = new SmallMappingTestClass();
         validator.addSource(s.getClass().getName(), s);
     }

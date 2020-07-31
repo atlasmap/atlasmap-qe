@@ -242,11 +242,22 @@ public class AtlasmapPage {
             $(ByUtils.dataTestId("format-parameter-form-select")).shouldHave(Condition.value("Default"))
                 .selectOption(format);
 
+            for(String key: additionalParameters.keySet()) {
+                $(By.id("selected-paramater")).shouldBe(visible).selectOption(key);
+                $(By.xpath(".//button[contains(.,'Add parameter')]")).click();
+                SelenideElement parameterOption = $(ByUtils.dataTestIdStartsWith(key));
+
+                if(parameterOption.is(Condition.type("select"))) {
+                    parameterOption.selectOption(additionalParameters.get(key));
+                } else {
+                    parameterOption.sendKeys(additionalParameters.get(key));
+                }
+            }
             $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
+
         } else {
             fail("The input file needs to be in csv format with .csv file suffix.");
         }
-        checkIfDocumentAppeared(path);
     }
 
     public void enableCsvSourceDocument (String path, String format, Map<String, String> additionalParameters) {

@@ -7,6 +7,7 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import java.io.File;
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -77,7 +78,9 @@ public class AtlasmapInit implements EventListener {
         page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceJson.schema.json");
         page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceXmlInstance.xml");
         page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceXMLSchema.xsd");
-        page.enableCsvSourceDocument(DOCUMENTS_FOLDER + "sourceCsv.csv", "Default", null);
+        page.enableCsvSourceDocument(DOCUMENTS_FOLDER + "sourceCsv.csv", "Default", new HashMap<String, String>() {{
+            put("firstRecordAsHeader", "true");
+        }});
 
         // Target documents:
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetArrays.json");

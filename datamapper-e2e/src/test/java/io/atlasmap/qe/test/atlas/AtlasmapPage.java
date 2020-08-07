@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -467,7 +467,7 @@ public class AtlasmapPage {
         SelenideElement mappingDetailField = sourcesTargetsToggle.$(ByUtils.dataTestIdStartsWith("mapping-field-")).waitUntil(visible, 5000);
 
         mappingDetailField.$(ByUtils.dataTestIdStartsWith("add-transformation-to-")).sendKeys(Keys.ENTER);
-        mappingDetailField.$$(By.tagName("select")).last().selectOption(transformation);
+        mappingDetailField.$(ByUtils.dataTestIdStartsWith("user-field-action-")).waitUntil(visible,5000).selectOption(transformation);
         Utils.sleep(2000);
     }
 

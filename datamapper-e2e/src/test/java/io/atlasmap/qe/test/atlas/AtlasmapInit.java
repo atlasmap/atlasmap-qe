@@ -11,11 +11,11 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import cucumber.api.event.EventHandler;
-import cucumber.api.event.EventListener;
-import cucumber.api.event.EventPublisher;
-import cucumber.api.event.TestRunFinished;
-import cucumber.api.event.TestRunStarted;
+import io.cucumber.plugin.event.EventHandler;
+import io.cucumber.plugin.EventListener;
+import io.cucumber.plugin.event.EventPublisher;
+import io.cucumber.plugin.event.TestRunFinished;
+import io.cucumber.plugin.event.TestRunStarted;
 import io.atlasmap.qe.test.atlas.utils.TestConfiguration;
 import io.atlasmap.qe.test.atlas.utils.Utils;
 

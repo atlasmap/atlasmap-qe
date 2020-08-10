@@ -21,7 +21,6 @@ import io.atlasmap.qe.test.atlas.utils.HoverAction;
 import io.atlasmap.qe.test.atlas.utils.Utils;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.After;
-import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -35,11 +34,6 @@ public class UISteps extends CucumberGlue {
     private Scenario myScenario;
     private AtlasmapPage atlasmapPage = new AtlasmapPage();
     private static boolean internalMapping = true;
-
-    @Before()
-    public void embedScreenshotStep(Scenario scenario) {
-        myScenario = scenario;
-    }
 
     @After
     public void closeDriver() {

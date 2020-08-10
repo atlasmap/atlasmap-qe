@@ -187,6 +187,7 @@
                     <logLevel>minimal</logLevel>
                     <sourceJsonReportDirectory>${report.src}</sourceJsonReportDirectory>
                     <generatedHtmlReportDirectory>${report.dest}</generatedHtmlReportDirectory>
+                    <expandStepHooks>true</expandStepHooks>
                 </configuration>
             </plugin>
         </plugins>

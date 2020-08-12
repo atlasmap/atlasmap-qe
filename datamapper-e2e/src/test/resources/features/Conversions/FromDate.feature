@@ -34,7 +34,6 @@ Feature: Cover all dates conversion
       | targetInteger | targetString         | targetLong | targetDouble | targetFloat | targetByte | targetShort |
       | 0             | 1970-01-01T00:00:00Z | 0          | 0            | 0           | 0          | 0           |
 
-    And take a screenshot
     And init DateObject "22-12-2012"
     Then save and verify mapping from "standardJavaDate" to datetypes as "dates_fromxJavaDate.json"
 

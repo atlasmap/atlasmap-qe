@@ -43,9 +43,6 @@ Feature: atlasmap is able to separate input to multiple fields
     And add target "targetShort" to active mapping
     And add target "targetDouble" to active mapping
 
-   # And sleep for "30000"
-    And take a screenshot
-
     Then save and verify separate mapping with " " separator as "ComplexSeparateSpace.json"
 
     When select "Ampersand [&]" separator

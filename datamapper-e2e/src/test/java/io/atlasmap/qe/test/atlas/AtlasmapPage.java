@@ -417,9 +417,9 @@ public class AtlasmapPage {
         final String cssSelector = String.format("*[data-testid^=\"%s\"][data-testid$=\"%s\"]", "field-group-", "-expanded-false-field");
         List<SelenideElement> subfolders = $$(By.cssSelector(cssSelector));
 
-        subfolders.forEach(sf -> {
-            sf.click();
-        });
+        for (int i = 0; i < subfolders.size(); i++) {
+            subfolders.get(i).click();
+        }
     }
 
     public void openAllBucketsWithName(String bucketName) {

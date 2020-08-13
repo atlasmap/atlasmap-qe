@@ -30,7 +30,7 @@ Feature: atlasmap is able to combine multiple inputs into one formatted string
 
     Examples:
       | N | source1      | source1Value  | source2             | source2Value | template   | expectedValue |
-      | 0 | sourceString | foo           | sourceAnotherString | bar          |            |               |
+      | 0 | sourceString | foo           | sourceAnotherString | bar          | N/A        | N/A           |
       | 1 | sourceString | foo           | sourceAnotherString | bar          | %s         | foo           |
       | 2 | sourceString | foo           | sourceAnotherString | bar          | %s %s      | foo bar       |
       | 3 | sourceString | foo           | sourceAnotherString | bar          | %2$s %1$s  | bar foo       |

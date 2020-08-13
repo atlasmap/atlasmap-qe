@@ -72,6 +72,8 @@ public class BackendSteps extends CucumberGlue {
 
                 if (field.contains("Char")) {
                     this.validator.setTargetValue(field, source.get(field).charAt(0));
+                } else if (field.contains("N/A")) {
+                    this.validator.setTargetValue("", source.get(""));
                 } else {
                     this.validator.setTargetValue(field, source.get(field));
                 }

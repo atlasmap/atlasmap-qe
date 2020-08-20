@@ -136,9 +136,7 @@ public class AtlasmapPage {
     }
 
     public void setInputValueByDataTestid(String inputSelector, String inputValue) {
-        $(ByUtils.dataTestId(inputSelector)).shouldBe(visible).setValue(inputValue)
-            .waitUntil(value(inputValue), 5000);
-        Utils.sleep(1000);
+        Utils.insertCharByChar(inputValue, $(ByUtils.dataTestId(inputSelector)));
     }
 
     /**

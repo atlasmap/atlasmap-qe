@@ -58,17 +58,17 @@ jobs:
       - run:
           name: Download drivers
           command: |
-            ./mvnw clean install -DskipTests -Pdownload-drivers
+            ./mvnw clean install -DskipTests -Pdownload-drivers -Dchrome.driver.version=84.0.4147.30
       - run:
           name: Execute tests
           command: |
-            ./mvnw test -Dselenide.headless=true -Datlasmap.config.ui.browser=chrome -Dui.url=http://127.0.0.1:8585/ -Dcucumber.options='--tags @SmokeTest' -P atlasmap-build
+            ./mvnw clean install -Dselenide.browser-size=1920x1080 -Dselenide.headless=true -Datlasmap.config.ui.browser=chrome -Dtags="@SmokeTest" -P atlasmap-build -Dui.url=http://127.0.0.1:8585/
       - run:
           name: Store Cucumber report
           when: always
           command: |
             mkdir -p ~/cucumber
-            cp -r datamapper-e2e/target/surefire-reports/TEST-io.atlasmap.qe.test.atlas.CucumberTest.xml ~/cucumber/ui.cucumber
+            cp -r datamapper-e2e/target/failsafe-reports/TEST-io.atlasmap.qe.test.atlas.CucumberTest.xml ~/cucumber/ui.cucumber
       - store_artifacts:
           path: datamapper-e2e/target/cucumber
       - <<: *save_m2

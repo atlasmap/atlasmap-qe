@@ -47,50 +47,52 @@ Feature: Map from constant and properties
 
   @PropertyToString
   Scenario Outline: Create <type> property and map to string
-    When set "My<type>" property of "<type>" type and "<value>" value
-    And add mapping from "My<type> = <value>" to "targetString"
+    When set "source" property of type "<type>", name "<name>", scope "<scope>"
+    And add mapping from "<name>" to "targetString"
     Then save and verify "<type>Property.json" with
       | sourceString | targetString |
       | nothing      | <value>      |
 
     Examples:
-      | type    | value         |
-      | String  | custom String |
-      | Char    | A             |
-      | Decimal | 10            |
-      | Double  | 1234.56       |
-      | Float   | 4567.86       |
-      | Integer | 1234          |
-      | Long    | 1234567890    |
-      | Short   | 1234          |
+      | type    | name    | value       | scope                  |
+      | String  | string  | test_string | Current Message Header |
+      | Char    | char    | A           | Current Message Header |
+      | Decimal | decimal | 10          | Current Message Header |
+      | Double  | double  | 1234.56     | Current Message Header |
+      | Float   | float   | 4567.86     | Current Message Header |
+      | Integer | integer | 1234        | Current Message Header |
+      | Long    | long    | 1234567890  | Current Message Header |
+      | Short   | short   | 1234        | Current Message Header |
+      | Boolean | boolean | true        | Current Message Header |
 
   @PropertyToVariousVariousTypes
   Scenario Outline: Create <type> property and map to  target <type>
-    When set "My<type>" property of "<type>" type and "<value>" value
-    And add mapping from "My<type> = <value>" to "target<type>"
-    Then save and verify "My<type>Property.json" with
+    When set "source" property of type "<type>", name "<name>", scope "<scope>"
+    And add mapping from "<name>" to "target<type>"
+    Then save and verify "<type>Property.json" with
       | sourceString | target<type> |
       | nothing      | <value>      |
 
     Examples:
-      | type    | value         |
-      | String  | custom String |
-      | Char    | A             |
-      | Double  | 1234.56       |
-      | Float   | 4567.86       |
-      | Integer | 1234          |
-      | Long    | 1234567890    |
-      | Short   | 1234          |
+      | type    | name    | value         | scope                  |
+      | String  | string  | test_string | Current Message Header |
+      | Char    | char    | A             | Current Message Header |
+      | Double  | double  | 1234.56       | Current Message Header |
+      | Float   | float   | 4567.86       | Current Message Header |
+      | Integer | integer | 1234          | Current Message Header |
+      | Long    | long    | 1234567890    | Current Message Header |
+      | Short   | short   | 1234          | Current Message Header |
+      | Boolean | boolean | true          | Current Message Header |
 
   @SmokeTest
   @CombineConstants
   Scenario: combine of constant and property to string
     When set "String" constant with "Units" value
-    And set "Property" property of "Float" type and "1234.567" value
+    When set "source" property of type "Float", name "float", scope "Current Message Header"
 
-    And add mapping from "Property = 1234.567" to "targetString"
+    And add mapping from "float" to "targetString"
     And add "Units" to combine
     Then save and verify "CombineConstantAndProperty.json" with
       | sourceString | targetString   |
-      | nothing      | 1234.567 Units |
+      | nothing      | 4567.86 Units |
 

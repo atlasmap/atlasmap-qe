@@ -213,9 +213,9 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.addConstant(type, value);
     }
 
-    @When("set {string} property of {string} type and {string} value")
-    public void setPropertyWithTypeAndValue(String name, String type, String value) {
-        atlasmapPage.addProperty(type, name, value);
+    @When("set {string} property of type {string}, name {string}, scope {string}")
+    public void setProperty(String sourceTarget, String type, String name, String scope) {
+        atlasmapPage.addProperty(sourceTarget.equals("source") ? true : false, type, name, scope);
     }
 
     @And("switch to mapping table view")

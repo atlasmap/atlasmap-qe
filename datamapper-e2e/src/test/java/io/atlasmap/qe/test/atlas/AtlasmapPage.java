@@ -66,8 +66,9 @@ public class AtlasmapPage {
         $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
 
         String warningText = $(By.className("pf-c-alert__title")).text();
-            containsWaringMesage = warningText.contains(
-                    "Cannot establish a conditional mapping expression when multiple target fields are selected. Please select only one target field and try again.");
+        containsWaringMesage = warningText.contains(
+            "Cannot establish a conditional mapping expression when multiple target fields are selected. Please select only one target field and " +
+                "try again.");
         return containsWaringMesage;
     }
 
@@ -246,36 +247,35 @@ public class AtlasmapPage {
     public void enableCsvDocument(String path, boolean isSource, String format, Map<String, String> additionalParameters) {
 
         String pathExtension = FilenameUtils.getExtension(path).toUpperCase();
-        if(pathExtension.equals("CSV")) {
+        if (pathExtension.equals("CSV")) {
             enableDocument(path, isSource);
 
             $(ByUtils.dataTestId("format-parameter-form-select")).shouldHave(Condition.value("Default"))
                 .selectOption(format);
 
-            for(String key: additionalParameters.keySet()) {
+            for (String key : additionalParameters.keySet()) {
                 $(By.id("selected-paramater")).shouldBe(visible).selectOption(key);
                 $(By.xpath(".//button[contains(.,'Add parameter')]")).click();
                 SelenideElement parameterOption = $(ByUtils.dataTestIdStartsWith(key));
 
-                if(parameterOption.is(Condition.type("select"))) {
+                if (parameterOption.is(Condition.type("select"))) {
                     parameterOption.selectOption(additionalParameters.get(key));
                 } else {
                     parameterOption.sendKeys(additionalParameters.get(key));
                 }
             }
             $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
-
         } else {
             fail("The input file needs to be in csv format with .csv file suffix.");
         }
     }
 
-    public void enableCsvSourceDocument (String path, String format, Map<String, String> additionalParameters) {
+    public void enableCsvSourceDocument(String path, String format, Map<String, String> additionalParameters) {
         enableCsvDocument(path, true, format, additionalParameters);
         checkIfDocumentAppeared(path);
     }
 
-    public void enableCsvTargetDocument (String path, String format, Map<String, String> additionalParameters) {
+    public void enableCsvTargetDocument(String path, String format, Map<String, String> additionalParameters) {
         enableCsvDocument(path, false, format, additionalParameters);
         checkIfDocumentAppeared(path);
     }
@@ -351,16 +351,17 @@ public class AtlasmapPage {
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
     }
 
-    public void addProperty(String type, String name, String value) {
-        $(ByUtils.dataTestId("create-property-button"))
+    public void addProperty(boolean isSource, String type, String name, String scope) {
+        final String createPropertyButton = String.format("create-%s-property-button", isSource ? "source" : "target");
+        $(ByUtils.dataTestId(createPropertyButton))
             .waitUntil(visible, 5000).click();
 
         $(ByUtils.dataTestId("property-name-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
             .sendKeys(name);
-        $(ByUtils.dataTestId("property-value-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
-            .sendKeys(value);
         $(ByUtils.dataTestId("property-type-form-select")).shouldHave(Condition.value("Any"))
             .selectOption(type);
+        $(ByUtils.dataTestId("property-scope-form-select")).waitUntil(visible, TestConfiguration.getWaitTimeout())
+            .selectOption(scope);
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
     }
 
@@ -467,7 +468,7 @@ public class AtlasmapPage {
         SelenideElement mappingDetailField = sourcesTargetsToggle.$(ByUtils.dataTestIdStartsWith("mapping-field-")).waitUntil(visible, 5000);
 
         mappingDetailField.$(ByUtils.dataTestIdStartsWith("add-transformation-to-")).sendKeys(Keys.ENTER);
-        mappingDetailField.$(ByUtils.dataTestIdStartsWith("user-field-action-")).waitUntil(visible,5000).selectOption(transformation);
+        mappingDetailField.$(ByUtils.dataTestIdStartsWith("user-field-action-")).waitUntil(visible, 5000).selectOption(transformation);
         Utils.sleep(2000);
     }
 

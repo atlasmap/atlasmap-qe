@@ -44,22 +44,22 @@ public class MappingValidator {
         initValidator();
     }
 
-    public TargetMappingTestClass processMapping(SourceMappingTestClass input)  {
+    public TargetMappingTestClass processMapping(SourceMappingTestClass input) {
         sourceMap = new HashMap<>();
         sourceMap.put(input.getClass().getName(), input);
         Map<String, Object> targetMap = processMappingInputMap(sourceMap);
         return (TargetMappingTestClass) targetMap.get("io.atlasmap.qe.test.TargetMappingTestClass");
     }
 
-    public TargetMappingTestClass processMapping()  {
+    public TargetMappingTestClass processMapping() {
         return processMapping(this.source);
     }
 
-    public Object processSingleObjectMapping(Object input, String expected)  {
-        return processSingleObjectMapping(input,input.getClass().getName(),expected);
+    public Object processSingleObjectMapping(Object input, String expected) {
+        return processSingleObjectMapping(input, input.getClass().getName(), expected);
     }
 
-    public Object processSingleObjectMapping(Object input,String inputName, String expected)  {
+    public Object processSingleObjectMapping(Object input, String inputName, String expected) {
         Map<String, Object> sourceMap = new HashMap<>();
         sourceMap.put(inputName, input);
         Map<String, Object> processed = processMappingInputMap(sourceMap);
@@ -67,21 +67,33 @@ public class MappingValidator {
         return processed.get(expected);
     }
 
-    public Object processMapping(String expected)  {
-     //   sourceMap.put(source.getClass().getName(), source);
+    public Object processMapping(String expected) {
+        //   sourceMap.put(source.getClass().getName(), source);
         Map<String, Object> processed = processMappingInputMap(sourceMap);
         return processed.get(expected);
     }
 
     public Map<String, Object> processMappingInputMap(Map<String, Object> input) {
-//        input.forEach((String s,Object o) ->
-//            System.out.println(s+ "---> "+o.toString()));
+        //        input.forEach((String s,Object o) ->
+        //            System.out.println(s+ "---> "+o.toString()));
         CamelContext context = new DefaultCamelContext();
         context.addComponent("atlas", new AtlasComponent());
         try {
             context.addRoutes(new RouteBuilder() {
                                   public void configure() {
-                                      from("direct:start").to("atlas:" + mappingLocation).to("mock:result");
+                                      from("direct:start").
+                                          setHeader("string", constant("test_string")).
+                                          setHeader("char", constant("A")).
+                                          setHeader("decimal", constant(10)).
+                                          setHeader("double", constant(1234.56)).
+                                          setHeader("float", constant(4567.86)).
+                                          setHeader("integer", constant(1234)).
+                                          setHeader("long", constant(1234567890)).
+                                          setHeader("short", constant(1234)).
+                                          setHeader("boolean", constant(true)).
+                                          setProperty("myProperty", constant("test property")).
+                                          to("atlas:" + mappingLocation).
+                                          to("mock:result");
                                   }
                               }
             );
@@ -90,10 +102,11 @@ public class MappingValidator {
             context.start();
 
             template.sendBody("direct:start", input);
-            Map<String,Object> targetMap = resultEndpoint.getExchanges().get(0).getIn().getBody( Map.class);
+            //            template.sendBodyAndHeaders("direct:start", input, headers);
+            Map<String, Object> targetMap = resultEndpoint.getExchanges().get(0).getIn().getBody(Map.class);
             context.stop();
-                    targetMap.forEach((String s,Object o) ->
-                        System.out.println(s+" "+ (o==null?"null":o.toString())));
+            targetMap.forEach((String s, Object o) ->
+                System.out.println(s + " " + (o == null ? "null" : o.toString())));
             return targetMap;
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,11 +115,10 @@ public class MappingValidator {
         return null;
     }
 
-    public boolean verifyMapping(SourceMappingTestClass source, TargetMappingTestClass target, boolean equals)  {
+    public boolean verifyMapping(SourceMappingTestClass source, TargetMappingTestClass target, boolean equals) {
         this.sourceMap.put(source.getClass().getName(), source);
         TargetMappingTestClass processedTarget = (TargetMappingTestClass) processMapping(TargetMappingTestClass.class.getName());
         LOG.info("cleaning");
-
 
         if (processedTarget == null) {
             LOG.error("TARGET IS NULL!!!!!!!!!!!!");
@@ -119,7 +131,7 @@ public class MappingValidator {
         return target.equals(processedTarget);
     }
 
-    public boolean verifyMultiObjectMapping()  {
+    public boolean verifyMultiObjectMapping() {
         this.sourceMap.put(this.source.getClass().getName(), this.source);
         this.expectedMap.put(this.target.getClass().getName(), this.target);
         final boolean res = verifyMultiObjectMapping(this.sourceMap);
@@ -128,13 +140,13 @@ public class MappingValidator {
         return res;
     }
 
-    public boolean verifyMultiObjectMapping(Map<String, Object> input)  {
+    public boolean verifyMultiObjectMapping(Map<String, Object> input) {
         final Boolean res = verifyMappingInputExpected(input, this.expectedMap);
         clear();
         return res;
     }
 
-    public boolean verifyMappingInputExpected(Map<String, Object> input, Map<String, Object> expected)  {
+    public boolean verifyMappingInputExpected(Map<String, Object> input, Map<String, Object> expected) {
         Map<String, Object> processed = processMappingInputMap(input);
         assertThat(processed.size()).isGreaterThan(0);
         if (processed.isEmpty()) {
@@ -148,21 +160,20 @@ public class MappingValidator {
         return true;
     }
 
-    public boolean verifyMapping()  {
+    public boolean verifyMapping() {
         return this.verifyMapping(this.source, this.target, true);
     }
 
-    public boolean verifyMapping(boolean check)  {
+    public boolean verifyMapping(boolean check) {
         return this.verifyMapping(this.source, this.target, check);
     }
 
-    public boolean verifyMapping(TargetMappingTestClass target)  {
+    public boolean verifyMapping(TargetMappingTestClass target) {
         return this.verifyMapping(this.source, this.target, true);
     }
 
     public void map(String source, String target) throws ParseException {
         setTargetValue(target, getSourceValue(source));
-
     }
 
     public void setTargetValue(String field, Object value) throws ParseException {
@@ -180,7 +191,6 @@ public class MappingValidator {
     public Object getTargetValue(String field) {
         return this.target.getValue(field);
     }
-
 
     public TargetMappingTestClass getTarget() {
         return target;
@@ -213,7 +223,6 @@ public class MappingValidator {
     public void setExpectedMap(Map<String, Object> expectedMap) {
         this.expectedMap = expectedMap;
     }
-
 
     public void addSource(String name, Object s) {
         this.sourceMap.put(name, s);

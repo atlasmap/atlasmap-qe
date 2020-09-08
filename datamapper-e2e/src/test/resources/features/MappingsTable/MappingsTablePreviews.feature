@@ -12,11 +12,19 @@ Feature: mappings table
   @SmokeTest
   Scenario: check Preview of single mapping
 
-    When add mapping from "sourceInteger" to "targetInteger"
-    And add mapping from "sourceString" to "targetString"
-    And add mapping from "sourceString" to "targetCombineString"
-
     And switch to mapping table view
+    When click on create new mapping
+    And add "/sourceInteger" as "source"
+    And add "/targetInteger" as "target"
+
+    When click on create new mapping
+    And add "/sourceString" as "source"
+    And add "/targetString" as "target"
+
+    When click on create new mapping
+    And add "/sourceString" as "source"
+    And add "/targetCombineString" as "target"
+
     And Show mapping preview
 
     Then check that on "0" row number is for "5" source value displayed "5" target preview
@@ -24,7 +32,10 @@ Feature: mappings table
     And sleep for "5000"
 
   Scenario: check combine mapping in table and check if table is filled properly
-    When add mapping from "sourceInteger" to "targetString"
+    When click on create new mapping
+    And add "/sourceInteger" as "source"
+    And add "/targetString" as "target"
+
     And add "sourceFloat" to combine
     And add "sourceString" to combine
 

@@ -301,6 +301,15 @@ public class UISteps extends CucumberGlue {
         this.atlasmapPage.addToMappingUsingFieldPanel(mappingField, true);
     }
 
+    @And("select source {string} from dropdown to active mapping")
+    public void selectSourceToActiveMapping(String mappingField) {
+        this.atlasmapPage.addToMappingUsingFieldPanel(mappingField, true);
+    }
+    @And("select target {string} from dropdown to active mapping")
+    public void selectTargetToActiveMapping(String mappingField) {
+        this.atlasmapPage.addToMappingUsingFieldPanel(mappingField, true);
+    }
+
     @And("add target {string} to active mapping")
     public void addTargetToActiveMapping(String mappingField) {
         this.atlasmapPage.addToMappingUsingFieldPanel(mappingField, false);

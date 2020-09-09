@@ -45,6 +45,9 @@ Feature: Map from constant and properties
       | Long         | 1234567890    |
       | Short        | 1234          |
 
+  # TODO(tplevko): add test for target properties
+  # TODO(tplevko): add test for other properties scopes?
+
   @PropertyToString
   Scenario Outline: Create <type> property and map to string
     When set "source" property of type "<type>", name "<name>", scope "<scope>"

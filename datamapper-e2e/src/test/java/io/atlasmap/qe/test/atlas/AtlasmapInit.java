@@ -11,13 +11,13 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import io.cucumber.plugin.event.EventHandler;
+import io.atlasmap.qe.test.atlas.utils.TestConfiguration;
+import io.atlasmap.qe.test.atlas.utils.Utils;
 import io.cucumber.plugin.EventListener;
+import io.cucumber.plugin.event.EventHandler;
 import io.cucumber.plugin.event.EventPublisher;
 import io.cucumber.plugin.event.TestRunFinished;
 import io.cucumber.plugin.event.TestRunStarted;
-import io.atlasmap.qe.test.atlas.utils.TestConfiguration;
-import io.atlasmap.qe.test.atlas.utils.Utils;
 
 /**
  * Loads test resources into AtlasMap.
@@ -88,7 +88,7 @@ public class AtlasmapInit implements EventListener {
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJson.schema.json");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLInstance.xml");
-//        page.enableTargetDocument(DOCUMENTS_FOLDER + "targetCsv.csv");
+        //        page.enableTargetDocument(DOCUMENTS_FOLDER + "targetCsv.csv");
 
         //TODO: find more dynamic way for initialization check
         Utils.sleep(1000);
@@ -138,10 +138,10 @@ public class AtlasmapInit implements EventListener {
 
         if (TestConfiguration.getFastInit()) {
             eventPublisher.registerHandlerFor(TestRunStarted.class, setupFast);
-            eventPublisher.registerHandlerFor(TestRunFinished.class, teardown);
+            //            eventPublisher.registerHandlerFor(TestRunFinished.class, teardown);
         } else {
             eventPublisher.registerHandlerFor(TestRunStarted.class, setup);
-            eventPublisher.registerHandlerFor(TestRunFinished.class, teardown);
+            //            eventPublisher.registerHandlerFor(TestRunFinished.class, teardown);
         }
     }
 }

@@ -16,16 +16,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.atlasmap.qe.test.atlas.AtlasmapPage;
 import io.atlasmap.qe.test.atlas.utils.HoverAction;
 import io.atlasmap.qe.test.atlas.utils.Utils;
-import io.cucumber.core.api.Scenario;
 import io.cucumber.datatable.DataTable;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,20 +34,6 @@ public class UISteps extends CucumberGlue {
     private Scenario myScenario;
     private AtlasmapPage atlasmapPage = new AtlasmapPage();
     private static boolean internalMapping = true;
-
-    @Before()
-    public void embedScreenshotStep(Scenario scenario) {
-        myScenario = scenario;
-    }
-
-    @After
-    public void closeDriver() {
-        try {
-            takeAscreenshot();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-    }
 
     @Given("atlasmap contains TestClass")
     public void atlasmapContainsTestClass() throws Exception {
@@ -235,9 +220,10 @@ public class UISteps extends CucumberGlue {
     public void takeAscreenshot() {
 
         try {
-            myScenario.write("Current Page URL is " + getWebDriver().getCurrentUrl());
+            String currentUrl = "Current Page URL is " + getWebDriver().getCurrentUrl();
+            myScenario.attach(currentUrl.getBytes(), "text/plain", "Message");
             byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
-            myScenario.embed(screenshot, "image/png");  // Stick it in the report
+            myScenario.attach(currentUrl.getBytes(), "text/plain", "Message");
         } catch (WebDriverException somePlatformsDontSupportScreenshots) {
             //log.error(somePlatformsDontSupportScreenshots.getMessage());
         } catch (ClassCastException cce) {

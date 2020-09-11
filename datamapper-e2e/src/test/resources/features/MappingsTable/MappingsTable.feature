@@ -57,9 +57,15 @@ Feature: mappings table
   @debug
   @SmokeTest
   Scenario: delete from mappings table
-    When add mapping from "sourceInteger" to "targetInteger"
-    And add mapping from "sourceString" to "targetString"
     And switch to mapping table view
+
+    When click on create new mapping
+    And add "/sourceInteger" as "source"
+    And add "/targetInteger" as "target"
+
+    When click on create new mapping
+    And add "/sourceString" as "source"
+    And add "/targetString" as "target"
 
     And click on "0" index of table
     And delete current mapping

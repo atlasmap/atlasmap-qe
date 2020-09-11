@@ -16,16 +16,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import io.cucumber.java.After;
+import io.atlasmap.qe.test.atlas.AtlasmapPage;
+import io.atlasmap.qe.test.atlas.utils.HoverAction;
+import io.atlasmap.qe.test.atlas.utils.Utils;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.atlasmap.qe.test.atlas.AtlasmapPage;
-import io.atlasmap.qe.test.atlas.utils.HoverAction;
-import io.atlasmap.qe.test.atlas.utils.Utils;
-import io.cucumber.datatable.DataTable;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

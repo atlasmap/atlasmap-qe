@@ -45,7 +45,7 @@ Feature: number related transformations
   @UnitConversions
   Scenario Outline: unit conversions: <from> to <to>
     When add "<transformation>" transformation on "<source/target>"
-    And set from "<from>" to "<to>" units on
+    And set from "<from>" to "<to>" units
    # And
     Then save and verify "<transformation><from><to>.json" with
       | sourceDouble | targetDouble |

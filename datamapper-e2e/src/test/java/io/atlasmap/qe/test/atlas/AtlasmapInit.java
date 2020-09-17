@@ -77,7 +77,7 @@ public class AtlasmapInit implements EventListener {
         page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceJson.schema.json");
         page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceXmlInstance.xml");
         page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceXMLSchema.xsd");
-        page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceCsv.csv");
+        page.enableCsvSourceDocument(DOCUMENTS_FOLDER + "sourceCsv.csv", "Default", null);
 
         // Target documents:
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetArrays.json");

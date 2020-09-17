@@ -1,5 +1,7 @@
 package io.atlasmap.qe.test.atlas;
 
+import static org.assertj.core.api.Assertions.fail;
+
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.disappear;
 import static com.codeborne.selenide.Condition.value;
@@ -8,6 +10,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
@@ -18,6 +21,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import io.atlasmap.qe.test.atlas.utils.ByUtils;
@@ -223,15 +227,57 @@ public class AtlasmapPage {
         log.info("Class successfully enabled: " + className);
     }
 
-    public void enableSourceDocument(String path) {
-        $(ByUtils.dataTestId("import-instance-or-schema-file-Source-button")).parent().$(By.tagName("input"))
+    public void enableDocument(String path, boolean isSource) {
+        final String buttonLocation = String.format("import-instance-or-schema-file-%s-button", isSource ? "Source" : "Target");
+        $(ByUtils.dataTestId(buttonLocation)).parent().$(By.tagName("input"))
             .sendKeys(path);
+    }
+
+    public void enableCsvDocument(String path, boolean isSource, String format, Map<String, String> additionalParameters) {
+
+        String pathExtension = FilenameUtils.getExtension(path).toUpperCase();
+        if(pathExtension.equals("CSV")) {
+            enableDocument(path, isSource);
+
+            $(ByUtils.dataTestId("format-parameter-form-select")).shouldHave(Condition.value("Default"))
+                .selectOption(format);
+
+            for(String key: additionalParameters.keySet()) {
+                $(By.id("selected-paramater")).shouldBe(visible).selectOption(key);
+                $(By.xpath(".//button[contains(.,'Add parameter')]")).click();
+                SelenideElement parameterOption = $(ByUtils.dataTestIdStartsWith(key));
+
+                if(parameterOption.is(Condition.type("select"))) {
+                    parameterOption.selectOption(additionalParameters.get(key));
+                } else {
+                    parameterOption.sendKeys(additionalParameters.get(key));
+                }
+            }
+            $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
+
+        } else {
+            fail("The input file needs to be in csv format with .csv file suffix.");
+        }
+    }
+
+    public void enableCsvSourceDocument (String path, String format, Map<String, String> additionalParameters) {
+        enableCsvDocument(path, true, format, additionalParameters);
+        checkIfDocumentAppeared(path);
+    }
+
+    public void enableCsvTargetDocument (String path, String format, Map<String, String> additionalParameters) {
+        enableCsvDocument(path, false, format, additionalParameters);
+        checkIfDocumentAppeared(path);
+    }
+
+    public void enableSourceDocument(String path) {
+        enableDocument(path, true);
         checkIfDocumentAppeared(path);
     }
 
     public void enableTargetDocument(String path) {
-        $(ByUtils.dataTestId("import-instance-or-schema-file-Target-button")).parent().$(By.tagName("input"))
-            .sendKeys(path);
+        enableDocument(path, false);
+        checkIfDocumentAppeared(path);
     }
 
     /**

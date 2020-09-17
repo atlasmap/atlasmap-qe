@@ -80,7 +80,7 @@ public class BackendSteps extends CucumberGlue {
     }
 
     @And("verify if {string} is not {string} in {string}")
-    public void verifyIfIsNotIn(String field, String value, String path) throws Throwable { //
+    public void verifyIfIsNotIn(String field, String value, String path) { //
         // Assert.assertTrue(validator.verifyMapping());
         TargetMappingTestClass processed = this.validator.processMapping();
         assertThat(processed.getValue(field)).isNotEqualTo(value);
@@ -136,7 +136,7 @@ public class BackendSteps extends CucumberGlue {
     }
 
     @And("Add StringObject to expected map with {string}, {string} values")
-    public void addStringObjectToExpedtedMapWithAndValues(String arg0, String arg1) throws Throwable {
+    public void addStringObjectToExpedtedMapWithAndValues(String arg0, String arg1) {
         StringObject so = new StringObject();
         so.setFirstName(arg0);
         so.setLastName(arg1);
@@ -151,7 +151,7 @@ public class BackendSteps extends CucumberGlue {
     }
 
     @And("Init smallMappingTestClass and add to source map")
-    public void initSmallMappingTestClassAndAddToSourceMap() throws Throwable {
+    public void initSmallMappingTestClassAndAddToSourceMap() {
         final SmallMappingTestClass s = new SmallMappingTestClass();
         validator.addSource(s.getClass().getName(), s);
     }
@@ -277,12 +277,20 @@ public class BackendSteps extends CucumberGlue {
             } else if (var.contains("array")) {
                 assertThat(target.getTargetSmallMappingTestClass().getListOfStrings())
                     .containsAll(Arrays.asList((new SourceListsClass()).getArray()));
+            } else if (var.contains("csvStrings")) {
+                strings.forEach(i -> {
+                    ResourcesGenerator.getCsvArrays("csvStrings").contains(i);
+                });
             }
         } else if ("listOfIntegers".equals(array)) {
             final List integers = target.getTargetSmallMappingTestClass().getListOfIntegers();
             if ("listOfIntegers".equals(var)) {
                 integers.forEach(i -> {
                     ResourcesGenerator.getJsonArrays("jsonIntegers").contains(i);
+                });
+            } else if (var.contains("csvIntegers")) {
+                integers.forEach(i -> {
+                    ResourcesGenerator.getCsvArrays("csvIntegers").contains(i);
                 });
             } else {
                 assertThat(integers).contains(Integer.valueOf(var));

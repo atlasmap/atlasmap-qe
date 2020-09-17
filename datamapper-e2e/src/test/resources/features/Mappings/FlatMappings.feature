@@ -105,4 +105,4 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
     And add mapping from "sourceJsonDouble" to "/TargetXmlMappingTestClass/targetXmlFloat"
 
     Then save mapping as "flatJavaToXmlSchema.json" and verify "targetXMLSchema" with
-      | <targetXmlString>sourceJsonString</targetXmlString> | <targetXmlInteger>10 | <targetXmlDouble>-50.0</targetXmlDouble> |  |
+      | <targetXmlString>sourceJsonString</targetXmlString> | <targetXmlInteger>10 | <targetXmlDouble>-50.0</targetXmlDouble> |

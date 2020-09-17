@@ -1,10 +1,13 @@
 package io.atlasmap.qe.test.atlas.utils;
 
+import static com.codeborne.selenide.Condition.visible;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.http.client.fluent.Request;
 
+import com.codeborne.selenide.SelenideElement;
 import com.google.common.io.Files;
 
 import java.io.File;
@@ -116,6 +119,14 @@ public class Utils {
             });
         } else {
             throw new FileNotFoundException("Directory with mappings doesn't exist: " + TestConfiguration.getMappingsRootDirectory());
+        }
+    }
+
+    public static void insertCharByChar(String inputValue, SelenideElement inputSelector) {
+        for (int i = 0; i < inputValue.length(); i++){
+            char c = inputValue.charAt(i);
+            String s = new StringBuilder().append(c).toString();
+            inputSelector.shouldBe(visible).sendKeys(s);
         }
     }
 

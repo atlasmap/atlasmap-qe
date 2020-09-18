@@ -47,10 +47,10 @@ public class ResourcesGenerator {
     public static String getCsvInstance() {
         return
             "csv0,0,0.0,1989-05-05,true\n" +
-                "csv1,10,10.0,1989-05-05,\n" +
-                "csv2,20,20.0,1989-05-05,\n" +
-                "csv3,30,30.0,1989-05-05,\n" +
-                "csv4,40,40.0,1989-05-05,\n";
+                "csv1,10,10.0,1989-05-05,true\n" +
+                "csv2,20,20.0,1989-05-05,true\n" +
+                "csv3,30,30.0,1989-05-05,false\n" +
+                "csv4,40,40.0,1989-05-05,false\n";
     }
 
     public static String getXMLInstance() {

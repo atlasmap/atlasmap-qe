@@ -77,7 +77,7 @@ Feature: Mappings of nested collections
   # https://github.com/atlasmap/atlasmap/pull/1900
   # Coverage for scenario C6 - https://issues.redhat.com/browse/ENTESB-12399
   @AsymmetricMapping
-  Scenario Outline: Asymmetric nested collections support 3rd level to 2nd level
+  Scenario Outline: Asymmetric nested collections support 3rd level "<from>" to 2nd level json
     When add mapping from "<element>" to "/targetJsonNestedArray/secondArray/value"
     And check if asymmetric mapping warning from "3" level to "2" level is displayed
     Then save and verify asymetric nested collection from third level "<from>" to second level json collection as "asymNested<from>leveltoSecondLevelCollection.json"
@@ -91,7 +91,7 @@ Feature: Mappings of nested collections
   # https://github.com/atlasmap/atlasmap/pull/1900
   # Coverage for scenario C6 - https://issues.redhat.com/browse/ENTESB-12397
   @AsymmetricMapping
-  Scenario Outline: Asymmetric nested collections support 2rd level to 3nd level
+  Scenario Outline: Asymmetric nested collections support 2rd level "<from>" to 3nd level xml
     When add mapping from "<element>" to "/TargetXmlInstance/targetFirstArray/targetSecondArray/targetThirdArray/value"
     And check if asymmetric mapping warning from "2" level to "3" level is displayed
     Then save and verify asymetric nested collection from second level "<from>" to third level xml collection as "asymNested<from>leveltoSecondLevelCollection.json"

@@ -110,6 +110,7 @@ Feature: collection related field actions
       | Split          | sourceString | /strings  | 1:2:3:4:5 | Colon [:] | [1, 2, 3, 4, 5] |
       | Split          | sourceString | /integers | 1:2:3:4:5 | Colon [:] | [1, 2, 3, 4, 5] |
 
+  @ENTESB # https://issues.redhat.com/browse/ENTESB-14747
   @SimpleCollectionTransform
   Scenario Outline: simple  between collections
     When add mapping from "<from>" to "<to>"

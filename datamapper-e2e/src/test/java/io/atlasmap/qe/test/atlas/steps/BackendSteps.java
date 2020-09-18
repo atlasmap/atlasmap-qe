@@ -295,6 +295,13 @@ public class BackendSteps extends CucumberGlue {
             } else {
                 assertThat(integers).contains(Integer.valueOf(var));
             }
+        } else if ("listOfDoubles".equals(array)) {
+            final List doubles = target.getTargetSmallMappingTestClass().getListOfDoubles();
+            if ("csvIntegers".equals(var)) {
+                doubles.forEach(i -> {
+                    ResourcesGenerator.getCsvArrays("csvDoubles").contains(i);
+                });
+            }
         } else {
             throw new NotFoundException("Unable to find field " + array);
         }
@@ -375,6 +382,15 @@ public class BackendSteps extends CucumberGlue {
         }
     }
 
+    @Then("save and verify repeating mapping of csv object to object as {string}")
+    public void saveAndVerifyRepeatingMappingOfCsvToJsonObjectAs(String mapping) throws Throwable {
+        userSavesMappingAs(mapping);
+        String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getCsvInstance(), "sourceCsv", "targetJsonArray");
+        System.out.println("++++>" + output);
+        assertThat(output).contains(
+            "{\"arrayString\":\"csv0\"},{\"arrayString\":\"csv1\"},{\"arrayString\":\"csv2\"},{\"arrayString\":\"csv3\"},{\"arrayString\":\"csv4\"}");
+    }
+
     @Then("save and verify rootArrayMappings mapping as {string}")
     public void saveAndVerifyRootArrayMappingsMappingAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
@@ -383,6 +399,20 @@ public class BackendSteps extends CucumberGlue {
         assertThat(output).contains(
             "{\"arrayAnotherString\":\"1\",\"arrayString\":\"another-string\"},{\"arrayAnotherString\":\"2\",\"arrayString\":\"another-string\"}," +
                 "{\"arrayAnotherString\":\"3\",\"arrayString\":\"another-string\"}");
+    }
+
+    @Then("save and verify CSV mapping as {string}")
+    public void saveAndVerifyCSVMappingAs(String mapping) throws Throwable {
+        userSavesMappingAs(mapping);
+        String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getCsvInstance(), "sourceCsv", "targetCsv");
+        System.out.println("++++>" + output);
+        assertThat(output).contains(
+            "csv0,0,0.0,1989-05-05,true",
+            "csv1,10,10.0,1989-05-05,true",
+            "csv2,20,20.0,1989-05-05,true",
+            "csv3,30,30.0,1989-05-05,false",
+            "csv4,40,40.0,1989-05-05,false"
+        );
     }
 
     @Then("save and verify mapping from java collections to root array {string}")

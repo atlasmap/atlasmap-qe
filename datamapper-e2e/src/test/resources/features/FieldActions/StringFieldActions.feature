@@ -58,6 +58,7 @@ Feature: conversion from string
 #      | source        |
 #      | target        |
 
+  @ENTESB # Prepend on target failing due to: https://issues.redhat.com/browse/ENTESB-14747
   @StringFieldActionsWithInputs
   Scenario Outline: transformations with inputs: <transformation> on <source/target>
     When add "<transformation>" transformation on "<source/target>"

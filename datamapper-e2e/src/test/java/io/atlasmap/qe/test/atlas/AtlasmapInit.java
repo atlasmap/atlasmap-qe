@@ -88,7 +88,9 @@ public class AtlasmapInit implements EventListener {
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJson.schema.json");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLInstance.xml");
-//        page.enableTargetDocument(DOCUMENTS_FOLDER + "targetCsv.csv");
+        page.enableCsvTargetDocument(DOCUMENTS_FOLDER + "targetCsv.csv", "Default", new HashMap<String, String>() {{
+            put("firstRecordAsHeader", "true");
+        }});
 
         //TODO: find more dynamic way for initialization check
         Utils.sleep(1000);

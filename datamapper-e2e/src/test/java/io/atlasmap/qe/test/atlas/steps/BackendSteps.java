@@ -567,7 +567,7 @@ public class BackendSteps extends CucumberGlue {
     }
 
     private boolean validateAsymetricSecondToThirdLevelXmlCollectionResponse(String sourceType, String xmlResponseOriginal) {
-        String xmlResponsePrototypeLevel3 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><TargetXmlInstance><targetFirstArray><targetSecondArray" +
+        String xmlResponsePrototypeLevel3 = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><TargetXmlInstance><targetFirstArray><targetSecondArray" +
             "><targetThirdArray><value>xxxxSecondArrayValue0-0</value></targetThirdArray><targetThirdArray><value>xxxxSecondArrayValue0-1</value" +
             "></targetThirdArray></targetSecondArray><targetSecondArray><targetThirdArray><value>xxxxSecondArrayValue1-0</value></targetThirdArray" +
             "><targetThirdArray><value>xxxxSecondArrayValue1-1</value></targetThirdArray></targetSecondArray></targetFirstArray></TargetXmlInstance>";

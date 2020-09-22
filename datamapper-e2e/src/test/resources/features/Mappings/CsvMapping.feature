@@ -33,6 +33,19 @@ Feature: mapping from CSV
     And add "/<>/arrayString" as "target"
     Then save and verify repeating mapping of csv object to object as "csvToJson.json"
 
+  #ENTESB-14600 - was only completed partially. Waiting for the full support, see GH issue comments.
+  @CsvConcantenate
+  Scenario: map from csv array to targetString with concatenation
+    And click on create new mapping
+    And add "/<>/sourceCsvString" as "source"
+    And add "/targetString" as "target"
+    And set expected data
+      | targetString             |
+      | csv0 csv1 csv2 csv3 csv4 |
+
+    And save mapping as "csvConcatenateTransform.json"
+    And verify "csvConcatenateTransform.json"
+
   @CsvSourceCsvTargetMapAll
   Scenario: Csv collection doubles mapping with transformation
     And click on create new mapping

@@ -10,11 +10,19 @@ Feature: mappings table
 
   @SmokeTest
   Scenario: check simple mapping in table anch check if table is filled properly
-    When add mapping from "sourceInteger" to "targetInteger"
-    And add mapping from "sourceString" to "targetString"
-    And add mapping from "sourceString" to "targetCombineString"
-
     And switch to mapping table view
+    When click on create new mapping
+    And add "/sourceInteger" as "source"
+    And add "/targetInteger" as "target"
+
+    When click on create new mapping
+    And add "/sourceString" as "source"
+    And add "/targetString" as "target"
+
+    When click on create new mapping
+    And add "/sourceString" as "source"
+    And add "/targetCombineString" as "target"
+
     Then check that row number "0" contains "sourceInteger" as sources, "targetInteger" as target and "One to One" as type
     And  check that row number "1" contains "sourceString" as sources, "targetString" as target and "One to One" as type
     And check that row number "2" contains "sourceString" as sources, "targetCombineString" as target and "One to One" as type

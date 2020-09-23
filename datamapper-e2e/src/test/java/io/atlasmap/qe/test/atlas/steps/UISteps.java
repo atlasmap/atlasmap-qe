@@ -2,13 +2,7 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-
 import org.junit.Assert;
-
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriverException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +14,6 @@ import io.atlasmap.qe.test.atlas.AtlasmapPage;
 import io.atlasmap.qe.test.atlas.utils.HoverAction;
 import io.atlasmap.qe.test.atlas.utils.Utils;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -30,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UISteps extends CucumberGlue {
 
-    private Scenario myScenario;
     private AtlasmapPage atlasmapPage = new AtlasmapPage();
     private static boolean internalMapping = true;
 
@@ -204,21 +196,6 @@ public class UISteps extends CucumberGlue {
     @And("check if danger warning contains {string} message")
     public void checkIfDangerWarningContainsMessage(String message) {
         Assert.assertTrue(this.atlasmapPage.checkDangerWarningContainMessage(message));
-    }
-
-    @Then("take a screenshot")
-    public void takeAscreenshot() {
-
-        try {
-            String currentUrl = "Current Page URL is " + getWebDriver().getCurrentUrl();
-            myScenario.attach(currentUrl.getBytes(), "text/plain", "Message");
-            byte[] screenshot = ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
-            myScenario.attach(currentUrl.getBytes(), "text/plain", "Message");
-        } catch (WebDriverException somePlatformsDontSupportScreenshots) {
-            //log.error(somePlatformsDontSupportScreenshots.getMessage());
-        } catch (ClassCastException cce) {
-            cce.printStackTrace();
-        }
     }
 
     @And("set {string} constant with {string} value")

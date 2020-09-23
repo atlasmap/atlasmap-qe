@@ -58,7 +58,6 @@ Feature: conversion from string
 #      | source        |
 #      | target        |
 
-  @ENTESB # Prepend on target failing due to: https://issues.redhat.com/browse/ENTESB-14747
   @StringFieldActionsWithInputs
   Scenario Outline: transformations with inputs: <transformation> on <source/target>
     When add "<transformation>" transformation on "<source/target>"
@@ -80,7 +79,7 @@ Feature: conversion from string
       | source        | Pad String Right | Pad Character | -             | Pad Count   | 3             | FooBar                       | FooBar---           |
       | target        | Prepend          | String        | bar           | N/A         | N/A           | FOO                          | barFOO              |
       | source        | Prepend          | String        | bar           | N/A         | N/A           | FOO                          | barFOO              |
-      | source        | Prepend          | String        | bar           | N/A         | N/A           |                              | bar                 |
+      | source        | Prepend          | String        | bar           | N/A         | N/A           | [empty]                          | bar                 |
       | target        | Replace All      | Match         | DASH          | New String  | -             | ThisDASHisDASHtestDASHstring | This-is-test-string |
       | source        | Replace All      | Match         | DASH          | New String  | -             | ThisDASHisDASHtestDASHstring | This-is-test-string |
       | target        | Replace First    | Match         | DASH          | New String  | -             | FooDASHBarDASHFoo            | Foo-BarDASHFoo      |

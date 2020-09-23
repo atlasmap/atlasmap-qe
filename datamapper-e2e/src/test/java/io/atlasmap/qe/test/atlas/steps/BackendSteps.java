@@ -118,10 +118,14 @@ public class BackendSteps extends CucumberGlue {
         String targetField = testValues.row(0).get(1);
 
         for (Map<String, String> data : testValues.asMaps()) {
-            this.validator.setSourceValue(sourceField, data.get(sourceField));
-            this.validator.setTargetValue(targetField, data.get(targetField));
+            this.validator.setSourceValue(sourceField, replaceEmptyString(data.get(sourceField)));
+            this.validator.setTargetValue(targetField, replaceEmptyString(data.get(targetField)));
             assertThat(this.validator.verifyMapping(checkIfTrue)).isEqualTo(checkIfTrue);
         }
+    }
+
+    private String replaceEmptyString(String value) {
+        return value.equals("[empty]") ? "" : value;
     }
 
     @And("sleep for \"{int}\"")

@@ -22,7 +22,7 @@ Feature: conditional mappings
 
     And set source data
       | sourceString |
-      |              |
+      | [empty]      |
 
     And set expected data
       | <target>      |
@@ -43,11 +43,9 @@ Feature: conditional mappings
     When click on create new mapping from target "targetInteger"
     And set mapping condition to "if(ISEMPTY(@{/sourceString}), @{/sourceInteger}, @{/sourceShort} )" by selecting sources
 
-    And Show mapping preview
-
     And set source data
       | sourceString | sourceInteger | sourceShort |
-      |              | 1             | 2           |
+      | [empty]      | 1             | 2           |
 
     And set expected data
       | targetInteger |

@@ -60,7 +60,7 @@ public class BackendSteps extends CucumberGlue {
         //SourceMappingTestClass source = new SourceMappingTestClass();
         for (Map<String, String> source : sourceMappingData.asMaps()) {
             for (String field : source.keySet()) {
-                this.validator.setSourceValue(field, source.get(field));
+                this.validator.setSourceValue(field, replaceEmptyString(source.get(field)));
             }
         }
     }
@@ -72,10 +72,8 @@ public class BackendSteps extends CucumberGlue {
 
                 if (field.contains("Char")) {
                     this.validator.setTargetValue(field, source.get(field).charAt(0));
-                } else if (field.contains("N/A")) {
-                    this.validator.setTargetValue("", source.get(""));
                 } else {
-                    this.validator.setTargetValue(field, source.get(field));
+                    this.validator.setTargetValue(field, replaceEmptyString(source.get(field)));
                 }
             }
         }

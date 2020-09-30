@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.fail;
 
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Condition.disappear;
-import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -165,7 +164,7 @@ public class AtlasmapPage {
     }
 
     public void addToConditionalMapping(String condition) {
-        $(By.id("expressionMarkup")).sendKeys(condition);
+        Utils.insertCharByChar(condition,$(By.id("expressionMarkup")));
     }
 
     public void selectSeparator(String action) {

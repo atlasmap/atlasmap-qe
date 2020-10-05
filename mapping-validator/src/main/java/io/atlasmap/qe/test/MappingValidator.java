@@ -165,7 +165,7 @@ public class MappingValidator {
 
     private Object getExpectedValue(Map<String, Object> processed, String expected) {
         Object expectedValue;
-        if (!processed.containsKey(expected)) {
+        if (processed.containsKey(expected)) {
             expectedValue = processed.get(expected);
         } else {
             expectedValue = processed.entrySet().stream().filter(t -> t.getKey().matches(expected + "-.*")).findFirst().get().getValue();

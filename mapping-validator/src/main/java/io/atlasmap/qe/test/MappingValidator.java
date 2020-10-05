@@ -97,6 +97,9 @@ public class MappingValidator {
                                   }
                               }
             );
+
+            initValidatorVariousFormFiles(mappingLocation);
+
             MockEndpoint resultEndpoint = context.getEndpoint("mock:result", MockEndpoint.class);
             ProducerTemplate template = context.createProducerTemplate();
             context.start();
@@ -245,12 +248,15 @@ public class MappingValidator {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        sourceMap.put("sourceJson", ResourcesGenerator.getJsonInstance());
-        sourceMap.put("sourceArrays", ResourcesGenerator.getJsonArrays());
-        sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
-        sourceMap.put("sourceXMLSchema", ResourcesGenerator.getXmlSchemaInstance(null));
-        sourceMap.put("sourceJsonArray", ResourcesGenerator.getRootJsonArray());
-        sourceMap.put("sourceCsv", ResourcesGenerator.getCsvInstance());
+    }
+
+    public void initValidatorVariousFormFiles(String mappingLocation) {
+        sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceJson"), ResourcesGenerator.getJsonInstance());
+        sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceArrays"), ResourcesGenerator.getJsonArrays());
+        sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceXmlInstance"), ResourcesGenerator.getXMLInstance());
+        sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceXMLSchema"), ResourcesGenerator.getXmlSchemaInstance(null));
+        sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceJsonArray"), ResourcesGenerator.getRootJsonArray());
+        sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceCsv"), ResourcesGenerator.getCsvInstance());
     }
 
     public static void main(String[] args) {

@@ -64,13 +64,13 @@ public class MappingValidator {
         sourceMap.put(inputName, input);
         Map<String, Object> processed = processMappingInputMap(sourceMap);
 
-        return processed.get(expected);
+        return processed.entrySet().stream().filter(t -> t.getKey().matches(expected + "-.*")).findFirst().get().getValue();
     }
 
     public Object processMapping(String expected) {
         //   sourceMap.put(source.getClass().getName(), source);
         Map<String, Object> processed = processMappingInputMap(sourceMap);
-        return processed.get(expected);
+        return processed.entrySet().stream().filter(t -> t.getKey().matches(expected + "-.*")).findFirst().get().getValue();
     }
 
     public Map<String, Object> processMappingInputMap(Map<String, Object> input) {
@@ -157,7 +157,7 @@ public class MappingValidator {
         }
 
         expected.forEach((k, v) -> {
-            Object actual = processed.get(k);
+            Object actual = processed.entrySet().stream().filter(t -> t.getKey().matches(k + "-.*")).findFirst().get().getValue();
             assertThat(v).isEqualTo(actual);
         });
         return true;

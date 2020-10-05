@@ -64,13 +64,13 @@ public class MappingValidator {
         sourceMap.put(inputName, input);
         Map<String, Object> processed = processMappingInputMap(sourceMap);
 
-        return processed.entrySet().stream().filter(t -> t.getKey().matches(expected + "-.*")).findFirst().get().getValue();
+        return getExpectedValue(processed, expected);
     }
 
     public Object processMapping(String expected) {
         //   sourceMap.put(source.getClass().getName(), source);
         Map<String, Object> processed = processMappingInputMap(sourceMap);
-        return processed.entrySet().stream().filter(t -> t.getKey().matches(expected + "-.*")).findFirst().get().getValue();
+        return getExpectedValue(processed, expected);
     }
 
     public Map<String, Object> processMappingInputMap(Map<String, Object> input) {
@@ -157,10 +157,20 @@ public class MappingValidator {
         }
 
         expected.forEach((k, v) -> {
-            Object actual = processed.entrySet().stream().filter(t -> t.getKey().matches(k + "-.*")).findFirst().get().getValue();
+            Object actual = getExpectedValue(processed, k);
             assertThat(v).isEqualTo(actual);
         });
         return true;
+    }
+
+    private Object getExpectedValue(Map<String, Object> processed, String expected) {
+        Object expectedValue;
+        if (!processed.containsKey(expected)) {
+            expectedValue = processed.get(expected);
+        } else {
+            expectedValue = processed.entrySet().stream().filter(t -> t.getKey().matches(expected + "-.*")).findFirst().get().getValue();
+        }
+        return expectedValue;
     }
 
     public boolean verifyMapping() {
@@ -254,7 +264,8 @@ public class MappingValidator {
         sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceJson"), ResourcesGenerator.getJsonInstance());
         sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceArrays"), ResourcesGenerator.getJsonArrays());
         sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceXmlInstance"), ResourcesGenerator.getXMLInstance());
-        sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceXMLSchema"), ResourcesGenerator.getXmlSchemaInstance(null));
+        sourceMap
+            .put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceXMLSchema"), ResourcesGenerator.getXmlSchemaInstance(null));
         sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceJsonArray"), ResourcesGenerator.getRootJsonArray());
         sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceCsv"), ResourcesGenerator.getCsvInstance());
     }

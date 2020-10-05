@@ -79,6 +79,16 @@
             <version>${parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${apache.commons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json.java}</version>
+        </dependency>
+        <dependency>
             <groupId>io.atlasmap</groupId>
             <artifactId>camel3-atlasmap</artifactId>
             <version>${atlasmap.version}</version>

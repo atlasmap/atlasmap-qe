@@ -16,8 +16,10 @@
     <properties>
         <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
         <atlasmap.version>2.1.0-SNAPSHOT</atlasmap.version>
+        <apache.commons.version>2.8.0</apache.commons.version>
         <assertj.version>3.11.1</assertj.version>
         <junit.version>4.12</junit.version>
+        <json.java>20200518</json.java>
         <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
         <selenide.version>5.12.2</selenide.version>
         <selenium.version>3.13.0</selenium.version>

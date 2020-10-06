@@ -14,7 +14,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import io.atlasmap.qe.resources.ResourcesGenerator;
 
@@ -98,7 +100,7 @@ public class MappingValidator {
                               }
             );
 
-            initValidatorVariousFormFiles(mappingLocation);
+            adjustIDsForFormFiles(mappingLocation, input);
 
             MockEndpoint resultEndpoint = context.getEndpoint("mock:result", MockEndpoint.class);
             ProducerTemplate template = context.createProducerTemplate();
@@ -258,16 +260,33 @@ public class MappingValidator {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        sourceMap.put("sourceJson", ResourcesGenerator.getJsonInstance());
+        sourceMap.put("sourceArrays", ResourcesGenerator.getJsonArrays());
+        sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
+        sourceMap
+            .put("sourceXMLSchema", ResourcesGenerator.getXmlSchemaInstance(null));
+        sourceMap.put("sourceJsonArray", ResourcesGenerator.getRootJsonArray());
+        sourceMap.put("sourceCsv", ResourcesGenerator.getCsvInstance());
     }
 
-    public void initValidatorVariousFormFiles(String mappingLocation) {
-        sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceJson"), ResourcesGenerator.getJsonInstance());
-        sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceArrays"), ResourcesGenerator.getJsonArrays());
-        sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceXmlInstance"), ResourcesGenerator.getXMLInstance());
-        sourceMap
-            .put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceXMLSchema"), ResourcesGenerator.getXmlSchemaInstance(null));
-        sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceJsonArray"), ResourcesGenerator.getRootJsonArray());
-        sourceMap.put(MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, "sourceCsv"), ResourcesGenerator.getCsvInstance());
+    /**
+     * Provides a way, to update the source map of input files, to correspond the ID's in the mapping file.
+     * The ID in mapping file is in format: "name-uuid"
+     *
+     * @param mappingLocation
+     * @param input
+     */
+    public void adjustIDsForFormFiles(String mappingLocation, Map<String, Object> input) {
+        Set<String> keySet = new HashSet<>();
+        keySet.addAll(input.keySet());
+        for (String key : keySet) {
+            String newKey = MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, key);
+            if (!newKey.contentEquals(key)) {
+                Object value = input.get(key);
+                input.remove(key);
+                input.put(newKey, value);
+            }
+        }
     }
 
     public static void main(String[] args) {

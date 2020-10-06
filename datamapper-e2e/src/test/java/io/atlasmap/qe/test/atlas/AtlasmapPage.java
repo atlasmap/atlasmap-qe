@@ -176,7 +176,7 @@ public class AtlasmapPage {
     }
 
     public void addToConditionalMapping(String condition) {
-        $(By.id("expressionMarkup")).sendKeys(condition);
+        Utils.insertCharByChar(condition, $(By.id("expressionMarkup")));
     }
 
     public void selectSeparator(String action) {

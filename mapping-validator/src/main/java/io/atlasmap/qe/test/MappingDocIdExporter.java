@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MappingDocIdExporter {
 
     public static String extractDataSourceIdByName(String atlasMappingLocation, String dataSourceName) {
-        String dataSourceId = "";
+        String dataSourceId = dataSourceName;
         JSONObject atlasMappingJson = exportAtlasJson(atlasMappingLocation);
         JSONArray dataSourceList = atlasMappingJson.getJSONObject("AtlasMapping").getJSONArray("dataSource");
 

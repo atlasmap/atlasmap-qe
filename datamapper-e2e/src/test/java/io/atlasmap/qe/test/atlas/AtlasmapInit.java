@@ -85,8 +85,7 @@ public class AtlasmapInit implements EventListener {
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJson.schema.json");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLInstance.xml");
-        //TODO: uncomment once this is fixed - https://issues.redhat.com/browse/ENTESB-14189
-//        page.enableTargetDocument(DOCUMENTS_FOLDER + "targetCsv.csv");
+        page.enableTargetDocument(DOCUMENTS_FOLDER + "targetCsv.csv");
         //TODO: find more dynamic way for initialization check
         Utils.sleep(1000);
         try {

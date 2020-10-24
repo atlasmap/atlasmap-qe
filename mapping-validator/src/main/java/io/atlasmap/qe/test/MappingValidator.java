@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import io.atlasmap.qe.resources.ResourcesGenerator;
 
@@ -263,10 +264,14 @@ public class MappingValidator {
         sourceMap.put("sourceJson", ResourcesGenerator.getJsonInstance());
         sourceMap.put("sourceArrays", ResourcesGenerator.getJsonArrays());
         sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
-        sourceMap
-            .put("sourceXMLSchema", ResourcesGenerator.getXmlSchemaInstance(null));
+        sourceMap.put("sourceXMLSchema", ResourcesGenerator.getXmlSchemaInstance(null));
         sourceMap.put("sourceJsonArray", ResourcesGenerator.getRootJsonArray());
-        sourceMap.put("sourceCsv", ResourcesGenerator.getCsvInstance());
+        Stream.of("sourceCsv", "sourceCsvCustomDelimiter", "sourceCsvMissingColumnNames", "sourceCsvCommentMarker",
+            "sourceCsvCustomEscapeCharacter", "sourceCsvHeaders", "sourceCsvIgnoreEmptyLines",
+            "sourceCsvIgnoreHeaderCase", "sourceCsvIgnoreSurroundingSpaces", "sourceCsvCustomQuoteCharacter",
+            "sourceCsvTdfFormat").forEach(csvDocumentName ->
+            sourceMap.put(csvDocumentName, ResourcesGenerator.getCsvInstance())
+        );
     }
 
     /**

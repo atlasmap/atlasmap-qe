@@ -2,12 +2,10 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.atlasmap.qe.test.atlas.AtlasmapInit;
 import org.junit.Assert;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 import io.atlasmap.qe.test.atlas.AtlasmapPage;
@@ -349,5 +347,26 @@ public class UISteps extends CucumberGlue {
     @And("click show source mapping for {string}")
     public void clickShowSourceMapping(String mappingField) {
         atlasmapPage.hoverAndSelectOperation(mappingField, HoverAction.SHOW_MAPPING_DETAILS, "source");
+    }
+
+    @And("import CSV file {string} formatted as {string} with parameters")
+    public void importCSVFileWithParameters(String fileName, String format, DataTable parameters) {
+        System.out.println(fileName + format);
+        atlasmapPage.enableCsvSourceDocument(AtlasmapInit.DOCUMENTS_FOLDER + fileName, format,
+            parameters.asMap(String.class, String.class));
+    }
+
+    @And("import CSV file {string} formatted as {string}")
+    public void importCSVFile(String fileName, String format) {
+        System.out.println(fileName + format);
+        atlasmapPage.enableCsvSourceDocument(AtlasmapInit.DOCUMENTS_FOLDER + fileName, format, new HashMap<>());
+    }
+
+    @And("remove {string} document called {string}")
+    public void removeDocument(String type, String name) {
+        if (!type.equals("source") && !type.equals("target")) {
+            throw new IllegalArgumentException("Type of document needs to be 'source' or 'target'!");
+        }
+        atlasmapPage.removeDocument(type, name);
     }
 }

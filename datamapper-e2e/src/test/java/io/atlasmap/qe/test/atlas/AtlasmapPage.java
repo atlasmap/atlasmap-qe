@@ -195,6 +195,12 @@ public class AtlasmapPage {
             .waitUntil(visible, TestConfiguration.getWaitTimeout()).click();
     }
 
+    public void removeDocument(String type, String name) {
+        $(ByUtils.dataTestIdStartsWith("remove-" + type + "s-document-" + name)).click();
+        $(ByUtils.dataTestId("confirmation-dialog-confirm-button"))
+            .waitUntil(visible, TestConfiguration.getWaitTimeout()).click();
+    }
+
     public void resetAll() {
         $(ByUtils.dataTestId("atlasmap-menu-button")).shouldBe(visible).click();
         $(ByUtils.dataTestId("reset-all-button")).shouldBe(visible).click();

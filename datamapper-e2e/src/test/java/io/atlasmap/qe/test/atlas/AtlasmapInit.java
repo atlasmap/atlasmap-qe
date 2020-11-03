@@ -29,7 +29,7 @@ public class AtlasmapInit implements EventListener {
 
     // directory with test-resources JAR
     private static final String TARGET_FOLDER = System.getProperty("user.dir") + "/../test-resources/target/";
-    private static final String DOCUMENTS_FOLDER = System.getProperty("user.dir") + "/src/test/resources/documents/";
+    public static final String DOCUMENTS_FOLDER = System.getProperty("user.dir") + "/src/test/resources/documents/";
 
     /**
      * {@link AtlasmapPage} needed for resources loading.
@@ -88,10 +88,10 @@ public class AtlasmapInit implements EventListener {
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetJson.schema.json");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLInstance.xml");
-        //TODO: uncomment once this is fixed - https://issues.redhat.com/browse/ENTESB-14189
-//        page.enableCsvTargetDocument(DOCUMENTS_FOLDER + "targetCsv.csv", "Default", new HashMap<String, String>() {{
-//            put("firstRecordAsHeader", "true");
-//        }});
+        page.enableCsvTargetDocument(DOCUMENTS_FOLDER + "targetCsv.csv", "Default", new HashMap<String, String>() {{
+            put("firstRecordAsHeader", "true");
+        }});
+
         //TODO: find more dynamic way for initialization check
         Utils.sleep(1000);
         try {

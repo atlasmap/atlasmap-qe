@@ -43,6 +43,18 @@ public class TransformationSteps extends CucumberGlue {
         Utils.sleep(1000);
     }
 
+    @When("set index to {int}")
+    public void setCopyToIndex(int index) {
+        this.atlasmapPage.setCopyToIndex(index);
+        Utils.sleep(1000);
+    }
+
+    @When("set repeat count to {int}")
+    public void setRepeatCount(int count) {
+        this.atlasmapPage.setRepeatCount(count);
+        Utils.sleep(1000);
+    }
+
     /**
      * Sets data required for transformation.
      *

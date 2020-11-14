@@ -98,17 +98,43 @@ Feature: collection related field actions
 
 ##single -> array (split for example)
   @SingleFieldToCollectionTransform
-  Scenario Outline: single field -> collection transformations
+  Scenario Outline: single field -> collection transformations (Split)
     When add mapping from "<source>" to "<target>"
-    And add "<transformation>" collection transformation
+    And add "Split" collection transformation
     When select "<delimiter>" separator
     And set "<value>" value in source's "<source>"
-    Then save and verify collections mappings in "<transformation>Collection.json" "<expectedValue>" value is presented in "<target>" collection
+    Then save and verify collections mappings in "SplitCollection.json" "<expectedValue>" value is presented in "<target>" collection
 
     Examples:
-      | transformation | source       | target    | value     | delimiter | expectedValue   |
-      | Split          | sourceString | /strings  | 1:2:3:4:5 | Colon [:] | [1, 2, 3, 4, 5] |
-      | Split          | sourceString | /integers | 1:2:3:4:5 | Colon [:] | [1, 2, 3, 4, 5] |
+      | source       | target    | value     | delimiter | expectedValue   |
+      | sourceString | /strings  | 1:2:3:4:5 | Colon [:] | [1, 2, 3, 4, 5] |
+      | sourceString | /integers | 1:2:3:4:5 | Colon [:] | [1, 2, 3, 4, 5] |
+
+  @SingleFieldToCollectionTransform
+  Scenario Outline: single field -> collection transformations (Copy to)
+    When add mapping from "<source>" to "<target>"
+    And add "CopyTo" collection transformation
+    When set index to <index>
+    And set "<value>" value in source's "<source>"
+    Then save and verify collections mappings in "CopyToCollection.json" "<expectedValue>" value is presented in "<target>" collection
+
+    Examples:
+      | source       | target    | value      | index | expectedValue      |
+      | sourceString | /strings  | someString | 2     | [null, someString] |
+      | sourceString | /integers | 3          | 3     | [null, null, 3]    |
+
+  @SingleFieldToCollectionTransform
+  Scenario Outline: single field -> collection transformations (Repeat)
+    When add mapping from "<source>" to "<target>"
+    And add "Repeat" collection transformation
+    When set repeat count to <count>
+    And set "<value>" value in source's "<source>"
+    Then save and verify collections mappings in "RepeatCollection.json" "<expectedValue>" value is presented in "<target>" collection
+
+    Examples:
+      | source       | target    | value      | count | expectedValue            |
+      | sourceString | /strings  | someString | 2     | [someString, someString] |
+      | sourceString | /integers | 3          | 3     | [3, 3, 3]                |
 
   @ENTESB # https://issues.redhat.com/browse/ENTESB-14747
   @SimpleCollectionTransform

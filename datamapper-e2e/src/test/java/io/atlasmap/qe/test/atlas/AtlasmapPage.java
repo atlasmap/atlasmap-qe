@@ -183,6 +183,14 @@ public class AtlasmapPage {
         $(ByUtils.dataTestId("delimiter")).selectOption(action);
     }
 
+    public void setCopyToIndex(int index) {
+        $(ByUtils.dataTestId("insert-transformation-parameter-index-input-field")).sendKeys(String.valueOf(index));
+    }
+
+    public void setRepeatCount(int count) {
+        $(ByUtils.dataTestId("insert-transformation-parameter-count-input-field")).sendKeys(String.valueOf(count));
+    }
+
     public void clickOnLinkByClass(String classSelector) {
         $(classSelector).shouldBe(visible);
         $(classSelector).click();

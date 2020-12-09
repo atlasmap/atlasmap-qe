@@ -35,7 +35,7 @@ public class AtlasmapPage {
     public static final String TEST_CLASS = "SourceMappingTestClass";
 
     public void refreshPage() {
-        Selenide.refresh();
+        Selenide.open(TestConfiguration.getUiIndexPath());
         $(ByUtils.dataTestId("atlasmap-menu-button")).waitUntil(appear, 15000);
     }
 

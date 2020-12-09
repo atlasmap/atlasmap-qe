@@ -20,7 +20,7 @@ public class CucumberTest {
         //Configuration.browser = TestConfiguration.syndesisBrowser();
         Configuration.browser = "io.atlasmap.qe.test.atlas.CustomWebDriverProvider";
         Configuration.browserSize = "1920x1080";
-        Selenide.open(TestConfiguration.getUiIndexPath());
+        //Selenide.open(TestConfiguration.getUiIndexPath());
         //Logging selectors is disabled by default, enable it in test properties if you wish
     }
 }

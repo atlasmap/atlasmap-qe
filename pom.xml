@@ -90,6 +90,11 @@
 				<artifactId>cucumber-spring</artifactId>
 				<version>${cucumber.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>mmuzikar</groupId>
+				<artifactId>backendprovider</artifactId>
+				<version>1.0-SNAPSHOT</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -113,6 +118,42 @@
 			<url>https://repo.spring.io/libs-release</url>
 		</pluginRepository>
 	</pluginRepositories>
+
+	<profiles>
+		<profile>
+			<id>interactive</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>3.1.2</version>
+						<executions>
+							<execution>
+								<id>copy</id>
+								<phase>generate-test-sources</phase>
+								<goals>
+									<goal>copy</goal>
+								</goals>
+								<configuration>
+									<artifact>mmuzikar:backendprovider:1.0-SNAPSHOT</artifact>
+									<stripVersion>true</stripVersion>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>${failsafe.plugin.version}</version>
+						<configuration combine.self="append">
+							<argLine>-javaagent:${project.build.directory}/dependency/backendprovider.jar=cucumber.version=6.2.2</argLine>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>

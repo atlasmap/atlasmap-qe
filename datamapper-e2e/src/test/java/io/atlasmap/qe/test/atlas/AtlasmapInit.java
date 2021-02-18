@@ -79,7 +79,7 @@ public class AtlasmapInit implements EventListener {
         page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceXmlInstance.xml");
         page.enableSourceDocument(DOCUMENTS_FOLDER + "sourceXMLSchema.xsd");
         page.enableCsvSourceDocument(DOCUMENTS_FOLDER + "sourceCsv.csv", "Default", new HashMap<String, String>() {{
-            put("firstRecordAsHeader", "true");
+            put("First Record As Header", "true");
         }});
 
         // Target documents:
@@ -89,7 +89,7 @@ public class AtlasmapInit implements EventListener {
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
         page.enableTargetDocument(DOCUMENTS_FOLDER + "targetXMLInstance.xml");
         page.enableCsvTargetDocument(DOCUMENTS_FOLDER + "targetCsv.csv", "Default", new HashMap<String, String>() {{
-            put("firstRecordAsHeader", "true");
+            put("First Record As Header", "true");
         }});
 
         //TODO: find more dynamic way for initialization check

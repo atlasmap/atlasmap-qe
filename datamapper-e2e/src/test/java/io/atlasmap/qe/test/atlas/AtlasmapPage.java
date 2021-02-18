@@ -306,7 +306,8 @@ public class AtlasmapPage {
      * Gets filename from {@code path}. And checks if element with this filename appeared.
      */
     private void checkIfDocumentAppeared(String path) {
-        String dataTestid = String.format("expand-collapse-%s-button", path.substring(path.lastIndexOf("/") + 1).split("\\.")[0]);
+        String fileName = path.substring(path.lastIndexOf("/") + 1);
+        String dataTestid = String.format("expand-collapse-%s-button", fileName.substring(0,fileName.lastIndexOf('.')));
         $(ByUtils.dataTestId(dataTestid)).waitUntil(appear, 15000);
         log.info("File successfully imported: " + path);
     }

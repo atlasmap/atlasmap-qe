@@ -10,8 +10,8 @@ Feature: importing CSV files with different formats
 
   Scenario: Test CSV with missing column names
     And import CSV file "csv/sourceCsvMissingColumnNames.csv" formatted as "Default" with parameters
-      | firstRecordAsHeader     | true |
-      | allowMissingColumnNames | true |
+      | First Record As Header     | true |
+      | Allow Missing Column Names | true |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
     And add "/<>/sourceCsvMissingColumnNamesDecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvMissingColumnNames.json"
@@ -19,8 +19,8 @@ Feature: importing CSV files with different formats
 
   Scenario: Test CSV with custom comment marker
     And import CSV file "csv/sourceCsvCommentMarker.csv" formatted as "Default" with parameters
-      | firstRecordAsHeader | true |
-      | commentMarker       | #    |
+      | First Record As Header | true |
+      | CommentMarker       | #    |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
     And add "/<>/sourceCsvCommentMarkerDecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvCommentMarker.json"
@@ -28,8 +28,8 @@ Feature: importing CSV files with different formats
 
   Scenario: Test CSV with custom delimiter
     And import CSV file "csv/sourceCsvCustomDelimiter.csv" formatted as "Default" with parameters
-      | firstRecordAsHeader | true |
-      | delimiter           | +    |
+      | First Record As Header | true |
+      | Delimiter           | +    |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
     And add "/<>/sourceCsvCustomDelimiterDecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvCustomDelimiter.json"
@@ -37,9 +37,9 @@ Feature: importing CSV files with different formats
 
   Scenario: Test CSV with custom escape character
     And import CSV file "csv/sourceCsvCustomEscapeCharacter.csv" formatted as "Default" with parameters
-      | firstRecordAsHeader | true |
-      | delimiter           | 4    |
-      | escape              | _    |
+      | First Record As Header | true |
+      | Delimiter           | 4    |
+      | Escape              | _    |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfStrings"
     And add "/<>/sourceCsvCustomEscapeCharacterString" as "source"
     Then save and verify that "listOfStrings" contains "csvStrings" as "csvCustomEscapeCharacter.json"
@@ -47,7 +47,7 @@ Feature: importing CSV files with different formats
 
   Scenario: Test CSV with manually added header names
     And import CSV file "csv/sourceCsvCommentMarker.csv" formatted as "Default" with parameters
-      | headers | sourceCsvHeadersString,sourceCsvHeadersNumber,sourceCsvHeadersDecimal,sourceCsvHeadersDate,sourceCsvHeadersBoolean |
+      | Headers | sourceCsvHeadersString,sourceCsvHeadersNumber,sourceCsvHeadersDecimal,sourceCsvHeadersDate,sourceCsvHeadersBoolean |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
     And add "/<>/sourceCsvHeadersDecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvHeaders.json"
@@ -55,8 +55,8 @@ Feature: importing CSV files with different formats
 
   Scenario: Test CSV while ignoring empty lines
     And import CSV file "csv/sourceCsvIgnoreEmptyLines.csv" formatted as "Default" with parameters
-      | firstRecordAsHeader | true |
-      | ignoreEmptyLines    | true |
+      | First Record As Header | true |
+      | Ignore Empty Lines     | true |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
     And add "/<>/sourceCsvIgnoreEmptyLinesDecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvIgnoreEmptyLines.json"
@@ -64,8 +64,8 @@ Feature: importing CSV files with different formats
 
   Scenario: Test CSV while ignoring header case
     And import CSV file "csv/sourceCsvIgnoreHeaderCase.csv" formatted as "Default" with parameters
-      | firstRecordAsHeader | true |
-      | ignoreHeaderCase    | true |
+      | First Record As Header | true |
+      | Ignore Header Case     | true |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
     And add "/<>/sourcecsvignoreheadercasedecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvCustomDelimiter.json"
@@ -73,8 +73,8 @@ Feature: importing CSV files with different formats
 
   Scenario: Test CSV while ignoring surrounding spaces
     And import CSV file "csv/sourceCsvIgnoreSurroundingSpaces.csv" formatted as "Default" with parameters
-      | firstRecordAsHeader     | true |
-      | ignoreSurroundingSpaces | true |
+      | First Record As Header     | true |
+      | Ignore Surrounding Spaces  | true |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
     And add "/<>/sourceCsvIgnoreSurroundingSpacesDecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvIgnoreSurroundingSpaces.json"
@@ -82,8 +82,8 @@ Feature: importing CSV files with different formats
 
   Scenario: Test CSV with custom quote character
     And import CSV file "csv/sourceCsvCustomQuoteCharacter.csv" formatted as "Default" with parameters
-      | firstRecordAsHeader | true |
-      | quote               | @    |
+      | First Record As Header | true |
+      | Quote                  | @    |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfStrings"
     And add "/<>/sourceCsvCustomQuoteCharacterString" as "source"
     Then save and verify that "listOfStrings" contains "csvStrings" as "csvCustomQuoteCharacter.json"
@@ -91,7 +91,7 @@ Feature: importing CSV files with different formats
 
   Scenario: Test CSV with non-default format (TDF)
     And import CSV file "csv/sourceCsvTdfFormat.csv" formatted as "TDF" with parameters
-      | firstRecordAsHeader | true |
+      | First Record As Header | true |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfStrings"
     And add "/<>/sourceCsvTdfFormatString" as "source"
     Then save and verify that "listOfStrings" contains "csvStrings" as "csvTdfFormatStrings.json"

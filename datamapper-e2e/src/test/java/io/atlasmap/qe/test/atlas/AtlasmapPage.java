@@ -266,13 +266,14 @@ public class AtlasmapPage {
                 .selectOption(format);
 
             for (String key : additionalParameters.keySet()) {
-                $(By.id("selected-paramater")).shouldBe(visible).selectOption(key);
                 $(By.xpath(".//button[contains(.,'Add parameter')]")).click();
-                SelenideElement parameterOption = $(ByUtils.dataTestIdStartsWith(key));
+                $(By.id("selected-paramater")).waitUntil(visible, 5000).selectOption(key);
+                String keyId = key.replaceAll("\\s+", "");
+                keyId = keyId.substring(0, 1).toLowerCase() + keyId.substring(1);
+                Utils.sleep(1000);
+                SelenideElement parameterOption = $(By.name(keyId));
 
-                if (parameterOption.is(Condition.type("select"))) {
-                    parameterOption.selectOption(additionalParameters.get(key));
-                } else {
+                if (parameterOption.is(Condition.type("text"))) {
                     parameterOption.sendKeys(additionalParameters.get(key));
                 }
             }
@@ -306,7 +307,8 @@ public class AtlasmapPage {
      * Gets filename from {@code path}. And checks if element with this filename appeared.
      */
     private void checkIfDocumentAppeared(String path) {
-        String dataTestid = String.format("expand-collapse-%s-button", path.substring(path.lastIndexOf("/") + 1).split("\\.")[0]);
+        String fileName = path.substring(path.lastIndexOf("/") + 1);
+        String dataTestid = String.format("expand-collapse-%s-button", fileName.substring(0, fileName.lastIndexOf('.')));
         $(ByUtils.dataTestId(dataTestid)).waitUntil(appear, 15000);
         log.info("File successfully imported: " + path);
     }

@@ -24,12 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Utils {
 
-    private static final String JAVA_SERVICE = TestConfiguration.getBackendUrl() + "/v2/atlas/java/";
+    private static final String LIBRARY_SERVICE = TestConfiguration.getBackendUrl() + "/v2/atlas/library/list/";
 
     public static String requestClass(String className) throws IOException {
-        final String requestURL = JAVA_SERVICE + "class?className=" + className;
-        log.debug("requesting " + requestURL);
-        String resp = Request.Get(requestURL).execute().returnContent().toString();
+        String resp = Request.Get(LIBRARY_SERVICE).execute().returnContent().toString();
         return resp;
     }
 
@@ -123,7 +121,7 @@ public class Utils {
     }
 
     public static void insertCharByChar(String inputValue, SelenideElement inputSelector) {
-        for (int i = 0; i < inputValue.length(); i++){
+        for (int i = 0; i < inputValue.length(); i++) {
             char c = inputValue.charAt(i);
             String s = new StringBuilder().append(c).toString();
             inputSelector.shouldBe(visible).sendKeys(s);

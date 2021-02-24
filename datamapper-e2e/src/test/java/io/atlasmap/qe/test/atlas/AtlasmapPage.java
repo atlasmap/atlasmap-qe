@@ -44,7 +44,16 @@ public class AtlasmapPage {
         $(ByUtils.dataTestId("enable-disable-conditional-mapping-expression-button")).click();
     }
 
+    private void tryToggleAlertPanel(String alertSelector, String expandButtonTestId) {
+        if(!$(alertSelector).is(visible)) {
+            log.info("warning label not found, trying to open error panel");
+            $(By.cssSelector(String.format("button[data-testid=\"%s\"]", expandButtonTestId))).click();
+        }
+    }
+
     public boolean checkMultipleWarnings(List<String> sourceMappingData, String fromType, String toType) {
+
+        tryToggleAlertPanel(".pf-c-alert__icon", "expand-collapse-Warnings-button");
 
         $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
 
@@ -62,6 +71,7 @@ public class AtlasmapPage {
     }
 
     public boolean checkMultipleTargetsWarning() {
+        tryToggleAlertPanel(".pf-c-alert__icon", "expand-collapse-Warnings-button");
         boolean containsWaringMesage = false;
         $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
 
@@ -110,6 +120,7 @@ public class AtlasmapPage {
 
     public boolean checkDangerWarningContainMessage(String containsMessage) {
         log.debug("looking ...");
+        tryToggleAlertPanel(".pf-m-danger", "expand-collapse-Errors-button");
         $(".pf-m-danger").shouldBe(Condition.appears);
         for (String s : $$(".pf-c-alert__title").texts()) {
             if (s.contains("Danger alert:\n" + containsMessage)) {
@@ -358,7 +369,7 @@ public class AtlasmapPage {
         $(ByUtils.dataTestId("create-constant-button"))
             .waitUntil(visible, 5000).click();
 
-        $(ByUtils.dataTestId("constant-name-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
+        $(ByUtils.dataTestId("constant-value-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
             .sendKeys(value);
         $(ByUtils.dataTestId("constant-type-form-select")).shouldHave(Condition.value("Boolean"))
             .selectOption(type);

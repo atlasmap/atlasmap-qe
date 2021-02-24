@@ -261,7 +261,7 @@ public class MappingValidator {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        sourceMap.put("sourceJson", ResourcesGenerator.getJsonInstance());
+        sourceMap.put("sourceJson.schema", ResourcesGenerator.getJsonInstance());
         sourceMap.put("sourceArrays", ResourcesGenerator.getJsonArrays());
         sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
         sourceMap.put("sourceXMLSchema", ResourcesGenerator.getXmlSchemaInstance(null));

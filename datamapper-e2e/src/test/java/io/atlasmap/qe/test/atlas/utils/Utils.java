@@ -44,7 +44,7 @@ public class Utils {
             throw new FileNotFoundException("Directory with mappings doesn't exist: " + TestConfiguration.getMappingsRootDirectory());
         }
 
-        // Finds file from mappings path that was last modified and that ends with ".xml".
+        // Finds file from mappings path that was last modified and that ends with ".json".
         Optional<File> oldMapping = FileUtils.listFiles(mappings, new WildcardFileFilter("*.json"), TrueFileFilter.TRUE)
             .stream().max(Comparator.comparingLong(File::lastModified));
 

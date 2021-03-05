@@ -53,7 +53,6 @@ public class AtlasmapPage {
 
     public boolean checkMultipleWarnings(List<String> sourceMappingData, String fromType, String toType) {
         tryToggleAlertPanel(".pf-c-alert__icon", "expand-collapse-Warnings-button");
-
         if (!isAlertIconVisible()) {
             return false;
         }
@@ -84,6 +83,7 @@ public class AtlasmapPage {
     }
 
     public boolean checkAsymmetricMappingWarning(int sourceLevel, int targetLevel) {
+        tryToggleAlertPanel(".pf-c-alert__icon", "expand-collapse-Warnings-button");
         if (!isAlertIconVisible()) {
             return false;
         }
@@ -99,6 +99,7 @@ public class AtlasmapPage {
     }
 
     public boolean checkWarning(String exceptionType, String fromType, String toType) {
+        tryToggleAlertPanel(".pf-c-alert__icon", "expand-collapse-Warnings-button");
         if (!isAlertIconVisible()) {
             return false;
         }

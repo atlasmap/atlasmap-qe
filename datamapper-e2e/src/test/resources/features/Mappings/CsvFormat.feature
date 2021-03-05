@@ -20,7 +20,7 @@ Feature: importing CSV files with different formats
   Scenario: Test CSV with custom comment marker
     And import CSV file "csv/sourceCsvCommentMarker.csv" formatted as "Default" with parameters
       | First Record As Header | true |
-      | CommentMarker       | #    |
+      | Comment Marker         | #    |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
     And add "/<>/sourceCsvCommentMarkerDecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvCommentMarker.json"
@@ -29,7 +29,7 @@ Feature: importing CSV files with different formats
   Scenario: Test CSV with custom delimiter
     And import CSV file "csv/sourceCsvCustomDelimiter.csv" formatted as "Default" with parameters
       | First Record As Header | true |
-      | Delimiter           | +    |
+      | Delimiter              | +    |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
     And add "/<>/sourceCsvCustomDelimiterDecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvCustomDelimiter.json"
@@ -38,8 +38,8 @@ Feature: importing CSV files with different formats
   Scenario: Test CSV with custom escape character
     And import CSV file "csv/sourceCsvCustomEscapeCharacter.csv" formatted as "Default" with parameters
       | First Record As Header | true |
-      | Delimiter           | 4    |
-      | Escape              | _    |
+      | Delimiter              | 4    |
+      | Escape                 | _    |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfStrings"
     And add "/<>/sourceCsvCustomEscapeCharacterString" as "source"
     Then save and verify that "listOfStrings" contains "csvStrings" as "csvCustomEscapeCharacter.json"
@@ -79,15 +79,6 @@ Feature: importing CSV files with different formats
     And add "/<>/sourceCsvIgnoreSurroundingSpacesDecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvIgnoreSurroundingSpaces.json"
     And remove "source" document called "sourceCsvIgnoreSurroundingSpaces"
-
-  Scenario: Test CSV with custom quote character
-    And import CSV file "csv/sourceCsvCustomQuoteCharacter.csv" formatted as "Default" with parameters
-      | First Record As Header | true |
-      | Quote                  | @    |
-    And click on create new mapping from target "/targetSmallMappingTestClass/listOfStrings"
-    And add "/<>/sourceCsvCustomQuoteCharacterString" as "source"
-    Then save and verify that "listOfStrings" contains "csvStrings" as "csvCustomQuoteCharacter.json"
-    And remove "source" document called "sourceCsvCustomQuoteCharacter"
 
   Scenario: Test CSV with non-default format (TDF)
     And import CSV file "csv/sourceCsvTdfFormat.csv" formatted as "TDF" with parameters

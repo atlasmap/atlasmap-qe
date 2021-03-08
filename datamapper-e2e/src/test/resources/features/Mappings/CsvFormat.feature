@@ -80,6 +80,15 @@ Feature: importing CSV files with different formats
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvIgnoreSurroundingSpaces.json"
     And remove "source" document called "sourceCsvIgnoreSurroundingSpaces"
 
+  Scenario: Test CSV with custom quote character
+    And import CSV file "csv/sourceCsvCustomQuoteCharacter.csv" formatted as "Default" with parameters
+      | First Record As Header | true |
+      | Quote                  | @    |
+    And click on create new mapping from target "/targetSmallMappingTestClass/listOfStrings"
+    And add "/<>/sourceCsvCustomQuoteCharacterString" as "source"
+    Then save and verify that "listOfStrings" contains "csvStrings" as "csvCustomQuoteCharacter.json"
+    And remove "source" document called "sourceCsvCustomQuoteCharacter"
+
   Scenario: Test CSV with non-default format (TDF)
     And import CSV file "csv/sourceCsvTdfFormat.csv" formatted as "TDF" with parameters
       | First Record As Header | true |

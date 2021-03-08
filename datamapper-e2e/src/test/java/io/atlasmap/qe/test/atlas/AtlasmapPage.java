@@ -52,10 +52,10 @@ public class AtlasmapPage {
     }
 
     public boolean checkMultipleWarnings(List<String> sourceMappingData, String fromType, String toType) {
-
         tryToggleAlertPanel(".pf-c-alert__icon", "expand-collapse-Warnings-button");
-
-        $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
+        if (!isAlertIconVisible()) {
+            return false;
+        }
 
         List<String> texts = $$(By.className("pf-c-alert__title")).texts();
         List<String> updatedSourceMappingData =
@@ -72,18 +72,21 @@ public class AtlasmapPage {
 
     public boolean checkMultipleTargetsWarning() {
         tryToggleAlertPanel(".pf-c-alert__icon", "expand-collapse-Warnings-button");
-        boolean containsWaringMesage = false;
-        $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
+        if (!isAlertIconVisible()) {
+            return false;
+        }
 
         String warningText = $(By.className("pf-c-alert__title")).text();
-        containsWaringMesage = warningText.contains(
+        return warningText.contains(
             "Cannot establish a conditional mapping expression when multiple target fields are selected. Please select only one target field and " +
                 "try again.");
-        return containsWaringMesage;
     }
 
     public boolean checkAsymmetricMappingWarning(int sourceLevel, int targetLevel) {
-        $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
+        tryToggleAlertPanel(".pf-c-alert__icon", "expand-collapse-Warnings-button");
+        if (!isAlertIconVisible()) {
+            return false;
+        }
 
         String warningText = $(By.className("pf-c-alert__title")).text();
         if (sourceLevel > targetLevel) {
@@ -96,15 +99,25 @@ public class AtlasmapPage {
     }
 
     public boolean checkWarning(String exceptionType, String fromType, String toType) {
-        boolean containsWaringMesage = false;
-
-        $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
-        List<String> texts = $$(By.className("pf-c-alert__description")).texts();
-        if (texts.size() == 1) {
-            containsWaringMesage = texts.get(0).equals("Conversion from '" + fromType + "' to '" + toType + "' can cause " + exceptionType);
+        tryToggleAlertPanel(".pf-c-alert__icon", "expand-collapse-Warnings-button");
+        if (!isAlertIconVisible()) {
+            return false;
         }
 
-        return containsWaringMesage;
+        List<String> texts = $$(By.className("pf-c-alert__description")).texts();
+        if (texts.size() == 1) {
+            return texts.get(0).equals("Conversion from '" + fromType + "' to '" + toType + "' can cause " + exceptionType);
+        }
+        return false;
+    }
+
+    private boolean isAlertIconVisible() {
+        try {
+            $(By.className("pf-c-alert__icon")).waitUntil(visible, 5000);
+        } catch (AssertionError e) {
+            return false;
+        }
+        return true;
     }
 
     public boolean checkWarningContainMessage(String containsMessage) {
@@ -278,7 +291,7 @@ public class AtlasmapPage {
 
             for (String key : additionalParameters.keySet()) {
                 $(By.xpath(".//button[contains(.,'Add parameter')]")).click();
-                $(By.id("selected-paramater")).waitUntil(visible, 5000).selectOption(key);
+                $$(By.id("selected-paramater")).last().waitUntil(visible, 5000).selectOption(key);
                 String keyId = key.replaceAll("\\s+", "");
                 keyId = keyId.substring(0, 1).toLowerCase() + keyId.substring(1);
                 Utils.sleep(1000);

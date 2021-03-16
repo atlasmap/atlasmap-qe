@@ -317,14 +317,39 @@ public class AtlasmapPage {
         checkIfDocumentAppeared(path);
     }
 
-    public void enableSourceDocument(String path) {
+    public void enableSourceDocumentInstance(String path) {
         enableDocument(path, true);
+        setDocumentAsInstance(true);
         checkIfDocumentAppeared(path);
     }
 
-    public void enableTargetDocument(String path) {
+    public void enableTargetDocumentInstance(String path) {
         enableDocument(path, false);
+        setDocumentAsInstance(true);
         checkIfDocumentAppeared(path);
+    }
+
+    public void enableSourceDocumentSchema(String path) {
+        enableDocument(path, true);
+        setDocumentAsInstance(false);
+        checkIfDocumentAppeared(path);
+    }
+
+    public void enableTargetDocumentSchema(String path) {
+        enableDocument(path, false);
+        setDocumentAsInstance(false);
+        checkIfDocumentAppeared(path);
+    }
+
+    private void setDocumentAsInstance(boolean isInstance) {
+        $(ByUtils.dataTestId("specify-instance-schema-dialog-ok-button-test"))
+            .waitUntil(visible, TestConfiguration.getWaitTimeout());
+        if (isInstance) {
+            $(ByUtils.dataTestId("instance-radio-button-test")).click();
+        } else {
+            $(ByUtils.dataTestId("schema-radio-button-test")).click();
+        }
+        $(ByUtils.dataTestId("specify-instance-schema-dialog-ok-button-test")).click();
     }
 
     /**

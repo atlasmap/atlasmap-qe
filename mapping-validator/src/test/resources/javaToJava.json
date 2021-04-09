@@ -1,0 +1,218 @@
+{
+  "AtlasMapping" : {
+    "jsonType" : "io.atlasmap.v2.AtlasMapping",
+    "dataSource" : [ {
+      "jsonType" : "io.atlasmap.v2.DataSource",
+      "id" : "io.atlasmap.qe.test.SourceMappingTestClass",
+      "name" : "io.atlasmap.qe.test.SourceMappingTestClass",
+      "description" : "Java document class io.atlasmap.qe.test.SourceMappingTestClass",
+      "uri" : "atlas:java:io.atlasmap.qe.test.SourceMappingTestClass?className=io.atlasmap.qe.test.SourceMappingTestClass",
+      "dataSourceType" : "SOURCE"
+    }, {
+      "jsonType" : "io.atlasmap.v2.DataSource",
+      "id" : "io.atlasmap.qe.test.DatesObject",
+      "name" : "io.atlasmap.qe.test.DatesObject",
+      "description" : "Java document class io.atlasmap.qe.test.DatesObject",
+      "uri" : "atlas:java:io.atlasmap.qe.test.DatesObject?className=io.atlasmap.qe.test.DatesObject",
+      "dataSourceType" : "SOURCE"
+    }, {
+      "jsonType" : "io.atlasmap.v2.DataSource",
+      "id" : "io.atlasmap.qe.test.SourceListsClass",
+      "name" : "io.atlasmap.qe.test.SourceListsClass",
+      "description" : "Java document class io.atlasmap.qe.test.SourceListsClass",
+      "uri" : "atlas:java:io.atlasmap.qe.test.SourceListsClass?className=io.atlasmap.qe.test.SourceListsClass",
+      "dataSourceType" : "SOURCE"
+    }, {
+      "jsonType" : "io.atlasmap.v2.DataSource",
+      "id" : "io.atlasmap.qe.test.SmallMappingTestClass",
+      "name" : "io.atlasmap.qe.test.SmallMappingTestClass",
+      "description" : "Java document class io.atlasmap.qe.test.SmallMappingTestClass",
+      "uri" : "atlas:java:io.atlasmap.qe.test.SmallMappingTestClass?className=io.atlasmap.qe.test.SmallMappingTestClass",
+      "dataSourceType" : "SOURCE"
+    }, {
+      "jsonType" : "io.atlasmap.v2.DataSource",
+      "id" : "io.atlasmap.qe.test.SourceNestedCollectionClass",
+      "name" : "io.atlasmap.qe.test.SourceNestedCollectionClass",
+      "description" : "Java document class io.atlasmap.qe.test.SourceNestedCollectionClass",
+      "uri" : "atlas:java:io.atlasmap.qe.test.SourceNestedCollectionClass?className=io.atlasmap.qe.test.SourceNestedCollectionClass",
+      "dataSourceType" : "SOURCE"
+    }, {
+      "jsonType" : "io.atlasmap.json.v2.JsonDataSource",
+      "id" : "sourceArrays-f8c8bdca-4c1a-461e-a778-0d515e100129",
+      "name" : "sourceArrays",
+      "description" : "Source document sourceArrays type: JSON",
+      "uri" : "atlas:json:sourceArrays-f8c8bdca-4c1a-461e-a778-0d515e100129",
+      "dataSourceType" : "SOURCE"
+    }, {
+      "jsonType" : "io.atlasmap.json.v2.JsonDataSource",
+      "id" : "sourceJsonArray-46f8bf83-19ec-4154-8480-2b24d865df7f",
+      "name" : "sourceJsonArray",
+      "description" : "Source document sourceJsonArray type: JSON",
+      "uri" : "atlas:json:sourceJsonArray-46f8bf83-19ec-4154-8480-2b24d865df7f",
+      "dataSourceType" : "SOURCE"
+    }, {
+      "jsonType" : "io.atlasmap.json.v2.JsonDataSource",
+      "id" : "sourceJson.schema-f2d91a62-3f96-4679-9434-3dcadab909c4",
+      "name" : "sourceJson.schema",
+      "description" : "Source document sourceJson.schema type: JSON",
+      "uri" : "atlas:json:sourceJson.schema-f2d91a62-3f96-4679-9434-3dcadab909c4",
+      "dataSourceType" : "SOURCE"
+    }, {
+      "jsonType" : "io.atlasmap.xml.v2.XmlDataSource",
+      "id" : "sourceXmlInstance-bb162a19-b8b3-4037-8567-8856bae41b92",
+      "name" : "sourceXmlInstance",
+      "description" : "Source document sourceXmlInstance type: XML",
+      "uri" : "atlas:xml:sourceXmlInstance-bb162a19-b8b3-4037-8567-8856bae41b92",
+      "dataSourceType" : "SOURCE",
+      "xmlNamespaces" : {
+        "xmlNamespace" : [ ]
+      }
+    }, {
+      "jsonType" : "io.atlasmap.xml.v2.XmlDataSource",
+      "id" : "sourceXMLSchema-a3712443-23f8-4cac-856a-71a31772712d",
+      "name" : "sourceXMLSchema",
+      "description" : "Source document sourceXMLSchema type: XSD",
+      "uri" : "atlas:xml:sourceXMLSchema-a3712443-23f8-4cac-856a-71a31772712d",
+      "dataSourceType" : "SOURCE",
+      "xmlNamespaces" : {
+        "xmlNamespace" : [ ]
+      }
+    }, {
+      "jsonType" : "io.atlasmap.v2.DataSource",
+      "id" : "sourceCsv-25c87cb0-dafe-43d1-acca-b714c3144396",
+      "name" : "sourceCsv",
+      "description" : "Source document sourceCsv type: CSV",
+      "uri" : "atlas:csv:sourceCsv-25c87cb0-dafe-43d1-acca-b714c3144396",
+      "dataSourceType" : "SOURCE"
+    }, {
+      "jsonType" : "io.atlasmap.v2.DataSource",
+      "id" : "io.atlasmap.qe.test.TargetMappingTestClass",
+      "name" : "io.atlasmap.qe.test.TargetMappingTestClass",
+      "description" : "Java document class io.atlasmap.qe.test.TargetMappingTestClass",
+      "uri" : "atlas:java:io.atlasmap.qe.test.TargetMappingTestClass?className=io.atlasmap.qe.test.TargetMappingTestClass",
+      "dataSourceType" : "TARGET"
+    }, {
+      "jsonType" : "io.atlasmap.v2.DataSource",
+      "id" : "io.atlasmap.qe.test.StringObject",
+      "name" : "io.atlasmap.qe.test.StringObject",
+      "description" : "Java document class io.atlasmap.qe.test.StringObject",
+      "uri" : "atlas:java:io.atlasmap.qe.test.StringObject?className=io.atlasmap.qe.test.StringObject",
+      "dataSourceType" : "TARGET"
+    }, {
+      "jsonType" : "io.atlasmap.v2.DataSource",
+      "id" : "io.atlasmap.qe.test.TargetListsClass",
+      "name" : "io.atlasmap.qe.test.TargetListsClass",
+      "description" : "Java document class io.atlasmap.qe.test.TargetListsClass",
+      "uri" : "atlas:java:io.atlasmap.qe.test.TargetListsClass?className=io.atlasmap.qe.test.TargetListsClass",
+      "dataSourceType" : "TARGET"
+    }, {
+      "jsonType" : "io.atlasmap.v2.DataSource",
+      "id" : "io.atlasmap.qe.test.TargetNestedCollectionClass",
+      "name" : "io.atlasmap.qe.test.TargetNestedCollectionClass",
+      "description" : "Java document class io.atlasmap.qe.test.TargetNestedCollectionClass",
+      "uri" : "atlas:java:io.atlasmap.qe.test.TargetNestedCollectionClass?className=io.atlasmap.qe.test.TargetNestedCollectionClass",
+      "dataSourceType" : "TARGET"
+    }, {
+      "jsonType" : "io.atlasmap.json.v2.JsonDataSource",
+      "id" : "targetArrays-aa610903-b650-4300-bc38-081f4891849d",
+      "name" : "targetArrays",
+      "description" : "Target document targetArrays type: JSON",
+      "uri" : "atlas:json:targetArrays-aa610903-b650-4300-bc38-081f4891849d",
+      "dataSourceType" : "TARGET"
+    }, {
+      "jsonType" : "io.atlasmap.json.v2.JsonDataSource",
+      "id" : "targetJsonArray-4552a759-fe1d-49a9-8bbd-46d648721d91",
+      "name" : "targetJsonArray",
+      "description" : "Target document targetJsonArray type: JSON",
+      "uri" : "atlas:json:targetJsonArray-4552a759-fe1d-49a9-8bbd-46d648721d91",
+      "dataSourceType" : "TARGET"
+    }, {
+      "jsonType" : "io.atlasmap.json.v2.JsonDataSource",
+      "id" : "targetJson.schema-154f657a-82a1-424c-8caf-fcadb4b826e2",
+      "name" : "targetJson.schema",
+      "description" : "Target document targetJson.schema type: JSON",
+      "uri" : "atlas:json:targetJson.schema-154f657a-82a1-424c-8caf-fcadb4b826e2",
+      "dataSourceType" : "TARGET"
+    }, {
+      "jsonType" : "io.atlasmap.xml.v2.XmlDataSource",
+      "id" : "targetXMLSchema-06ff28bc-fe50-4799-bc51-078d66a02e9d",
+      "name" : "targetXMLSchema",
+      "description" : "Target document targetXMLSchema type: XSD",
+      "uri" : "atlas:xml:targetXMLSchema-06ff28bc-fe50-4799-bc51-078d66a02e9d",
+      "dataSourceType" : "TARGET",
+      "xmlNamespaces" : {
+        "xmlNamespace" : [ ]
+      }
+    }, {
+      "jsonType" : "io.atlasmap.xml.v2.XmlDataSource",
+      "id" : "targetXMLInstance-04ef6f94-3504-4a9b-a18b-1d4a0cc2129c",
+      "name" : "targetXMLInstance",
+      "description" : "Target document targetXMLInstance type: XML",
+      "uri" : "atlas:xml:targetXMLInstance-04ef6f94-3504-4a9b-a18b-1d4a0cc2129c",
+      "dataSourceType" : "TARGET",
+      "xmlNamespaces" : {
+        "xmlNamespace" : [ ]
+      }
+    }, {
+      "jsonType" : "io.atlasmap.v2.DataSource",
+      "id" : "targetCsv-3a58ee73-aa88-47b9-aa1b-0a98e7ad0577",
+      "name" : "targetCsv",
+      "description" : "Target document targetCsv type: CSV",
+      "uri" : "atlas:csv:targetCsv-3a58ee73-aa88-47b9-aa1b-0a98e7ad0577",
+      "dataSourceType" : "TARGET"
+    } ],
+    "mappings" : {
+      "mapping" : [ {
+        "jsonType" : "io.atlasmap.v2.Mapping",
+        "inputFieldGroup" : {
+          "jsonType" : "io.atlasmap.v2.FieldGroup",
+          "actions" : [ {
+            "template" : "%s %s %d",
+            "@type" : "Format"
+          } ],
+          "field" : [ {
+            "jsonType" : "io.atlasmap.java.v2.JavaField",
+            "docId" : "io.atlasmap.qe.test.SourceMappingTestClass",
+            "index" : 0,
+            "path" : "/sourceString",
+            "fieldType" : "STRING",
+            "name" : "sourceString"
+          }, {
+            "jsonType" : "io.atlasmap.java.v2.JavaField",
+            "docId" : "io.atlasmap.qe.test.SourceMappingTestClass",
+            "index" : 1,
+            "path" : "/sourceAnotherString",
+            "fieldType" : "STRING",
+            "name" : "sourceAnotherString"
+          }, {
+            "jsonType" : "io.atlasmap.java.v2.JavaField",
+            "docId" : "io.atlasmap.qe.test.SourceMappingTestClass",
+            "index" : 2,
+            "path" : "/sourceInteger",
+            "fieldType" : "INTEGER",
+            "name" : "sourceInteger"
+          } ]
+        },
+        "inputField" : [ ],
+        "outputField" : [ {
+          "jsonType" : "io.atlasmap.java.v2.JavaField",
+          "docId" : "io.atlasmap.qe.test.TargetMappingTestClass",
+          "path" : "/targetCombineString",
+          "fieldType" : "STRING",
+          "name" : "targetCombineString"
+        } ],
+        "id" : "mapping.962201"
+      } ]
+    },
+    "lookupTables" : {
+      "lookupTable" : [ ]
+    },
+    "constants" : {
+      "constant" : [ ]
+    },
+    "properties" : {
+      "property" : [ ]
+    },
+    "name" : "UI.0"
+  }
+}

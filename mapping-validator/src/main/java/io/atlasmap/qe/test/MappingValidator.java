@@ -1,22 +1,12 @@
 package io.atlasmap.qe.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-
-import org.apache.camel.CamelContext;
-import org.apache.camel.ProducerTemplate;
-import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.atlasmap.AtlasComponent;
-import org.apache.camel.component.mock.MockEndpoint;
-import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.text.ParseException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Stream;
 
 import io.atlasmap.qe.resources.ResourcesGenerator;
@@ -34,6 +24,7 @@ public class MappingValidator {
     private TargetMappingTestClass target;
     private Map<String, Object> expectedMap;
     private Map<String, Object> sourceMap;
+    private final AtlasMapper atlasMapper = new AtlasMapper();
 
     public MappingValidator() {
         initializeValues();
@@ -77,48 +68,7 @@ public class MappingValidator {
     }
 
     public Map<String, Object> processMappingInputMap(Map<String, Object> input) {
-        //        input.forEach((String s,Object o) ->
-        //            System.out.println(s+ "---> "+o.toString()));
-        CamelContext context = new DefaultCamelContext();
-        context.addComponent("atlas", new AtlasComponent());
-        try {
-            context.addRoutes(new RouteBuilder() {
-                                  public void configure() {
-                                      from("direct:start").
-                                          setHeader("string", constant("test_string")).
-                                          setHeader("char", constant("A")).
-                                          setHeader("decimal", constant(10)).
-                                          setHeader("double", constant(1234.56)).
-                                          setHeader("float", constant(4567.86)).
-                                          setHeader("integer", constant(1234)).
-                                          setHeader("long", constant(1234567890)).
-                                          setHeader("short", constant(1234)).
-                                          setHeader("boolean", constant(true)).
-                                          setProperty("myProperty", constant("test property")).
-                                          to("atlas:" + mappingLocation).
-                                          to("mock:result");
-                                  }
-                              }
-            );
-
-            adjustIDsForFormFiles(mappingLocation, input);
-
-            MockEndpoint resultEndpoint = context.getEndpoint("mock:result", MockEndpoint.class);
-            ProducerTemplate template = context.createProducerTemplate();
-            context.start();
-
-            template.sendBody("direct:start", input);
-            //            template.sendBodyAndHeaders("direct:start", input, headers);
-            Map<String, Object> targetMap = resultEndpoint.getExchanges().get(0).getIn().getBody(Map.class);
-            context.stop();
-            targetMap.forEach((String s, Object o) ->
-                System.out.println(s + " " + (o == null ? "null" : o.toString())));
-            return targetMap;
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
-        return null;
+        return atlasMapper.processMapping(input, mappingLocation);
     }
 
     public boolean verifyMapping(SourceMappingTestClass source, TargetMappingTestClass target, boolean equals) {
@@ -272,26 +222,6 @@ public class MappingValidator {
             "sourceCsvTdfFormat").forEach(csvDocumentName ->
             sourceMap.put(csvDocumentName, ResourcesGenerator.getCsvInstance())
         );
-    }
-
-    /**
-     * Provides a way, to update the source map of input files, to correspond the ID's in the mapping file.
-     * The ID in mapping file is in format: "name-uuid"
-     *
-     * @param mappingLocation
-     * @param input
-     */
-    public void adjustIDsForFormFiles(String mappingLocation, Map<String, Object> input) {
-        Set<String> keySet = new HashSet<>();
-        keySet.addAll(input.keySet());
-        for (String key : keySet) {
-            String newKey = MappingDocIdExporter.extractDataSourceIdByName(mappingLocation, key);
-            if (!newKey.contentEquals(key)) {
-                Object value = input.get(key);
-                input.remove(key);
-                input.put(newKey, value);
-            }
-        }
     }
 
     public static void main(String[] args) {

@@ -33,7 +33,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>io.atlasmap.qe.test.MappingValidator</mainClass>
+                            <mainClass>io.atlasmap.qe.mapper.MappingValidator</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

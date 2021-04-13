@@ -1,5 +1,6 @@
 **/build/
-**/target/
+/target/
+/*/target/
 **/node
 **/*.DS_Store
 **/*.iml

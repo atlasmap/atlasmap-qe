@@ -15,10 +15,10 @@ public class CucumberTest {
     @BeforeClass
     public static void setupCucumber() {
         //set up Selenide
-        Configuration.timeout = TestConfiguration.getConfigTimeout() * 1000;
+        Configuration.timeout = TestConfiguration.getConfigTimeout() * 1000L;
         //We will now use custom web driver
         //Configuration.browser = TestConfiguration.syndesisBrowser();
-        Configuration.browser = "io.atlasmap.qe.test.atlas.CustomWebDriverProvider";
+        Configuration.browser = CustomWebDriverProvider.class.getName();
         Configuration.browserSize = "1920x1080";
         Selenide.open(TestConfiguration.getUiIndexPath());
         //Logging selectors is disabled by default, enable it in test properties if you wish

@@ -1,15 +1,22 @@
 package io.atlasmap.qe.test.atlas.steps;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 
 import io.atlasmap.qe.test.atlas.AtlasmapPage;
-import io.atlasmap.qe.test.atlas.utils.Utils;
+import io.atlasmap.qe.test.atlas.utils.MappingUtils;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class TransformationSteps extends CucumberGlue {
-    private AtlasmapPage atlasmapPage = new AtlasmapPage();
+import javax.inject.Inject;
+
+
+@Slf4j
+public class TransformationSteps {
+
+    @Inject
+    private AtlasmapPage atlasmapPage;
 
     @When("add {string} transformation on {string}")
     public void addTransformationOn(String transformation, String sourceTarget) {
@@ -29,7 +36,7 @@ public class TransformationSteps extends CucumberGlue {
     @And("select {string} transformation")
     public void selectTransformation(String arg0) {
         this.atlasmapPage.selectTransformation(arg0, "Append");
-        Utils.sleep(1000);
+        MappingUtils.sleep(1000);
     }
 
     @When("select {string} number transformation")
@@ -40,19 +47,19 @@ public class TransformationSteps extends CucumberGlue {
     @When("select {string} separator")
     public void selectSeparator(String separator) {
         this.atlasmapPage.selectSeparator(separator);
-        Utils.sleep(1000);
+        MappingUtils.sleep(1000);
     }
 
     @When("set index to {int}")
     public void setCopyToIndex(int index) {
         this.atlasmapPage.setCopyToIndex(index);
-        Utils.sleep(1000);
+        MappingUtils.sleep(1000);
     }
 
     @When("set repeat count to {int}")
     public void setRepeatCount(int count) {
         this.atlasmapPage.setRepeatCount(count);
-        Utils.sleep(1000);
+        MappingUtils.sleep(1000);
     }
 
     /**
@@ -125,7 +132,7 @@ public class TransformationSteps extends CucumberGlue {
         this.atlasmapPage.addTransformationToTargetOrSource(transformation, true);
         this.atlasmapPage.setInputValueForFieldPreview(sourceField, sourceValue);
         this.atlasmapPage.setInputValueForFieldPreview(sourceField, sourceValue);
-        Utils.sleep(1000);
+        MappingUtils.sleep(1000);
         String preview = this.atlasmapPage.getFieldPreviewValue(targetField);
         Assert.assertEquals(targetValue, preview);
     }

@@ -13,6 +13,8 @@ Feature: Date related field actions
     When add mapping from "<source>" to "targetInteger"
     And add "<transformation>" transformation on "source"
     And set "<targetValue>" value in target's "targetInteger"
+
+    # FIXME: "set source data" is not working properly
     And set source data
       | <source>      |
       | 2012-12-21-09:00 |

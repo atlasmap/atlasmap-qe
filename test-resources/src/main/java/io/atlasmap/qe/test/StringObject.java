@@ -1,9 +1,10 @@
 package io.atlasmap.qe.test;
 
-import java.util.Objects;
+import lombok.Data;
 
+
+@Data
 public class StringObject {
-
     private String lastName;
     private String firstName;
 
@@ -21,48 +22,4 @@ public class StringObject {
         this.firstName = first;
         this.lastName = last;
     }
-    @Override
-    public String toString() {
-        return "StringObject{" +
-                "lastName='" + lastName + '\'' +
-                ", firstName='" + firstName + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        StringObject that = (StringObject) o;
-        return Objects.equals(lastName, that.lastName) &&
-                Objects.equals(firstName, that.firstName);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(lastName, firstName);
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastname) {
-        this.lastName = lastname;
-    }
-
 }

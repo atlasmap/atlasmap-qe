@@ -2,6 +2,7 @@ package io.atlasmap.qe.test.atlas.utils;
 
 import static com.codeborne.selenide.Condition.visible;
 
+import io.atlasmap.v2.Mapping;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
@@ -22,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
  * Created by mmelko on 16/11/2017.
  */
 @Slf4j
-public class Utils {
+public class MappingUtils {
 
     private static final String LIBRARY_SERVICE = TestConfiguration.getBackendUrl() + "/v2/atlas/library/list/";
 
@@ -92,7 +93,7 @@ public class Utils {
     public static void backupAdmFile() throws IOException {
         File mappings = new File(TestConfiguration.getMappingsRootDirectory());
         // this is necessary when using fast init
-        Utils.sleep(1000);
+        MappingUtils.sleep(1000);
         if (mappings.exists()) {
             FileUtils.listFiles(mappings, new WildcardFileFilter("*.gz"), TrueFileFilter.TRUE).forEach(f -> {
                 File backupAdmFile = new File(f.getAbsoluteFile().getAbsolutePath() + "_backup");

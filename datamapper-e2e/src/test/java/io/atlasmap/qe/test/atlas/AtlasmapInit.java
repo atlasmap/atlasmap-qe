@@ -12,12 +12,13 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 import io.atlasmap.qe.test.atlas.utils.TestConfiguration;
-import io.atlasmap.qe.test.atlas.utils.Utils;
+import io.atlasmap.qe.test.atlas.utils.MappingUtils;
 import io.cucumber.plugin.EventListener;
 import io.cucumber.plugin.event.EventHandler;
 import io.cucumber.plugin.event.EventPublisher;
 import io.cucumber.plugin.event.TestRunFinished;
 import io.cucumber.plugin.event.TestRunStarted;
+
 
 /**
  * Loads test resources into AtlasMap.
@@ -34,7 +35,7 @@ public class AtlasmapInit implements EventListener {
     /**
      * {@link AtlasmapPage} needed for resources loading.
      */
-    private final AtlasmapPage atlasMapPage = new AtlasmapPage();
+    private final AtlasmapPage atlasmapPage = new AtlasmapPage();
 
     /**
      * {@link EventHandler} that is started before all tests.
@@ -59,6 +60,7 @@ public class AtlasmapInit implements EventListener {
             throw new IllegalStateException("Cannot find JAR file with test classes!");
         }
 
+        // TODO: obtain classes names programmatically
         // Source classes:
         page.enableSourceClass("io.atlasmap.qe.test.SourceMappingTestClass");
         page.enableSourceClass("io.atlasmap.qe.test.DatesObject");
@@ -96,15 +98,18 @@ public class AtlasmapInit implements EventListener {
             put("First Record As Header", "true");
         }});
 
-        //TODO: find more dynamic way for initialization check
-        Utils.sleep(1000);
+        // TODO: find more dynamic way for initialization check
+        MappingUtils.sleep(1000);
         try {
-            Utils.backupAdmFile();
+            MappingUtils.backupAdmFile();
         } catch (IOException e) {
             throw new IllegalStateException("Error when backing up initial ADM file.", e);
         }
     });
 
+    /**
+     * Alternative setup {@link EventHandler} that imports required resources into the AtlasMap using ADM file.
+     */
     private final EventHandler<TestRunStarted> setupFast = event -> runOnPage((page) -> {
         page.resetAll();
 
@@ -113,7 +118,7 @@ public class AtlasmapInit implements EventListener {
         // Imports ADM file.
         try {
             page.importAdmFile(admFile.getCanonicalPath());
-            Utils.backupAdmFile();
+            MappingUtils.backupAdmFile();
         } catch (IOException e) {
             throw new IllegalStateException("Error when getting canonical path of ADM file.", e);
         }
@@ -128,11 +133,10 @@ public class AtlasmapInit implements EventListener {
     /**
      * Opens browser and executes steps defined in {@code pageConsumer}.
      *
-     * @param pageConsumer that will be executed inside web browser on {@link AtlasmapInit#atlasMapPage}.
+     * @param pageConsumer that will be executed inside web browser on {@link AtlasmapInit#atlasmapPage}.
      */
     private void runOnPage(Consumer<AtlasmapPage> pageConsumer) {
-
-        pageConsumer.accept(atlasMapPage);
+        pageConsumer.accept(atlasmapPage);
     }
 
     /**

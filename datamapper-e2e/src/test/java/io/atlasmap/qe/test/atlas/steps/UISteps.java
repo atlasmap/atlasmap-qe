@@ -2,6 +2,7 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.atlasmap.qe.test.MappingValidator;
 import io.atlasmap.qe.test.atlas.AtlasmapInit;
 import org.junit.Assert;
 
@@ -10,7 +11,7 @@ import java.util.function.Consumer;
 
 import io.atlasmap.qe.test.atlas.AtlasmapPage;
 import io.atlasmap.qe.test.atlas.utils.HoverAction;
-import io.atlasmap.qe.test.atlas.utils.Utils;
+import io.atlasmap.qe.test.atlas.utils.MappingUtils;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -18,15 +19,23 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-public class UISteps extends CucumberGlue {
+import javax.inject.Inject;
 
-    private AtlasmapPage atlasmapPage = new AtlasmapPage();
-    private static boolean internalMapping = true;
+
+@Slf4j
+public class UISteps {
+
+    @Inject
+    private MappingValidator validator;
+
+    @Inject
+    private AtlasmapPage atlasmapPage;
+
+    private boolean internalMapping = true;
 
     @Given("atlasmap contains TestClass")
-    public void atlasmapContainsTestClass() throws Exception {
-        String resp = Utils.requestClass(atlasmapPage.TEST_CLASS);
+    public void atlasMapContainsTestClass() throws Exception {
+        String resp = MappingUtils.requestClass(atlasmapPage.TEST_CLASS);
         assertThat(resp).contains(atlasmapPage.TEST_CLASS);
     }
 
@@ -243,7 +252,7 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.clickOnRowInMappingTable(index);
         atlasmapPage.setPreviewValueInTable(index, "sources", source.split(";"));
         atlasmapPage.clickOnRowInMappingTable(index);
-        Utils.sleep(500);
+        MappingUtils.sleep(500);
         final String preview = atlasmapPage.getPreviewValueInTable(index, "targets");
         assertThat(preview).isEqualTo(target);
     }

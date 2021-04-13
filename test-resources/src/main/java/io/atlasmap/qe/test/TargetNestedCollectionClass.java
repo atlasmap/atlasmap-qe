@@ -1,40 +1,39 @@
 package io.atlasmap.qe.test;
 
-public class TargetNestedCollectionClass extends BaseClass {
+import lombok.ToString;
+
+
+@ToString(callSuper=true)
+public class TargetNestedCollectionClass extends NestedCollectionClass {
 
     public TargetNestedCollectionClass(String sourceType) {
-        NestedClass array0 = new BaseClass.NestedClass(sourceType + "FirstArrayValue0");
-        NestedClass array1 = new BaseClass.NestedClass(sourceType + "FirstArrayValue1");
+        NestedClass array0 = new NestedCollectionClass.NestedClass(sourceType + "FirstArrayValue0");
+        NestedClass array1 = new NestedCollectionClass.NestedClass(sourceType + "FirstArrayValue1");
 
-        BaseClass.NestedClass[] someArray = new BaseClass.NestedClass[] {
+        NestedCollectionClass.NestedClass[] someArray = new NestedCollectionClass.NestedClass[] {
             array0, array1
         };
         setRootArray(someArray);
 
-        BaseClass.NestedClass array00 = new BaseClass.NestedClass(sourceType + "SecondArrayValue0-0");
-        BaseClass.NestedClass array01 = new BaseClass.NestedClass(sourceType + "SecondArrayValue0-1");
+        NestedCollectionClass.NestedClass array00 = new NestedCollectionClass.NestedClass(sourceType + "SecondArrayValue0-0");
+        NestedCollectionClass.NestedClass array01 = new NestedCollectionClass.NestedClass(sourceType + "SecondArrayValue0-1");
 
-        array00.setNestedArray(new BaseClass.NestedClass[] {new BaseClass.NestedClass(sourceType + "ThirdArrayValue0-0-0"),
-            new BaseClass.NestedClass(sourceType + "ThirdArrayValue0-0-1")});
-        array01.setNestedArray(new BaseClass.NestedClass[] {new BaseClass.NestedClass(sourceType + "ThirdArrayValue0-1-0"),
-            new BaseClass.NestedClass(sourceType + "ThirdArrayValue0-1-1"), new BaseClass.NestedClass(sourceType + "ThirdArrayValue0-1-2")});
+        array00.setNestedArray(new NestedCollectionClass.NestedClass[] {new NestedCollectionClass.NestedClass(sourceType + "ThirdArrayValue0-0-0"),
+            new NestedCollectionClass.NestedClass(sourceType + "ThirdArrayValue0-0-1")});
+        array01.setNestedArray(new NestedCollectionClass.NestedClass[] {new NestedCollectionClass.NestedClass(sourceType + "ThirdArrayValue0-1-0"),
+            new NestedCollectionClass.NestedClass(sourceType + "ThirdArrayValue0-1-1"), new NestedCollectionClass.NestedClass(sourceType + "ThirdArrayValue0-1-2")});
 
-        array0.setNestedArray(new BaseClass.NestedClass[] {array00, array01});
+        array0.setNestedArray(new NestedCollectionClass.NestedClass[] {array00, array01});
 
-        BaseClass.NestedClass array10 = new BaseClass.NestedClass(sourceType + "SecondArrayValue1-0");
-        BaseClass.NestedClass array11 = new BaseClass.NestedClass(sourceType + "SecondArrayValue1-1");
-        array10.setNestedArray(new BaseClass.NestedClass[] {new BaseClass.NestedClass(sourceType + "ThirdArrayValue1-0-0"),
-            new BaseClass.NestedClass(sourceType + "ThirdArrayValue1-0-1"), new BaseClass.NestedClass(sourceType + "ThirdArrayValue1-0-2")});
-        array11.setNestedArray(new BaseClass.NestedClass[] {new BaseClass.NestedClass(sourceType + "ThirdArrayValue1-1-0"),
-            new BaseClass.NestedClass(sourceType + "ThirdArrayValue1-1-1")});
-        array1.setNestedArray(new BaseClass.NestedClass[] {array10, array11});
+        NestedCollectionClass.NestedClass array10 = new NestedCollectionClass.NestedClass(sourceType + "SecondArrayValue1-0");
+        NestedCollectionClass.NestedClass array11 = new NestedCollectionClass.NestedClass(sourceType + "SecondArrayValue1-1");
+        array10.setNestedArray(new NestedCollectionClass.NestedClass[] {new NestedCollectionClass.NestedClass(sourceType + "ThirdArrayValue1-0-0"),
+            new NestedCollectionClass.NestedClass(sourceType + "ThirdArrayValue1-0-1"), new NestedCollectionClass.NestedClass(sourceType + "ThirdArrayValue1-0-2")});
+        array11.setNestedArray(new NestedCollectionClass.NestedClass[] {new NestedCollectionClass.NestedClass(sourceType + "ThirdArrayValue1-1-0"),
+            new NestedCollectionClass.NestedClass(sourceType + "ThirdArrayValue1-1-1")});
+        array1.setNestedArray(new NestedCollectionClass.NestedClass[] {array10, array11});
     }
 
     public TargetNestedCollectionClass() {
-    }
-
-    @Override
-    public String toString() {
-        return "TargetNestedCollectionClass{} " + super.toString();
     }
 }

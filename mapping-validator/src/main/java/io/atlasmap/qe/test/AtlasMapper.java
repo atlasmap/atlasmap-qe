@@ -9,6 +9,7 @@ import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +19,8 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.fail;
 
+
+@Component
 public class AtlasMapper {
 
     public Map<String, Object> processMapping(Map<String, Object> inputMap, String mappingFilePath) {
@@ -57,7 +60,7 @@ public class AtlasMapper {
             return targetMap;
         } catch (Exception e) {
             e.printStackTrace();
-            fail(e.getMessage());
+            fail(e.getMessage()); // TODO
             return null;
         }
     }
@@ -84,8 +87,8 @@ public class AtlasMapper {
         JSONObject atlasMappingJson = exportAtlasJson(mappingFilePath);
         JSONArray dataSourceList = atlasMappingJson.getJSONObject("AtlasMapping").getJSONArray("dataSource");
 
-        for(int i = 0; i < dataSourceList.length(); i++) {
-            if(dataSourceList.getJSONObject(i).getString("name").contentEquals(dataSourceName)) {
+        for (int i = 0; i < dataSourceList.length(); i++) {
+            if (dataSourceList.getJSONObject(i).getString("name").contentEquals(dataSourceName)) {
                 dataSourceId = dataSourceList.getJSONObject(i).getString("id");
                 break;
             }
@@ -98,7 +101,7 @@ public class AtlasMapper {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream atlasFileStream = classloader.getResourceAsStream(mappingFilePath);
         try {
-            jsonTxt = IOUtils.toString( atlasFileStream );
+            jsonTxt = IOUtils.toString(atlasFileStream);
         } catch (IOException e) {
             e.printStackTrace();
         }

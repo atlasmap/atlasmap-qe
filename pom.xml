@@ -160,16 +160,16 @@
                     </execution>
                 </executions>
                 <configuration>
-                <includes>io.atlasmap.qe.test.atlas.CucumberTest</includes>
+                <includes>io.atlasmap.qe.test.CucumberTest</includes>
                 <systemPropertyVariables>
                     <cucumber.features>classpath:features</cucumber.features>
                     <cucumber.filter.tags>${tags}</cucumber.filter.tags>
                     <cucumber.plugin>
-                        io.atlasmap.qe.test.atlas.AtlasMapInit,
+                        io.atlasmap.qe.test.AtlasMapInit,
                         pretty,
                         junit:target/cucumber/cucumber-junit.xml,
                         json:target/cucumber/cucumber-report.json,
-                        io.atlasmap.qe.test.atlas.utils.MailFormatter:target/cucumber/cucumber-mail/
+                        io.atlasmap.qe.test.utils.MailFormatter:target/cucumber/cucumber-mail/
                     </cucumber.plugin>
                 </systemPropertyVariables>
             </configuration>

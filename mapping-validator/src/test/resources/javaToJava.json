@@ -3,38 +3,38 @@
     "jsonType" : "io.atlasmap.v2.AtlasMapping",
     "dataSource" : [ {
       "jsonType" : "io.atlasmap.v2.DataSource",
-      "id" : "io.atlasmap.qe.test.SourceMappingTestClass",
-      "name" : "io.atlasmap.qe.test.SourceMappingTestClass",
-      "description" : "Java document class io.atlasmap.qe.test.SourceMappingTestClass",
-      "uri" : "atlas:java:io.atlasmap.qe.test.SourceMappingTestClass?className=io.atlasmap.qe.test.SourceMappingTestClass",
+      "id" : "io.atlasmap.qe.data.source.SourceMappingTestClass",
+      "name" : "io.atlasmap.qe.data.source.SourceMappingTestClass",
+      "description" : "Java document class io.atlasmap.qe.data.source.SourceMappingTestClass",
+      "uri" : "atlas:java:io.atlasmap.qe.data.source.SourceMappingTestClass?className=io.atlasmap.qe.data.source.SourceMappingTestClass",
       "dataSourceType" : "SOURCE"
     }, {
       "jsonType" : "io.atlasmap.v2.DataSource",
-      "id" : "io.atlasmap.qe.test.DatesObject",
-      "name" : "io.atlasmap.qe.test.DatesObject",
-      "description" : "Java document class io.atlasmap.qe.test.DatesObject",
-      "uri" : "atlas:java:io.atlasmap.qe.test.DatesObject?className=io.atlasmap.qe.test.DatesObject",
+      "id" : "io.atlasmap.qe.data.DatesObject",
+      "name" : "io.atlasmap.qe.data.DatesObject",
+      "description" : "Java document class io.atlasmap.qe.data.DatesObject",
+      "uri" : "atlas:java:io.atlasmap.qe.data.DatesObject?className=io.atlasmap.qe.data.DatesObject",
       "dataSourceType" : "SOURCE"
     }, {
       "jsonType" : "io.atlasmap.v2.DataSource",
-      "id" : "io.atlasmap.qe.test.SourceListsClass",
-      "name" : "io.atlasmap.qe.test.SourceListsClass",
-      "description" : "Java document class io.atlasmap.qe.test.SourceListsClass",
-      "uri" : "atlas:java:io.atlasmap.qe.test.SourceListsClass?className=io.atlasmap.qe.test.SourceListsClass",
+      "id" : "io.atlasmap.qe.data.source.SourceListsClass",
+      "name" : "io.atlasmap.qe.data.source.SourceListsClass",
+      "description" : "Java document class io.atlasmap.qe.data.source.SourceListsClass",
+      "uri" : "atlas:java:io.atlasmap.qe.data.source.SourceListsClass?className=io.atlasmap.qe.data.source.SourceListsClass",
       "dataSourceType" : "SOURCE"
     }, {
       "jsonType" : "io.atlasmap.v2.DataSource",
-      "id" : "io.atlasmap.qe.test.SmallMappingTestClass",
-      "name" : "io.atlasmap.qe.test.SmallMappingTestClass",
-      "description" : "Java document class io.atlasmap.qe.test.SmallMappingTestClass",
-      "uri" : "atlas:java:io.atlasmap.qe.test.SmallMappingTestClass?className=io.atlasmap.qe.test.SmallMappingTestClass",
+      "id" : "io.atlasmap.qe.data.SmallMappingTestClass",
+      "name" : "io.atlasmap.qe.data.SmallMappingTestClass",
+      "description" : "Java document class io.atlasmap.qe.data.SmallMappingTestClass",
+      "uri" : "atlas:java:io.atlasmap.qe.data.SmallMappingTestClass?className=io.atlasmap.qe.data.SmallMappingTestClass",
       "dataSourceType" : "SOURCE"
     }, {
       "jsonType" : "io.atlasmap.v2.DataSource",
-      "id" : "io.atlasmap.qe.test.SourceNestedCollectionClass",
-      "name" : "io.atlasmap.qe.test.SourceNestedCollectionClass",
-      "description" : "Java document class io.atlasmap.qe.test.SourceNestedCollectionClass",
-      "uri" : "atlas:java:io.atlasmap.qe.test.SourceNestedCollectionClass?className=io.atlasmap.qe.test.SourceNestedCollectionClass",
+      "id" : "io.atlasmap.qe.data.source.SourceNestedCollectionClass",
+      "name" : "io.atlasmap.qe.data.source.SourceNestedCollectionClass",
+      "description" : "Java document class io.atlasmap.qe.data.source.SourceNestedCollectionClass",
+      "uri" : "atlas:java:io.atlasmap.qe.data.source.SourceNestedCollectionClass?className=io.atlasmap.qe.data.source.SourceNestedCollectionClass",
       "dataSourceType" : "SOURCE"
     }, {
       "jsonType" : "io.atlasmap.json.v2.JsonDataSource",
@@ -86,31 +86,31 @@
       "dataSourceType" : "SOURCE"
     }, {
       "jsonType" : "io.atlasmap.v2.DataSource",
-      "id" : "io.atlasmap.qe.test.TargetMappingTestClass",
-      "name" : "io.atlasmap.qe.test.TargetMappingTestClass",
-      "description" : "Java document class io.atlasmap.qe.test.TargetMappingTestClass",
-      "uri" : "atlas:java:io.atlasmap.qe.test.TargetMappingTestClass?className=io.atlasmap.qe.test.TargetMappingTestClass",
+      "id" : "io.atlasmap.qe.data.target.TargetMappingTestClass",
+      "name" : "io.atlasmap.qe.data.target.TargetMappingTestClass",
+      "description" : "Java document class io.atlasmap.qe.data.target.TargetMappingTestClass",
+      "uri" : "atlas:java:io.atlasmap.qe.data.target.TargetMappingTestClass?className=io.atlasmap.qe.data.target.TargetMappingTestClass",
       "dataSourceType" : "TARGET"
     }, {
       "jsonType" : "io.atlasmap.v2.DataSource",
-      "id" : "io.atlasmap.qe.test.StringObject",
-      "name" : "io.atlasmap.qe.test.StringObject",
-      "description" : "Java document class io.atlasmap.qe.test.StringObject",
-      "uri" : "atlas:java:io.atlasmap.qe.test.StringObject?className=io.atlasmap.qe.test.StringObject",
+      "id" : "io.atlasmap.qe.data.StringObject",
+      "name" : "io.atlasmap.qe.data.StringObject",
+      "description" : "Java document class io.atlasmap.qe.data.StringObject",
+      "uri" : "atlas:java:io.atlasmap.qe.data.StringObject?className=io.atlasmap.qe.data.StringObject",
       "dataSourceType" : "TARGET"
     }, {
       "jsonType" : "io.atlasmap.v2.DataSource",
-      "id" : "io.atlasmap.qe.test.TargetListsClass",
-      "name" : "io.atlasmap.qe.test.TargetListsClass",
-      "description" : "Java document class io.atlasmap.qe.test.TargetListsClass",
-      "uri" : "atlas:java:io.atlasmap.qe.test.TargetListsClass?className=io.atlasmap.qe.test.TargetListsClass",
+      "id" : "io.atlasmap.qe.data.target.TargetListsClass",
+      "name" : "io.atlasmap.qe.data.target.TargetListsClass",
+      "description" : "Java document class io.atlasmap.qe.data.target.TargetListsClass",
+      "uri" : "atlas:java:io.atlasmap.qe.data.target.TargetListsClass?className=io.atlasmap.qe.data.target.TargetListsClass",
       "dataSourceType" : "TARGET"
     }, {
       "jsonType" : "io.atlasmap.v2.DataSource",
-      "id" : "io.atlasmap.qe.test.TargetNestedCollectionClass",
-      "name" : "io.atlasmap.qe.test.TargetNestedCollectionClass",
-      "description" : "Java document class io.atlasmap.qe.test.TargetNestedCollectionClass",
-      "uri" : "atlas:java:io.atlasmap.qe.test.TargetNestedCollectionClass?className=io.atlasmap.qe.test.TargetNestedCollectionClass",
+      "id" : "io.atlasmap.qe.data.target.TargetNestedCollectionClass",
+      "name" : "io.atlasmap.qe.data.target.TargetNestedCollectionClass",
+      "description" : "Java document class io.atlasmap.qe.data.target.TargetNestedCollectionClass",
+      "uri" : "atlas:java:io.atlasmap.qe.data.target.TargetNestedCollectionClass?className=io.atlasmap.qe.data.target.TargetNestedCollectionClass",
       "dataSourceType" : "TARGET"
     }, {
       "jsonType" : "io.atlasmap.json.v2.JsonDataSource",
@@ -172,21 +172,21 @@
           } ],
           "field" : [ {
             "jsonType" : "io.atlasmap.java.v2.JavaField",
-            "docId" : "io.atlasmap.qe.test.SourceMappingTestClass",
+            "docId" : "io.atlasmap.qe.data.source.SourceMappingTestClass",
             "index" : 0,
             "path" : "/sourceString",
             "fieldType" : "STRING",
             "name" : "sourceString"
           }, {
             "jsonType" : "io.atlasmap.java.v2.JavaField",
-            "docId" : "io.atlasmap.qe.test.SourceMappingTestClass",
+            "docId" : "io.atlasmap.qe.data.source.SourceMappingTestClass",
             "index" : 1,
             "path" : "/sourceAnotherString",
             "fieldType" : "STRING",
             "name" : "sourceAnotherString"
           }, {
             "jsonType" : "io.atlasmap.java.v2.JavaField",
-            "docId" : "io.atlasmap.qe.test.SourceMappingTestClass",
+            "docId" : "io.atlasmap.qe.data.source.SourceMappingTestClass",
             "index" : 2,
             "path" : "/sourceInteger",
             "fieldType" : "INTEGER",
@@ -196,7 +196,7 @@
         "inputField" : [ ],
         "outputField" : [ {
           "jsonType" : "io.atlasmap.java.v2.JavaField",
-          "docId" : "io.atlasmap.qe.test.TargetMappingTestClass",
+          "docId" : "io.atlasmap.qe.data.target.TargetMappingTestClass",
           "path" : "/targetCombineString",
           "fieldType" : "STRING",
           "name" : "targetCombineString"

@@ -2,15 +2,16 @@ package io.atlasmap.qe.test.atlas.steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.atlasmap.qe.test.atlas.AtlasmapInit;
+import io.atlasmap.qe.test.MappingValidator;
+import io.atlasmap.qe.test.atlas.AtlasMapInit;
 import org.junit.Assert;
 
 import java.util.*;
 import java.util.function.Consumer;
 
-import io.atlasmap.qe.test.atlas.AtlasmapPage;
+import io.atlasmap.qe.test.atlas.AtlasMapPage;
 import io.atlasmap.qe.test.atlas.utils.HoverAction;
-import io.atlasmap.qe.test.atlas.utils.Utils;
+import io.atlasmap.qe.test.atlas.utils.MappingUtils;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -18,21 +19,29 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-public class UISteps extends CucumberGlue {
+import javax.inject.Inject;
 
-    private AtlasmapPage atlasmapPage = new AtlasmapPage();
-    private static boolean internalMapping = true;
+
+@Slf4j
+public class UISteps {
+
+    @Inject
+    private MappingValidator validator;
+
+    @Inject
+    private AtlasMapPage atlasMapPage;
+
+    private boolean internalMapping = true;
 
     @Given("atlasmap contains TestClass")
-    public void atlasmapContainsTestClass() throws Exception {
-        String resp = Utils.requestClass(atlasmapPage.TEST_CLASS);
-        assertThat(resp).contains(atlasmapPage.TEST_CLASS);
+    public void atlasMapContainsTestClass() throws Exception {
+        String resp = MappingUtils.requestClass(atlasMapPage.TEST_CLASS);
+        assertThat(resp).contains(atlasMapPage.TEST_CLASS);
     }
 
     @Then("browser is opened")
     public void userOpensBrowser() throws Exception {
-        atlasmapPage.refreshPage();
+        atlasMapPage.refreshPage();
     }
 
     @And("internal mapping is skipped")
@@ -54,15 +63,15 @@ public class UISteps extends CucumberGlue {
     @And("set mapping condition to {string} by auto completion")
     public void setMappingConditionByAutoCompletion(String condition) {
         setMappingConditionTo(condition, s -> {
-            atlasmapPage.addToConditionalMapping("@" + s);
-            atlasmapPage.clickOnValueFromPicker(s);
+            atlasMapPage.addToConditionalMapping("@" + s);
+            atlasMapPage.clickOnValueFromPicker(s);
         });
     }
 
     @And("set mapping condition to {string} by selecting sources")
     public void setMappingConditionBySelectingSources(String condition) {
         setMappingConditionTo(condition, s -> {
-            atlasmapPage.addToMappingUsingMappingDetails(s, true);
+            atlasMapPage.addToMappingUsingMappingDetails(s, true);
         });
     }
 
@@ -72,77 +81,77 @@ public class UISteps extends CucumberGlue {
             if (s.startsWith("@")) {
                 method.accept(s.replaceAll("[@{}]", ""));
             } else {
-                atlasmapPage.addToConditionalMapping(s);
+                atlasMapPage.addToConditionalMapping(s);
             }
         }
     }
 
     @Then("click on enable or disable conditional mapping expression button")
     public void clickAddMappingCondition() {
-        atlasmapPage.toggleConditionalMapping();
+        atlasMapPage.toggleConditionalMapping();
     }
 
     @Then("check if warnings from {string} to {string} are displayed with messages")
     public void checkIfMultipleWarningsFromToDisplayed(String from, String to, DataTable sourceMappingData) {
         List<String> source = new ArrayList<>(sourceMappingData.asList());
-        Assert.assertTrue(this.atlasmapPage.checkMultipleWarnings(source, from, to));
+        Assert.assertTrue(this.atlasMapPage.checkMultipleWarnings(source, from, to));
     }
 
     @Then("check if {string} warning from {string} to {string} is displayed")
     public void checkIfFromToDisplayed(String exceptionType, String from, String to) {
         List<String> source = new ArrayList<>(Arrays.asList(exceptionType));
-        Assert.assertTrue(this.atlasmapPage.checkMultipleWarnings(source, from, to));
+        Assert.assertTrue(this.atlasMapPage.checkMultipleWarnings(source, from, to));
     }
 
     @Then("check if asymmetric mapping warning from {string} level to {string} level is displayed")
     public void checkIfAsymmetricMappingWarningIsDisplayed(String sourceLevel, String targetLevel) {
-        Assert.assertTrue(this.atlasmapPage.checkAsymmetricMappingWarning(Integer.parseInt(sourceLevel), Integer.parseInt(targetLevel)));
+        Assert.assertTrue(this.atlasMapPage.checkAsymmetricMappingWarning(Integer.parseInt(sourceLevel), Integer.parseInt(targetLevel)));
     }
 
     @Then("check if warning for conditional mapping with multiple targets is displayed")
     public void checkIfAsymmetricMappingWarningIsDisplayed() {
-        Assert.assertTrue(this.atlasmapPage.checkMultipleTargetsWarning());
+        Assert.assertTrue(this.atlasMapPage.checkMultipleTargetsWarning());
     }
 
     @And("check if warning contains {string} message")
     public void checkIfWarningContainsMessage(String message) {
-        Assert.assertTrue(this.atlasmapPage.checkWarningContainMessage(message));
+        Assert.assertTrue(this.atlasMapPage.checkWarningContainMessage(message));
     }
 
     @Then("check if {string} warning from {string} to {string} is not displayed")
     public void checkIfWarningFromToIsNotDisplayed(String exceptionType, String from, String to) {
-        Assert.assertFalse(this.atlasmapPage.checkWarning(exceptionType, from, to));
+        Assert.assertFalse(this.atlasMapPage.checkWarning(exceptionType, from, to));
     }
 
     @Then("check if no warnings are displayed")
     public void checkIfNoWarningsAreDisplayed() {
-        this.atlasmapPage.checkWarnings();
+        this.atlasMapPage.checkWarnings();
     }
 
     @And("add {string} to combine")
     public void addToCombine(String field) {
-        this.atlasmapPage.addToMappingUsingFieldPanel(field, true);
+        this.atlasMapPage.addToMappingUsingFieldPanel(field, true);
     }
 
     @And("add {string} to separate")
     public void addToSeparate(String field) {
-        atlasmapPage.addToMappingUsingFieldPanel(field, false);
+        atlasMapPage.addToMappingUsingFieldPanel(field, false);
     }
 
     @When("delete current mapping")
     public void deleteCurrentMapping() {
-        atlasmapPage.deleteCurrentMapping();
+        atlasMapPage.deleteCurrentMapping();
     }
 
     @And("reveal mapping details")
     public void revealMappingDetails() {
-        atlasmapPage.clickOnLinkByClass(".fa.fa-edit.link");
+        atlasMapPage.clickOnLinkByClass(".fa.fa-edit.link");
     }
 
     @And("add mapping from {string} to {string}")
     public void addMappingFromTo(String from, String to) throws Throwable {
-        atlasmapPage.createNewMapping(from, "source");
-        atlasmapPage.addToMappingUsingFieldPanel(to, false);
+        atlasMapPage.createNewMapping(from, "source");
+        atlasMapPage.addToMappingUsingFieldPanel(to, false);
         if (internalMapping) {
             this.validator.map(from, to);
         }
@@ -150,22 +159,22 @@ public class UISteps extends CucumberGlue {
 
     @And("add click {string} link")
     public void addClickLink(String arg0) {
-        this.atlasmapPage.clickOnLinkByClass(".fa.fa-long-arrow-right");
+        this.atlasMapPage.clickOnLinkByClass(".fa.fa-long-arrow-right");
     }
 
     @When("change select from {string} to {string}")
     public void changeSelectFromTo(String from, String to) {
-        this.atlasmapPage.changeSelectValue(from, to);
+        this.atlasMapPage.changeSelectValue(from, to);
     }
 
     @And("drag {string} and drop on {string}")
     public void dragAndDropOn(String drag, String drop) {
-        this.atlasmapPage.dragNDrop(drag, drop);
+        this.atlasMapPage.dragNDrop(drag, drop);
     }
 
     @And("Show mapping preview")
     public void showMappingPreview() {
-        this.atlasmapPage.clickOnLinkByDataTestId("show-hide-mapping-preview-button");
+        this.atlasMapPage.clickOnLinkByDataTestId("show-hide-mapping-preview-button");
     }
 
     @And("set preview data")
@@ -174,14 +183,14 @@ public class UISteps extends CucumberGlue {
             for (String key : data.keySet()) {
                 final String value = data.get(key);
                 log.info(key + " " + value);
-                this.atlasmapPage.setInputValueForFieldPreview(key, value);
+                this.atlasMapPage.setInputValueForFieldPreview(key, value);
             }
         }
     }
 
     @Then("verify that {string} contains {string}")
     public void verifyThatContains(String field, String v) {
-        String value = this.atlasmapPage.getFieldPreviewValue(field);
+        String value = this.atlasMapPage.getFieldPreviewValue(field);
         Assert.assertEquals(v, value);
     }
 
@@ -190,7 +199,7 @@ public class UISteps extends CucumberGlue {
         for (Map<String, String> data : values.asMaps()) {
             for (String key : data.keySet()) {
                 final String value = data.get(key);
-                String val = this.atlasmapPage.getFieldPreviewValue(key);
+                String val = this.atlasMapPage.getFieldPreviewValue(key);
                 Assert.assertEquals(value, val);
             }
         }
@@ -198,89 +207,89 @@ public class UISteps extends CucumberGlue {
 
     @And("set {string} for {string} field")
     public void setForField(String value, String field) {
-        this.atlasmapPage.setInputValueForFieldPreview(field, value);
+        this.atlasMapPage.setInputValueForFieldPreview(field, value);
     }
 
     @And("check if danger warning contains {string} message")
     public void checkIfDangerWarningContainsMessage(String message) {
-        Assert.assertTrue(this.atlasmapPage.checkDangerWarningContainMessage(message));
+        Assert.assertTrue(this.atlasMapPage.checkDangerWarningContainMessage(message));
     }
 
     @And("set {string} constant with {string} value")
     public void setConstantWithValue(String type, String value) {
-        atlasmapPage.addConstant(type, value);
+        atlasMapPage.addConstant(type, value);
     }
 
     @When("set {string} property of type {string}, name {string}, scope {string}")
     public void setProperty(String sourceTarget, String type, String name, String scope) {
-        atlasmapPage.addProperty(sourceTarget.equals("source") ? true : false, type, name, scope);
+        atlasMapPage.addProperty(sourceTarget.equals("source") ? true : false, type, name, scope);
     }
 
     @And("switch to mapping table view")
     public void mappingTableView() {
-        atlasmapPage.clickOnLinkByDataTestId("show-hide-mapping-table-button");
+        atlasMapPage.clickOnLinkByDataTestId("show-hide-mapping-table-button");
     }
 
     @And("switch to column mapper view")
     public void columnMapperView() {
-        atlasmapPage.clickOnLinkByDataTestId("show-column-mapper-button");
+        atlasMapPage.clickOnLinkByDataTestId("show-column-mapper-button");
     }
 
     @Then("check that row number \"{int}\" contains {string} as sources, {string} as target and {string} as type")
     public void checkThatRowNumberContainsAsSourcesAsTagetAndAsType(int number, String sources, String targets, String mappingType) {
-        assertThat(atlasmapPage.getLabelFromMappingTable(number, "type")).isEqualToIgnoringCase(mappingType);
-        assertThat(atlasmapPage.getLabelFromMappingTable(number, "sources")).isEqualToIgnoringCase(sources);
-        assertThat(atlasmapPage.getLabelFromMappingTable(number, "targets")).isEqualToIgnoringCase(targets);
+        assertThat(atlasMapPage.getLabelFromMappingTable(number, "type")).isEqualToIgnoringCase(mappingType);
+        assertThat(atlasMapPage.getLabelFromMappingTable(number, "sources")).isEqualToIgnoringCase(sources);
+        assertThat(atlasMapPage.getLabelFromMappingTable(number, "targets")).isEqualToIgnoringCase(targets);
     }
 
     @And("click on \"{int}\" index of table")
     public void clickOnIndexOfTable(int index) {
-        atlasmapPage.clickOnRowInMappingTable(index);
+        atlasMapPage.clickOnRowInMappingTable(index);
     }
 
     @Then("check that on \"{int}\" row number is for {string} source value displayed {string} target preview")
     public void checkThatOnRowNumberIsForSourceValueSDisplayedTargetPreview(int index, String source, String target) {
-        atlasmapPage.clickOnRowInMappingTable(index);
-        atlasmapPage.setPreviewValueInTable(index, "sources", source.split(";"));
-        atlasmapPage.clickOnRowInMappingTable(index);
-        final String preview = atlasmapPage.getPreviewValueInTable(index, "targets");
+        atlasMapPage.clickOnRowInMappingTable(index);
+        atlasMapPage.setPreviewValueInTable(index, "sources", source.split(";"));
+        atlasMapPage.clickOnRowInMappingTable(index);
+        final String preview = atlasMapPage.getPreviewValueInTable(index, "targets");
         assertThat(preview).isEqualTo(target);
     }
 
     @And("open all subfolders")
     public void openAllSubfolders() {
-        atlasmapPage.openAllSubfolders();
+        atlasMapPage.openAllSubfolders();
     }
 
     @And("open all data buckets named {string}")
     public void openAllDataBuckets(String bucket) {
-        atlasmapPage.openAllBucketsWithName(bucket);
+        atlasMapPage.openAllBucketsWithName(bucket);
     }
 
     @And("set {string} as {string}")
     public void setAs(String field, String src) {
-        this.atlasmapPage.addToMappingUsingFieldPanel(field, "source".equals(src));
+        this.atlasMapPage.addToMappingUsingFieldPanel(field, "source".equals(src));
     }
 
     @And("add {string} as {string}")
     public void addToMappingUsingMappingDetail(String field, String src) {
-        this.atlasmapPage.addToMappingUsingMappingDetails(field, "source".equals(src));
+        this.atlasMapPage.addToMappingUsingMappingDetails(field, "source".equals(src));
     }
 
     @And("delete {string} on {string}")
     public void deleteOn(String field, String src) {
-        this.atlasmapPage.deleteFromMapping(field, "source".equals(src));
+        this.atlasMapPage.deleteFromMapping(field, "source".equals(src));
     }
 
     @And("change index of {string} to \"{int}\" on {string}")
     public void changeIndexOfToOn(String field, int value, String src) {
-        this.atlasmapPage.changeIndexValue(field, value, "source".equals(src));
+        this.atlasMapPage.changeIndexValue(field, value, "source".equals(src));
     }
 
     @When("init mapping from {string} to {string}")
     public void initMappingFromTo(String target, String source) {
 
-        this.atlasmapPage.dragNDrop(source, target);
+        this.atlasMapPage.dragNDrop(source, target);
         //TODO: drag the source to target - will initialize the mapping
     }
 
@@ -291,37 +300,37 @@ public class UISteps extends CucumberGlue {
 
     @And("click on create new mapping")
     public void clickOnCreateNewMapping() {
-        this.atlasmapPage.clickOnLinkByDataTestId("add-new-mapping-button");
+        this.atlasMapPage.clickOnLinkByDataTestId("add-new-mapping-button");
     }
 
     @And("add source {string} to active mapping")
     public void addSourceToActiveMapping(String mappingField) {
-        this.atlasmapPage.addToMappingUsingFieldPanel(mappingField, true);
+        this.atlasMapPage.addToMappingUsingFieldPanel(mappingField, true);
     }
 
     @And("select source {string} from dropdown to active mapping")
     public void selectSourceToActiveMapping(String mappingField) {
-        this.atlasmapPage.addToMappingUsingFieldPanel(mappingField, true);
+        this.atlasMapPage.addToMappingUsingFieldPanel(mappingField, true);
     }
     @And("select target {string} from dropdown to active mapping")
     public void selectTargetToActiveMapping(String mappingField) {
-        this.atlasmapPage.addToMappingUsingFieldPanel(mappingField, true);
+        this.atlasMapPage.addToMappingUsingFieldPanel(mappingField, true);
     }
 
     @And("add target {string} to active mapping")
     public void addTargetToActiveMapping(String mappingField) {
-        this.atlasmapPage.addToMappingUsingFieldPanel(mappingField, false);
+        this.atlasMapPage.addToMappingUsingFieldPanel(mappingField, false);
     }
 
     @When("connect field {string} to active mapping")
     public void connectFieldToActiveMapping(String source) {
-        this.atlasmapPage.addToMappingUsingFieldPanel(source, true);
+        this.atlasMapPage.addToMappingUsingFieldPanel(source, true);
     }
 
     @And("set mapping to {string} from {string}")
     public void userSetsMappingToFrom(String target, String source) throws Throwable {
-        this.atlasmapPage.createNewMapping(source, "source");
-        this.atlasmapPage.addToMappingUsingFieldPanel(target, false);
+        this.atlasMapPage.createNewMapping(source, "source");
+        this.atlasMapPage.addToMappingUsingFieldPanel(target, false);
         if (internalMapping) {
             this.validator.map(source, target);
         }
@@ -330,36 +339,36 @@ public class UISteps extends CucumberGlue {
     @And("click on create new mapping from source {string}")
     public void clickOnCreateNewMappingFromSource(String mappingField) {
 
-        atlasmapPage.createNewMapping(mappingField, "source");
+        atlasMapPage.createNewMapping(mappingField, "source");
     }
 
     @And("click on create new mapping from target {string}")
     public void clickOnCreateNewMappingFrom(String mappingField) {
 
-        atlasmapPage.createNewMapping(mappingField, "target");
+        atlasMapPage.createNewMapping(mappingField, "target");
     }
 
     @And("click show target mapping for {string}")
     public void clickShowTargetMapping(String mappingField) {
-        atlasmapPage.hoverAndSelectOperation(mappingField, HoverAction.SHOW_MAPPING_DETAILS, "target");
+        atlasMapPage.hoverAndSelectOperation(mappingField, HoverAction.SHOW_MAPPING_DETAILS, "target");
     }
 
     @And("click show source mapping for {string}")
     public void clickShowSourceMapping(String mappingField) {
-        atlasmapPage.hoverAndSelectOperation(mappingField, HoverAction.SHOW_MAPPING_DETAILS, "source");
+        atlasMapPage.hoverAndSelectOperation(mappingField, HoverAction.SHOW_MAPPING_DETAILS, "source");
     }
 
     @And("import CSV file {string} formatted as {string} with parameters")
     public void importCSVFileWithParameters(String fileName, String format, DataTable parameters) {
         System.out.println(fileName + format);
-        atlasmapPage.enableCsvSourceDocument(AtlasmapInit.DOCUMENTS_FOLDER + fileName, format,
+        atlasMapPage.enableCsvSourceDocument(AtlasMapInit.DOCUMENTS_FOLDER + fileName, format,
             parameters.asMap(String.class, String.class));
     }
 
     @And("import CSV file {string} formatted as {string}")
     public void importCSVFile(String fileName, String format) {
         System.out.println(fileName + format);
-        atlasmapPage.enableCsvSourceDocument(AtlasmapInit.DOCUMENTS_FOLDER + fileName, format, new HashMap<>());
+        atlasMapPage.enableCsvSourceDocument(AtlasMapInit.DOCUMENTS_FOLDER + fileName, format, new HashMap<>());
     }
 
     @And("remove {string} document called {string}")
@@ -367,6 +376,6 @@ public class UISteps extends CucumberGlue {
         if (!type.equals("source") && !type.equals("target")) {
             throw new IllegalArgumentException("Type of document needs to be 'source' or 'target'!");
         }
-        atlasmapPage.removeDocument(type, name);
+        atlasMapPage.removeDocument(type, name);
     }
 }

@@ -7,13 +7,21 @@ import org.apache.logging.log4j.Logger;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import io.atlasmap.qe.resources.ResourcesGenerator;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.PropertyAccessorFactory;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
 
 /**
  * Created by mmelko on 15/11/2017.
  */
+@Component
 public class MappingValidator {
     private static final Logger LOG = LogManager.getLogger(MappingValidator.class);
     public static final String SOURCE_MAP = "SOURCE_MAP";
@@ -24,7 +32,12 @@ public class MappingValidator {
     private TargetMappingTestClass target;
     private Map<String, Object> expectedMap;
     private Map<String, Object> sourceMap;
-    private final AtlasMapper atlasMapper = new AtlasMapper();
+
+    @Inject
+    private AtlasMapper atlasMapper;
+
+    @Inject
+    private ConversionService conversionService;
 
     public MappingValidator() {
         initializeValues();
@@ -89,7 +102,7 @@ public class MappingValidator {
 
     public boolean verifyMultiObjectMapping() {
         this.sourceMap.put(this.source.getClass().getName(), this.source);
-        this.expectedMap.put(this.target.getClass().getName(), this.target);
+        this.expectedMap.put(this.target.getClass().getName(), this.target); // FIXME: why is this here?
         final boolean res = verifyMultiObjectMapping(this.sourceMap);
         this.clear();
         this.initValidator();
@@ -111,7 +124,7 @@ public class MappingValidator {
 
         expected.forEach((k, v) -> {
             Object actual = getExpectedValue(processed, k);
-            assertThat(v).isEqualTo(actual);
+            assertThat(actual).isEqualTo(v);
         });
         return true;
     }
@@ -142,20 +155,30 @@ public class MappingValidator {
         setTargetValue(target, getSourceValue(source));
     }
 
-    public void setTargetValue(String field, Object value) throws ParseException {
-        this.target.setAndConvertValue(field, value);
+    public void setTargetValue(String field, Object value) {
+        setValueOfBeanProperty(target, field, value);
     }
 
-    public void setSourceValue(String field, Object value) throws ParseException {
-        source.setAndConvertValue(field, value);
+    public void setSourceValue(String field, Object value) {
+        setValueOfBeanProperty(source, field, value);
     }
 
     public Object getSourceValue(String field) {
-        return this.source.getValue(field);
+        return getValueOfBeanProperty(this.source, field);
     }
 
     public Object getTargetValue(String field) {
-        return this.target.getValue(field);
+        return getValueOfBeanProperty(this.target, field);
+    }
+
+    public void setValueOfBeanProperty(Object bean, String fieldName, Object value) {
+        BeanWrapper beanWrapper = PropertyAccessorFactory.forBeanPropertyAccess(bean);
+        beanWrapper.setPropertyValue(fieldName, conversionService.convert(value,
+            Objects.requireNonNull(beanWrapper.getPropertyType(fieldName))));
+    }
+
+    public Object getValueOfBeanProperty(Object bean, String fieldName) {
+        return PropertyAccessorFactory.forBeanPropertyAccess(bean).getPropertyValue(fieldName);
     }
 
     public TargetMappingTestClass getTarget() {
@@ -206,11 +229,7 @@ public class MappingValidator {
         sourceMap.put(SourceListsClass.class.getName(), new SourceListsClass());
         sourceMap.put(SmallMappingTestClass.class.getName(), new SmallMappingTestClass());
         sourceMap.put(SourceNestedCollectionClass.class.getName(), new SourceNestedCollectionClass());
-        try {
-            sourceMap.put(DatesObject.class.getName(), new DatesObject("22-12-2012"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        sourceMap.put(DatesObject.class.getName(), new DatesObject("22-12-2012"));
         sourceMap.put("sourceJson.schema", ResourcesGenerator.getJsonInstance());
         sourceMap.put("sourceArrays", ResourcesGenerator.getJsonArrays());
         sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());

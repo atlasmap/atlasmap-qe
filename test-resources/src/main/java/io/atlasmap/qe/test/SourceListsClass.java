@@ -1,15 +1,19 @@
 package io.atlasmap.qe.test;
 
 
+import lombok.Data;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+
+@Data
 public class SourceListsClass {
+
     private List<String> strings;
     private List<Integer> integers;
     private List<Double> doubles;
@@ -39,83 +43,5 @@ public class SourceListsClass {
             this.array[i] = "Str"+i;
             this.set.add("setStr"+i);
         }
-    }
-
-    public List<String> getStrings() {
-        return strings;
-    }
-
-    public void setStrings(List<String> strings) {
-        this.strings = strings;
-    }
-
-    public List<Integer> getIntegers() {
-        return integers;
-    }
-
-    public void setIntegers(List<Integer> integers) {
-        this.integers = integers;
-    }
-
-    public List<Double> getDoubles() {
-        return doubles;
-    }
-
-    public void setDoubles(List<Double> doubles) {
-        this.doubles = doubles;
-    }
-
-    public List<Float> getFloats() {
-        return floats;
-    }
-
-    public void setFloats(List<Float> floats) {
-        this.floats = floats;
-    }
-
-    public List<StringObject> getObjects() {
-        return objects;
-    }
-
-    public void setObjects(List<StringObject> objects) {
-        this.objects = objects;
-    }
-
-    public Map<String, String> getMap() {
-        return map;
-    }
-
-    public void setMap(Map<String, String> map) {
-        this.map = map;
-    }
-
-    public Set<String> getSet() {
-        return set;
-    }
-
-    public void setSet(Set<String> set) {
-        this.set = set;
-    }
-
-    public String[] getArray() {
-        return array;
-    }
-
-    public void setArray(String[] array) {
-        this.array = array;
-    }
-
-    @Override
-    public String toString() {
-        return "SourceListsClass{" +
-            "strings=" + strings +
-            ", integers=" + integers +
-            ", doubles=" + doubles +
-            ", floats=" + floats +
-            ", objects=" + objects +
-            ", map=" + map +
-            ", set=" + set +
-            ", array=" + Arrays.toString(array) +
-            '}';
     }
 }

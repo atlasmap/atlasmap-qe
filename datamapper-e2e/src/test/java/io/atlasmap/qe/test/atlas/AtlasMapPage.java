@@ -27,11 +27,14 @@ import java.util.stream.Collectors;
 import io.atlasmap.qe.test.atlas.utils.ByUtils;
 import io.atlasmap.qe.test.atlas.utils.HoverAction;
 import io.atlasmap.qe.test.atlas.utils.TestConfiguration;
-import io.atlasmap.qe.test.atlas.utils.Utils;
+import io.atlasmap.qe.test.atlas.utils.MappingUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
 
 @Slf4j
-public class AtlasmapPage {
+@Component
+public class AtlasMapPage {
 
     public static final String TEST_CLASS = "SourceMappingTestClass";
 
@@ -161,7 +164,7 @@ public class AtlasmapPage {
     }
 
     public void setInputValueByDataTestid(String inputSelector, String inputValue) {
-        Utils.insertCharByChar(inputValue, $(ByUtils.dataTestId(inputSelector)));
+        MappingUtils.insertCharByChar(inputValue, $(ByUtils.dataTestId(inputSelector)));
     }
 
     /**
@@ -200,7 +203,7 @@ public class AtlasmapPage {
     }
 
     public void addToConditionalMapping(String condition) {
-        Utils.insertCharByChar(condition, $(By.id("expressionMarkup")));
+        MappingUtils.insertCharByChar(condition, $(By.id("expressionMarkup")));
     }
 
     public void selectSeparator(String action) {
@@ -294,7 +297,7 @@ public class AtlasmapPage {
                 $$(By.id("selected-paramater")).last().waitUntil(visible, 5000).selectOption(key);
                 String keyId = key.replaceAll("\\s+", "");
                 keyId = keyId.substring(0, 1).toLowerCase() + keyId.substring(1);
-                Utils.sleep(1000);
+                MappingUtils.sleep(1000);
                 SelenideElement parameterOption = $(By.name(keyId));
 
                 if (parameterOption.is(Condition.type("text"))) {
@@ -350,7 +353,7 @@ public class AtlasmapPage {
 
         pickerValue.clear();
         pickerValue.sendKeys(value);
-        Utils.sleep(1000);
+        MappingUtils.sleep(1000);
     }
 
     public String getFieldPreviewValue(String field) {
@@ -361,7 +364,7 @@ public class AtlasmapPage {
 
         int timeout = 5000;
         do {
-            Utils.sleep(200);
+            MappingUtils.sleep(200);
             timeout -= 200;
         } while ("".equals(pickerValue.getValue()) && timeout > 0);
         return pickerValue.getValue();
@@ -507,7 +510,7 @@ public class AtlasmapPage {
 
         mappingDetailField.$(ByUtils.dataTestIdStartsWith("add-transformation-to-")).sendKeys(Keys.ENTER);
         mappingDetailField.$(ByUtils.dataTestIdStartsWith("user-field-action-")).waitUntil(visible, 5000).selectOption(transformation);
-        Utils.sleep(2000);
+        MappingUtils.sleep(2000);
     }
 
     /**

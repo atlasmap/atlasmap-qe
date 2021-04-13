@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  * Created by mmelko on 16/11/2017.
  */
 @Slf4j
-public class Utils {
+public class MappingUtils {
 
     private static final String LIBRARY_SERVICE = TestConfiguration.getBackendUrl() + "/v2/atlas/library/list/";
 

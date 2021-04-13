@@ -96,7 +96,6 @@
                 <artifactId>cucumber-spring</artifactId>
                 <version>${cucumber.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -166,9 +165,8 @@
                     <cucumber.features>classpath:features</cucumber.features>
                     <cucumber.filter.tags>${tags}</cucumber.filter.tags>
                     <cucumber.plugin>
-                        io.atlasmap.qe.test.atlas.AtlasmapInit,
+                        io.atlasmap.qe.test.atlas.AtlasMapInit,
                         pretty,
-<!--                        html:target/cucumber/cucumber-html,-->
                         junit:target/cucumber/cucumber-junit.xml,
                         json:target/cucumber/cucumber-report.json,
                         io.atlasmap.qe.test.atlas.utils.MailFormatter:target/cucumber/cucumber-mail/

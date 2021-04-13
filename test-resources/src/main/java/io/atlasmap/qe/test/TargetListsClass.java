@@ -1,5 +1,6 @@
 package io.atlasmap.qe.test;
 
+
 public class TargetListsClass extends SourceListsClass {
     public TargetListsClass() {
         this.getStrings().clear();
@@ -7,5 +8,4 @@ public class TargetListsClass extends SourceListsClass {
         this.getIntegers().clear();
         this.getFloats().clear();
     }
-
 }

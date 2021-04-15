@@ -67,7 +67,7 @@ Feature: importing CSV files with different formats
       | First Record As Header | true |
       | Ignore Header Case     | true |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
-    And add "/<>/sourcecsvignoreheadercasedecimal" as "source"
+    And add "/<>/sourceCsvIgnoreHeaderCaseDecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvCustomDelimiter.json"
     And remove "source" document called "sourceCsvIgnoreHeaderCase"
 

@@ -91,6 +91,8 @@ public class Utils {
 
     public static void backupAdmFile() throws IOException {
         File mappings = new File(TestConfiguration.getMappingsRootDirectory());
+        // this is necessary when using fast init
+        Utils.sleep(1000);
         if (mappings.exists()) {
             FileUtils.listFiles(mappings, new WildcardFileFilter("*.gz"), TrueFileFilter.TRUE).forEach(f -> {
                 File backupAdmFile = new File(f.getAbsoluteFile().getAbsolutePath() + "_backup");

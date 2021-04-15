@@ -1,5 +1,7 @@
 package io.atlasmap.qe.test.atlas;
 
+import static com.codeborne.selenide.Selenide.sleep;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
 import static com.codeborne.selenide.Condition.appear;
@@ -9,9 +11,11 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
+import com.codeborne.selenide.WebDriverRunner;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 
 import com.codeborne.selenide.CollectionCondition;
@@ -22,6 +26,7 @@ import com.codeborne.selenide.SelenideElement;
 
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
 import io.atlasmap.qe.test.atlas.utils.ByUtils;
@@ -29,6 +34,13 @@ import io.atlasmap.qe.test.atlas.utils.HoverAction;
 import io.atlasmap.qe.test.atlas.utils.TestConfiguration;
 import io.atlasmap.qe.test.atlas.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.ButtonReleaseAction;
+import org.openqa.selenium.interactions.ClickAndHoldAction;
+import org.openqa.selenium.interactions.Coordinates;
+import org.openqa.selenium.interactions.Locatable;
+import org.openqa.selenium.interactions.MoveMouseAction;
 
 @Slf4j
 public class AtlasmapPage {
@@ -183,10 +195,10 @@ public class AtlasmapPage {
     public void addToMappingUsingMappingDetails(String value, boolean isSource) {
         final String sourcesTargetsSelector = String.format("mapping-fields-detail-%s-toggle", isSource ? "Sources" : "Targets");
         SelenideElement sourcesTargetsToggle = $(ByUtils.dataTestId(sourcesTargetsSelector)).waitUntil(visible, 5000);
-        SelenideElement input = sourcesTargetsToggle.$(By.className("pf-c-form-control"));
+        SelenideElement input = sourcesTargetsToggle.parent().$(By.className("pf-c-form-control"));
         input.clear();
         input.sendKeys(value);
-        $(ByUtils.dataTestId("add-field-option-" + value)).click();
+        $(ByUtils.dataTestId("add-field-option-" + value)).waitUntil(Condition.exist, 10000L).click();
     }
 
     public void clickOnLinkByDataTestId(String dataTestId) {
@@ -409,7 +421,7 @@ public class AtlasmapPage {
 
         $(ByUtils.dataTestId("constant-value-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
             .sendKeys(value);
-        $(ByUtils.dataTestId("constant-type-form-select")).shouldHave(Condition.value("Boolean"))
+        $(ByUtils.dataTestId("constant-type-form-select")).shouldBe(visible)
             .selectOption(type);
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
     }
@@ -421,7 +433,7 @@ public class AtlasmapPage {
 
         $(ByUtils.dataTestId("property-name-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
             .sendKeys(name);
-        $(ByUtils.dataTestId("property-type-form-select")).shouldHave(Condition.value("Any"))
+        $(ByUtils.dataTestId("property-type-form-select")).shouldBe(visible)
             .selectOption(type);
         $(ByUtils.dataTestId("property-scope-form-select")).waitUntil(visible, TestConfiguration.getWaitTimeout())
             .selectOption(scope);
@@ -513,10 +525,43 @@ public class AtlasmapPage {
         hoverAndSelectOperation(field, HoverAction.DISCONNECT_FROM_SELECTED_MAPPING, source ? "source" : "target");
     }
 
-    public void changeIndexValue(String field, int value, boolean source) {
-        SelenideElement fieldDetail = $(ByUtils.dataTestId("change-" + field + "-input-index")).shouldBe(visible);
-        fieldDetail.sendKeys(Keys.chord(Keys.CONTROL, "a"), "");
-        fieldDetail.sendKeys(value + "");
+    public void changeIndexValue(String field, int targetIndex, boolean source) {
+        SelenideElement indexInput = $(ByUtils.dataTestId("change-" + field + "-input-index")).shouldBe(visible);
+
+        // we click the up/down buttons on the input n-times to get to the correct index
+        // Haven't found a way to access the buttons through dom, have to blindly click pixel offsets (fragile but works for now)
+        indexInput.click();
+        int currentIndex = Integer.parseInt(indexInput.getValue());
+        int diff = currentIndex - targetIndex;
+        for (int i = 0; i < Math.abs(diff); i++) {
+            // established experimentally, might need tweaking in future releases
+            indexInput.scrollIntoView(true);
+            indexInput.click(8, (int) (Math.signum(diff) * 4));
+            sleep(1000);
+        }
+
+        assertThat(indexInput.getValue()).isEqualTo(Integer.toString(targetIndex));
+
+        // Code below left to show what does not work.
+
+        // does not work on FF, could not find any workaround. Tried adding more pauses,
+        // wiggling the mouse at the target, using pixel offsets and nothing helped.
+        // also does not work when needing to increase the index past max (@gaps test)
+        //        SelenideElement targetField = mappingFieldDetails.$$(ByUtils.dataTestIdStartsWith("mapping-field-")).get(targetIndex - 1);
+        //        SelenideElement fieldDetail = mappingFieldDetails.$(ByUtils.dataTestIdStartsWith("mapping-field-" + field));
+        //        Actions actions = new Actions(WebDriverRunner.getWebDriver());
+        //        actions.clickAndHold(fieldDetail);
+        //        actions.pause(1000);
+        //        actions.moveToElement(targetField);
+        //        actions.release(targetField);
+        //        actions.perform();
+
+        // does not work
+        //        fieldDetail.dragAndDropTo(targetField);
+
+        // does not work
+        //        fieldDetail.sendKeys(Keys.chord(Keys.CONTROL, "a"), "");
+        //        fieldDetail.sendKeys(targetIndex + "");
     }
 
     public void addCollectionTransformationOnField(String transformation) {
@@ -528,7 +573,7 @@ public class AtlasmapPage {
 
         final String sourcesTargetsSelector = String.format("mapping-fields-detail-%s-toggle", isSource ? "Sources" : "Targets");
         SelenideElement sourcesTargetsToggle = $(ByUtils.dataTestId(sourcesTargetsSelector)).waitUntil(visible, 5000);
-        SelenideElement mappingDetailField = sourcesTargetsToggle.$(ByUtils.dataTestIdStartsWith("mapping-field-")).waitUntil(visible, 5000);
+        SelenideElement mappingDetailField = sourcesTargetsToggle.parent().$(ByUtils.dataTestIdStartsWith("mapping-field-")).waitUntil(visible, 5000);
 
         mappingDetailField.$(ByUtils.dataTestIdStartsWith("add-transformation-to-")).sendKeys(Keys.ENTER);
         mappingDetailField.$(ByUtils.dataTestIdStartsWith("user-field-action-")).waitUntil(visible, 5000).selectOption(transformation);

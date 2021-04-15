@@ -15,7 +15,7 @@
     </modules>
     <properties>
         <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
-        <atlasmap.version>2.2.0-SNAPSHOT</atlasmap.version>
+        <atlasmap.version>2.2.2.fuse-790004</atlasmap.version>
         <apache.commons.version>2.8.0</apache.commons.version>
         <assertj.version>3.11.1</assertj.version>
         <junit.version>4.12</junit.version>
@@ -39,7 +39,7 @@
         <lombok.version>1.18.6</lombok.version>
         <slf4j.version>1.7.25</slf4j.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <camel.version>3.3.0</camel.version>
+        <camel.version>2.23.2</camel.version>
         <okhttp.version>3.8.0</okhttp.version>
 
         <!-- leave driver versions empty to use latest driver -->

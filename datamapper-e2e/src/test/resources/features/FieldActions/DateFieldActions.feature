@@ -15,7 +15,7 @@ Feature: Date related field actions
     And set "<targetValue>" value in target's "targetInteger"
     And set source data
       | <source>      |
-      | 2012-12-21-06 |
+      | 2012-12-21-09:00 |
 
     Then save and verify mapping as "<transformation>.json"
 

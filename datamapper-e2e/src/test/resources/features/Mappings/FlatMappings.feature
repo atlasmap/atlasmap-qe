@@ -27,7 +27,7 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
     And add mapping from "sourceJsonShort" to "targetJsonDouble"
     And add mapping from "sourceJsonDouble" to "targetJsonFloat"
 
-    Then save mapping as "flatJavaToJSon.json" and verify "targetJson" with
+    Then save mapping as "flatJavaToJSon.json" and verify "targetJson.schema" with
       | "targetJsonInteger":10 | targetJsonString":"sourceJsonString" |
 
   @SmokeTest
@@ -37,7 +37,7 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
     And set mapping to "targetJsonDouble" from "sourceInteger"
     And add mapping from "sourceShort" to "targetJsonFloat"
 
-    Then save mapping as "flatJavaToJSon.json" and verify "targetJson" with
+    Then save mapping as "flatJavaToJSon.json" and verify "targetJson.schema" with
       | "targetJsonInteger":1 | "targetJsonDouble":1 |
 
 
@@ -94,7 +94,7 @@ Feature: flat mappings between primitives, objects, JSON,XML ..
     And add mapping from "/SourceXmlMappingSchema/sourceXMLString" to "targetJsonString"
     And add mapping from "/SourceXmlMappingSchema/sourceXMLShort" to "targetJsonFloat"
     And add mapping from "/SourceXmlMappingSchema/sourceXMLDouble" to "targetJsonDouble"
-    Then save mapping as "flatJavaToJSon.json" and verify "targetJson" with
+    Then save mapping as "flatJavaToJSon.json" and verify "targetJson.schema" with
       | "targetJsonInteger":300 | "targetJsonString":"XmlString" |
 
   @JsonToXml

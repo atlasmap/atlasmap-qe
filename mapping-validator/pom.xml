@@ -33,7 +33,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>io.atlasmap.qe.test.MappingValidator</mainClass>
+                            <mainClass>io.atlasmap.qe.mapper.MappingValidator</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -45,16 +45,6 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>${cucumber.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-spring</artifactId>
-            <version>${cucumber.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
@@ -64,7 +54,16 @@
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-core</artifactId>
@@ -90,7 +89,7 @@
         </dependency>
         <dependency>
             <groupId>io.atlasmap</groupId>
-            <artifactId>camel3-atlasmap</artifactId>
+            <artifactId>camel-atlasmap</artifactId>
             <version>${atlasmap.version}</version>
             <exclusions>
                 <exclusion>
@@ -126,10 +125,15 @@
             <version>${log4j.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.4.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.11.1</version>
         </dependency>
     </dependencies>
-
 </project>

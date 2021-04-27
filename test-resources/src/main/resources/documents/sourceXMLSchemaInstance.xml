@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SourceXmlMappingSchema>
+    <sourceXMLBoolean>true</sourceXMLBoolean>
+    <sourceXMLByte>A</sourceXMLByte>
+    <sourceXMLChar>A</sourceXMLChar>
+    <sourceXMLDate></sourceXMLDate>
+    <sourceXMLDouble>100.100</sourceXMLDouble>
+    <sourceXMLFloat>200.200</sourceXMLFloat>
+    <sourceXMLInteger>300</sourceXMLInteger>
+    <sourceXMLLong>400</sourceXMLLong>
+    <sourceXMLShort>500</sourceXMLShort>
+    <sourceXMLString>XmlString</sourceXMLString>
+</SourceXmlMappingSchema>

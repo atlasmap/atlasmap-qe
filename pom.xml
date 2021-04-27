@@ -39,7 +39,7 @@
         <lombok.version>1.18.6</lombok.version>
         <slf4j.version>1.7.25</slf4j.version>
         <commons-collections4.version>4.4</commons-collections4.version>
-        <camel.version>3.3.0</camel.version>
+        <camel.version>2.23.2</camel.version>
         <okhttp.version>3.8.0</okhttp.version>
 
         <!-- leave driver versions empty to use latest driver -->
@@ -96,7 +96,6 @@
                 <artifactId>cucumber-spring</artifactId>
                 <version>${cucumber.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -161,17 +160,16 @@
                     </execution>
                 </executions>
                 <configuration>
-                <includes>io.atlasmap.qe.test.atlas.CucumberTest</includes>
+                <includes>io.atlasmap.qe.test.CucumberTest</includes>
                 <systemPropertyVariables>
                     <cucumber.features>classpath:features</cucumber.features>
                     <cucumber.filter.tags>${tags}</cucumber.filter.tags>
                     <cucumber.plugin>
-                        io.atlasmap.qe.test.atlas.AtlasmapInit,
+                        io.atlasmap.qe.test.AtlasMapInit,
                         pretty,
-<!--                        html:target/cucumber/cucumber-html,-->
                         junit:target/cucumber/cucumber-junit.xml,
                         json:target/cucumber/cucumber-report.json,
-                        io.atlasmap.qe.test.atlas.utils.MailFormatter:target/cucumber/cucumber-mail/
+                        io.atlasmap.qe.test.utils.MailFormatter:target/cucumber/cucumber-mail/
                     </cucumber.plugin>
                 </systemPropertyVariables>
             </configuration>

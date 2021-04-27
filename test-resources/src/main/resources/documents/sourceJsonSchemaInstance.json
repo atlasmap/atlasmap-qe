@@ -1,0 +1,33 @@
+{
+  "sourceJsonString": "sourceJsonString",
+  "sourceJsonInteger": 10,
+  "sourceJsonLong": 20.0,
+  "sourceJsonFloat": 30.4,
+  "sourceJsonDouble": 40.0,
+  "sourceJsonDate": "1989-05-05",
+  "sourceJsonBoolean": true,
+  "sourceJsonShort": -50,
+  "sourceJsonByte": 127,
+  "sourceJsonChar": 3,
+  "smallMappingTestClass": {
+    "objectField1": "object1",
+    "objectField2": "object2",
+    "listOfStrings": [
+      "sdf",
+      "sdf"
+    ],
+    "listOfIntegers": [
+      10,
+      20,
+      30,
+      40,
+      50
+    ],
+    "listOfDoubles": [
+      10.1,
+      10.2,
+      10.3,
+      10.4
+    ]
+  }
+}

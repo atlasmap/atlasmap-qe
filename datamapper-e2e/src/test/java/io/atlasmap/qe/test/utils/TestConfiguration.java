@@ -2,6 +2,7 @@ package io.atlasmap.qe.test.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,6 +10,8 @@ import java.util.Properties;
 
 import lombok.extern.slf4j.Slf4j;
 
+
+// TODO @Component
 @Slf4j
 public class TestConfiguration {
 
@@ -32,6 +35,10 @@ public class TestConfiguration {
     public static final String MAPPINGS_ROOT_DIRECTORY = "atlasmap.mappings.root.directory";
 
     public static final String SELENIDE_HEADLESS = "selenide.headless";
+
+    private static final String JAR_RESOURCE_FOLDER = "atlasmap.resource.jar";
+
+    public static final String DOCUMENTS_RESOURCE_FOLDER = "atlasmap.resource.documents";
 
     private static final TestConfiguration INSTANCE = new TestConfiguration();
 
@@ -107,6 +114,17 @@ public class TestConfiguration {
 
     public static String syndesisBrowser() {
         return get().readValue(ATLASMAP_UI_BROWSER);
+    }
+
+    public static String getJarFolderPath() {
+        return get().readValue(JAR_RESOURCE_FOLDER, FileSystems.getDefault()
+            .getPath(System.getProperty("user.dir") + "/../test-resources/target/").normalize().toString() + "/");
+    }
+
+    public  static String getDocumentsFolderPath() {
+        return get().readValue(DOCUMENTS_RESOURCE_FOLDER, FileSystems.getDefault()
+            .getPath(System.getProperty("user.dir") + "/../test-resources/src/main/resources/documents/")
+            .normalize().toString() + "/");
     }
 
     private void copyValues(final Properties source) {

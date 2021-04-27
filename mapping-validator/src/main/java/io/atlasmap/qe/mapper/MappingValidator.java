@@ -2,12 +2,9 @@ package io.atlasmap.qe.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import io.atlasmap.qe.data.*;
-import io.atlasmap.qe.data.source.SourceListsClass;
 import io.atlasmap.qe.data.source.SourceMappingTestClass;
-import io.atlasmap.qe.data.source.SourceNestedCollectionClass;
 import io.atlasmap.qe.data.target.TargetMappingTestClass;
-import io.atlasmap.qe.data.ResourcesGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +12,6 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.PropertyAccessorFactory;
@@ -24,14 +20,14 @@ import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
 
+
 /**
  * Created by mmelko on 15/11/2017.
  */
+@Slf4j
 @Component
 public class MappingValidator {
     private static final Logger LOG = LogManager.getLogger(MappingValidator.class);
-    public static final String SOURCE_MAP = "SOURCE_MAP";
-    public static final String TARGET_MAP = "TARGET_MAP";
 
     private String mappingLocation;
     private SourceMappingTestClass source;
@@ -45,23 +41,19 @@ public class MappingValidator {
     @Inject
     private ConversionService conversionService;
 
-    public MappingValidator() {
-        initializeValues();
-    }
-
-    public void initializeValues() {
+    public void initializeValues(Map<String, Object> resourceMap) {
         source = new SourceMappingTestClass();
         target = new TargetMappingTestClass();
         expectedMap = new HashMap<>();
         sourceMap = new HashMap<>();
-        initValidator();
+        initValidator(resourceMap);
     }
 
     public TargetMappingTestClass processMapping(SourceMappingTestClass input) {
         sourceMap = new HashMap<>();
         sourceMap.put(input.getClass().getName(), input);
         Map<String, Object> targetMap = processMappingInputMap(sourceMap);
-        return (TargetMappingTestClass) targetMap.get("io.atlasmap.qe.test.TargetMappingTestClass");
+        return (TargetMappingTestClass) targetMap.get(TargetMappingTestClass.class.getName());
     }
 
     public TargetMappingTestClass processMapping() {
@@ -109,13 +101,11 @@ public class MappingValidator {
     public boolean verifyMultiObjectMapping() {
         this.sourceMap.put(this.source.getClass().getName(), this.source);
         this.expectedMap.put(this.target.getClass().getName(), this.target); // FIXME: why is this here?
-        final boolean res = verifyMultiObjectMapping(this.sourceMap);
-        this.clear();
-        this.initValidator();
+        final boolean res = verifyMultiObjectMappingWithMap(this.sourceMap);
         return res;
     }
 
-    public boolean verifyMultiObjectMapping(Map<String, Object> input) {
+    public boolean verifyMultiObjectMappingWithMap(Map<String, Object> input) {
         final Boolean res = verifyMappingInputExpected(input, this.expectedMap);
         clear();
         return res;
@@ -223,30 +213,17 @@ public class MappingValidator {
         this.sourceMap.put(name, s);
     }
 
-    private void clear() {
+    public void clear() {
         this.sourceMap.clear();
         this.expectedMap.clear();
         this.source = new SourceMappingTestClass();
         this.target = new TargetMappingTestClass();
     }
 
-    public void initValidator() {
+    public void initValidator(Map<String, Object> resourceMap) {
+        sourceMap = resourceMap;
+
         sourceMap.put(source.getClass().getName(), source);
-        sourceMap.put(SourceListsClass.class.getName(), new SourceListsClass());
-        sourceMap.put(SmallMappingTestClass.class.getName(), new SmallMappingTestClass());
-        sourceMap.put(SourceNestedCollectionClass.class.getName(), new SourceNestedCollectionClass());
-        sourceMap.put(DatesObject.class.getName(), new DatesObject("22-12-2012"));
-        sourceMap.put("sourceJson.schema", ResourcesGenerator.getJsonInstance());
-        sourceMap.put("sourceArrays", ResourcesGenerator.getJsonArrays());
-        sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
-        sourceMap.put("sourceXMLSchema", ResourcesGenerator.getXmlSchemaInstance(null));
-        sourceMap.put("sourceJsonArray", ResourcesGenerator.getRootJsonArray());
-        Stream.of("sourceCsv", "sourceCsvCustomDelimiter", "sourceCsvMissingColumnNames", "sourceCsvCommentMarker",
-            "sourceCsvCustomEscapeCharacter", "sourceCsvHeaders", "sourceCsvIgnoreEmptyLines",
-            "sourceCsvIgnoreHeaderCase", "sourceCsvIgnoreSurroundingSpaces", "sourceCsvCustomQuoteCharacter",
-            "sourceCsvTdfFormat").forEach(csvDocumentName ->
-            sourceMap.put(csvDocumentName, ResourcesGenerator.getCsvInstance())
-        );
     }
 
     public static void main(String[] args) {

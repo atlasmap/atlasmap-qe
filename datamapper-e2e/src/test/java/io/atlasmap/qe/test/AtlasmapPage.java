@@ -12,6 +12,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 import com.codeborne.selenide.WebDriverRunner;
+import io.atlasmap.qe.data.source.SourceMappingTestClass;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.openqa.selenium.By;
@@ -47,7 +48,7 @@ import org.openqa.selenium.interactions.MoveMouseAction;
 @Component
 public class AtlasmapPage {
 
-    public static final String TEST_CLASS = "SourceMappingTestClass";
+    public static final String TEST_CLASS = SourceMappingTestClass.class.getSimpleName();
 
     public void refreshPage() {
         Selenide.refresh();

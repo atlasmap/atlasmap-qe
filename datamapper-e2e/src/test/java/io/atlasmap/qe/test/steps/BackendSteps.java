@@ -42,7 +42,7 @@ public class BackendSteps {
     public BackendSteps(MappingValidator validator, ResourcesGenerator resourcesGenerator) {
         this.validator = validator;
         this.resourcesGenerator = resourcesGenerator;
-        validator.initializeValues(resourcesGenerator.generateResourceMap());
+        validator.initializeValues(resourcesGenerator.generateResourceMap());  // TODO this is bad practice
     }
 
     @Given("atlasmap is clean")

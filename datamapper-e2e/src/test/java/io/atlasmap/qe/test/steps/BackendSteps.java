@@ -10,7 +10,7 @@ import io.atlasmap.qe.data.target.TargetListsClass;
 import io.atlasmap.qe.data.target.TargetMappingTestClass;
 import io.atlasmap.qe.data.target.TargetNestedCollectionClass;
 import io.atlasmap.qe.mapper.MappingValidator;
-import io.atlasmap.qe.data.ResourcesGenerator;
+import io.atlasmap.qe.test.utils.ResourcesGenerator;
 import io.atlasmap.qe.test.utils.MappingUtils;
 import org.junit.Assert;
 
@@ -34,8 +34,16 @@ import javax.inject.Inject;
 @Slf4j
 public class BackendSteps {
 
+    private final MappingValidator validator;
+
+    private final ResourcesGenerator resourcesGenerator;
+
     @Inject
-    private MappingValidator validator;
+    public BackendSteps(MappingValidator validator, ResourcesGenerator resourcesGenerator) {
+        this.validator = validator;
+        this.resourcesGenerator = resourcesGenerator;
+        validator.initializeValues(resourcesGenerator.generateResourceMap());
+    }
 
     @Given("atlasmap is clean")
     public void atlasmapIsClean() {
@@ -45,7 +53,7 @@ public class BackendSteps {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        validator.initializeValues();
+        validator.initializeValues(resourcesGenerator.generateResourceMap());
     }
 
     @Then("save mapping as {string}")
@@ -158,6 +166,8 @@ public class BackendSteps {
     public void saveAndVerifyMappingWithMultipleObjectsAs(String arg0) throws Throwable {
         userSavesMappingAs(arg0);
         assertThat(validator.verifyMultiObjectMapping()).isTrue();
+        validator.clear();
+        validator.initValidator(resourcesGenerator.generateResourceMap());
     }
 
     @And("Init smallMappingTestClass and add to source map")
@@ -231,6 +241,8 @@ public class BackendSteps {
         assertThat(sourceDate.getZonedDateTime()).isEqualTo(d.getZonedDateTime());
         assertThat(sourceDate.getGregorianCalendar()).isEqualTo(d.getGregorianCalendar());
         assertThat(validator.verifyMultiObjectMapping()).isTrue();
+        validator.clear();
+        validator.initValidator(resourcesGenerator.generateResourceMap());
     }
 
     @Then("^save and verify combine mapping with \"([^\"]*)\" separator as \"([^\"]*)\"$")
@@ -290,18 +302,18 @@ public class BackendSteps {
                     .containsAll(Arrays.asList((new SourceListsClass()).getArray()));
             } else if (var.contains("csvStrings")) {
                 strings.forEach(i -> {
-                    ResourcesGenerator.getCsvArrays("csvStrings").contains(i);
+                    resourcesGenerator.getCsvArrays("csvStrings").contains(i);
                 });
             }
         } else if ("listOfIntegers".equals(array)) {
             final List integers = target.getTargetSmallMappingTestClass().getListOfIntegers();
             if ("listOfIntegers".equals(var)) {
                 integers.forEach(i -> {
-                    ResourcesGenerator.getJsonArrays("jsonIntegers").contains(i);
+                    resourcesGenerator.getJsonArrays("jsonIntegers").contains(i);
                 });
             } else if (var.contains("csvIntegers")) {
                 integers.forEach(i -> {
-                    ResourcesGenerator.getCsvArrays("csvIntegers").contains(i);
+                    resourcesGenerator.getCsvArrays("csvIntegers").contains(i);
                 });
             } else {
                 assertThat(integers).contains(Integer.valueOf(var));
@@ -310,7 +322,7 @@ public class BackendSteps {
             final List doubles = target.getTargetSmallMappingTestClass().getListOfDoubles();
             if ("csvIntegers".equals(var)) {
                 doubles.forEach(i -> {
-                    ResourcesGenerator.getCsvArrays("csvDoubles").contains(i);
+                    resourcesGenerator.getCsvArrays("csvDoubles").contains(i);
                 });
             }
         } else {
@@ -366,9 +378,9 @@ public class BackendSteps {
         userSavesMappingAs(mapping);
 
         TargetListsClass tlc = (TargetListsClass) validator
-            .processSingleObjectMapping(ResourcesGenerator.getJsonArrays(), "sourceArrays", TargetListsClass.class.getName());
-        final List<Object> integers = ResourcesGenerator.getJsonArrays("jsonIntegers");
-        final List<Object> strings = ResourcesGenerator.getJsonArrays("jsonStrings");
+            .processSingleObjectMapping(resourcesGenerator.getJsonArrays(), "sourceArrays", TargetListsClass.class.getName());
+        final List<Object> integers = resourcesGenerator.getJsonArrays("jsonIntegers");
+        final List<Object> strings = resourcesGenerator.getJsonArrays("jsonStrings");
 
         assertThat(integers.size()).isGreaterThan(0);
         assertThat(strings.size()).isGreaterThan(0);
@@ -384,8 +396,8 @@ public class BackendSteps {
     public void saveAndVerifyRepeatingMappingOfJsonObjectToObjectAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
         final List<StringObject> targetObjects = ((TargetListsClass) validator
-            .processSingleObjectMapping(ResourcesGenerator.getJsonArrays(), "sourceArrays", TargetListsClass.class.getName())).getObjects();
-        final List jsonObjects = ResourcesGenerator.getJsonArrays("jsonObjects");
+            .processSingleObjectMapping(resourcesGenerator.getJsonArrays(), "sourceArrays", TargetListsClass.class.getName())).getObjects();
+        final List jsonObjects = resourcesGenerator.getJsonArrays("jsonObjects");
 
         for (int i = 0; i < targetObjects.size(); i++) {
             assertThat(targetObjects.get(i).getFirstName()).isEqualTo(((StringObject) jsonObjects.get(i)).getFirstName());
@@ -396,7 +408,7 @@ public class BackendSteps {
     @Then("save and verify repeating mapping of csv object to object as {string}")
     public void saveAndVerifyRepeatingMappingOfCsvToJsonObjectAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
-        String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getCsvInstance(), "sourceCsv", "targetJsonArray");
+        String output = (String) validator.processSingleObjectMapping(resourcesGenerator.getCsvInstance(), "sourceCsv", "targetJsonArray");
         System.out.println("++++>" + output);
         assertThat(output).contains(
             "{\"arrayString\":\"csv0\"},{\"arrayString\":\"csv1\"},{\"arrayString\":\"csv2\"},{\"arrayString\":\"csv3\"},{\"arrayString\":\"csv4\"}");
@@ -405,7 +417,7 @@ public class BackendSteps {
     @Then("save and verify rootArrayMappings mapping as {string}")
     public void saveAndVerifyRootArrayMappingsMappingAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
-        String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getRootJsonArray(), "sourceJsonArray", "targetJsonArray");
+        String output = (String) validator.processSingleObjectMapping(resourcesGenerator.getRootJsonArray(), "sourceJsonArray", "targetJsonArray");
         System.out.println("++++>" + output);
         assertThat(output).contains(
             "{\"arrayAnotherString\":\"1\",\"arrayString\":\"another-string\"},{\"arrayAnotherString\":\"2\",\"arrayString\":\"another-string\"}," +
@@ -415,7 +427,7 @@ public class BackendSteps {
     @Then("save and verify CSV mapping as {string}")
     public void saveAndVerifyCSVMappingAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
-        String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getCsvInstance(), "sourceCsv", "targetCsv");
+        String output = (String) validator.processSingleObjectMapping(resourcesGenerator.getCsvInstance(), "sourceCsv", "targetCsv");
         System.out.println("++++>" + output);
         assertThat(output).contains(
             "csv0,0,0.0,1989-05-05,true",
@@ -468,15 +480,15 @@ public class BackendSteps {
         switch (sourceType) {
             case "json":
                 source = "sourceArrays";
-                output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getJsonArrays(), source, targetDocId);
+                output = (String) validator.processSingleObjectMapping(resourcesGenerator.getJsonArrays(), source, targetDocId);
                 break;
             case "java":
                 source = SourceNestedCollectionClass.class.getName();
                 output = (String) validator.processSingleObjectMapping(new SourceNestedCollectionClass(), source, targetDocId);
                 break;
             case "xml":
-                source = "sourceXmlInstance";
-                output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getXMLInstance(), source, targetDocId);
+                source = "sourceXMLInstance";
+                output = (String) validator.processSingleObjectMapping(resourcesGenerator.getXmlInstance(), source, targetDocId);
                 break;
             default:
                 fail("unknown source type: " + sourceType);
@@ -509,15 +521,15 @@ public class BackendSteps {
         switch (sourceType) {
             case "json":
                 source = "sourceArrays";
-                output = validator.processSingleObjectMapping(ResourcesGenerator.getJsonArrays(), source, target);
+                output = validator.processSingleObjectMapping(resourcesGenerator.getJsonArrays(), source, target);
                 break;
             case "java":
                 source = SourceNestedCollectionClass.class.getName();
                 output = validator.processSingleObjectMapping(new SourceNestedCollectionClass(), source, target);
                 break;
             case "xml":
-                source = "sourceXmlInstance";
-                output = validator.processSingleObjectMapping(ResourcesGenerator.getXMLInstance(), source, target);
+                source = "sourceXMLInstance";
+                output = validator.processSingleObjectMapping(resourcesGenerator.getXmlInstance(), source, target);
                 break;
             default:
                 fail("unknown source type: " + sourceType);

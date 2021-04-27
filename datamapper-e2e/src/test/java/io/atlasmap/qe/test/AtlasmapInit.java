@@ -1,5 +1,16 @@
 package io.atlasmap.qe.test;
 
+import io.atlasmap.qe.data.DatesObject;
+import io.atlasmap.qe.data.SmallMappingTestClass;
+import io.atlasmap.qe.data.StringObject;
+import io.atlasmap.qe.data.source.SourceListsClass;
+import io.atlasmap.qe.data.source.SourceMappingTestClass;
+import io.atlasmap.qe.data.source.SourceNestedCollectionClass;
+import io.atlasmap.qe.data.target.TargetListsClass;
+import io.atlasmap.qe.data.target.TargetMappingTestClass;
+import io.atlasmap.qe.data.target.TargetNestedCollectionClass;
+import io.atlasmap.qe.test.utils.MappingUtils;
+import io.atlasmap.qe.test.utils.TestConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
@@ -11,8 +22,6 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import io.atlasmap.qe.test.utils.TestConfiguration;
-import io.atlasmap.qe.test.utils.MappingUtils;
 import io.cucumber.plugin.EventListener;
 import io.cucumber.plugin.event.EventHandler;
 import io.cucumber.plugin.event.EventPublisher;
@@ -28,10 +37,6 @@ import io.cucumber.plugin.event.TestRunStarted;
  */
 public class AtlasmapInit implements EventListener {
 
-    // directory with test-resources JAR
-    private static final String TARGET_FOLDER = System.getProperty("user.dir") + "/../test-resources/target/";
-    public static final String DOCUMENTS_FOLDER = System.getProperty("user.dir") + "/src/test/resources/documents/";
-
     /**
      * {@link AtlasmapPage} needed for resources loading.
      */
@@ -46,7 +51,8 @@ public class AtlasmapInit implements EventListener {
         page.resetAll();
 
         // Finds file from target folder that was last modified and that ends with ".jar".
-        Optional<File> jarFile = FileUtils.listFiles(new File(TARGET_FOLDER), new WildcardFileFilter("*.jar"), TrueFileFilter.TRUE)
+        Optional<File> jarFile = FileUtils.listFiles(new File(TestConfiguration.getJarFolderPath()),
+            new WildcardFileFilter("*.jar"), TrueFileFilter.TRUE)
             .stream().max(Comparator.comparingLong(File::lastModified));
 
         // Imports JAR file.
@@ -60,43 +66,42 @@ public class AtlasmapInit implements EventListener {
             throw new IllegalStateException("Cannot find JAR file with test classes!");
         }
 
-        // TODO: obtain classes names programmatically
         // Source classes:
-        page.enableSourceClass("io.atlasmap.qe.test.SourceMappingTestClass");
-        page.enableSourceClass("io.atlasmap.qe.test.DatesObject");
-        page.enableSourceClass("io.atlasmap.qe.test.SourceListsClass");
-        page.enableSourceClass("io.atlasmap.qe.test.SmallMappingTestClass");
-        page.enableSourceClass("io.atlasmap.qe.test.SourceNestedCollectionClass");
+        page.enableSourceClass(SourceMappingTestClass.class.getName());
+        page.enableSourceClass(DatesObject.class.getName());
+        page.enableSourceClass(SourceListsClass.class.getName());
+        page.enableSourceClass(SmallMappingTestClass.class.getName());
+        page.enableSourceClass(SourceNestedCollectionClass.class.getName());
 
         // Target classes:
-        page.enableTargetClass("io.atlasmap.qe.test.TargetMappingTestClass");
-        page.enableTargetClass("io.atlasmap.qe.test.StringObject");
-        page.enableTargetClass("io.atlasmap.qe.test.TargetListsClass");
-        page.enableTargetClass("io.atlasmap.qe.test.TargetNestedCollectionClass");
+        page.enableTargetClass(TargetMappingTestClass.class.getName());
+        page.enableTargetClass(StringObject.class.getName());
+        page.enableTargetClass(TargetListsClass.class.getName());
+        page.enableTargetClass(TargetNestedCollectionClass.class.getName());
 
         // Source documents:
-        page.enableSourceDocumentInstance(DOCUMENTS_FOLDER + "sourceArrays.json");
-        page.enableSourceDocumentInstance(DOCUMENTS_FOLDER + "sourceJsonArray.json");
-        page.enableSourceDocumentInstance(DOCUMENTS_FOLDER + "sourceXmlInstance.xml");
-
-        page.enableSourceDocumentSchema(DOCUMENTS_FOLDER + "sourceJson.schema.json");
-        page.enableSourceDocumentSchema(DOCUMENTS_FOLDER + "sourceXMLSchema.xsd");
-
-        page.enableCsvSourceDocument(DOCUMENTS_FOLDER + "sourceCsv.csv", "Default", new HashMap<String, String>() {{
-            put("First Record As Header", "true");
-        }});
+        page.enableSourceDocument(TestConfiguration.getDocumentsFolderPath() + "sourceArrays.json");
+        page.enableSourceDocument(TestConfiguration.getDocumentsFolderPath() + "sourceJsonArray.json");
+        page.enableSourceDocument(TestConfiguration.getDocumentsFolderPath() + "sourceJson.schema.json");
+        page.enableSourceDocument(TestConfiguration.getDocumentsFolderPath() + "sourceXMLInstance.xml");
+        page.enableSourceDocument(TestConfiguration.getDocumentsFolderPath() + "sourceXMLSchema.xsd");
+        page.enableCsvSourceDocument(TestConfiguration.getDocumentsFolderPath() + "sourceCsv.csv", "Default",
+            new HashMap<String, String>() {{
+                put("First Record As Header", "true");
+            }}
+        );
 
         // Target documents:
-        page.enableTargetDocumentInstance(DOCUMENTS_FOLDER + "targetArrays.json");
-        page.enableTargetDocumentInstance(DOCUMENTS_FOLDER + "targetJsonArray.json");
-        page.enableTargetDocumentInstance(DOCUMENTS_FOLDER + "targetXMLInstance.xml");
-
-        page.enableTargetDocumentSchema(DOCUMENTS_FOLDER + "targetJson.schema.json");
-        page.enableTargetDocumentSchema(DOCUMENTS_FOLDER + "targetXMLSchema.xsd");
-
-        page.enableCsvTargetDocument(DOCUMENTS_FOLDER + "targetCsv.csv", "Default", new HashMap<String, String>() {{
-            put("First Record As Header", "true");
-        }});
+        page.enableTargetDocument(TestConfiguration.getDocumentsFolderPath() + "targetArrays.json");
+        page.enableTargetDocument(TestConfiguration.getDocumentsFolderPath() + "targetJsonArray.json");
+        page.enableTargetDocument(TestConfiguration.getDocumentsFolderPath() + "targetJson.schema.json");
+        page.enableTargetDocument(TestConfiguration.getDocumentsFolderPath() + "targetXMLSchema.xsd");
+        page.enableTargetDocument(TestConfiguration.getDocumentsFolderPath() + "targetXMLInstance.xml");
+        page.enableCsvTargetDocument(TestConfiguration.getDocumentsFolderPath() + "targetCsv.csv", "Default",
+            new HashMap<String, String>() {{
+                put("First Record As Header", "true");
+            }}
+        );
 
         // TODO: find more dynamic way for initialization check
         MappingUtils.sleep(1000);

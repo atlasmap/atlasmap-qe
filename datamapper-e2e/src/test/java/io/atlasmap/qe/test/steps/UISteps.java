@@ -3,9 +3,9 @@ package io.atlasmap.qe.test.steps;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.atlasmap.qe.mapper.MappingValidator;
-import io.atlasmap.qe.test.AtlasmapInit;
 import io.atlasmap.qe.test.utils.HoverAction;
 import io.atlasmap.qe.test.utils.MappingUtils;
+import io.atlasmap.qe.test.utils.TestConfiguration;
 import org.junit.Assert;
 
 import java.util.*;
@@ -35,8 +35,8 @@ public class UISteps {
 
     @Given("atlasmap contains TestClass")
     public void atlasMapContainsTestClass() throws Exception {
-        String resp = MappingUtils.requestClass(atlasmapPage.TEST_CLASS);
-        assertThat(resp).contains(atlasmapPage.TEST_CLASS);
+        String resp = MappingUtils.requestClass(AtlasmapPage.TEST_CLASS);
+        assertThat(resp).contains(AtlasmapPage.TEST_CLASS);
     }
 
     @Then("browser is opened")
@@ -222,7 +222,7 @@ public class UISteps {
 
     @When("set {string} property of type {string}, name {string}, scope {string}")
     public void setProperty(String sourceTarget, String type, String name, String scope) {
-        atlasmapPage.addProperty(sourceTarget.equals("source") ? true : false, type, name, scope);
+        atlasmapPage.addProperty(sourceTarget.equals("source"), type, name, scope);
     }
 
     @And("switch to mapping table view")
@@ -362,14 +362,14 @@ public class UISteps {
     @And("import CSV file {string} formatted as {string} with parameters")
     public void importCSVFileWithParameters(String fileName, String format, DataTable parameters) {
         System.out.println(fileName + format);
-        atlasmapPage.enableCsvSourceDocument(AtlasmapInit.DOCUMENTS_FOLDER + fileName, format,
+        atlasmapPage.enableCsvSourceDocument(TestConfiguration.getDocumentsFolderPath() + fileName, format,
             parameters.asMap(String.class, String.class));
     }
 
     @And("import CSV file {string} formatted as {string}")
     public void importCSVFile(String fileName, String format) {
         System.out.println(fileName + format);
-        atlasmapPage.enableCsvSourceDocument(AtlasmapInit.DOCUMENTS_FOLDER + fileName, format, new HashMap<>());
+        atlasmapPage.enableCsvSourceDocument(TestConfiguration.getDocumentsFolderPath() + fileName, format, new HashMap<>());
     }
 
     @And("remove {string} document called {string}")

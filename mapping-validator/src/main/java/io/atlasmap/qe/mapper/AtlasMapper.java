@@ -105,8 +105,7 @@ public class AtlasMapper {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        JSONObject atlasJson = new JSONObject(jsonTxt);
 
-        return atlasJson;
+        return new JSONObject(jsonTxt);
     }
 }

@@ -15,12 +15,16 @@ import javax.inject.Inject;
 @Slf4j
 public class TransformationSteps {
 
+    private final AtlasMapPage atlasMapPage;
+
     @Inject
-    private AtlasMapPage atlasMapPage;
+    public TransformationSteps(AtlasMapPage atlasMapPage) {
+        this.atlasMapPage = atlasMapPage;
+    }
 
     @When("add {string} transformation on {string}")
     public void addTransformationOn(String transformation, String sourceTarget) {
-        atlasMapPage.addTransformationToTargetOrSource(transformation, sourceTarget.equals("source") ? true : false);
+        atlasMapPage.addTransformationToTargetOrSource(transformation, sourceTarget.equals("source"));
     }
 
     @And("add transformation on target")

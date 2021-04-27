@@ -25,13 +25,17 @@ import javax.inject.Inject;
 @Slf4j
 public class UISteps {
 
-    @Inject
-    private MappingValidator validator;
+    private final MappingValidator validator;
 
-    @Inject
-    private AtlasMapPage atlasMapPage;
+    private final AtlasMapPage atlasMapPage;
 
     private boolean internalMapping = true;
+
+    @Inject
+    public UISteps(MappingValidator validator, AtlasMapPage atlasMapPage) {
+        this.validator = validator;
+        this.atlasMapPage = atlasMapPage;
+    }
 
     @Given("atlasmap contains TestClass")
     public void atlasMapContainsTestClass() throws Exception {

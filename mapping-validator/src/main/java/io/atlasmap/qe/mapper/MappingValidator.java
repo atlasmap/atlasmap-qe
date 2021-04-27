@@ -35,11 +35,15 @@ public class MappingValidator {
     private Map<String, Object> expectedMap;
     private Map<String, Object> sourceMap;
 
-    @Inject
-    private AtlasMapper atlasMapper;
+    private final AtlasMapper atlasMapper;
+
+    private final ConversionService conversionService;
 
     @Inject
-    private ConversionService conversionService;
+    public MappingValidator(AtlasMapper atlasMapper, ConversionService conversionService) {
+        this.atlasMapper = atlasMapper;
+        this.conversionService = conversionService;
+    }
 
     public void initializeValues(Map<String, Object> resourceMap) {
         source = new SourceMappingTestClass();
@@ -226,17 +230,17 @@ public class MappingValidator {
         sourceMap.put(source.getClass().getName(), source);
     }
 
-    public static void main(String[] args) {
-        MappingValidator mv = new MappingValidator();
-        if (args.length > 1) {
-            mv.setMappingLocation(args[0]);
-            Object result = null;
-            try {
-                result = mv.processMapping(args[1]);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            System.out.println(result.toString());
-        }
-    }
+//    public static void main(String[] args) {
+//        MappingValidator mv = new MappingValidator();
+//        if (args.length > 1) {
+//            mv.setMappingLocation(args[0]);
+//            Object result = null;
+//            try {
+//                result = mv.processMapping(args[1]);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            System.out.println(result.toString());
+//        }
+//    }
 }

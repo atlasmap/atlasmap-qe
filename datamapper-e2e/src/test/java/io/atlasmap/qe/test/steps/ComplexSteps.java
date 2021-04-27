@@ -17,17 +17,22 @@ import javax.inject.Inject;
 @Slf4j
 public class ComplexSteps {
 
-    @Inject
-    private MappingValidator validator;
+    private final MappingValidator validator;
+
+    private final AtlasMapPage atlasMapPage;
+
+    private final TransformationSteps transformationSteps;
+
+    private final BackendSteps backendSteps;
 
     @Inject
-    private AtlasMapPage atlasMapPage;
-
-    @Inject
-    private TransformationSteps transformationSteps;
-
-    @Inject
-    private BackendSteps backendSteps;
+    public ComplexSteps(MappingValidator validator, AtlasMapPage atlasMapPage, TransformationSteps transformationSteps,
+                        BackendSteps backendSteps) {
+        this.validator = validator;
+        this.atlasMapPage = atlasMapPage;
+        this.transformationSteps = transformationSteps;
+        this.backendSteps = backendSteps;
+    }
 
     @When("verify in {string} transformation that  {string} is transformed to {string}")
     public void verifyInTransformationThatIsTransformedTo(String transformation, String input, String output) throws Throwable {

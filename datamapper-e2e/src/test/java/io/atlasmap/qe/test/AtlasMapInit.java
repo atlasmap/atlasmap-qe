@@ -80,11 +80,13 @@ public class AtlasMapInit implements EventListener {
         page.enableTargetClass(TargetNestedCollectionClass.class.getName());
 
         // Source documents:
-        page.enableSourceDocument(TestConfiguration.getDocumentsFolderPath() + "sourceArrays.json");
-        page.enableSourceDocument(TestConfiguration.getDocumentsFolderPath() + "sourceJsonArray.json");
-        page.enableSourceDocument(TestConfiguration.getDocumentsFolderPath() + "sourceJson.schema.json");
-        page.enableSourceDocument(TestConfiguration.getDocumentsFolderPath() + "sourceXMLInstance.xml");
-        page.enableSourceDocument(TestConfiguration.getDocumentsFolderPath() + "sourceXMLSchema.xsd");
+        page.enableSourceDocumentInstance(TestConfiguration.getDocumentsFolderPath() + "sourceArrays.json");
+        page.enableSourceDocumentInstance(TestConfiguration.getDocumentsFolderPath() + "sourceJsonArray.json");
+        page.enableSourceDocumentInstance(TestConfiguration.getDocumentsFolderPath() + "sourceXMLInstance.xml");
+
+        page.enableSourceDocumentSchema(TestConfiguration.getDocumentsFolderPath() + "sourceJson.schema.json");
+        page.enableSourceDocumentSchema(TestConfiguration.getDocumentsFolderPath() + "sourceXMLSchema.xsd");
+
         page.enableCsvSourceDocument(TestConfiguration.getDocumentsFolderPath() + "sourceCsv.csv", "Default",
             new HashMap<String, String>() {{
                 put("First Record As Header", "true");
@@ -92,11 +94,13 @@ public class AtlasMapInit implements EventListener {
         );
 
         // Target documents:
-        page.enableTargetDocument(TestConfiguration.getDocumentsFolderPath() + "targetArrays.json");
-        page.enableTargetDocument(TestConfiguration.getDocumentsFolderPath() + "targetJsonArray.json");
-        page.enableTargetDocument(TestConfiguration.getDocumentsFolderPath() + "targetJson.schema.json");
-        page.enableTargetDocument(TestConfiguration.getDocumentsFolderPath() + "targetXMLSchema.xsd");
-        page.enableTargetDocument(TestConfiguration.getDocumentsFolderPath() + "targetXMLInstance.xml");
+        page.enableTargetDocumentInstance(TestConfiguration.getDocumentsFolderPath() + "targetArrays.json");
+        page.enableTargetDocumentInstance(TestConfiguration.getDocumentsFolderPath() + "targetJsonArray.json");
+        page.enableTargetDocumentInstance(TestConfiguration.getDocumentsFolderPath() + "targetXMLInstance.xml");
+
+        page.enableTargetDocumentSchema(TestConfiguration.getDocumentsFolderPath() + "targetJson.schema.json");
+        page.enableTargetDocumentSchema(TestConfiguration.getDocumentsFolderPath() + "targetXMLSchema.xsd");
+
         page.enableCsvTargetDocument(TestConfiguration.getDocumentsFolderPath() + "targetCsv.csv", "Default",
             new HashMap<String, String>() {{
                 put("First Record As Header", "true");

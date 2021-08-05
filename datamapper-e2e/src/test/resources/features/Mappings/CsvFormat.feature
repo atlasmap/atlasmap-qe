@@ -1,6 +1,7 @@
 @CSV
 @CsvFormatting
 @Mappings
+@Ignore
 Feature: importing CSV files with different formats
 
   Background: Given atlasmap contains TestClass

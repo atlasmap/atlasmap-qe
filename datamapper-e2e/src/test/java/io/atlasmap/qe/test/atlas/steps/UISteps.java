@@ -243,6 +243,7 @@ public class UISteps extends CucumberGlue {
         atlasmapPage.clickOnRowInMappingTable(index);
         atlasmapPage.setPreviewValueInTable(index, "sources", source.split(";"));
         atlasmapPage.clickOnRowInMappingTable(index);
+        Utils.sleep(500);
         final String preview = atlasmapPage.getPreviewValueInTable(index, "targets");
         assertThat(preview).isEqualTo(target);
     }

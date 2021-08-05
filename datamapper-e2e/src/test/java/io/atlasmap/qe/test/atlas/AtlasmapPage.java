@@ -216,7 +216,15 @@ public class AtlasmapPage {
     }
 
     public void selectSeparator(String action) {
-        $(ByUtils.dataTestId("delimiter")).selectOption(action);
+        // FIXME: report missing data-test-id
+        SelenideElement delimiterLabel = $(ByUtils.dataTestId("column-mapping-details-area")).$(By.tagName("label"));
+
+        delimiterLabel.sibling(0).$(By.tagName("button")).shouldBe(visible).click();
+        delimiterLabel.sibling(0).$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + action +"\"]"))
+                .scrollIntoView(false)
+                .shouldBe(visible).click();
+        // no longer works as of 2.2.3:
+//        $(ByUtils.dataTestId("delimiter")).selectOption(action);
     }
 
     public void setCopyToIndex(int index) {
@@ -445,11 +453,22 @@ public class AtlasmapPage {
     }
 
     public void selectUnitFromOption(String option) {
-        $(ByUtils.dataTestId("fromUnit")).waitUntil(visible, 5000).selectOption(option);
+        selectFromToOption("From", option);
+//        $(ByUtils.dataTestId("fromUnit")).waitUntil(visible, 5000).selectOption(option);
     }
 
     public void selectUnitToOption(String option) {
-        $(ByUtils.dataTestId("toUnit")).waitUntil(visible, 5000).selectOption(option);
+        // FIXME: report missing data-test-id
+        selectFromToOption("To", option);
+//        $(ByUtils.dataTestId("toUnit")).waitUntil(visible, 5000).selectOption(option);
+    }
+
+    private void selectFromToOption(String fromTo, String option) {
+        SelenideElement fromToLabel = $(ByUtils.dataTestId("column-mapping-details-area")).$(By.xpath(".//label[*/text()=\"" + fromTo + "\"]"));
+        fromToLabel.sibling(0).$(By.tagName("button")).shouldBe(visible).click();
+        fromToLabel.sibling(0).$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + option +"\"]"))
+                .scrollIntoView(false)
+                .shouldBe(visible).click();
     }
 
     private SelenideElement getFromMappingTable(int number, String type) {

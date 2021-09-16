@@ -6,7 +6,7 @@ import io.atlasmap.qe.test.utils.HoverAction;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 
-import io.atlasmap.qe.test.AtlasMapPage;
+import io.atlasmap.qe.test.AtlasmapPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -19,17 +19,17 @@ public class ComplexSteps {
 
     private final MappingValidator validator;
 
-    private final AtlasMapPage atlasMapPage;
+    private final AtlasmapPage atlasmapPage;
 
     private final TransformationSteps transformationSteps;
 
     private final BackendSteps backendSteps;
 
     @Inject
-    public ComplexSteps(MappingValidator validator, AtlasMapPage atlasMapPage, TransformationSteps transformationSteps,
+    public ComplexSteps(MappingValidator validator, AtlasmapPage atlasmapPage, TransformationSteps transformationSteps,
                         BackendSteps backendSteps) {
         this.validator = validator;
-        this.atlasMapPage = atlasMapPage;
+        this.atlasmapPage = atlasmapPage;
         this.transformationSteps = transformationSteps;
         this.backendSteps = backendSteps;
     }
@@ -53,18 +53,18 @@ public class ComplexSteps {
             "targetString"};
 
         String s = this.validator.getSourceValue(field).toString();
-        this.atlasMapPage.setInputValueForFieldPreview(field, s);
+        this.atlasmapPage.setInputValueForFieldPreview(field, s);
         backendSteps.userSavesMappingAs("from_" + field + ".json");
         this.validator.setMappingLocation("from_" + field + ".json");
         TargetMappingTestClass target = this.validator.processMapping();
 
         for (String targetField : targetFields) {
-            this.atlasMapPage.hoverAndSelectOperation(targetField, HoverAction.SHOW_MAPPING_DETAILS, "target");
+            this.atlasmapPage.hoverAndSelectOperation(targetField, HoverAction.SHOW_MAPPING_DETAILS, "target");
             String targetMapped = validator.getValueOfBeanProperty(target, targetField).toString();
             if (!targetField.contains("String")) {
                 targetMapped = (targetMapped.endsWith(".0") ? targetMapped.replace(".0", "") : targetMapped);
             }
-            final String targetPreview = this.atlasMapPage.getFieldPreviewValue(targetField);
+            final String targetPreview = this.atlasmapPage.getFieldPreviewValue(targetField);
             System.out.println(targetField + " " + targetMapped + " " + targetPreview);
             Assert.assertEquals(targetMapped, targetPreview);
         }

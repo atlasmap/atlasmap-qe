@@ -27,7 +27,6 @@ Feature: conversion from LONG
     Then check if "numeric format exceptions" warning from "DECIMAL" to "DOUBLE" is not displayed
     And check if warnings from "DECIMAL" to "DOUBLE" are displayed with messages
       | out of range exceptions    |
-      | fractional part to be lost |
 
     When set mapping to "targetFloat" from "sourceBigDecimal"
     And check if "out of range exceptions" warning from "DECIMAL" to "FLOAT" is displayed

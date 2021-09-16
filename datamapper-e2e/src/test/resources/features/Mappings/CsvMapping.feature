@@ -1,6 +1,7 @@
 @Mappings
 @CSV
 @ENTESB # blocked by https://issues.redhat.com/browse/ENTESB-14189
+@Ignore
 Feature: mapping from CSV
 
   Background:  Given atlasmap contains TestClass

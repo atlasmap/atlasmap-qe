@@ -15,7 +15,7 @@
     </modules>
     <properties>
         <maven-checkstyle-plugin.version>2.17</maven-checkstyle-plugin.version>
-        <atlasmap.version>2.2.0-SNAPSHOT</atlasmap.version>
+        <atlasmap.version>2.2.3.fuse-790003</atlasmap.version>
         <apache.commons.version>2.8.0</apache.commons.version>
         <assertj.version>3.11.1</assertj.version>
         <junit.version>4.12</junit.version>
@@ -35,21 +35,13 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <webdriverextensions.version>3.1.3</webdriverextensions.version>
+        <webdrivermanager.version>4.4.3</webdrivermanager.version>
         <fuse.version>7.1.0.fuse-710019-redhat-00002</fuse.version>
         <lombok.version>1.18.6</lombok.version>
         <slf4j.version>1.7.25</slf4j.version>
         <commons-collections4.version>4.4</commons-collections4.version>
         <camel.version>2.23.2</camel.version>
         <okhttp.version>3.8.0</okhttp.version>
-
-        <!-- leave driver versions empty to use latest driver -->
-        <!-- Find supported webdriver version for your chrome browser here:
-			 http://chromedriver.chromium.org/downloads -->
-        <chrome.driver.version></chrome.driver.version>
-
-        <!-- Find supported webdriver version for your firefox browser here:
-			https://firefox-source-docs.mozilla.org/testing/geckodriver/geckodriver/Support.html -->
-        <firefox.driver.version></firefox.driver.version>
 
         <!-- Placeholder for user defined cucumber tags that should be run -->
         <tags>not @Ignore</tags>
@@ -165,7 +157,7 @@
                     <cucumber.features>classpath:features</cucumber.features>
                     <cucumber.filter.tags>${tags}</cucumber.filter.tags>
                     <cucumber.plugin>
-                        io.atlasmap.qe.test.AtlasMapInit,
+                        io.atlasmap.qe.test.AtlasmapInit,
                         pretty,
                         junit:target/cucumber/cucumber-junit.xml,
                         json:target/cucumber/cucumber-report.json,

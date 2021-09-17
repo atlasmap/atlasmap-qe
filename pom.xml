@@ -157,7 +157,7 @@
                     <cucumber.features>classpath:features</cucumber.features>
                     <cucumber.filter.tags>${tags}</cucumber.filter.tags>
                     <cucumber.plugin>
-                        io.atlasmap.qe.test.atlas.AtlasmapInit,
+                        io.atlasmap.qe.test.AtlasmapInit,
                         pretty,
                         junit:target/cucumber/cucumber-junit.xml,
                         json:target/cucumber/cucumber-report.json,

@@ -60,17 +60,17 @@ public class AtlasmapInit implements EventListener {
         }
 
         // Source classes:
-        page.enableSourceClass("io.atlasmap.qe.test.SourceMappingTestClass");
-        page.enableSourceClass("io.atlasmap.qe.test.DatesObject");
-        page.enableSourceClass("io.atlasmap.qe.test.SourceListsClass");
-        page.enableSourceClass("io.atlasmap.qe.test.SmallMappingTestClass");
-        page.enableSourceClass("io.atlasmap.qe.test.SourceNestedCollectionClass");
+        page.enableSourceClass("io.atlasmap.qe.test", "SourceMappingTestClass");
+        page.enableSourceClass("io.atlasmap.qe.test", "DatesObject");
+        page.enableSourceClass("io.atlasmap.qe.test", "SourceListsClass");
+        page.enableSourceClass("io.atlasmap.qe.test", "SmallMappingTestClass");
+        page.enableSourceClass("io.atlasmap.qe.test", "SourceNestedCollectionClass");
 
         // Target classes:
-        page.enableTargetClass("io.atlasmap.qe.test.TargetMappingTestClass");
-        page.enableTargetClass("io.atlasmap.qe.test.StringObject");
-        page.enableTargetClass("io.atlasmap.qe.test.TargetListsClass");
-        page.enableTargetClass("io.atlasmap.qe.test.TargetNestedCollectionClass");
+        page.enableTargetClass("io.atlasmap.qe.test", "TargetMappingTestClass");
+        page.enableTargetClass("io.atlasmap.qe.test", "StringObject");
+        page.enableTargetClass("io.atlasmap.qe.test", "TargetListsClass");
+        page.enableTargetClass("io.atlasmap.qe.test", "TargetNestedCollectionClass");
 
         // Source documents:
         page.enableSourceDocumentInstance(DOCUMENTS_FOLDER + "sourceArrays.json");

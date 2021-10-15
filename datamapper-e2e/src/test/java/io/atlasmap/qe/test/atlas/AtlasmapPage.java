@@ -273,25 +273,25 @@ public class AtlasmapPage {
         $(By.className("pf-c-spinner__tail-ball")).waitUntil(disappear, 5000);
     }
 
-    public void enableSourceClass(String className) {
+    public void enableSourceClass(String pkg, String className) {
         $(ByUtils.dataTestId("enable-specific-java-classes-Source-button")).shouldBe(visible).click();
-        enableClass(className);
+        enableClass(pkg, className);
     }
 
-    public void enableTargetClass(String className) {
+    public void enableTargetClass(String pkg, String className) {
         $(ByUtils.dataTestId("enable-specific-java-classes-Target-button")).shouldBe(visible).click();
-        enableClass(className);
+        enableClass(pkg, className);
     }
 
-    private void enableClass(String className) {
+    private void enableClass(String pkg, String className) {
 
         SelenideElement dropdown = $(ByUtils.dataTestId("custom-class-name-form-select")).waitUntil(visible, TestConfiguration.getWaitTimeout());
-        dropdown.selectOption(className);
+        dropdown.selectOption(pkg + "." + className);
         $(ByUtils.dataTestId("collection-type-form-select")).selectOption("None");
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
 
         $(ByUtils.dataTestId("expand-collapse-" + className + "-button")).waitUntil(visible, 15000);
-        log.info("Class successfully enabled: " + className);
+        log.info("Class successfully enabled: " + pkg + "." + className);
     }
 
     public void enableDocument(String path, boolean isSource) {

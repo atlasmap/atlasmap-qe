@@ -439,7 +439,7 @@ public class AtlasmapPage {
         $(ByUtils.dataTestId(createPropertyButton))
                 .waitUntil(visible, 5000).click();
 
-        $(ByUtils.dataTestId("property-name-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
+        $(ByUtils.dataTestId("property-name-text-input-tooltip")).waitUntil(visible, TestConfiguration.getWaitTimeout())
                 .sendKeys(name);
         $(ByUtils.dataTestId("property-type-form-select")).shouldBe(visible)
                 .selectOption(type);

@@ -57,7 +57,7 @@ public class AtlasmapPage {
     }
 
     private void tryToggleAlertPanel(String alertSelector, String expandButtonTestId) {
-        if(!$(alertSelector).is(visible)) {
+        if (!$(alertSelector).is(visible)) {
             log.info("warning label not found, trying to open error panel");
             $(By.cssSelector(String.format("button[data-testid=\"%s\"]", expandButtonTestId))).click();
         }
@@ -71,9 +71,9 @@ public class AtlasmapPage {
 
         List<String> texts = $$(By.className("pf-c-alert__title")).texts();
         List<String> updatedSourceMappingData =
-            sourceMappingData.stream().map(s -> "Warning alert:\n" +
-                "Conversion from '" + fromType + "' to '" + toType + "' can cause " + s).collect(
-                Collectors.toList());
+                sourceMappingData.stream().map(s -> "Warning alert:\n" +
+                        "Conversion from '" + fromType + "' to '" + toType + "' can cause " + s).collect(
+                        Collectors.toList());
 
         for (String s : texts) {
             log.info(s);
@@ -90,8 +90,8 @@ public class AtlasmapPage {
 
         String warningText = $(By.className("pf-c-alert__title")).text();
         return warningText.contains(
-            "Cannot establish a conditional mapping expression when multiple target fields are selected. Please select only one target field and " +
-                "try again.");
+                "Cannot establish a conditional mapping expression when multiple target fields are selected. Please select only one target field and " +
+                        "try again.");
     }
 
     public boolean checkAsymmetricMappingWarning(int sourceLevel, int targetLevel) {
@@ -167,9 +167,9 @@ public class AtlasmapPage {
 
     public void changeSelectValue(String from, String to) {
         $$(By.tagName("select"))
-            .filter(Condition.exactValue(from))
-            .get(0)
-            .selectOption(to);
+                .filter(Condition.exactValue(from))
+                .get(0)
+                .selectOption(to);
     }
 
     public void setInputValueByDataTestid(String inputSelector, String inputValue) {
@@ -220,7 +220,7 @@ public class AtlasmapPage {
         SelenideElement delimiterLabel = $(ByUtils.dataTestId("column-mapping-details-area")).$(By.tagName("label"));
 
         delimiterLabel.sibling(0).$(By.tagName("button")).shouldBe(visible).click();
-        delimiterLabel.sibling(0).$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + action +"\"]"))
+        delimiterLabel.sibling(0).$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + action + "\"]"))
                 .scrollIntoView(false)
                 .shouldBe(visible).click();
         // no longer works as of 2.2.3:
@@ -244,20 +244,20 @@ public class AtlasmapPage {
 
         $(ByUtils.dataTestId("remove-current-mapping-button")).shouldBe(visible).click();
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button"))
-            .waitUntil(visible, TestConfiguration.getWaitTimeout()).click();
+                .waitUntil(visible, TestConfiguration.getWaitTimeout()).click();
     }
 
     public void removeDocument(String type, String name) {
         $(ByUtils.dataTestIdStartsWith("remove-" + type + "s-document-" + name)).click();
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button"))
-            .waitUntil(visible, TestConfiguration.getWaitTimeout()).click();
+                .waitUntil(visible, TestConfiguration.getWaitTimeout()).click();
     }
 
     public void resetAll() {
         $(ByUtils.dataTestId("atlasmap-menu-button")).shouldBe(visible).click();
         $(ByUtils.dataTestId("reset-all-button")).shouldBe(visible).click();
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button"))
-            .waitUntil(visible, TestConfiguration.getWaitTimeout()).click();
+                .waitUntil(visible, TestConfiguration.getWaitTimeout()).click();
     }
 
     public void importJAR(String path) {
@@ -297,7 +297,7 @@ public class AtlasmapPage {
     public void enableDocument(String path, boolean isSource) {
         final String buttonLocation = String.format("import-instance-or-schema-file-%s-button", isSource ? "Source" : "Target");
         $(ByUtils.dataTestId(buttonLocation)).parent().$(By.tagName("input"))
-            .sendKeys(path);
+                .sendKeys(path);
     }
 
     public void enableCsvDocument(String path, boolean isSource, String format, Map<String, String> additionalParameters) {
@@ -307,7 +307,7 @@ public class AtlasmapPage {
             enableDocument(path, isSource);
 
             $(ByUtils.dataTestId("format-parameter-form-select")).shouldHave(Condition.value("Default"))
-                .selectOption(format);
+                    .selectOption(format);
 
             for (String key : additionalParameters.keySet()) {
                 $(By.xpath(".//button[contains(.,'Add parameter')]")).click();
@@ -363,7 +363,7 @@ public class AtlasmapPage {
 
     private void setDocumentAsInstance(boolean isInstance) {
         $(ByUtils.dataTestId("specify-instance-schema-dialog-ok-button-test"))
-            .waitUntil(visible, TestConfiguration.getWaitTimeout());
+                .waitUntil(visible, TestConfiguration.getWaitTimeout());
         if (isInstance) {
             $(ByUtils.dataTestId("instance-radio-button-test")).click();
         } else {
@@ -400,7 +400,7 @@ public class AtlasmapPage {
 
     public String getFieldPreviewValue(String field) {
         final String cssSelector =
-            String.format("*[data-testid^=\"%s\"][data-testid$=\"%s\"]", "results-document-mapping-preview-", field + "-field");
+                String.format("*[data-testid^=\"%s\"][data-testid$=\"%s\"]", "results-document-mapping-preview-", field + "-field");
         SelenideElement pickerValue = $(By.cssSelector(cssSelector));
         pickerValue.scrollTo().shouldBe(visible);
 
@@ -419,32 +419,34 @@ public class AtlasmapPage {
     public void addTransformationOnTargetOrSource(String classSelector, boolean isSource) {
         log.debug("Class selector " + classSelector);
         SelenideElement e =
-            $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\"" + isSource + "\"]")).waitUntil(visible, 5000).$(classSelector);
+                $(By.xpath("//mapping-field-detail[@ng-reflect-is-source=\"" + isSource + "\"]")).waitUntil(visible, 5000).$(classSelector);
         e.click();
     }
 
-    public void addConstant(String type, String value) {
+    public void addConstant(String type, String value, String name) {
         $(ByUtils.dataTestId("create-constant-button"))
-            .waitUntil(visible, 5000).click();
+                .waitUntil(visible, 5000).click();
 
-        $(ByUtils.dataTestId("constant-value-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
-            .sendKeys(value);
+        $(ByUtils.dataTestId("constant-name-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
+                .sendKeys(name);
+        $(ByUtils.dataTestId("constant-value-text-input")).shouldBe(visible)
+                .sendKeys(value);
         $(ByUtils.dataTestId("constant-type-form-select")).shouldBe(visible)
-            .selectOption(type);
+                .selectOption(type);
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
     }
 
     public void addProperty(boolean isSource, String type, String name, String scope) {
         final String createPropertyButton = String.format("create-%s-property-button", isSource ? "source" : "target");
         $(ByUtils.dataTestId(createPropertyButton))
-            .waitUntil(visible, 5000).click();
+                .waitUntil(visible, 5000).click();
 
         $(ByUtils.dataTestId("property-name-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
-            .sendKeys(name);
+                .sendKeys(name);
         $(ByUtils.dataTestId("property-type-form-select")).shouldBe(visible)
-            .selectOption(type);
+                .selectOption(type);
         $(ByUtils.dataTestId("property-scope-form-select")).waitUntil(visible, TestConfiguration.getWaitTimeout())
-            .selectOption(scope);
+                .selectOption(scope);
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
     }
 
@@ -466,7 +468,7 @@ public class AtlasmapPage {
     private void selectFromToOption(String fromTo, String option) {
         SelenideElement fromToLabel = $(ByUtils.dataTestId("column-mapping-details-area")).$(By.xpath(".//label[*/text()=\"" + fromTo + "\"]"));
         fromToLabel.sibling(0).$(By.tagName("button")).shouldBe(visible).click();
-        fromToLabel.sibling(0).$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + option +"\"]"))
+        fromToLabel.sibling(0).$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + option + "\"]"))
                 .scrollIntoView(false)
                 .shouldBe(visible).click();
     }
@@ -636,8 +638,8 @@ public class AtlasmapPage {
         pickerValue.click();
 
         SelenideElement fieldOperation =
-            pickerValue.parent().$(ByUtils.dataTestId(fieldOperationName.label))
-                .waitUntil(visible, 5000);
+                pickerValue.parent().$(ByUtils.dataTestId(fieldOperationName.label))
+                        .waitUntil(visible, 5000);
         fieldOperation.click();
     }
 

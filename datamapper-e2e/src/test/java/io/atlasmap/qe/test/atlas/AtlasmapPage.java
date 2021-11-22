@@ -195,10 +195,9 @@ public class AtlasmapPage {
     public void addToMappingUsingMappingDetails(String value, boolean isSource) {
         final String sourcesTargetsSelector = String.format("mapping-fields-detail-%s-toggle", isSource ? "Sources" : "Targets");
         SelenideElement sourcesTargetsToggle = $(ByUtils.dataTestId(sourcesTargetsSelector)).waitUntil(visible, 5000);
-        SelenideElement input = sourcesTargetsToggle.parent().$(By.className("pf-c-form-control"));
-        input.clear();
-        input.sendKeys(value);
-        $(ByUtils.dataTestId("add-field-option-" + value)).waitUntil(Condition.exist, 10000L).click();
+        SelenideElement dropdown = sourcesTargetsToggle.parent().$(ByUtils.dataTestId("mapping-details-add-field"));
+        dropdown.shouldBe(visible).click();
+        dropdown.$(By.xpath(String.format(".//*[text()=\"%s\"]", value))).click();
     }
 
     public void clickOnLinkByDataTestId(String dataTestId) {
@@ -206,9 +205,8 @@ public class AtlasmapPage {
     }
 
     public void clickOnValueFromPicker(String value) {
-
         SelenideElement dropdown = $(ByUtils.dataTestId("expression-field-search"));
-        dropdown.$(By.cssSelector(String.format("*[label=\"%s\"]", value))).click();
+        dropdown.$(By.xpath(String.format(".//*[text()=\"%s\"]", value))).click();
     }
 
     public void addToConditionalMapping(String condition) {

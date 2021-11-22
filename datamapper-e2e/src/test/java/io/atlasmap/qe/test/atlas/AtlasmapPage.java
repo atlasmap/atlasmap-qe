@@ -215,10 +215,11 @@ public class AtlasmapPage {
 
     public void selectSeparator(String action) {
         // FIXME: report missing data-test-id
-        SelenideElement delimiterLabel = $(ByUtils.dataTestId("column-mapping-details-area")).$(By.tagName("label"));
+        SelenideElement delimiterLabel = $(ByUtils.dataTestId("column-mapping-details-area")).$(By.xpath(".//span[text()=\"Delimiter\"]")).parent();
 
-        delimiterLabel.sibling(0).$(By.tagName("button")).shouldBe(visible).click();
-        delimiterLabel.sibling(0).$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + action + "\"]"))
+        SelenideElement dropdown = delimiterLabel.parent().sibling(0);
+        dropdown.$(By.tagName("button")).shouldBe(visible).click();
+        dropdown.$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + action + "\"]"))
                 .scrollIntoView(false)
                 .shouldBe(visible).click();
         // no longer works as of 2.2.3:

@@ -467,8 +467,8 @@ public class AtlasmapPage {
 
     private void selectFromToOption(String fromTo, String option) {
         SelenideElement fromToLabel = $(ByUtils.dataTestId("column-mapping-details-area")).$(By.xpath(".//label[*/text()=\"" + fromTo + "\"]"));
-        fromToLabel.sibling(0).$(By.tagName("button")).shouldBe(visible).click();
-        fromToLabel.sibling(0).$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + option + "\"]"))
+        fromToLabel.parent().sibling(0).$(By.tagName("button")).shouldBe(visible).click();
+        fromToLabel.parent().sibling(0).$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + option + "\"]"))
                 .scrollIntoView(false)
                 .shouldBe(visible).click();
     }

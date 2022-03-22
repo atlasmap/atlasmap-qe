@@ -288,7 +288,7 @@ public class BackendSteps {
         TargetMappingTestClass target = (TargetMappingTestClass) validator.processMapping(TargetMappingTestClass.class.getName());
 
         if ("listOfStrings".equals(array)) {
-            final List strings = target.getTargetSmallMappingTestClass().getListOfStrings();
+            final List<String> strings = target.getTargetSmallMappingTestClass().getListOfStrings();
 
             if (var.contains("listOfIntegers")) {
                 final List<Integer> integers = target.getTargetSmallMappingTestClass().getListOfIntegers();
@@ -306,7 +306,7 @@ public class BackendSteps {
                 });
             }
         } else if ("listOfIntegers".equals(array)) {
-            final List integers = target.getTargetSmallMappingTestClass().getListOfIntegers();
+            final List<Integer> integers = target.getTargetSmallMappingTestClass().getListOfIntegers();
             if ("listOfIntegers".equals(var)) {
                 integers.forEach(i -> {
                     resourcesGenerator.getJsonArrays("jsonIntegers").contains(i);
@@ -319,7 +319,7 @@ public class BackendSteps {
                 assertThat(integers).contains(Integer.valueOf(var));
             }
         } else if ("listOfDoubles".equals(array)) {
-            final List doubles = target.getTargetSmallMappingTestClass().getListOfDoubles();
+            final List<Double> doubles = target.getTargetSmallMappingTestClass().getListOfDoubles();
             if ("csvIntegers".equals(var)) {
                 doubles.forEach(i -> {
                     resourcesGenerator.getCsvArrays("csvDoubles").contains(i);
@@ -397,7 +397,7 @@ public class BackendSteps {
         userSavesMappingAs(mapping);
         final List<StringObject> targetObjects = ((TargetListsClass) validator
             .processSingleObjectMapping(resourcesGenerator.getJsonArrays(), "sourceArrays", TargetListsClass.class.getName())).getObjects();
-        final List jsonObjects = resourcesGenerator.getJsonArrays("jsonObjects");
+        final List<Object> jsonObjects = resourcesGenerator.getJsonArrays("jsonObjects");
 
         for (int i = 0; i < targetObjects.size(); i++) {
             assertThat(targetObjects.get(i).getFirstName()).isEqualTo(((StringObject) jsonObjects.get(i)).getFirstName());

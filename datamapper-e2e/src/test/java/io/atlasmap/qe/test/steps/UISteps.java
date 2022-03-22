@@ -219,9 +219,9 @@ public class UISteps {
         Assert.assertTrue(this.atlasmapPage.checkDangerWarningContainMessage(message));
     }
 
-    @And("set {string} constant with {string} value")
-    public void setConstantWithValue(String type, String value) {
-        atlasmapPage.addConstant(type, value);
+    @And("set {string} constant with name {string} and value {string}")
+    public void setConstantWithValue(String type, String name, String value) {
+        atlasmapPage.addConstant(type, value, name);
     }
 
     @When("set {string} property of type {string}, name {string}, scope {string}")

@@ -1,14 +1,5 @@
 package io.atlasmap.qe.test;
 
-import io.atlasmap.qe.data.DatesObject;
-import io.atlasmap.qe.data.SmallMappingTestClass;
-import io.atlasmap.qe.data.StringObject;
-import io.atlasmap.qe.data.source.SourceListsClass;
-import io.atlasmap.qe.data.source.SourceMappingTestClass;
-import io.atlasmap.qe.data.source.SourceNestedCollectionClass;
-import io.atlasmap.qe.data.target.TargetListsClass;
-import io.atlasmap.qe.data.target.TargetMappingTestClass;
-import io.atlasmap.qe.data.target.TargetNestedCollectionClass;
 import io.atlasmap.qe.test.utils.MappingUtils;
 import io.atlasmap.qe.test.utils.TestConfiguration;
 import org.apache.commons.io.FileUtils;
@@ -67,17 +58,17 @@ public class AtlasmapInit implements EventListener {
         }
 
         // Source classes:
-        page.enableSourceClass(SourceMappingTestClass.class.getName());
-        page.enableSourceClass(DatesObject.class.getName());
-        page.enableSourceClass(SourceListsClass.class.getName());
-        page.enableSourceClass(SmallMappingTestClass.class.getName());
-        page.enableSourceClass(SourceNestedCollectionClass.class.getName());
+        page.enableSourceClass("io.atlasmap.qe.data.source", "SourceMappingTestClass");
+        page.enableSourceClass("io.atlasmap.qe.data", "DatesObject");
+        page.enableSourceClass("io.atlasmap.qe.data.source", "SourceListsClass");
+        page.enableSourceClass("io.atlasmap.qe.data", "SmallMappingTestClass");
+        page.enableSourceClass("io.atlasmap.qe.data.source", "SourceNestedCollectionClass");
 
         // Target classes:
-        page.enableTargetClass(TargetMappingTestClass.class.getName());
-        page.enableTargetClass(StringObject.class.getName());
-        page.enableTargetClass(TargetListsClass.class.getName());
-        page.enableTargetClass(TargetNestedCollectionClass.class.getName());
+        page.enableTargetClass("io.atlasmap.qe.data.target", "TargetMappingTestClass");
+        page.enableTargetClass("io.atlasmap.qe.data", "StringObject");
+        page.enableTargetClass("io.atlasmap.qe.data.target", "TargetListsClass");
+        page.enableTargetClass("io.atlasmap.qe.data.target", "TargetNestedCollectionClass");
 
         // Source documents:
         page.enableSourceDocumentInstance(TestConfiguration.getDocumentsFolderPath() + "sourceArrays.json");

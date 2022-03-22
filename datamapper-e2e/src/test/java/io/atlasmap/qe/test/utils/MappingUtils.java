@@ -28,8 +28,7 @@ public class MappingUtils {
     private static final String LIBRARY_SERVICE = TestConfiguration.getBackendUrl() + "/v2/atlas/library/list/";
 
     public static String requestClass(String className) throws IOException {
-        String resp = Request.Get(LIBRARY_SERVICE).execute().returnContent().toString();
-        return resp;
+        return Request.Get(LIBRARY_SERVICE).execute().returnContent().toString();
     }
 
     /**
@@ -126,14 +125,14 @@ public class MappingUtils {
     public static void insertCharByChar(String inputValue, SelenideElement inputSelector) {
         for (int i = 0; i < inputValue.length(); i++) {
             char c = inputValue.charAt(i);
-            String s = new StringBuilder().append(c).toString();
+            String s = String.valueOf(c);
             inputSelector.shouldBe(visible).sendKeys(s);
         }
     }
 
-    public static void sleep(int miliseconds) {
+    public static void sleep(int milliseconds) {
         try {
-            Thread.sleep(miliseconds);
+            Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
             log.error("Interruption during thread sleep : " + e.getMessage());
         }

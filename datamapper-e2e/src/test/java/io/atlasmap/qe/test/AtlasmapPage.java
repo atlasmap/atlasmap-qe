@@ -11,12 +11,10 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-import com.codeborne.selenide.WebDriverRunner;
 import io.atlasmap.qe.data.source.SourceMappingTestClass;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 
 import com.codeborne.selenide.CollectionCondition;
@@ -27,7 +25,6 @@ import com.codeborne.selenide.SelenideElement;
 
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 import java.util.stream.Collectors;
 
 import io.atlasmap.qe.test.utils.ByUtils;
@@ -36,13 +33,6 @@ import io.atlasmap.qe.test.utils.TestConfiguration;
 import io.atlasmap.qe.test.utils.MappingUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.ButtonReleaseAction;
-import org.openqa.selenium.interactions.ClickAndHoldAction;
-import org.openqa.selenium.interactions.Coordinates;
-import org.openqa.selenium.interactions.Locatable;
-import org.openqa.selenium.interactions.MoveMouseAction;
 
 @Slf4j
 @Component
@@ -198,10 +188,9 @@ public class AtlasmapPage {
     public void addToMappingUsingMappingDetails(String value, boolean isSource) {
         final String sourcesTargetsSelector = String.format("mapping-fields-detail-%s-toggle", isSource ? "Sources" : "Targets");
         SelenideElement sourcesTargetsToggle = $(ByUtils.dataTestId(sourcesTargetsSelector)).waitUntil(visible, 5000);
-        SelenideElement input = sourcesTargetsToggle.parent().$(By.className("pf-c-form-control"));
-        input.clear();
-        input.sendKeys(value);
-        $(ByUtils.dataTestId("add-field-option-" + value)).waitUntil(Condition.exist, 10000L).click();
+        SelenideElement dropdown = sourcesTargetsToggle.parent().$(ByUtils.dataTestId("mapping-details-add-field"));
+        dropdown.shouldBe(visible).click();
+        dropdown.$(By.xpath(String.format(".//*[text()=\"%s\"]", value))).click();
     }
 
     public void clickOnLinkByDataTestId(String dataTestId) {
@@ -209,9 +198,8 @@ public class AtlasmapPage {
     }
 
     public void clickOnValueFromPicker(String value) {
-
         SelenideElement dropdown = $(ByUtils.dataTestId("expression-field-search"));
-        dropdown.$(By.cssSelector(String.format("*[label=\"%s\"]", value))).click();
+        dropdown.$(By.xpath(String.format(".//*[text()=\"%s\"]", value))).click();
     }
 
     public void addToConditionalMapping(String condition) {
@@ -220,10 +208,11 @@ public class AtlasmapPage {
 
     public void selectSeparator(String action) {
         // FIXME: report missing data-test-id
-        SelenideElement delimiterLabel = $(ByUtils.dataTestId("column-mapping-details-area")).$(By.tagName("label"));
+        SelenideElement delimiterLabel = $(ByUtils.dataTestId("column-mapping-details-area")).$(By.xpath(".//span[text()=\"Delimiter\"]")).parent();
 
-        delimiterLabel.sibling(0).$(By.tagName("button")).shouldBe(visible).click();
-        delimiterLabel.sibling(0).$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + action +"\"]"))
+        SelenideElement dropdown = delimiterLabel.parent().sibling(0);
+        dropdown.$(By.tagName("button")).shouldBe(visible).click();
+        dropdown.$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + action + "\"]"))
                 .scrollIntoView(false)
                 .shouldBe(visible).click();
         // no longer works as of 2.2.3:
@@ -276,25 +265,25 @@ public class AtlasmapPage {
         $(By.className("pf-c-spinner__tail-ball")).waitUntil(disappear, 5000);
     }
 
-    public void enableSourceClass(String className) {
+    public void enableSourceClass(String pkg, String className) {
         $(ByUtils.dataTestId("enable-specific-java-classes-Source-button")).shouldBe(visible).click();
-        enableClass(className);
+        enableClass(pkg, className);
     }
 
-    public void enableTargetClass(String className) {
+    public void enableTargetClass(String pkg, String className) {
         $(ByUtils.dataTestId("enable-specific-java-classes-Target-button")).shouldBe(visible).click();
-        enableClass(className);
+        enableClass(pkg, className);
     }
 
-    private void enableClass(String className) {
+    private void enableClass(String pkg, String className) {
 
         SelenideElement dropdown = $(ByUtils.dataTestId("custom-class-name-form-select")).waitUntil(visible, TestConfiguration.getWaitTimeout());
-        dropdown.selectOption(className);
+        dropdown.selectOption(pkg + "." + className);
         $(ByUtils.dataTestId("collection-type-form-select")).selectOption("None");
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
 
         $(ByUtils.dataTestId("expand-collapse-" + className + "-button")).waitUntil(visible, 15000);
-        log.info("Class successfully enabled: " + className);
+        log.info("Class successfully enabled: " + pkg + "." + className);
     }
 
     public void enableDocument(String path, boolean isSource) {
@@ -426,28 +415,30 @@ public class AtlasmapPage {
         e.click();
     }
 
-    public void addConstant(String type, String value) {
+    public void addConstant(String type, String value, String name) {
         $(ByUtils.dataTestId("create-constant-button"))
-            .waitUntil(visible, 5000).click();
+                .waitUntil(visible, 5000).click();
 
-        $(ByUtils.dataTestId("constant-value-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
-            .sendKeys(value);
+        $(ByUtils.dataTestId("constant-name-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
+                .sendKeys(name);
+        $(ByUtils.dataTestId("constant-value-text-input")).shouldBe(visible)
+                .sendKeys(value);
         $(ByUtils.dataTestId("constant-type-form-select")).shouldBe(visible)
-            .selectOption(type);
+                .selectOption(type);
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
     }
 
     public void addProperty(boolean isSource, String type, String name, String scope) {
         final String createPropertyButton = String.format("create-%s-property-button", isSource ? "source" : "target");
         $(ByUtils.dataTestId(createPropertyButton))
-            .waitUntil(visible, 5000).click();
+                .waitUntil(visible, 5000).click();
 
-        $(ByUtils.dataTestId("property-name-text-input")).waitUntil(visible, TestConfiguration.getWaitTimeout())
-            .sendKeys(name);
+        $(ByUtils.dataTestId("property-name-text-input-tooltip")).waitUntil(visible, TestConfiguration.getWaitTimeout())
+                .sendKeys(name);
         $(ByUtils.dataTestId("property-type-form-select")).shouldBe(visible)
-            .selectOption(type);
+                .selectOption(type);
         $(ByUtils.dataTestId("property-scope-form-select")).waitUntil(visible, TestConfiguration.getWaitTimeout())
-            .selectOption(scope);
+                .selectOption(scope);
         $(ByUtils.dataTestId("confirmation-dialog-confirm-button")).click();
     }
 
@@ -468,8 +459,8 @@ public class AtlasmapPage {
 
     private void selectFromToOption(String fromTo, String option) {
         SelenideElement fromToLabel = $(ByUtils.dataTestId("column-mapping-details-area")).$(By.xpath(".//label[*/text()=\"" + fromTo + "\"]"));
-        fromToLabel.sibling(0).$(By.tagName("button")).shouldBe(visible).click();
-        fromToLabel.sibling(0).$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + option +"\"]"))
+        fromToLabel.parent().sibling(0).$(By.tagName("button")).shouldBe(visible).click();
+        fromToLabel.parent().sibling(0).$(By.tagName("ul")).$(By.xpath(".//button[text()=\"" + option + "\"]"))
                 .scrollIntoView(false)
                 .shouldBe(visible).click();
     }
@@ -516,7 +507,7 @@ public class AtlasmapPage {
         SelenideElement[] areas = record.$$(ByUtils.dataTestIdStartsWith("results-document-mapping-preview")).toArray(new SelenideElement[0]);
         StringBuilder output = new StringBuilder();
         for (SelenideElement area : areas) {
-            output.append(area.getAttribute("value") + " ");
+            output.append(area.getAttribute("value")).append(" ");
         }
         return output.toString().trim();
     }
@@ -538,8 +529,8 @@ public class AtlasmapPage {
 
     public void openAllBucketsWithName(String bucketName) {
         List<SelenideElement> buckets = $$(By.id(bucketName)).shouldHave(CollectionCondition.sizeGreaterThan(0));
-        for (int i = 0; i < buckets.size(); i++) {
-            buckets.get(i).click();
+        for (SelenideElement bucket : buckets) {
+            bucket.click();
         }
     }
 
@@ -648,9 +639,7 @@ public class AtlasmapPage {
         if (field.startsWith("/")) {
             field = field.replaceFirst("/", "");
         }
-
-        String[] fields = field.split("/");
-        return fields;
+        return field.split("/");
     }
 
     private String unwrapNestedField(SelenideElement column, String[] fields) {

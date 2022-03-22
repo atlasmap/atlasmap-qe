@@ -29,7 +29,7 @@ atlasmap.config.ui.browser=chrome
     * add `-Datlasmap.version=${VERSION}` to specify AtlasMap version
     * add `-Dselenide.headless=true` if you want to run tests in the background
     * add `-Dselenide.holdBrowserOpen=true` if you want to keep browser opened after tests
-    * add `-Dtags='--tags @SmokeTest'` if you want to run only tests tagged with `@SmokeTest`
+    * add `-Dtags='@SmokeTest'` if you want to run only tests tagged with `@SmokeTest`
     * add `-Datlasmap.mappings.root.directory=${mappings_home_dir}` in case you want explicitly specify the mappings root directory, in case it's not inside the test suite - this is set as default
     * add `-Datlasmap.fast.init=true` in case you want to setup the tests using
        * add `-Datlasmap.adm.resource=${adm_file_path}` in case you want to specify specify the adm file to be used (default is set for _test-resources/src/main/resources/atlasmap-qe.adm_)
@@ -50,24 +50,5 @@ atlasmap.config.ui.browser=chrome
 
 ## Use correct webdriver version for selected browser
 
-By default the testsuite will not download any drivers when running tests. To download drivers, you need to use profile download-drivers, for example `mvn clean install -DskipTests -Pdownload-drivers`. By default the testsuite will download latest drivers which may not work with older browsers. To use older webdriver, find supported version for your browser and set following maven property:
 
-### Chrome
-
-Find supported driver version for chrome browser here: http://chromedriver.chromium.org/downloads
-
-Use following maven parameter when starting the tests: `-Dchrome.driver.version=<selected_version>`
-
-For Chrome version 75, the parameter would be `75.0.3770.8`
-
-For Chrome version 74, the parameter would be `74.0.3729.6`
-
-For Chrome version 73, the parameter would be `73.0.3683.68`
-
-### Firefox
-
-Find supported driver version for your firefox browser here: https://firefox-source-docs.mozilla.org/testing/geckodriver/geckodriver/Support.html
-
-Use following maven parameter when starting the tests: ``-Dfirefox.driver.version=<selected_version>``
-
-For firefox 57 the parameter would be `0.24.0`
+The correct version of browser driver is automatically detected and downloaded by [WebDriverManager](https://github.com/bonigarcia/webdrivermanager)

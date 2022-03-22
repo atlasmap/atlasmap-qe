@@ -77,7 +77,7 @@ Feature: conditional mappings
 
     And verify that "targetJsonString" contains "<value>"
 
-    Then save mapping as "ConditionalJSon.json" and verify "targetJson" with
+    Then save mapping as "ConditionalJSon.json" and verify "targetJson.schema" with
       | "targetJsonString":"<realValue>" |
 
     #real value comes from real executed mapping
@@ -111,7 +111,7 @@ Feature: conditional mappings
     #for loosing focus
 #    And click on "targetJsonString"
     And verify that "targetJsonString" contains "<value>"
-    Then save mapping as "ConditionalJSon.json" and verify "targetJson" with
+    Then save mapping as "ConditionalJSon.json" and verify "targetJson.schema" with
       | "targetJsonString":"<realValue>" |
 
     Examples:

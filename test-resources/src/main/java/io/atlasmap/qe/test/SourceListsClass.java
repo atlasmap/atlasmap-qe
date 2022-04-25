@@ -27,7 +27,7 @@ public class SourceListsClass {
         this.objects = new ArrayList<>();
         this.map = new HashMap<>();
         this.set = new HashSet<>();
-        this.array = new String[10];
+        this.array = new String[9];
 
         for (int i = 1; i < 10; i++) {
             this.strings.add("String" + i);
@@ -36,7 +36,7 @@ public class SourceListsClass {
             this.floats.add((float) i);
             this.objects.add(new StringObject(i + ""));
             this.map.put("key"+i,"value"+i);
-            this.array[i] = "Str"+i;
+            this.array[i-1] = "Str"+i;
             this.set.add("setStr"+i);
         }
     }

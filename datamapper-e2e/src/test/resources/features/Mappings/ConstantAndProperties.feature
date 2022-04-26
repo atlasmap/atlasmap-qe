@@ -30,21 +30,21 @@ Feature: Map from constant and properties
   @ConstantToVariousVariousTypes
   Scenario Outline: Create  <ConstantType> constant and map to relevant type
     When set "<ConstantType>" constant with name "<name>" and value "<value>"
-    And add mapping from "<name>" to "target<ConstantType>"
+    And add mapping from "<name>" to "<targetName>"
     Then save and verify "<ConstantType>Constant.json" with
-      | sourceString | target<ConstantType> |
+      | sourceString | <targetName> |
       | nothing      | <value>              |
 
     Examples:
-      | ConstantType | name    | value         |
-      | String       | String  | custom String |
-      | Char         | Char    | A             |
-      | Decimal      | Decimal | 10            |
-      | Double       | Double  | 1234.56       |
-      | Float        | Float   | 4567.86       |
-      | Integer      | Integer | 1234          |
-      | Long         | Long    | 1234567890    |
-      | Short        | Short   | 1234          |
+      | ConstantType | name    | value         | targetName |
+      | String       | String  | custom String | targetString |
+      | Char         | Char    | A             | targetChar |
+      | Decimal      | Decimal | 10            | targetBigDecimal |
+      | Double       | Double  | 1234.56       | targetDouble |
+      | Float        | Float   | 4567.86       | targetFloat |
+      | Integer      | Integer | 1234          | targetInteger |
+      | Long         | Long    | 1234567890    | targetLong |
+      | Short        | Short   | 1234          | targetShort |
 
   @PropertyToString
   Scenario Outline: Create <type> property and map to string
@@ -92,7 +92,7 @@ Feature: Map from constant and properties
     When set "source" property of type "Float", name "float", scope "Current Message Header"
 
     And add mapping from "float" to "targetString"
-    And add "Units" to combine
+    And add "String" to combine
     Then save and verify "CombineConstantAndProperty.json" with
       | sourceString | targetString  |
       | nothing      | 4567.86 Units |

@@ -295,6 +295,10 @@ public class BackendSteps extends CucumberGlue {
                     assertThat(strings).containsAll(ResourcesGenerator.getCsvArrays("csvStringsWithNull"));
                     break;
                 }
+                case "test": {
+                    assertThat(strings).contains("test");
+                    break;
+                }
                 default: {
                     throw new NotFoundException(String.format("Unable to find %s var for %s array.", var, array));
                 }

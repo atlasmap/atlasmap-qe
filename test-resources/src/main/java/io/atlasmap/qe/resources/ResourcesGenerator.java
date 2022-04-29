@@ -44,15 +44,6 @@ public class ResourcesGenerator {
             "}";
     }
 
-    public static String getCsvInstance() {
-        return
-            "csv0,0,0.0,1989-05-05,true\n" +
-                "csv1,10,10.0,1989-05-05,true\n" +
-                "csv2,20,20.0,1989-05-05,true\n" +
-                "csv3,30,30.0,1989-05-05,false\n" +
-                "csv4,40,40.0,1989-05-05,false\n";
-    }
-
     public static String getXMLInstance() {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" +
             "<SourceXmlInstance>\n" +
@@ -264,7 +255,7 @@ public class ResourcesGenerator {
     public static List<Object> getCsvArrays(String field) {
         switch (field) {
             case "csvIntegers": {
-                return new ArrayList(Arrays.asList(0, 1, 2, 3, 4));
+                return new ArrayList(Arrays.asList(0, 10, 20, 30, 40));
             }
             case "csvDoubles": {
                 return new ArrayList(Arrays.asList(0.0, 10.0, 20.0, 30.0, 40.0));
@@ -272,9 +263,136 @@ public class ResourcesGenerator {
             case "csvStrings": {
                 return new ArrayList(Arrays.asList("csv0", "csv1", "csv2", "csv3", "csv4"));
             }
+            case "csvStringsWithNull": {
+                return new ArrayList(Arrays.asList("csv0", "csv1", "csv2", null, "csv4"));
+            }
             default: {
                 return null;
             }
+        }
+    }
+
+    public static String getCsvInstance(String test) {
+        switch (test) {
+            case "sourceCsv": {
+                return "sourceCsvString,sourceCsvNumber,sourceCsvDecimal,sourceCsvDate,sourceCsvBoolean\n" +
+                    "csv0,0,0.0,1989-05-05,true\n" +
+                    "csv1,10,10.0,1989-05-05,true\n" +
+                    "csv2,20,20.0,1989-05-05,true\n" +
+                    "csv3,30,30.0,1989-05-05,false\n" +
+                    "csv4,40,40.0,1989-05-05,false";
+            }
+            case "sourceCsvDuplicateHeaderNames": {
+                return "sourceCsvDuplicateHeaderNamesString,sourceCsvDuplicateHeaderNamesNumber,sourceCsvDuplicateHeaderNamesDecimal," +
+                    "sourceCsvDuplicateHeaderNamesDecimal,sourceCsvDuplicateHeadersNameDate,sourceCsvDuplicateHeadersBoolean\n" +
+                    "csv0,0,0.0,0.0,1989-05-05,true\n" +
+                    "csv1,10,10.0,50.0,1989-05-05,true\n" +
+                    "csv2,20,20.0,60.0,1989-05-05,true\n" +
+                    "csv3,30,30.0,70.0,1989-05-05,false\n" +
+                    "csv4,40,40.0,80.0,1989-05-05,false";
+            }
+            case "sourceCsvCustomDelimiter": {
+                return "sourceCsvCustomDelimiterString+sourceCsvCustomDelimiterNumber" +
+                    "+sourceCsvCustomDelimiterDecimal+sourceCsvCustomDelimiterDate+sourceCsvCustomDelimiterBoolean\n" +
+                    "csv0+0+0.0+1989-05-05+true\n" +
+                    "csv1+10+10.0+1989-05-05+true\n" +
+                    "csv2+20+20.0+1989-05-05+true\n" +
+                    "csv3+30+30.0+1989-05-05+false\n" +
+                    "csv4+40+40.0+1989-05-05+false";
+            }
+            case "sourceCsvMissingColumnNames": {
+                return "sourceCsvMissingColumnNamesString,sourceCsvMissingColumnNamesNumber," +
+                    "sourceCsvMissingColumnNamesDecimal,,\n" +
+                    "csv0,0,0.0,1989-05-05,true\n" +
+                    "csv1,10,10.0,1989-05-05,true\n" +
+                    "csv2,20,20.0,1989-05-05,true\n" +
+                    "csv3,30,30.0,1989-05-05,false\n" +
+                    "csv4,40,40.0,1989-05-05,false";
+            }
+            case "sourceCsvCommentMarker": {
+                return "sourceCsvCommentMarkerString,sourceCsvCommentMarkerNumber,sourceCsvCommentMarkerDecimal,sourceCsvCommentMarkerDate," +
+                    "sourceCsvCommentMarkerBoolean\n" +
+                    "csv0,0,0.0,1989-05-05,true\n" +
+                    "csv1,10,10.0,1989-05-05,true\n" +
+                    "# comment\n" +
+                    "csv2,20,20.0,1989-05-05,true\n" +
+                    "csv3,30,30.0,1989-05-05,false\n" +
+                    "csv4,40,40.0,1989-05-05,false\n";
+            }
+            case "sourceCsvCustomEscapeCharacter": {
+                return
+                    "sourceCsvCustomEscapeCharacterString4sourceCsvCustomEscapeCharacterNumber4sourceCsvCustomEscapeCharacterDecimal4sourceCsvCustomEscapeCharacterDate4sourceCsvCustomEscapeCharacterBoolean\n" +
+                        "csv04040.041989-05-054true\n" +
+                        "csv1410410.041989-05-054true\n" +
+                        "csv2420420.041989-05-054true\n" +
+                        "csv3430430.041989-05-054false\n" +
+                        "csv_44_404_40.041989-05-054false";
+            }
+            case "sourceCsvHeaders": { // header names are there because `Skip Header Record` is also tested in that test
+                return "sourceCsvHeadersString,sourceCsvHeadersNumber,sourceCsvHeadersDecimal,sourceCsvHeadersDate,sourceCsvHeadersBoolean\n" +
+                    "csv0,0,0.0,1989-05-05,true\n" +
+                    "csv1,10,10.0,1989-05-05,true\n" +
+                    "csv2,20,20.0,1989-05-05,true\n" +
+                    "csv3,30,30.0,1989-05-05,false\n" +
+                    "csv4,40,40.0,1989-05-05,false\n";
+            }
+            case "sourceCsvIgnoreEmptyLines": {
+                return "\n" +
+                    "sourceCsvIgnoreEmptyLinesString,sourceCsvIgnoreEmptyLinesNumber,sourceCsvIgnoreEmptyLinesDecimal," +
+                    "sourceCsvIgnoreEmptyLinesDate,sourceCsvIgnoreEmptyLinesBoolean\n" +
+                    "\n" +
+                    "\n" +
+                    "csv0,0,0.0,1989-05-05,true\n" +
+                    "\n" +
+                    "\n" +
+                    "\n" +
+                    "csv1,10,10.0,1989-05-05,true\n" +
+                    "csv2,20,20.0,1989-05-05,true\n" +
+                    "\n" +
+                    "\n" +
+                    "\n" +
+                    "\n" +
+                    "csv3,30,30.0,1989-05-05,false\n" +
+                    "csv4,40,40.0,1989-05-05,false\n";
+            }
+            case "sourceCsvIgnoreHeaderCase": {
+                return "sourceCsvIgnoreHeaderCaseString,sourceCsvIgnoreHeaderCaseNumber,SOURCECSVIGNOREHEADERCASEDECIMAL," +
+                    "sourceCsvIgnoreHeaderCaseDate,sourceCsvIgnoreHeaderCaseBoolean\n" +
+                    "csv0,0,0.0,1989-05-05,true\n" +
+                    "csv1,10,10.0,1989-05-05,true\n" +
+                    "csv2,20,20.0,1989-05-05,true\n" +
+                    "csv3,30,30.0,1989-05-05,false\n" +
+                    "csv4,40,40.0,1989-05-05,false";
+            }
+            case "sourceCsvIgnoreSurroundingSpaces": {
+                return "   sourceCsvIgnoreSurroundingSpacesString,  sourceCsvIgnoreSurroundingSpacesNumber  ,  " +
+                    "sourceCsvIgnoreSurroundingSpacesDecimal  ,  sourceCsvIgnoreSurroundingSpacesDate  ,sourceCsvIgnoreSurroundingSpacesBoolean\n" +
+                    " csv0  ,  0   ,  0.0,  1989-05-05  ,   true\n" +
+                    "  csv1  ,  1   ,  10.0 ,    1989-05-05  ,  true\n" +
+                    "    csv2  ,  20  ,  20.0  ,  1989-05-05  ,  true\n" +
+                    " csv3 ,  30  ,  30.0  ,  1989-05-05  ,  false\n" +
+                    "  csv4   ,  40  ,  40.0  ,  1989-05-05    ,  false";
+            }
+            case "sourceCsvNullString": {
+                return "sourceCsvNullStringString,sourceCsvNullStringNumber,sourceCsvNullStringDecimal,sourceCsvNullStringDate," +
+                    "sourceCsvNullStringBoolean\n" +
+                    "csv0,0,0.0,1989-05-05,true\n" +
+                    "csv1,10,10.0,1989-05-05,true\n" +
+                    "csv2,20,20.0,1989-05-05,true\n" +
+                    "TEST,30,30.0,1989-05-05,false\n" +
+                    "csv4,40,40.0,1989-05-05,false";
+            }
+            case "sourceCsvTdfFormat": {
+                return "sourceCsvTdfFormatString\tsourceCsvTdfFormatNumber\tsourceCsvTdfFormatDecimal\tsourceCsvTdfFormatDate" +
+                    "\tsourceCsvTdfFormatBoolean\n" +
+                    "\"csv0\"\t0\t0.0\t1989-05-05\ttrue\n" +
+                    "\"csv1\"\t10\t10.0\t1989-05-05\ttrue\n" +
+                    "\"csv2\"\t20\t20.0\t1989-05-05\ttrue\n" +
+                    "\"csv3\"\t30\t30.0\t1989-05-05\tfalse\n" +
+                    "\"csv4\"\t40\t40.0\t1989-05-05\tfalse\n";
+            }
+            default:
+                return null;
         }
     }
 }

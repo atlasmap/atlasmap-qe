@@ -266,11 +266,12 @@ public class MappingValidator {
         sourceMap.put("sourceXmlInstance", ResourcesGenerator.getXMLInstance());
         sourceMap.put("sourceXMLSchema", ResourcesGenerator.getXmlSchemaInstance(null));
         sourceMap.put("sourceJsonArray", ResourcesGenerator.getRootJsonArray());
-        Stream.of("sourceCsv", "sourceCsvCustomDelimiter", "sourceCsvMissingColumnNames", "sourceCsvCommentMarker",
+        // each CSV test contains different CSV to test that functionality work ok
+        Stream.of("sourceCsv", "sourceCsvDuplicateHeaderNames", "sourceCsvCustomDelimiter", "sourceCsvMissingColumnNames", "sourceCsvCommentMarker",
             "sourceCsvCustomEscapeCharacter", "sourceCsvHeaders", "sourceCsvIgnoreEmptyLines",
-            "sourceCsvIgnoreHeaderCase", "sourceCsvIgnoreSurroundingSpaces", "sourceCsvCustomQuoteCharacter",
+            "sourceCsvIgnoreHeaderCase", "sourceCsvIgnoreSurroundingSpaces", "sourceCsvNullString",
             "sourceCsvTdfFormat").forEach(csvDocumentName ->
-            sourceMap.put(csvDocumentName, ResourcesGenerator.getCsvInstance())
+            sourceMap.put(csvDocumentName, ResourcesGenerator.getCsvInstance(csvDocumentName))
         );
     }
 

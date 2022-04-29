@@ -1,13 +1,21 @@
 @CSV
 @CsvFormatting
 @Mappings
-@Ignore
 Feature: importing CSV files with different formats
 
   Background: Given atlasmap contains TestClass
     And atlasmap is clean
     And internal mapping is set to "false"
     And browser is opened
+
+  Scenario: Test CSV with duplicate header name
+    And import CSV file "csv/sourceCsvDuplicateHeaderNames.csv" formatted as "MongoDBCsv" with parameters
+      | First Record As Header       | true |
+      | Allow Duplicate Header Names | true |
+    And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
+    And add "/<>/sourceCsvDuplicateHeaderNamesDecimal" as "source"
+    Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvDuplicateHeaderNames.json"
+    And remove "source" document called "sourceCsvDuplicateHeaderNames"
 
   Scenario: Test CSV with missing column names
     And import CSV file "csv/sourceCsvMissingColumnNames.csv" formatted as "Default" with parameters
@@ -46,16 +54,17 @@ Feature: importing CSV files with different formats
     Then save and verify that "listOfStrings" contains "csvStrings" as "csvCustomEscapeCharacter.json"
     And remove "source" document called "sourceCsvCustomEscapeCharacter"
 
-  Scenario: Test CSV with manually added header names
-    And import CSV file "csv/sourceCsvCommentMarker.csv" formatted as "Default" with parameters
-      | Headers | sourceCsvHeadersString,sourceCsvHeadersNumber,sourceCsvHeadersDecimal,sourceCsvHeadersDate,sourceCsvHeadersBoolean |
+  Scenario: Test CSV with manually added header names and skip header record
+    And import CSV file "csv/sourceCsvHeaders.csv" formatted as "Default" with parameters
+      | Headers            | sourceCsvHeadersString,sourceCsvHeadersNumber,sourceCsvHeadersDecimal,sourceCsvHeadersDate,sourceCsvHeadersBoolean |
+      | Skip Header Record | true                                                                                                               |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
     And add "/<>/sourceCsvHeadersDecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvHeaders.json"
     And remove "source" document called "sourceCsvHeaders"
 
   Scenario: Test CSV while ignoring empty lines
-    And import CSV file "csv/sourceCsvIgnoreEmptyLines.csv" formatted as "Default" with parameters
+    And import CSV file "csv/sourceCsvIgnoreEmptyLines.csv" formatted as "Excel" with parameters
       | First Record As Header | true |
       | Ignore Empty Lines     | true |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
@@ -74,21 +83,21 @@ Feature: importing CSV files with different formats
 
   Scenario: Test CSV while ignoring surrounding spaces
     And import CSV file "csv/sourceCsvIgnoreSurroundingSpaces.csv" formatted as "Default" with parameters
-      | First Record As Header     | true |
-      | Ignore Surrounding Spaces  | true |
+      | First Record As Header    | true |
+      | Ignore Surrounding Spaces | true |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfDoubles"
     And add "/<>/sourceCsvIgnoreSurroundingSpacesDecimal" as "source"
     Then save and verify that "listOfDoubles" contains "csvDoubles" as "csvIgnoreSurroundingSpaces.json"
     And remove "source" document called "sourceCsvIgnoreSurroundingSpaces"
 
   Scenario: Test CSV with custom quote character
-    And import CSV file "csv/sourceCsvCustomQuoteCharacter.csv" formatted as "Default" with parameters
+    And import CSV file "csv/sourceCsvNullString.csv" formatted as "Default" with parameters
       | First Record As Header | true |
-      | Quote                  | @    |
+      | Null String            | TEST |
     And click on create new mapping from target "/targetSmallMappingTestClass/listOfStrings"
-    And add "/<>/sourceCsvCustomQuoteCharacterString" as "source"
-    Then save and verify that "listOfStrings" contains "csvStrings" as "csvCustomQuoteCharacter.json"
-    And remove "source" document called "sourceCsvCustomQuoteCharacter"
+    And add "/<>/sourceCsvNullStringString" as "source"
+    Then save and verify that "listOfStrings" contains "csvStringsWithNull" as "sourceCsvNullString.json"
+    And remove "source" document called "sourceCsvNullString"
 
   Scenario: Test CSV with non-default format (TDF)
     And import CSV file "csv/sourceCsvTdfFormat.csv" formatted as "TDF" with parameters

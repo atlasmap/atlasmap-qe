@@ -270,41 +270,58 @@ public class BackendSteps extends CucumberGlue {
 
         if ("listOfStrings".equals(array)) {
             final List strings = target.getTargetSmallMappingTestClass().getListOfStrings();
-
-            if (var.contains("listOfIntegers")) {
-                final List<Integer> integers = target.getTargetSmallMappingTestClass().getListOfIntegers();
-                integers.forEach(i -> {
-                    assertThat(strings).contains(i.toString());
-                });
-            } else if (var.contains("set")) {
-                assertThat(target.getTargetSmallMappingTestClass().getListOfStrings()).containsAll((new SourceListsClass()).getSet());
-            } else if (var.contains("array")) {
-                assertThat(target.getTargetSmallMappingTestClass().getListOfStrings())
-                    .containsAll(Arrays.asList((new SourceListsClass()).getArray()));
-            } else if (var.contains("csvStrings")) {
-                strings.forEach(i -> {
-                    ResourcesGenerator.getCsvArrays("csvStrings").contains(i);
-                });
+            switch (var) {
+                case "listOfIntegers": {
+                    final List integers = target.getTargetSmallMappingTestClass().getListOfIntegers();
+                    integers.forEach(i -> {
+                        assertThat(strings).contains(i.toString());
+                    });
+                    break;
+                }
+                case "set": {
+                    assertThat(target.getTargetSmallMappingTestClass().getListOfStrings()).containsAll((new SourceListsClass()).getSet());
+                    break;
+                }
+                case "array": {
+                    assertThat(target.getTargetSmallMappingTestClass().getListOfStrings())
+                        .containsAll(Arrays.asList((new SourceListsClass()).getArray()));
+                    break;
+                }
+                case "csvStrings": {
+                    assertThat(strings).containsAll(ResourcesGenerator.getCsvArrays("csvStrings"));
+                    break;
+                }
+                case "csvStringsWithNull": {
+                    assertThat(strings).containsAll(ResourcesGenerator.getCsvArrays("csvStringsWithNull"));
+                    break;
+                }
+                default: {
+                    throw new NotFoundException(String.format("Unable to find %s var for %s array.", var, array));
+                }
             }
         } else if ("listOfIntegers".equals(array)) {
             final List integers = target.getTargetSmallMappingTestClass().getListOfIntegers();
-            if ("listOfIntegers".equals(var)) {
-                integers.forEach(i -> {
-                    ResourcesGenerator.getJsonArrays("jsonIntegers").contains(i);
-                });
-            } else if (var.contains("csvIntegers")) {
-                integers.forEach(i -> {
-                    ResourcesGenerator.getCsvArrays("csvIntegers").contains(i);
-                });
-            } else {
-                assertThat(integers).contains(Integer.valueOf(var));
+
+            switch (var) {
+                case "listOfIntegers": {
+                    integers.forEach(i -> {
+                        ResourcesGenerator.getJsonArrays("jsonIntegers").contains(i);
+                    });
+                    break;
+                }
+                case "csvIntegers": {
+                    assertThat(integers).containsAll(ResourcesGenerator.getCsvArrays("csvIntegers"));
+                    break;
+                }
+                default: {
+                    assertThat(integers).contains(Integer.valueOf(var));
+                    break;
+                }
             }
         } else if ("listOfDoubles".equals(array)) {
             final List doubles = target.getTargetSmallMappingTestClass().getListOfDoubles();
             if ("csvIntegers".equals(var)) {
-                doubles.forEach(i -> {
-                    ResourcesGenerator.getCsvArrays("csvDoubles").contains(i);
-                });
+                assertThat(doubles).containsAll(ResourcesGenerator.getCsvArrays("csvDoubles"));
             }
         } else {
             throw new NotFoundException("Unable to find field " + array);
@@ -389,7 +406,7 @@ public class BackendSteps extends CucumberGlue {
     @Then("save and verify repeating mapping of csv object to object as {string}")
     public void saveAndVerifyRepeatingMappingOfCsvToJsonObjectAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
-        String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getCsvInstance(), "sourceCsv", "targetJsonArray");
+        String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getCsvInstance("sourceCsv"), "sourceCsv", "targetJsonArray");
         System.out.println("++++>" + output);
         assertThat(output).contains(
             "{\"arrayString\":\"csv0\"},{\"arrayString\":\"csv1\"},{\"arrayString\":\"csv2\"},{\"arrayString\":\"csv3\"},{\"arrayString\":\"csv4\"}");
@@ -408,7 +425,7 @@ public class BackendSteps extends CucumberGlue {
     @Then("save and verify CSV mapping as {string}")
     public void saveAndVerifyCSVMappingAs(String mapping) throws Throwable {
         userSavesMappingAs(mapping);
-        String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getCsvInstance(), "sourceCsv", "targetCsv");
+        String output = (String) validator.processSingleObjectMapping(ResourcesGenerator.getCsvInstance("sourceCsv"), "sourceCsv", "targetCsv");
         System.out.println("++++>" + output);
         assertThat(output).contains(
             "csv0,0,0.0,1989-05-05,true",
@@ -601,10 +618,14 @@ public class BackendSteps extends CucumberGlue {
     }
 
     private boolean validateAsymetricSecondToThirdLevelXmlCollectionResponse(String sourceType, String xmlResponseOriginal) {
-        String xmlResponsePrototypeLevel3 = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><TargetXmlInstance><targetFirstArray><targetSecondArray" +
-            "><targetThirdArray><value>xxxxSecondArrayValue0-0</value></targetThirdArray><targetThirdArray><value>xxxxSecondArrayValue0-1</value" +
-            "></targetThirdArray></targetSecondArray><targetSecondArray><targetThirdArray><value>xxxxSecondArrayValue1-0</value></targetThirdArray" +
-            "><targetThirdArray><value>xxxxSecondArrayValue1-1</value></targetThirdArray></targetSecondArray></targetFirstArray></TargetXmlInstance>";
+        String xmlResponsePrototypeLevel3 =
+            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><TargetXmlInstance><targetFirstArray><targetSecondArray" +
+                "><targetThirdArray><value>xxxxSecondArrayValue0-0</value></targetThirdArray><targetThirdArray><value>xxxxSecondArrayValue0-1" +
+                "</value" +
+                "></targetThirdArray></targetSecondArray><targetSecondArray><targetThirdArray><value>xxxxSecondArrayValue1-0</value" +
+                "></targetThirdArray" +
+                "><targetThirdArray><value>xxxxSecondArrayValue1-1</value></targetThirdArray></targetSecondArray></targetFirstArray" +
+                "></TargetXmlInstance>";
         return xmlResponseOriginal.contains(xmlResponsePrototypeLevel3.replaceAll("xxxx", sourceType));
     }
 }

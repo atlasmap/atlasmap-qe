@@ -83,6 +83,13 @@
 			<version>${selenide.version}</version>
 			<scope>test</scope>
 		</dependency>
+<!--		needs to be specified explicitly-->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>${firefox-driver.version}</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
